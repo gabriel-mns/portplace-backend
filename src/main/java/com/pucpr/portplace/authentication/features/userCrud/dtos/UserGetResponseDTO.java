@@ -5,11 +5,15 @@ import com.pucpr.portplace.authentication.features.userCrud.enums.Role;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@Getter
+@Setter
 public class UserGetResponseDTO {
 
     private Long id;

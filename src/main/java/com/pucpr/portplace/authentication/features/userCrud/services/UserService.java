@@ -4,6 +4,9 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.pucpr.portplace.authentication.features.userCrud.dtos.UserGetResponseDTO;
@@ -25,7 +28,7 @@ public class UserService {
     private UserRepository userRepository;
 
     // CREATE
-    public boolean register(@Valid UserRegisterDto request){
+    public ResponseEntity<Void> register(@Valid UserRegisterDTO request){
 
         boolean userExists = userRepository.existsByEmail(request.getEmail());
 
@@ -40,7 +43,7 @@ public class UserService {
 
         userRepository.save(user).getId();
         
-        return true;
+        return ResponseEntity.status(HttpStatus.CREATED).build();
 
     }
 
@@ -63,7 +66,7 @@ public class UserService {
     }
 
     // UPDATE
-    public boolean updateUser(@Valid UserUpdateRequestDTO updatedUser, Long userId) {
+    public ResponseEntity<Void> updateUser(@Valid UserUpdateRequestDTO updatedUser, Long userId) {
 
         Optional<User> userSearchResult = userRepository.findById(userId);
 
@@ -73,16 +76,18 @@ public class UserService {
         user.setName(updatedUser.getName());
         userRepository.save(user);
 
-        return true;
+        return ResponseEntity.noContent().build();
 
     }
 
     // DELETE
-    public void deleteUser(@NotNull Long id) {
+    public ResponseEntity<Void> deleteUser(@NotNull Long id) {
         
         if(!userRepository.existsById(id)) throw new UserNotFoundException(id);
 
         userRepository.deleteById(id);
+
+return ResponseEntity.noContent().build();
 
     }
     
