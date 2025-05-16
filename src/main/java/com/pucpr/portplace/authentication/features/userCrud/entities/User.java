@@ -1,7 +1,11 @@
 package com.pucpr.portplace.authentication.features.userCrud.entities;
 
+import javax.management.relation.Role;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -31,14 +35,14 @@ public class User {
     @Setter
     @NotBlank
     private String password;
-    // @Enumerated(EnumType.ORDINAL)
-    // private Role role;
+    @Enumerated(EnumType.ORDINAL)
+    private Role role;
 
-    public User(String name, String email, String password) {
+    public User(String name, String email, String password, Role role) {
         this.name = name;
         this.email = email;
         this.password = password;
-        // this.role = role;
+        this.role = role;
     }
 
     public void setUsername(String username) {
