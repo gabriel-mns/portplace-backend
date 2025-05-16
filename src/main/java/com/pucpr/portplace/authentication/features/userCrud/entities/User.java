@@ -1,6 +1,6 @@
 package com.pucpr.portplace.authentication.features.userCrud.entities;
 
-import javax.management.relation.Role;
+import com.pucpr.portplace.authentication.features.userCrud.enums.Role;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
