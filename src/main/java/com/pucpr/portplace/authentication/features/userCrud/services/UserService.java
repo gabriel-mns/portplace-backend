@@ -10,7 +10,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.pucpr.portplace.authentication.features.userCrud.dtos.UserGetResponseDTO;
-import com.pucpr.portplace.authentication.features.userCrud.dtos.UserRegisterDto;
+import com.pucpr.portplace.authentication.features.userCrud.dtos.UserRegisterDTO;
 import com.pucpr.portplace.authentication.features.userCrud.dtos.UserUpdateRequestDTO;
 import com.pucpr.portplace.authentication.features.userCrud.entities.User;
 import com.pucpr.portplace.authentication.features.userCrud.exceptions.UserAlreadyRegisteredException;
@@ -26,6 +26,7 @@ import lombok.AllArgsConstructor;
 public class UserService {
 
     private UserRepository userRepository;
+    private PasswordEncoder passwordEncoder;
 
     // CREATE
     public ResponseEntity<Void> register(@Valid UserRegisterDTO request){
@@ -34,10 +35,13 @@ public class UserService {
 
         if(userExists) throw new UserAlreadyRegisteredException(request.getEmail());
         
+        // Encrypt the password before saving
+        String encryptedPassword = passwordEncoder.encode(request.getPassword());
+
         var user = new User(
             request.getName(),
             request.getEmail(),
-            request.getPassword(),
+            encryptedPassword,
             request.getRole()
         );
 
@@ -72,8 +76,12 @@ public class UserService {
 
         if(userSearchResult.isEmpty()) throw new UserNotFoundException(userId);
 
+        // Encrypt the password before saving
+        String encryptedPassword = passwordEncoder.encode(updatedUser.getPassword());
+
         User user = userSearchResult.get();
         user.setName(updatedUser.getName());
+        user.setPassword(encryptedPassword);
         userRepository.save(user);
 
         return ResponseEntity.noContent().build();
@@ -87,8 +95,8 @@ public class UserService {
 
         userRepository.deleteById(id);
 
-return ResponseEntity.noContent().build();
+        return ResponseEntity.noContent().build();
 
     }
-    
+
 }

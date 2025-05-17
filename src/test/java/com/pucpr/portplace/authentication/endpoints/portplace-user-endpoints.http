@@ -1,0 +1,32 @@
+### REGISTER
+POST http://localhost:8080/users/register
+Content-Type: application/json
+
+{
+  "name": "Gabriel Martins Nunes da Silva",
+  "email": "gabrielgmns071204@gmail.com",
+  "password": "123456789",
+  "role": "PMO_ADM"
+}
+
+
+### BUSCA DE USUÁRIOS
+GET  /users
+Host: localhost:8080
+
+### BUSCA DE USUÁRIO POR ID
+GET  /users/1
+Host: localhost:8080
+
+
+### Alterar dados do usuário
+PUT http://localhost:8080/users/1
+Content-Type: application/json
+
+{
+  "name": "Gabriel Martins Nunes da Silva",
+  "password": "123456789"
+}
+
+### DELETAR USUÁRIO
+DELETE http://localhost:8080/users/510

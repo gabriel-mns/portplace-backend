@@ -1,5 +1,13 @@
 package com.pucpr.portplace.authentication.features.userCrud.entities;
 
+import java.util.Collection;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
 import com.pucpr.portplace.authentication.features.userCrud.enums.Role;
 
 import jakarta.persistence.Column;
@@ -22,7 +30,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-public class User {
+public class User implements UserDetails {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -47,6 +55,43 @@ public class User {
 
     public void setUsername(String username) {
         this.email = username;
+    }
+
+        @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        List<GrantedAuthority> authorities = role.getPermissionsList().stream().map(
+                permissionEnum -> new SimpleGrantedAuthority(permissionEnum.name())
+        ).collect(Collectors.toList());
+
+        authorities.add(new SimpleGrantedAuthority("ROLE_" + role.name()));
+
+
+        return authorities;
+    }
+
+    @Override
+    public String getUsername() {
+        return email;
     }
 
 }

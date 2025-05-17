@@ -49,7 +49,7 @@ public class UserExceptionHandler {
         
         // Verificar se o erro está relacionado ao enum Role
         if (errorMessage != null && errorMessage.contains("Role")) {
-            response.put("error", "Invalid value for field 'role'. Accepted values are: COMPRADOR, VENDEDOR");
+            response.put("error", "Invalid value for field 'role'. Accepted values are: PMO, PMO_ADM, READER and PROJECT_MANAGER.");
         } else {
             response.put("error", "Invalid request payload: " + errorMessage);
         }

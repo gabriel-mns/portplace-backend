@@ -13,7 +13,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class UserRegisterDto {
+public class UserRegisterDTO {
 
     @Valid
     @NotBlank(message = "name is mandatory")
