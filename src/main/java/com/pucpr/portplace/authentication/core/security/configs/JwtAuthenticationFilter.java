@@ -1,4 +1,4 @@
-package com.pucpr.portplace.authentication.core.security.services;
+package com.pucpr.portplace.authentication.core.security.configs;
 
 import java.io.IOException;
 import java.util.Optional;
@@ -9,6 +9,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+import com.pucpr.portplace.authentication.core.security.services.JwtService;
 import com.pucpr.portplace.authentication.features.userCrud.entities.User;
 import com.pucpr.portplace.authentication.features.userCrud.repositories.UserRepository;
 

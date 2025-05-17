@@ -1,4 +1,4 @@
-package com.pucpr.portplace.authentication.core.security.services;
+package com.pucpr.portplace.authentication.core.security.configs;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
