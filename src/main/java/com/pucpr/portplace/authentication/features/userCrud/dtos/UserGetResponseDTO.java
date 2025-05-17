@@ -19,7 +19,6 @@ public class UserGetResponseDTO {
     private Long id;
     private String name;
     private String email;
-    private String password;
     private Role role;
 
     public static UserGetResponseDTO map(User user) {
