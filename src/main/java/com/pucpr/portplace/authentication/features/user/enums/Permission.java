@@ -1,4 +1,4 @@
-package com.pucpr.portplace.authentication.features.userCrud.enums;
+package com.pucpr.portplace.authentication.features.user.enums;
 
 public enum Permission {
     

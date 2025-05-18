@@ -10,8 +10,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import com.pucpr.portplace.authentication.core.security.services.JwtService;
-import com.pucpr.portplace.authentication.features.userCrud.entities.User;
-import com.pucpr.portplace.authentication.features.userCrud.repositories.UserRepository;
+import com.pucpr.portplace.authentication.features.user.entities.User;
+import com.pucpr.portplace.authentication.features.user.repositories.UserRepository;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

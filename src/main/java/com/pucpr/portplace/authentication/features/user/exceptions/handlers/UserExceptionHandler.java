@@ -1,4 +1,4 @@
-package com.pucpr.portplace.authentication.features.userCrud.exceptions.handlers;
+package com.pucpr.portplace.authentication.features.user.exceptions.handlers;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -12,8 +12,8 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.servlet.resource.NoResourceFoundException;
 
-import com.pucpr.portplace.authentication.features.userCrud.exceptions.UserAlreadyRegisteredException;
-import com.pucpr.portplace.authentication.features.userCrud.exceptions.UserNotFoundException;
+import com.pucpr.portplace.authentication.features.user.exceptions.UserAlreadyRegisteredException;
+import com.pucpr.portplace.authentication.features.user.exceptions.UserNotFoundException;
 
 public class UserExceptionHandler {
     

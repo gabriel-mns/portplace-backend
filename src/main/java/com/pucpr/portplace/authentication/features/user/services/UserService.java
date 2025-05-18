@@ -1,4 +1,4 @@
-package com.pucpr.portplace.authentication.features.userCrud.services;
+package com.pucpr.portplace.authentication.features.user.services;
 
 import java.util.List;
 import java.util.Optional;
@@ -9,13 +9,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.pucpr.portplace.authentication.features.userCrud.dtos.UserGetResponseDTO;
-import com.pucpr.portplace.authentication.features.userCrud.dtos.UserRegisterDTO;
-import com.pucpr.portplace.authentication.features.userCrud.dtos.UserUpdateRequestDTO;
-import com.pucpr.portplace.authentication.features.userCrud.entities.User;
-import com.pucpr.portplace.authentication.features.userCrud.exceptions.UserAlreadyRegisteredException;
-import com.pucpr.portplace.authentication.features.userCrud.exceptions.UserNotFoundException;
-import com.pucpr.portplace.authentication.features.userCrud.repositories.UserRepository;
+import com.pucpr.portplace.authentication.features.user.dtos.UserGetResponseDTO;
+import com.pucpr.portplace.authentication.features.user.dtos.UserRegisterDTO;
+import com.pucpr.portplace.authentication.features.user.dtos.UserUpdateRequestDTO;
+import com.pucpr.portplace.authentication.features.user.entities.User;
+import com.pucpr.portplace.authentication.features.user.exceptions.UserAlreadyRegisteredException;
+import com.pucpr.portplace.authentication.features.user.exceptions.UserNotFoundException;
+import com.pucpr.portplace.authentication.features.user.repositories.UserRepository;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;

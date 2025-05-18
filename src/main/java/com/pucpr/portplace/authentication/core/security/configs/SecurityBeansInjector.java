@@ -12,7 +12,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
-import com.pucpr.portplace.authentication.features.userCrud.repositories.UserRepository;
+import com.pucpr.portplace.authentication.features.user.repositories.UserRepository;
 
 @Component
 @Configuration

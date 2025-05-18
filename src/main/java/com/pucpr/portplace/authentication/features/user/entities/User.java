@@ -1,4 +1,4 @@
-package com.pucpr.portplace.authentication.features.userCrud.entities;
+package com.pucpr.portplace.authentication.features.user.entities;
 
 import java.util.Collection;
 import java.util.List;
@@ -8,7 +8,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import com.pucpr.portplace.authentication.features.userCrud.enums.Role;
+import com.pucpr.portplace.authentication.features.user.enums.RoleEnum;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -44,9 +44,9 @@ public class User implements UserDetails {
     @NotBlank
     private String password;
     @Enumerated(EnumType.ORDINAL)
-    private Role role;
+    private RoleEnum role;
 
-    public User(String name, String email, String password, Role role) {
+    public User(String name, String email, String password, RoleEnum role) {
         this.name = name;
         this.email = email;
         this.password = password;
