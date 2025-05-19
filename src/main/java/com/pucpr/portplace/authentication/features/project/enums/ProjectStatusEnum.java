@@ -4,7 +4,7 @@ public enum ProjectStatusEnum {
     
     CANDIDATE,
     PLANNING,
-    EXECUTION,
+    IN_PROGRESS,
     FINISHED
 
 }
