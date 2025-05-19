@@ -9,10 +9,10 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.pucpr.portplace</groupId>
-	<artifactId>authentication</artifactId>
+	<artifactId>portplace</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>authentication</name>
-	<description>Serviço de autenticação do projeto Portplace</description>
+	<name>portplace</name>
+	<description>Backend do projeto Portplace</description>
 	<url/>
 	<licenses>
 		<license/>
