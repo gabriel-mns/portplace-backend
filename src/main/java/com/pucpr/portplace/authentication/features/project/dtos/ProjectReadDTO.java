@@ -1,7 +1,9 @@
 package com.pucpr.portplace.authentication.features.project.dtos;
 
+import java.time.LocalDate;
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.pucpr.portplace.authentication.features.project.enums.ProjectStatusEnum;
 
 import jakarta.validation.constraints.NotBlank;
@@ -18,6 +20,7 @@ import lombok.Setter;
 @Setter
 public class ProjectReadDTO {
 
+    private long id;
     @NotBlank
     private String name;
     private String description;
@@ -27,9 +30,11 @@ public class ProjectReadDTO {
     private double actualCost;
     private double budget;
     private double payback;
-    private Date startDate;
-    private Date endDate;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    private LocalDate startDate;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    private LocalDate endDate;
     // private User projectManager;
-    private long projectManager;
+    // private long projectManager;
 
 }

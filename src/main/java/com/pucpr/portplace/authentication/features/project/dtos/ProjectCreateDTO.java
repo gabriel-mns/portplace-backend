@@ -1,5 +1,6 @@
 package com.pucpr.portplace.authentication.features.project.dtos;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 import com.pucpr.portplace.authentication.features.project.enums.ProjectStatusEnum;
@@ -25,8 +26,8 @@ public class ProjectCreateDTO {
     private double actualCost;
     private double budget;
     private double payback;
-    private Date startDate;
-    private Date endDate;
+    private LocalDate startDate;
+    private LocalDate endDate;
     // private User projectManager;
     private long projectManager;
 
