@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import com.pucpr.portplace.authentication.features.project.dtos.ProjectCreateDTO;
 import com.pucpr.portplace.authentication.features.project.dtos.ProjectReadDTO;
 import com.pucpr.portplace.authentication.features.project.dtos.ProjectUpdateDTO;
 import com.pucpr.portplace.authentication.features.project.entities.Project;
@@ -23,7 +24,7 @@ public class ProjectService {
     private UserService userService;
 
     // CREATE
-    public ResponseEntity<Void> createProject(ProjectUpdateDTO projectDTO) {
+    public ResponseEntity<Void> createProject(ProjectCreateDTO projectDTO) {
 
         //TODO: Treat the case when the project manager is not found (try catch)
         User projectManager = userService.getUserByIdEntity(projectDTO.getProjectManager());
@@ -56,21 +57,21 @@ public class ProjectService {
         //TODO: Treat the case when the project manager is not found (try catch)
         User projectManager = userService.getUserByIdEntity(projectDTO.getProjectManager());
 
+        Project updatedProject = projectRepository.findById(projectId).get();
+
+        updatedProject.setName(projectDTO.getName());
+        updatedProject.setDescription(projectDTO.getDescription());
+        updatedProject.setStatus(projectDTO.getStatus());
+        updatedProject.setEarnedValue(projectDTO.getEarnedValue());
+        updatedProject.setPlannedValue(projectDTO.getPlannedValue());
+        updatedProject.setActualCost(projectDTO.getActualCost());
+        updatedProject.setBudget(projectDTO.getBudget());
+        updatedProject.setPayback(projectDTO.getPayback());
+        updatedProject.setStartDate(projectDTO.getStartDate());
+        updatedProject.setEndDate(projectDTO.getEndDate());
+        updatedProject.setProjectManager(projectManager);
+        
         // TODO: Create mapper to convert DTO to entity and vice versa
-        Project updatedProject = new Project(
-            projectId,
-            projectDTO.getName(),
-            projectDTO.getDescription(),
-            projectDTO.getStatus(),
-            projectDTO.getEarnedValue(),
-            projectDTO.getPlannedValue(),
-            projectDTO.getActualCost(),
-            projectDTO.getBudget(),
-            projectDTO.getPayback(),
-            projectDTO.getStartDate(),
-            projectDTO.getEndDate(),
-            projectManager
-        );
 
         projectRepository.save(updatedProject);
 
@@ -96,6 +97,7 @@ public class ProjectService {
         Project project = projectRepository.findById(projectId).get();
 
         ProjectReadDTO projectDTO = new ProjectReadDTO(
+            project.getId(),
             project.getName(),
             project.getDescription(),
             project.getStatus(),
@@ -105,8 +107,8 @@ public class ProjectService {
             project.getBudget(),
             project.getPayback(),
             project.getStartDate(),
-            project.getEndDate(),
-            project.getProjectManager().getId()
+            project.getEndDate()
+            // project.getProjectManager().getId()
         );
 
         // TODO: Treat the case when the project is not found
@@ -121,6 +123,7 @@ public class ProjectService {
 
         List<ProjectReadDTO> projectsDTO = projects.stream()
             .map(project -> new ProjectReadDTO(
+                project.getId(),
                 project.getName(),
                 project.getDescription(),
                 project.getStatus(),
@@ -130,8 +133,8 @@ public class ProjectService {
                 project.getBudget(),
                 project.getPayback(),
                 project.getStartDate(),
-                project.getEndDate(),
-                project.getProjectManager().getId()
+                project.getEndDate()
+                // project.getProjectManager().getId()
             ))
             .collect(Collectors.toList());
 
@@ -150,6 +153,7 @@ public class ProjectService {
 
         List<ProjectReadDTO> projectsDTO = projects.stream()
             .map(project -> new ProjectReadDTO(
+                project.getId(),
                 project.getName(),
                 project.getDescription(),
                 project.getStatus(),
@@ -159,8 +163,8 @@ public class ProjectService {
                 project.getBudget(),
                 project.getPayback(),
                 project.getStartDate(),
-                project.getEndDate(),
-                project.getProjectManager().getId()
+                project.getEndDate()
+                // project.getProjectManager().getId()
             ))
             .collect(Collectors.toList());
 
