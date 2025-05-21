@@ -1,7 +1,6 @@
 package com.pucpr.portplace.authentication.features.project.dtos;
 
 import java.time.LocalDate;
-import java.util.Date;
 
 import com.pucpr.portplace.authentication.features.project.enums.ProjectStatusEnum;
 

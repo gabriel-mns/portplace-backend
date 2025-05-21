@@ -2,8 +2,6 @@ package com.pucpr.portplace.authentication.features.project.entities;
 
 import java.time.LocalDate;
 
-import org.springframework.format.annotation.DateTimeFormat;
-
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.pucpr.portplace.authentication.features.project.enums.ProjectStatusEnum;
 import com.pucpr.portplace.authentication.features.user.entities.User;
@@ -18,7 +16,6 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
