@@ -1,7 +1,7 @@
-package com.pucpr.portplace.authentication.features.userCrud.dtos;
+package com.pucpr.portplace.authentication.features.user.dtos;
 
 
-import com.pucpr.portplace.authentication.features.userCrud.enums.Role;
+import com.pucpr.portplace.authentication.features.user.enums.RoleEnum;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
@@ -31,6 +31,6 @@ public class UserRegisterDTO {
     @Size(min = 5, message = "password must have at least 5 characters")
     private String password;
     
-    private Role role;
+    private RoleEnum role;
 
 }

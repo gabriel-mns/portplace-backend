@@ -1,4 +1,4 @@
-package com.pucpr.portplace.authentication.features.userCrud.dtos;
+package com.pucpr.portplace.authentication.features.user.dtos;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;

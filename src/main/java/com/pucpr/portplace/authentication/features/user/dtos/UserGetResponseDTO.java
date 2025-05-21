@@ -1,7 +1,7 @@
-package com.pucpr.portplace.authentication.features.userCrud.dtos;
+package com.pucpr.portplace.authentication.features.user.dtos;
 
-import com.pucpr.portplace.authentication.features.userCrud.entities.User;
-import com.pucpr.portplace.authentication.features.userCrud.enums.Role;
+import com.pucpr.portplace.authentication.features.user.entities.User;
+import com.pucpr.portplace.authentication.features.user.enums.RoleEnum;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -19,7 +19,7 @@ public class UserGetResponseDTO {
     private Long id;
     private String name;
     private String email;
-    private Role role;
+    private RoleEnum role;
 
     public static UserGetResponseDTO map(User user) {
         

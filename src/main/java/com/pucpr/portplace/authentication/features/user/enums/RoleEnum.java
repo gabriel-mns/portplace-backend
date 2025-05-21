@@ -1,9 +1,9 @@
-package com.pucpr.portplace.authentication.features.userCrud.enums;
+package com.pucpr.portplace.authentication.features.user.enums;
 
 import java.util.Arrays;
 import java.util.List;
 
-public enum Role {
+public enum RoleEnum {
     PMO(Arrays.asList(
             Permission.MANAGE_PORTFOLIO,
             Permission.VIEW_PORTFOLIO,
@@ -32,7 +32,7 @@ public enum Role {
 
     private List<Permission> permissionList;
 
-    Role(List<Permission> permissionList) {
+    RoleEnum(List<Permission> permissionList) {
         this.permissionList = permissionList;
     }
 

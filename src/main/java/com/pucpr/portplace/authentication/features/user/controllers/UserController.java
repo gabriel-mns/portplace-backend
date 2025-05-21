@@ -1,4 +1,4 @@
-package com.pucpr.portplace.authentication.features.userCrud.controllers;
+package com.pucpr.portplace.authentication.features.user.controllers;
 
 import java.util.List;
 
@@ -12,10 +12,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.pucpr.portplace.authentication.features.userCrud.dtos.UserGetResponseDTO;
-import com.pucpr.portplace.authentication.features.userCrud.dtos.UserRegisterDTO;
-import com.pucpr.portplace.authentication.features.userCrud.dtos.UserUpdateRequestDTO;
-import com.pucpr.portplace.authentication.features.userCrud.services.UserService;
+import com.pucpr.portplace.authentication.features.user.dtos.UserGetResponseDTO;
+import com.pucpr.portplace.authentication.features.user.dtos.UserRegisterDTO;
+import com.pucpr.portplace.authentication.features.user.dtos.UserUpdateRequestDTO;
+import com.pucpr.portplace.authentication.features.user.services.UserService;
 
 import jakarta.validation.Valid;
 

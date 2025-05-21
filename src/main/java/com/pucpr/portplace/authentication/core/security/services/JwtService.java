@@ -2,7 +2,7 @@ package com.pucpr.portplace.authentication.core.security.services;
 
 import org.springframework.stereotype.Service;
 
-import com.pucpr.portplace.authentication.features.userCrud.entities.User;
+import com.pucpr.portplace.authentication.features.user.entities.User;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;

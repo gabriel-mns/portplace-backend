@@ -1,4 +1,4 @@
-package com.pucpr.portplace.authentication.features.userCrud.exceptions;
+package com.pucpr.portplace.authentication.features.user.exceptions;
 
 public class UserAlreadyRegisteredException extends RuntimeException {
 
