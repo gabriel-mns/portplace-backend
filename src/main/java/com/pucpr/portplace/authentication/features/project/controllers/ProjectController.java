@@ -20,7 +20,7 @@ import com.pucpr.portplace.authentication.features.project.services.ProjectServi
 import lombok.AllArgsConstructor;
 
 @RestController
-@RequestMapping(value = "/projects", produces = "application/json")
+@RequestMapping("/projects")
 @AllArgsConstructor
 public class ProjectController {
     
