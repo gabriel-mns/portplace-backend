@@ -16,6 +16,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -24,7 +25,7 @@ import lombok.Setter;
 @Entity
 @Table(name = "projects")
 @NoArgsConstructor
-// @AllArgsConstructor
+@AllArgsConstructor
 @Builder
 @Getter
 @Setter
@@ -50,6 +51,8 @@ public class Project {
     @ManyToOne
     @JoinColumn(name = "project_manager_id")
     private User projectManager;
+    @Builder.Default
+    private boolean disabled = false;
     // TODO: Implement project evaluation
     // @OneToMany
     // private List<Evaluation> evaluations;

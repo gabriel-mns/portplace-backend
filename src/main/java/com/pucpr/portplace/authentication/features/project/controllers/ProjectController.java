@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.pucpr.portplace.authentication.features.project.dtos.ProjectCreateDTO;
@@ -41,6 +42,11 @@ public class ProjectController {
 
     // DELETE
     @DeleteMapping("/{projectId}")
+    public ResponseEntity<Void> disableProject(@PathVariable long projectId) {
+        return projectService.disableProject(projectId);
+    }
+
+    @DeleteMapping("/{projectId}/hard-delete")
     public ResponseEntity<Void> deleteProject(@PathVariable long projectId) {
         return projectService.deleteProject(projectId);
     }
@@ -53,13 +59,26 @@ public class ProjectController {
     }
 
     @GetMapping
-    public ResponseEntity<List<ProjectReadDTO>> getAllProjects() {
-        return projectService.getAllProjects();
+    public ResponseEntity<List<ProjectReadDTO>> getAllProjects(
+
+        @RequestParam(defaultValue = "false") boolean includeDisabled
+
+    ) {
+
+        return projectService.getAllProjects(includeDisabled);
+
     }
 
     @GetMapping("/manager/{projectManagerId}")
-    public ResponseEntity<List<ProjectReadDTO>> getProjectsByManager(@PathVariable long projectManagerId) {
-        return projectService.getAllProjectsByProjectManagerId(projectManagerId);
+    public ResponseEntity<List<ProjectReadDTO>> getProjectsByManager(
+
+        @PathVariable long projectManagerId,
+        @RequestParam(defaultValue = "false") boolean includeDisabled
+
+        ) {
+
+        return projectService.getAllProjectsByProjectManagerId(projectManagerId, includeDisabled);
+
     }
 
 }

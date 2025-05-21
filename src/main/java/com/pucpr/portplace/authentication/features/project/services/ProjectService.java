@@ -90,6 +90,20 @@ public class ProjectService {
 
     }
 
+    public ResponseEntity<Void> disableProject(long projectId) {
+
+        Project project = projectRepository.findById(projectId).get();
+        
+        project.setDisabled(true);
+        
+        projectRepository.save(project);
+        
+        // TODO: Treat the case when the project is not found
+
+        return ResponseEntity.status(204).build();
+
+    }
+
     // READ
     // TODO: Implement pagination, sorting and filtering methods
     public ResponseEntity<ProjectReadDTO> getProjectById(long projectId) {
@@ -117,9 +131,21 @@ public class ProjectService {
     
     }
 
-    public ResponseEntity<List<ProjectReadDTO>> getAllProjects() {
+    public ResponseEntity<List<ProjectReadDTO>> getAllProjects(boolean includeDisabled) {
 
-        List<Project> projects = projectRepository.findAll();
+        List<Project> projects;
+
+        if(includeDisabled) {
+
+            // If includes, get all projects
+            projects = projectRepository.findAll();
+
+        } else {
+
+            // Else, get only not disabled (enabled) projects
+            projects = projectRepository.findByDisabled(false);
+
+        }
 
         List<ProjectReadDTO> projectsDTO = projects.stream()
             .map(project -> new ProjectReadDTO(
@@ -147,9 +173,22 @@ public class ProjectService {
     
     }
 
-    public ResponseEntity<List<ProjectReadDTO>> getAllProjectsByProjectManagerId(long projectManagerId){
+    public ResponseEntity<List<ProjectReadDTO>> getAllProjectsByProjectManagerId(long projectManagerId, boolean includeDisabled) {
 
-        List<Project> projects = projectRepository.findByProjectManagerId(projectManagerId);
+        List<Project> projects;
+
+        if(includeDisabled) {
+
+            // If includes, get all projects by project manager id
+            projects = projectRepository.findByProjectManagerId(projectManagerId);
+            
+        } else {
+            
+            // If includes, get only enabled projects by project manager id
+            projects = projectRepository.findByProjectManagerIdAndDisabled(projectManagerId, false);
+
+        }
+
 
         List<ProjectReadDTO> projectsDTO = projects.stream()
             .map(project -> new ProjectReadDTO(
@@ -171,5 +210,5 @@ public class ProjectService {
         return ResponseEntity.ok(projectsDTO);
    
     }
-
+    
 }
