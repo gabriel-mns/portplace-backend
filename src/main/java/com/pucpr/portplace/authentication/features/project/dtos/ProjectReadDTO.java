@@ -33,6 +33,7 @@ public class ProjectReadDTO {
     private LocalDate startDate;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private LocalDate endDate;
+    private boolean disabled;
     // private User projectManager;
     // private long projectManager;
 

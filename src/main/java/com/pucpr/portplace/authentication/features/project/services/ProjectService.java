@@ -93,9 +93,9 @@ public class ProjectService {
     public ResponseEntity<Void> disableProject(long projectId) {
 
         Project project = projectRepository.findById(projectId).get();
-        
+
         project.setDisabled(true);
-        
+
         projectRepository.save(project);
         
         // TODO: Treat the case when the project is not found
@@ -121,7 +121,8 @@ public class ProjectService {
             project.getBudget(),
             project.getPayback(),
             project.getStartDate(),
-            project.getEndDate()
+            project.getEndDate(),
+            project.isDisabled()
             // project.getProjectManager().getId()
         );
 
@@ -159,7 +160,8 @@ public class ProjectService {
                 project.getBudget(),
                 project.getPayback(),
                 project.getStartDate(),
-                project.getEndDate()
+                project.getEndDate(),
+                project.isDisabled()
                 // project.getProjectManager().getId()
             ))
             .collect(Collectors.toList());
@@ -202,7 +204,8 @@ public class ProjectService {
                 project.getBudget(),
                 project.getPayback(),
                 project.getStartDate(),
-                project.getEndDate()
+                project.getEndDate(),
+                project.isDisabled()
                 // project.getProjectManager().getId()
             ))
             .collect(Collectors.toList());
