@@ -34,5 +34,8 @@ public class Evaluation {
     @ManyToOne
     @JoinColumn(name = "project_id")
     private Project project;
+    @ManyToOne
+    @JoinColumn(name = "ahp_id")
+    private AHP ahp;
 
 }

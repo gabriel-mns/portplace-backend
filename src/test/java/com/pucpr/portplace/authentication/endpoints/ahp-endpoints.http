@@ -1,0 +1,21 @@
+@host = http://localhost:8080/api/v1
+
+### CADASTRAR AHP
+POST {{host}}/ahp
+Content-Type: application/json
+
+### BUSCA DE AHPS
+GET  {{host}}/ahp?includeDisabled=true
+Accept: application/json
+Host: localhost:8080
+
+### BUSCA DE AHP POR ID
+GET  {{host}}/ahp/1
+Accept: application/json
+Host: localhost:8080
+
+### DESABILITAR AHP
+DELETE {{host}}/ahp/2
+
+### DELETAR AHP
+DELETE {{host}}/ahp/2/hard-delete
