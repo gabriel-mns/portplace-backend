@@ -53,9 +53,6 @@ public class Project {
     private User projectManager;
     @Builder.Default
     private boolean disabled = false;
-    // TODO: Implement project evaluation
-    // @OneToMany
-    // private List<Evaluation> evaluations;
     // TODO: Create attachments table and add a list of attachments to the project
     // private List<Attachment> attachments;
     // TODO: Uncomment when Portfolio is implemented
