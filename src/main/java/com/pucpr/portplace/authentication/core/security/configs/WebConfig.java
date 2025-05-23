@@ -4,11 +4,14 @@ import org.springframework.web.filter.CorsFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.servlet.config.annotation.ContentNegotiationConfigurer;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.http.HttpHeaders;
 
 import java.util.Arrays;
@@ -18,7 +21,7 @@ import java.util.Arrays;
 @EnableWebMvc
 @EnableWebSecurity
 @EnableMethodSecurity(prePostEnabled = true)
-public class WebConfig {
+public class WebConfig implements WebMvcConfigurer {
     @Bean
     public CorsFilter corsFilter() {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
@@ -41,4 +44,13 @@ public class WebConfig {
         source.registerCorsConfiguration("/**", config);
         return new CorsFilter(source);
     }
+
+    @Override
+    public void configureContentNegotiation(ContentNegotiationConfigurer configurer) {
+        configurer
+            .favorParameter(false)
+            .ignoreAcceptHeader(false)
+            .defaultContentType(MediaType.APPLICATION_JSON);
+    }
+
 }
