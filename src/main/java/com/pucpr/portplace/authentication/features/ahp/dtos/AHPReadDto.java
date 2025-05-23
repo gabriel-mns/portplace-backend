@@ -24,7 +24,7 @@ public class AHPReadDto {
     private LocalDate createdAt;
     private boolean disabled;
     private List<ProjectReadDTO> projects;
-    private List<CriterionReadDto> criteria;
+    private List<CriterionReadDTO> criteria;
     private List<CriteriaComparisonReadDto> criteriaComparisons;
     private List<EvaluationReadDto> evaluations;
 

@@ -19,3 +19,37 @@ DELETE {{host}}/ahp/2
 
 ### DELETAR AHP
 DELETE {{host}}/ahp/2/hard-delete
+
+//------------------------------------
+// CRITERIOS
+//------------------------------------
+### CADASTRAR CRITERIO
+POST {{host}}/ahp/3/criteria
+Content-Type: application/json
+
+{
+    "name": "Criterio 2",
+    "description": "Descricao do criterio 2"
+}
+
+### BUSCA DE CRITERIOS
+GET  {{host}}/ahp/3/criteria?includeDisabled=false
+
+### BUSCA DE CRITERIO POR ID
+GET  {{host}}/ahp/3/criteria/1
+
+### ATUALIZAR CRITERIO
+PUT {{host}}/ahp/3/criteria/1
+Content-Type: application/json
+
+{
+    "name": "Criterio 2BAC",
+    "description": "Descricao do criterio ASDASD2"
+}
+
+
+### DESABILITAR CRITERIO
+DELETE {{host}}/ahp/3/criteria/3
+
+### DELETAR CRITERIO
+DELETE {{host}}/ahp/3/criteria/2/hard-delete

@@ -1,6 +1,5 @@
 package com.pucpr.portplace.authentication.features.ahp.dtos;
 
-
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -8,11 +7,11 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Getter
-@Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class CriterionReadDTO {
+@Getter
+@Setter
+public class CriterionUpdateDTO {
 
     private Long id;
     @NotBlank
@@ -20,6 +19,6 @@ public class CriterionReadDTO {
     private String name;
     private String description;
     private long ahpId;
-    private boolean disabled;
+
 
 }

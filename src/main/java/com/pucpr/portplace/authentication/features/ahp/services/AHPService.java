@@ -97,4 +97,11 @@ public class AHPService {
 
     }
 
+    public AHP getAHPEntityById(Long id) {
+
+        // TODO: Treat case when AHP is not found
+        return ahpRepository.findById(id).get();
+
+    }
+
 }
