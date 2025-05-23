@@ -48,7 +48,7 @@ public class AHPService {
     }
 
     // READ
-    public ResponseEntity<AHPReadDto> getAHP(Long id) {
+    public ResponseEntity<AHPReadDto> getAHPById(Long id) {
 
         AHPReadDto ahpReadDto = new AHPReadDto();
 

@@ -31,6 +31,13 @@ public class AHPController {
     
     }
 
+    @GetMapping("/{AHPId}")
+    public ResponseEntity<AHPReadDto> getAHPById(@PathVariable Long AHPId) {
+        
+        return ahpService.getAHPById(AHPId);
+    
+    }
+
     @PostMapping
     public ResponseEntity<Void> createAHP() {
         
