@@ -92,11 +92,11 @@ public class CriterionService {
 
     }
 
-    public ResponseEntity<Criterion> getCriterionEntityById(Long id) {
+    public Criterion getCriterionEntityById(Long id) {
 
         Criterion criterion = criterionRepository.findById(id).get();
 
-        return ResponseEntity.ok(criterion);
+        return criterion;
 
     }
 
