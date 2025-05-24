@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -22,7 +23,7 @@ public class AHPService {
         
         ahpRepository.save(new AHP());
     
-        return ResponseEntity.ok().build();
+        return ResponseEntity.status(HttpStatus.CREATED).build();
 
     }
 
@@ -34,7 +35,7 @@ public class AHPService {
         ahp.setDisabled(true);
         ahpRepository.save(ahp);
     
-        return ResponseEntity.ok().build();
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
         
     }
 
@@ -43,7 +44,7 @@ public class AHPService {
         // TODO: Treat case when AHP is not found
         ahpRepository.deleteById(id);
     
-        return ResponseEntity.ok().build();
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 
     }
 
