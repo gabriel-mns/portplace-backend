@@ -3,6 +3,7 @@ package com.pucpr.portplace.authentication.features.ahp.services;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -35,7 +36,7 @@ public class CriterionService {
 
         criterionRepository.save(criterion);
         
-        return ResponseEntity.ok().build();
+        return ResponseEntity.status(HttpStatus.CREATED).build();
 
     }
 
@@ -64,7 +65,7 @@ public class CriterionService {
 
         criterionRepository.save(criterion);
 
-        return ResponseEntity.ok().build();
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 
     }
 
@@ -73,7 +74,7 @@ public class CriterionService {
         //TODO: Treat case when criterion is not found
         criterionRepository.deleteById(id);
 
-        return ResponseEntity.ok().build();
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 
     }
 
