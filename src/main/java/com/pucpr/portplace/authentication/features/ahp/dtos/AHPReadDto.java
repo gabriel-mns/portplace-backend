@@ -25,7 +25,7 @@ public class AHPReadDto {
     private boolean disabled;
     private List<ProjectReadDTO> projects;
     private List<CriterionReadDTO> criteria;
-    private List<CriteriaComparisonReadDto> criteriaComparisons;
+    private List<CriteriaComparisonReadDTO> criteriaComparisons;
     private List<EvaluationReadDto> evaluations;
 
 }

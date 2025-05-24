@@ -6,10 +6,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.azure.core.annotation.QueryParam;
 import com.pucpr.portplace.authentication.features.ahp.dtos.AHPReadDto;
+import com.pucpr.portplace.authentication.features.ahp.dtos.CriteriaComparisonCreateDTO;
+import com.pucpr.portplace.authentication.features.ahp.dtos.CriteriaComparisonReadDTO;
+import com.pucpr.portplace.authentication.features.ahp.dtos.CriteriaComparisonUpdateDTO;
 import com.pucpr.portplace.authentication.features.ahp.dtos.CriterionCreateDTO;
 import com.pucpr.portplace.authentication.features.ahp.dtos.CriterionReadDTO;
 import com.pucpr.portplace.authentication.features.ahp.dtos.CriterionUpdateDTO;
 import com.pucpr.portplace.authentication.features.ahp.services.AHPService;
+import com.pucpr.portplace.authentication.features.ahp.services.CriterionComparisonService;
 import com.pucpr.portplace.authentication.features.ahp.services.CriterionService;
 
 import java.util.List;
@@ -34,6 +38,9 @@ public class AHPController {
     @Autowired
     private CriterionService criterionService;
 
+    @Autowired
+    private CriterionComparisonService criterionComparisonService;
+
     /*
      * AHP CRUD
      */
@@ -45,7 +52,7 @@ public class AHPController {
     }
 
     @GetMapping("/{AHPId}")
-    public ResponseEntity<AHPReadDto> getAHPById(@PathVariable Long AHPId) {
+    public ResponseEntity<AHPReadDto> getAHPById(@PathVariable long AHPId) {
         
         return ahpService.getAHPById(AHPId);
     
@@ -59,14 +66,14 @@ public class AHPController {
     }
 
     @DeleteMapping("/{AHPId}")
-    public ResponseEntity<Void> disableAHP(@PathVariable Long AHPId) {
+    public ResponseEntity<Void> disableAHP(@PathVariable long AHPId) {
         
         return ahpService.disableAHP(AHPId);
     
     }
 
     @DeleteMapping("/{AHPId}/hard-delete")
-    public ResponseEntity<Void> deleteAHP(@PathVariable Long AHPId) {
+    public ResponseEntity<Void> deleteAHP(@PathVariable long AHPId) {
         
         return ahpService.deleteAHP(AHPId);
     
@@ -77,7 +84,7 @@ public class AHPController {
      * CRITERION CRUD
      */
     @GetMapping("/{AHPId}/criteria")
-    public ResponseEntity<List<CriterionReadDTO>> getAllCriteria(@PathVariable Long AHPId, @RequestParam(defaultValue="false") boolean includeDisabled) {
+    public ResponseEntity<List<CriterionReadDTO>> getAllCriteria(@PathVariable long AHPId, @RequestParam(defaultValue="false") boolean includeDisabled) {
         
         return criterionService.getCriteriaByAHPId(AHPId, includeDisabled);
     
@@ -112,10 +119,66 @@ public class AHPController {
     }
 
     @DeleteMapping("/{AHPId}/criteria/{criterionId}/hard-delete")
-    public ResponseEntity<Void> deleteCriterion(@PathVariable Long AHPId, @PathVariable long criterionId) {
+    public ResponseEntity<Void> deleteCriterion(@PathVariable long AHPId, @PathVariable long criterionId) {
         
         return criterionService.deleteCriterion(criterionId);
     
     }
 
+    
+    /*
+     * CRITERION COMPARISON CRUD
+     */
+
+    // CREATE
+    @PostMapping("/{AHPId}/criteriaComparisons")
+    public ResponseEntity<Void> createCriterionComparison(@PathVariable long AHPId, @RequestBody CriteriaComparisonCreateDTO criteriaComparisonCreateDTO) {
+        
+        return criterionComparisonService.createCriteriaComparison(criteriaComparisonCreateDTO, AHPId);
+    
+    }
+
+    // UPDATE
+    @PutMapping("/{AHPId}/criteriaComparisons/{criteriaComparisonId}")
+    public ResponseEntity<Void> updateCriterionComparison(@PathVariable long AHPId, @PathVariable long criteriaComparisonId, @RequestBody CriteriaComparisonUpdateDTO criteriaComparisonUpdateDTO) {
+        
+        return criterionComparisonService.updateCriteriaComparison(criteriaComparisonId, criteriaComparisonUpdateDTO);
+    
+    }
+
+    // DELETE
+    @DeleteMapping("/{AHPId}/criteriaComparisons/{criteriaComparisonId}")
+    public ResponseEntity<Void> disableCriterionComparison(@PathVariable long AHPId, @PathVariable long criteriaComparisonId) {
+        
+        return criterionComparisonService.disableCriteriaComparison(criteriaComparisonId);
+    
+    }
+
+    @DeleteMapping("/{AHPId}/criteriaComparisons/{criteriaComparisonId}/hard-delete")
+    public ResponseEntity<Void> deleteCriterionComparison(@PathVariable long AHPId, @PathVariable long criteriaComparisonId) {
+        
+        return criterionComparisonService.deleteCriteriaComparison(criteriaComparisonId);
+    
+    }
+
+    // READ
+    @GetMapping("/{AHPId}/criteriaComparisons")
+    public ResponseEntity<List<CriteriaComparisonReadDTO>> getCriteriaComparisons(
+            @PathVariable long AHPId,
+            @RequestParam(required = false) Long comparedCriterionId,
+            @RequestParam(required = false) Long referenceCriterionId,
+            @RequestParam(defaultValue = "false") boolean includeDisabled
+    ) {
+        return criterionComparisonService.getCriteriaComparisons(AHPId, comparedCriterionId, referenceCriterionId, includeDisabled);
+    }
+
+    @GetMapping("/{AHPId}/criteriaComparisons/{criteriaComparisonId}")
+    public ResponseEntity<CriteriaComparisonReadDTO> getCriteriaComparisonById(
+            @PathVariable long AHPId,
+            @PathVariable long criteriaComparisonId
+    ) {
+        return criterionComparisonService.getCriteriaComparisonById(criteriaComparisonId);
+    }
+    
+    
 }

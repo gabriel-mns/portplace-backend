@@ -11,13 +11,11 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class CriteriaComparisonReadDTO {
+public class CriteriaComparisonCreateDTO {
 
-    private Long id;
     private long comparedCriterionId;
     private long referenceCriterionId;
     private ImportanceScale importanceScale;
     private long ahpId;
-    private boolean disabled;
 
 }

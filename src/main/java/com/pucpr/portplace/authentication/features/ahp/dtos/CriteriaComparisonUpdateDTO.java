@@ -2,7 +2,9 @@ package com.pucpr.portplace.authentication.features.ahp.dtos;
 
 import com.pucpr.portplace.authentication.features.ahp.enums.ImportanceScale;
 
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -11,13 +13,9 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class CriteriaComparisonReadDTO {
+public class CriteriaComparisonUpdateDTO {
 
     private Long id;
-    private long comparedCriterionId;
-    private long referenceCriterionId;
     private ImportanceScale importanceScale;
-    private long ahpId;
-    private boolean disabled;
 
 }
