@@ -16,7 +16,7 @@ import com.pucpr.portplace.authentication.features.ahp.entities.Criterion;
 import com.pucpr.portplace.authentication.features.ahp.repositories.CriteriaComparisonRepository;
 
 @Service
-public class CriterionComparisonService {
+public class CriteriaComparisonService {
     
     @Autowired
     private CriteriaComparisonRepository criteriaComparisonRepository;
