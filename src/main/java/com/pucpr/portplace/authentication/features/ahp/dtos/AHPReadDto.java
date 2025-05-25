@@ -1,10 +1,8 @@
 package com.pucpr.portplace.authentication.features.ahp.dtos;
 
-import java.time.LocalDate;
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.pucpr.portplace.authentication.features.project.dtos.ProjectReadDTO;
+import com.fasterxml.jackson.annotation.JsonIdentityReference;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -17,15 +15,16 @@ import lombok.Setter;
 @Builder
 @Getter
 @Setter
-public class AHPReadDto {
+public class AHPReadDTO {
     
     private long id;
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
-    private LocalDate createdAt;
+    @JsonIdentityReference(alwaysAsId = true)
+    private long criteriaGroupId;
+    private List<EvaluationReadDTO> evaluations;
     private boolean disabled;
-    private List<ProjectReadDTO> projects;
-    private List<CriterionReadDTO> criteria;
-    private List<CriteriaComparisonReadDTO> criteriaComparisons;
-    private List<EvaluationReadDto> evaluations;
+    // private LocalDateTimo> evaluatione createdAt;
+    // private LocalDateTime lastUpdatedAt;
+    // private UserReadDto lastUpdatedBy;
+
 
 }

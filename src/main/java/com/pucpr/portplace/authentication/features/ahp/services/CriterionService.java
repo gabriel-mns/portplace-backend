@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 import com.pucpr.portplace.authentication.features.ahp.dtos.CriterionCreateDTO;
 import com.pucpr.portplace.authentication.features.ahp.dtos.CriterionReadDTO;
 import com.pucpr.portplace.authentication.features.ahp.dtos.CriterionUpdateDTO;
-import com.pucpr.portplace.authentication.features.ahp.entities.AHP;
+import com.pucpr.portplace.authentication.features.ahp.entities.CriteriaGroup;
 import com.pucpr.portplace.authentication.features.ahp.entities.Criterion;
 import com.pucpr.portplace.authentication.features.ahp.repositories.CriterionRepository;
 
@@ -18,21 +18,21 @@ import com.pucpr.portplace.authentication.features.ahp.repositories.CriterionRep
 public class CriterionService {
 
     @Autowired
-    private AHPService ahpService;
+    private CriteriaGroupService criteriaGroupService;
 
     @Autowired
     private CriterionRepository criterionRepository;
 
     // CREATE
-    public ResponseEntity<Void> createCriterion(long AHPId, CriterionCreateDTO criterionCreateDTO) {
+    public ResponseEntity<Void> createCriterion(long strategyId, long criteriaGroupId, CriterionCreateDTO criterionCreateDTO) {
         
         Criterion criterion = new Criterion();
 
-        AHP ahp = ahpService.getAHPEntityById(AHPId);
+        CriteriaGroup criteriaGroup = criteriaGroupService.getCriteriaGroupEntityById(strategyId, criteriaGroupId);
 
         criterion.setName(criterionCreateDTO.getName());
         criterion.setDescription(criterionCreateDTO.getDescription());
-        criterion.setAhp(ahp);
+        criterion.setCriteriaGroup(criteriaGroup);
 
         criterionRepository.save(criterion);
         
@@ -56,7 +56,7 @@ public class CriterionService {
     }
 
     // DELETE
-    public ResponseEntity<Void> disableCriterion(Long id) {
+    public ResponseEntity<Void> disableCriterion(Long criteriaGroupId, Long id) {
 
         //TODO: Treat case when criterion is not found
         Criterion criterion = criterionRepository.findById(id).get();
@@ -69,7 +69,7 @@ public class CriterionService {
 
     }
 
-    public ResponseEntity<Void> deleteCriterion(Long id) {
+    public ResponseEntity<Void> deleteCriterion(Long criteriaGroupId, Long id) {
 
         //TODO: Treat case when criterion is not found
         criterionRepository.deleteById(id);
@@ -79,7 +79,7 @@ public class CriterionService {
     }
 
     // READ
-    public ResponseEntity<CriterionReadDTO> getCriterionById(Long id) {
+    public ResponseEntity<CriterionReadDTO> getCriterionById(Long criteriaGroupId,Long id) {
 
         Criterion criterion = criterionRepository.findById(id).get();
         CriterionReadDTO criterionReadDto = new CriterionReadDTO();
@@ -87,7 +87,8 @@ public class CriterionService {
         criterionReadDto.setId(criterion.getId());
         criterionReadDto.setName(criterion.getName());
         criterionReadDto.setDescription(criterion.getDescription());
-        criterionReadDto.setAhpId(criterion.getAhp().getId());
+        criterionReadDto.setCriteriaGroupId(criterion.getCriteriaGroup().getId());
+        criterionReadDto.setDisabled(criterion.isDisabled());
 
         return ResponseEntity.ok(criterionReadDto);
 
@@ -101,17 +102,17 @@ public class CriterionService {
 
     }
 
-    public ResponseEntity<List<CriterionReadDTO>> getCriteriaByAHPId(long ahpId, boolean includeDisabled) {
+    public ResponseEntity<List<CriterionReadDTO>> getCriteriaByCriteriaGroupId(long criteriaGroupId, boolean includeDisabled) {
 
         List<Criterion> criteria;
 
         if(includeDisabled) {
 
-            criteria = criterionRepository.findByAhpId(ahpId);
+            criteria = criterionRepository.findByCriteriaGroupId(criteriaGroupId);
 
         } else {
 
-            criteria = criterionRepository.findByAhpIdAndDisabledFalse(ahpId);
+            criteria = criterionRepository.findByCriteriaGroupIdAndDisabledFalse(criteriaGroupId);
 
         }
 
@@ -120,7 +121,8 @@ public class CriterionService {
             criterionReadDto.setId(criterion.getId());
             criterionReadDto.setName(criterion.getName());
             criterionReadDto.setDescription(criterion.getDescription());
-            criterionReadDto.setAhpId(criterion.getAhp().getId());
+            criterionReadDto.setCriteriaGroupId(criterion.getCriteriaGroup().getId());
+            criterionReadDto.setDisabled(criterion.isDisabled());
             return criterionReadDto;
         }).toList();
 

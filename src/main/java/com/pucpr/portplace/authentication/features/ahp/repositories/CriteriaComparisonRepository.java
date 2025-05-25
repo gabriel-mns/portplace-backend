@@ -9,21 +9,21 @@ import com.pucpr.portplace.authentication.features.ahp.entities.CriteriaComparis
 public interface CriteriaComparisonRepository extends JpaRepository<CriteriaComparison, Long> {
     
     // DON'T INCLUDE DISABLED CRITERIA COMPARISONS
-    List<CriteriaComparison> findByComparedCriterionIdAndAhpIdAndDisabledFalse(long comparedCriterionId, long ahpId);
+    List<CriteriaComparison> findByComparedCriterionIdAndCriteriaGroupIdAndDisabledFalse(long comparedCriterionId, long criteriaGroupId);
     
-    List<CriteriaComparison> findByReferenceCriterionIdAndAhpIdAndDisabledFalse(long referenceCriterionId, long ahpId);
+    List<CriteriaComparison> findByReferenceCriterionIdAndCriteriaGroupIdAndDisabledFalse(long referenceCriterionId, long criteriaGroupId);
     
-    List<CriteriaComparison> findByComparedCriterionIdAndReferenceCriterionIdAndAhpIdAndDisabledFalse(long referenceCriterionId, long comparedCriterionId, long ahpId);
+    List<CriteriaComparison> findByComparedCriterionIdAndReferenceCriterionIdAndCriteriaGroupIdAndDisabledFalse(long referenceCriterionId, long comparedCriterionId, long criteriaGroupId);
     
-    List<CriteriaComparison> findByAhpIdAndDisabledFalse(long ahpId);
+    List<CriteriaComparison> findByCriteriaGroupIdAndDisabledFalse(long criteriaGroupId);
     
     // INCLUDE DISABLED CRITERIA COMPARISONS
-    List<CriteriaComparison> findByComparedCriterionIdAndAhpId(long comparedCriterionId, long ahpId);
+    List<CriteriaComparison> findByComparedCriterionIdAndCriteriaGroupId(long comparedCriterionId, long criteriaGroupId);
     
-    List<CriteriaComparison> findByReferenceCriterionIdAndAhpId(long referenceCriterionId, long ahpId);
+    List<CriteriaComparison> findByReferenceCriterionIdAndCriteriaGroupId(long referenceCriterionId, long criteriaGroupId);
     
-    List<CriteriaComparison> findByComparedCriterionIdAndReferenceCriterionIdAndAhpId(long referenceCriterionId, long comparedCriterionId, long ahpId);
+    List<CriteriaComparison> findByComparedCriterionIdAndReferenceCriterionIdAndCriteriaGroupId(long referenceCriterionId, long comparedCriterionId, long criteriaGroupId);
     
-    List<CriteriaComparison> findByAhpId(long ahpId);
+    List<CriteriaComparison> findByCriteriaGroupId(long criteriaGroupId);
 
 }

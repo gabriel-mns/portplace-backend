@@ -10,8 +10,8 @@ import org.springframework.stereotype.Service;
 import com.pucpr.portplace.authentication.features.ahp.dtos.CriteriaComparisonCreateDTO;
 import com.pucpr.portplace.authentication.features.ahp.dtos.CriteriaComparisonReadDTO;
 import com.pucpr.portplace.authentication.features.ahp.dtos.CriteriaComparisonUpdateDTO;
-import com.pucpr.portplace.authentication.features.ahp.entities.AHP;
 import com.pucpr.portplace.authentication.features.ahp.entities.CriteriaComparison;
+import com.pucpr.portplace.authentication.features.ahp.entities.CriteriaGroup;
 import com.pucpr.portplace.authentication.features.ahp.entities.Criterion;
 import com.pucpr.portplace.authentication.features.ahp.repositories.CriteriaComparisonRepository;
 
@@ -25,16 +25,16 @@ public class CriterionComparisonService {
     private CriterionService criterionService;
 
     @Autowired
-    private AHPService ahpService;
+    private CriteriaGroupService criteriaGroupService;
 
     // CREATE
-    public ResponseEntity<Void> createCriteriaComparison(CriteriaComparisonCreateDTO criteriaComparisonCreateDTO, long AHPId) {
+    public ResponseEntity<Void> createCriteriaComparison(long strategyId, long criteriaGroupId, CriteriaComparisonCreateDTO criteriaComparisonCreateDTO) {
         
         CriteriaComparison newCriteriaComparison = new CriteriaComparison();
 
         Criterion comparedCriterion = criterionService.getCriterionEntityById(criteriaComparisonCreateDTO.getComparedCriterionId());
         Criterion referenceCriterion = criterionService.getCriterionEntityById(criteriaComparisonCreateDTO.getReferenceCriterionId());
-        AHP ahp = ahpService.getAHPEntityById(AHPId);
+        CriteriaGroup criteriaGroup = criteriaGroupService.getCriteriaGroupEntityById(strategyId, criteriaGroupId);
 
         //TODO: Treat case when comparedCriterion and referenceCriterion are not found
         //TODO: Treat case when ahp is not found
@@ -48,7 +48,7 @@ public class CriterionComparisonService {
         newCriteriaComparison.setComparedCriterion(comparedCriterion);
         newCriteriaComparison.setReferenceCriterion(referenceCriterion);
         newCriteriaComparison.setImportanceScale(criteriaComparisonCreateDTO.getImportanceScale());
-        newCriteriaComparison.setAhp(ahp);
+        newCriteriaComparison.setCriteriaGroup(criteriaGroup);
 
         criteriaComparisonRepository.save(newCriteriaComparison);
 
@@ -112,7 +112,7 @@ public class CriterionComparisonService {
         criteriaComparisonDTO.setComparedCriterionId(criteriaComparison.getComparedCriterion().getId());
         criteriaComparisonDTO.setReferenceCriterionId(criteriaComparison.getReferenceCriterion().getId());
         criteriaComparisonDTO.setImportanceScale(criteriaComparison.getImportanceScale());
-        criteriaComparisonDTO.setAhpId(criteriaComparison.getAhp().getId());
+        criteriaComparisonDTO.setCriteriaGroupId(criteriaComparison.getCriteriaGroup().getId());
         criteriaComparisonDTO.setDisabled(criteriaComparison.isDisabled());
 
         return ResponseEntity.ok(criteriaComparisonDTO);
@@ -129,34 +129,34 @@ public class CriterionComparisonService {
 
     }
 
-    public ResponseEntity<List<CriteriaComparisonReadDTO>> getCriteriaComparisons(long ahpId, Long comparedCriterionId, Long referenceCriterionId, boolean includeDisabled) {
+    public ResponseEntity<List<CriteriaComparisonReadDTO>> getCriteriaComparisons(long strategyId, long criteriaGroupId, Long comparedCriterionId, Long referenceCriterionId, boolean includeDisabled) {
 
         boolean hasComparedCriterion = comparedCriterionId != null;
         boolean hasReferenceCriterion = referenceCriterionId != null;
 
         if (hasComparedCriterion && hasReferenceCriterion) {
-            return getCriteriaComparisonByComparedCriterionIdAndReferenceCriterionIdAndAhpId(comparedCriterionId, referenceCriterionId, ahpId, includeDisabled);
+            return getCriteriaComparisonByComparedCriterionIdAndReferenceCriterionIdAndAhpId(comparedCriterionId, referenceCriterionId, criteriaGroupId, includeDisabled);
         } else if (hasComparedCriterion) {
-            return getCriteriaComparisonByComparedCriterionIdAndAhpId(comparedCriterionId, ahpId, includeDisabled);
+            return getCriteriaComparisonByComparedCriterionIdAndAhpId(comparedCriterionId, criteriaGroupId, includeDisabled);
         } else if (hasReferenceCriterion) {
-            return getCriteriaComparisonByReferenceCriterionIdAndAhpId(referenceCriterionId, ahpId, includeDisabled);
+            return getCriteriaComparisonByReferenceCriterionIdAndAhpId(referenceCriterionId, criteriaGroupId, includeDisabled);
         } else {
-            return getCriteriaComparisonByAhpId(ahpId, includeDisabled);
+            return getCriteriaComparisonByAhpId(criteriaGroupId, includeDisabled);
         }
     
     }
 
-    public ResponseEntity<List<CriteriaComparisonReadDTO>> getCriteriaComparisonByComparedCriterionIdAndAhpId(long comparedCriterionId, long ahpId, boolean includeDisabled) {
+    public ResponseEntity<List<CriteriaComparisonReadDTO>> getCriteriaComparisonByComparedCriterionIdAndAhpId(long comparedCriterionId, long criteriaGroupId, boolean includeDisabled) {
 
         List<CriteriaComparison> criteriaComparisonList;
 
         if(includeDisabled){
 
-            criteriaComparisonList = criteriaComparisonRepository.findByComparedCriterionIdAndAhpId(comparedCriterionId, ahpId);
+            criteriaComparisonList = criteriaComparisonRepository.findByComparedCriterionIdAndCriteriaGroupId(comparedCriterionId, criteriaGroupId);
 
         } else {
 
-            criteriaComparisonList = criteriaComparisonRepository.findByComparedCriterionIdAndAhpIdAndDisabledFalse(comparedCriterionId, ahpId);
+            criteriaComparisonList = criteriaComparisonRepository.findByComparedCriterionIdAndCriteriaGroupIdAndDisabledFalse(comparedCriterionId, criteriaGroupId);
 
         }
 
@@ -167,7 +167,7 @@ public class CriterionComparisonService {
                     criteriaComparisonDTO.setComparedCriterionId(criteriaComparison.getComparedCriterion().getId());
                     criteriaComparisonDTO.setReferenceCriterionId(criteriaComparison.getReferenceCriterion().getId());
                     criteriaComparisonDTO.setImportanceScale(criteriaComparison.getImportanceScale());
-                    criteriaComparisonDTO.setAhpId(criteriaComparison.getAhp().getId());
+                    criteriaComparisonDTO.setCriteriaGroupId(criteriaComparison.getCriteriaGroup().getId());
                     criteriaComparisonDTO.setDisabled(criteriaComparison.isDisabled());
                     return criteriaComparisonDTO;
                 })
@@ -177,17 +177,17 @@ public class CriterionComparisonService {
     
     }
 
-    public ResponseEntity<List<CriteriaComparisonReadDTO>> getCriteriaComparisonByReferenceCriterionIdAndAhpId(long referenceCriterionId, long ahpId, boolean includeDisabled) {
+    public ResponseEntity<List<CriteriaComparisonReadDTO>> getCriteriaComparisonByReferenceCriterionIdAndAhpId(long referenceCriterionId, long criteriaGroupId, boolean includeDisabled) {
 
         List<CriteriaComparison> criteriaComparisonList;
 
         if(includeDisabled){
 
-            criteriaComparisonList = criteriaComparisonRepository.findByReferenceCriterionIdAndAhpId(referenceCriterionId, ahpId);
+            criteriaComparisonList = criteriaComparisonRepository.findByReferenceCriterionIdAndCriteriaGroupId(referenceCriterionId, criteriaGroupId);
 
         } else {
 
-            criteriaComparisonList = criteriaComparisonRepository.findByReferenceCriterionIdAndAhpIdAndDisabledFalse(referenceCriterionId, ahpId);
+            criteriaComparisonList = criteriaComparisonRepository.findByReferenceCriterionIdAndCriteriaGroupIdAndDisabledFalse(referenceCriterionId, criteriaGroupId);
 
         }
 
@@ -198,7 +198,7 @@ public class CriterionComparisonService {
                     criteriaComparisonDTO.setComparedCriterionId(criteriaComparison.getComparedCriterion().getId());
                     criteriaComparisonDTO.setReferenceCriterionId(criteriaComparison.getReferenceCriterion().getId());
                     criteriaComparisonDTO.setImportanceScale(criteriaComparison.getImportanceScale());
-                    criteriaComparisonDTO.setAhpId(criteriaComparison.getAhp().getId());
+                    criteriaComparisonDTO.setCriteriaGroupId(criteriaComparison.getCriteriaGroup().getId());
                     criteriaComparisonDTO.setDisabled(criteriaComparison.isDisabled());
                     return criteriaComparisonDTO;
                 })
@@ -208,17 +208,17 @@ public class CriterionComparisonService {
     
     }
 
-    public ResponseEntity<List<CriteriaComparisonReadDTO>> getCriteriaComparisonByComparedCriterionIdAndReferenceCriterionIdAndAhpId(long comparedCriterionId, long referenceCriterionId, long ahpId, boolean includeDisabled) {
+    public ResponseEntity<List<CriteriaComparisonReadDTO>> getCriteriaComparisonByComparedCriterionIdAndReferenceCriterionIdAndAhpId(long comparedCriterionId, long referenceCriterionId, long criteriaGroupId, boolean includeDisabled) {
 
         List<CriteriaComparison> criteriaComparisonList;
 
         if(includeDisabled){
 
-            criteriaComparisonList = criteriaComparisonRepository.findByComparedCriterionIdAndReferenceCriterionIdAndAhpId(comparedCriterionId, referenceCriterionId, ahpId);
+            criteriaComparisonList = criteriaComparisonRepository.findByComparedCriterionIdAndReferenceCriterionIdAndCriteriaGroupId(comparedCriterionId, referenceCriterionId, criteriaGroupId);
 
         } else {
 
-            criteriaComparisonList = criteriaComparisonRepository.findByComparedCriterionIdAndReferenceCriterionIdAndAhpIdAndDisabledFalse(comparedCriterionId, referenceCriterionId, ahpId);
+            criteriaComparisonList = criteriaComparisonRepository.findByComparedCriterionIdAndReferenceCriterionIdAndCriteriaGroupIdAndDisabledFalse(comparedCriterionId, referenceCriterionId, criteriaGroupId);
 
         }
 
@@ -229,7 +229,7 @@ public class CriterionComparisonService {
                     criteriaComparisonDTO.setComparedCriterionId(criteriaComparison.getComparedCriterion().getId());
                     criteriaComparisonDTO.setReferenceCriterionId(criteriaComparison.getReferenceCriterion().getId());
                     criteriaComparisonDTO.setImportanceScale(criteriaComparison.getImportanceScale());
-                    criteriaComparisonDTO.setAhpId(criteriaComparison.getAhp().getId());
+                    criteriaComparisonDTO.setCriteriaGroupId(criteriaComparison.getCriteriaGroup().getId());
                     criteriaComparisonDTO.setDisabled(criteriaComparison.isDisabled());
                     return criteriaComparisonDTO;
                 })
@@ -239,17 +239,17 @@ public class CriterionComparisonService {
     
     }
 
-    public ResponseEntity<List<CriteriaComparisonReadDTO>> getCriteriaComparisonByAhpId(long ahpId, boolean includeDisabled) {
+    public ResponseEntity<List<CriteriaComparisonReadDTO>> getCriteriaComparisonByAhpId(long criteriaGroupId, boolean includeDisabled) {
 
         List<CriteriaComparison> criteriaComparisonList;
 
         if(includeDisabled){
 
-            criteriaComparisonList = criteriaComparisonRepository.findByAhpId(ahpId);
+            criteriaComparisonList = criteriaComparisonRepository.findByCriteriaGroupId(criteriaGroupId);
 
         } else {
 
-            criteriaComparisonList = criteriaComparisonRepository.findByAhpIdAndDisabledFalse(ahpId);
+            criteriaComparisonList = criteriaComparisonRepository.findByCriteriaGroupIdAndDisabledFalse(criteriaGroupId);
 
         }
 
@@ -260,7 +260,7 @@ public class CriterionComparisonService {
                     criteriaComparisonDTO.setComparedCriterionId(criteriaComparison.getComparedCriterion().getId());
                     criteriaComparisonDTO.setReferenceCriterionId(criteriaComparison.getReferenceCriterion().getId());
                     criteriaComparisonDTO.setImportanceScale(criteriaComparison.getImportanceScale());
-                    criteriaComparisonDTO.setAhpId(criteriaComparison.getAhp().getId());
+                    criteriaComparisonDTO.setCriteriaGroupId(criteriaComparison.getCriteriaGroup().getId());
                     criteriaComparisonDTO.setDisabled(criteriaComparison.isDisabled());
                     return criteriaComparisonDTO;
                 })

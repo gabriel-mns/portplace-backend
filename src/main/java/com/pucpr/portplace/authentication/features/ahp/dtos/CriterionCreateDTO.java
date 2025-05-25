@@ -17,6 +17,6 @@ public class CriterionCreateDTO {
     @NotNull
     private String name;
     private String description;
-    private long ahpId;
+    private long criteriaGroupId;
 
 }

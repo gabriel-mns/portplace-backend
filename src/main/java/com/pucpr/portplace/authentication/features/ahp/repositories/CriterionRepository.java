@@ -8,8 +8,8 @@ import com.pucpr.portplace.authentication.features.ahp.entities.Criterion;
 
 public interface CriterionRepository extends JpaRepository<Criterion, Long> {
     
-    List<Criterion> findByAhpId(Long ahpId);
+    List<Criterion> findByCriteriaGroupId(Long criteriaGroupId);
 
-    List<Criterion> findByAhpIdAndDisabledFalse(Long ahpId);
+    List<Criterion> findByCriteriaGroupIdAndDisabledFalse(Long criteriaGroupId);
 
 }

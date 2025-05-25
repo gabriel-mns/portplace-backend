@@ -41,8 +41,8 @@ public class CriteriaComparison {
     private ImportanceScale importanceScale;
 
     @ManyToOne
-    @JoinColumn(name = "ahp_id")
-    private AHP ahp;
+    @JoinColumn(name = "criteria_group_id")
+    private CriteriaGroup criteriaGroup;
 
     @Builder.Default
     private boolean disabled = false;

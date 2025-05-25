@@ -1,0 +1,34 @@
+@host = http://localhost:8080/api/v1
+
+// GRUPO DE CRITÉRIOS
+
+### BUSCA DE TODOS OS CRITÉRIOS
+GET {{host}}/strategies/1/criteria-groups/2/criteria?includeDisabled=true
+
+### BUSCA POR ID DE UM CRITÉRIO
+GET {{host}}/strategies/1/criteria-groups/2/criteria/2
+
+### CADASTRAR DE CRITÉRIO
+POST {{host}}/strategies/1/criteria-groups/2/criteria
+Content-Type: application/json
+
+{
+  "name": "Grupo de Critérios 4",
+  "description": "Descrição do grupo de critérios 4",
+  "criteriaGroupId": 4
+}
+
+### EDIÇÃO DE GRUPO DE CRITÉRIOS
+PUT {{host}}/strategies/1/criteria-groups/2/criteria/1
+Content-Type: application/json
+
+{
+  "name": "Grupo de Critérios 2 Editado",
+  "description": "abrobbrobrinha do grupo de critérios 2 Editado"
+}
+
+### DESABILITAR GRUPO DE CRITÉRIOS
+DELETE  {{host}}/strategies/1/criteria-groups/2/criteria/3
+
+### DELETAR GRUPO DE CRITÉRIOS
+DELETE  {{host}}/strategies/1/criteria-groups/2/criteria/3/hard-delete

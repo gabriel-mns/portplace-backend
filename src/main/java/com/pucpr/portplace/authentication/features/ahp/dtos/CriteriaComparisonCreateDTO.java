@@ -16,6 +16,6 @@ public class CriteriaComparisonCreateDTO {
     private long comparedCriterionId;
     private long referenceCriterionId;
     private ImportanceScale importanceScale;
-    private long ahpId;
+    private long criteriaGroupId;
 
 }

@@ -8,7 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import com.pucpr.portplace.authentication.features.ahp.dtos.AHPReadDto;
+import com.pucpr.portplace.authentication.features.ahp.dtos.AHPReadDTO;
 import com.pucpr.portplace.authentication.features.ahp.entities.AHP;
 import com.pucpr.portplace.authentication.features.ahp.repositories.AHPRepository;
 
@@ -20,7 +20,15 @@ public class AHPService {
 
     //CREATE
     public ResponseEntity<Void> createAHP() {
-        
+        // AHPCreateDTO ahpCreateDto
+
+
+        // AHP ahp = AHP.builder()
+        //     .criteriaGroup()
+        //     .disabled(false)
+        //     // .projects(ahpCreateDto.getProjects()) // Assuming projects are handled elsewhere
+        //     .build();
+
         ahpRepository.save(new AHP());
     
         return ResponseEntity.status(HttpStatus.CREATED).build();
@@ -49,14 +57,14 @@ public class AHPService {
     }
 
     // READ
-    public ResponseEntity<AHPReadDto> getAHPById(Long id) {
+    public ResponseEntity<AHPReadDTO> getAHPById(Long id) {
 
-        AHPReadDto ahpReadDto = new AHPReadDto();
+        AHPReadDTO ahpReadDto = new AHPReadDTO();
 
         AHP ahp = ahpRepository.findById(id).get();
 
         ahpReadDto.setId(ahp.getId());
-        ahpReadDto.setCreatedAt(ahp.getCreatedAt());
+        // ahpReadDto.setCreatedAt(ahp.getCreatedAt());
         ahpReadDto.setDisabled(ahp.isDisabled());
         // ahpReadDto.setProjects(ahp.getProjects());
         // ahpReadDto.setCriteria(ahp.getCriteria());
@@ -68,7 +76,7 @@ public class AHPService {
 
     }
 
-    public ResponseEntity<List<AHPReadDto>> getAllAHPs(boolean includeDisabled) {
+    public ResponseEntity<List<AHPReadDTO>> getAllAHPs(boolean includeDisabled) {
 
         List<AHP> ahps;
         
@@ -82,15 +90,17 @@ public class AHPService {
 
         }
         
-        List<AHPReadDto> ahpReadDto = ahps.stream().map(ahp ->
-            new AHPReadDto(
+        List<AHPReadDTO> ahpReadDto = ahps.stream().map(ahp ->
+            new AHPReadDTO(
                 ahp.getId(),
-                ahp.getCreatedAt(),
-                ahp.isDisabled(),
-                new ArrayList<>(), // Placeholder for projects
-                new ArrayList<>(), // Placeholder for criteria
-                new ArrayList<>(), // Placeholder for criteria comparisons
-                new ArrayList<>()  // Placeholder for evaluations
+                ahp.getCriteriaGroup().getId(),
+                // ahp.getEvaluations(),
+                new ArrayList<>(), // Placeholder for evaluations, should be replaced with actual mapping
+                ahp.isDisabled()
+                // ahp.getCreatedAt(),
+                // ahp.getLastUpdatedAt(),
+                // ahp.getLastUpdatedBy()
+                
             )
         ).toList();
 

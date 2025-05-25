@@ -1,21 +1,11 @@
 package com.pucpr.portplace.authentication.features.ahp.controllers;
 
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.azure.core.annotation.QueryParam;
-import com.pucpr.portplace.authentication.features.ahp.dtos.AHPReadDto;
-import com.pucpr.portplace.authentication.features.ahp.dtos.CriteriaComparisonCreateDTO;
-import com.pucpr.portplace.authentication.features.ahp.dtos.CriteriaComparisonReadDTO;
-import com.pucpr.portplace.authentication.features.ahp.dtos.CriteriaComparisonUpdateDTO;
-import com.pucpr.portplace.authentication.features.ahp.dtos.CriterionCreateDTO;
-import com.pucpr.portplace.authentication.features.ahp.dtos.CriterionReadDTO;
-import com.pucpr.portplace.authentication.features.ahp.dtos.CriterionUpdateDTO;
+import com.pucpr.portplace.authentication.features.ahp.dtos.AHPReadDTO;
 import com.pucpr.portplace.authentication.features.ahp.services.AHPService;
-import com.pucpr.portplace.authentication.features.ahp.services.CriterionComparisonService;
-import com.pucpr.portplace.authentication.features.ahp.services.CriterionService;
-
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,8 +14,6 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 
 
 @RestController
@@ -35,24 +23,19 @@ public class AHPController {
     @Autowired
     private AHPService ahpService;
 
-    @Autowired
-    private CriterionService criterionService;
-
-    @Autowired
-    private CriterionComparisonService criterionComparisonService;
 
     /*
      * AHP CRUD
      */
     @GetMapping
-    public ResponseEntity<List<AHPReadDto>> getAllAHPs(@QueryParam("includeDisabled") boolean includeDisabled) {
+    public ResponseEntity<List<AHPReadDTO>> getAllAHPs(@QueryParam("includeDisabled") boolean includeDisabled) {
         
         return ahpService.getAllAHPs(includeDisabled);
     
     }
 
     @GetMapping("/{AHPId}")
-    public ResponseEntity<AHPReadDto> getAHPById(@PathVariable long AHPId) {
+    public ResponseEntity<AHPReadDTO> getAHPById(@PathVariable long AHPId) {
         
         return ahpService.getAHPById(AHPId);
     
@@ -80,105 +63,4 @@ public class AHPController {
     }
     
 
-    /*
-     * CRITERION CRUD
-     */
-    @GetMapping("/{AHPId}/criteria")
-    public ResponseEntity<List<CriterionReadDTO>> getAllCriteria(@PathVariable long AHPId, @RequestParam(defaultValue="false") boolean includeDisabled) {
-        
-        return criterionService.getCriteriaByAHPId(AHPId, includeDisabled);
-    
-    }
-
-    @GetMapping("/{AHPId}/criteria/{criterionId}")
-    public ResponseEntity<CriterionReadDTO> getAllCriteria(@PathVariable Long AHPId, @PathVariable Long criterionId) {
-        
-        return criterionService.getCriterionById(criterionId);
-    
-    }
-
-    @PostMapping("/{AHPId}/criteria")
-    public ResponseEntity<Void> createCriterion(@PathVariable Long AHPId, @RequestBody CriterionCreateDTO criterionCreateDTO) {
-        
-        return criterionService.createCriterion(AHPId, criterionCreateDTO);
-    
-    }
-
-    @PutMapping("/{AHPId}/criteria/{criterionId}")
-    public ResponseEntity<Void> updateCriterion(@PathVariable Long AHPId, @PathVariable long criterionId, @RequestBody CriterionUpdateDTO criterionUpdateDTO) {
-        
-        return criterionService.updateCriterion(criterionId, criterionUpdateDTO);
-    
-    }
-
-    @DeleteMapping("/{AHPId}/criteria/{criterionId}")
-    public ResponseEntity<Void> disableCriterion(@PathVariable Long AHPId, @PathVariable long criterionId) {
-        
-        return criterionService.disableCriterion(criterionId);
-    
-    }
-
-    @DeleteMapping("/{AHPId}/criteria/{criterionId}/hard-delete")
-    public ResponseEntity<Void> deleteCriterion(@PathVariable long AHPId, @PathVariable long criterionId) {
-        
-        return criterionService.deleteCriterion(criterionId);
-    
-    }
-
-    
-    /*
-     * CRITERION COMPARISON CRUD
-     */
-
-    // CREATE
-    @PostMapping("/{AHPId}/criteriaComparisons")
-    public ResponseEntity<Void> createCriterionComparison(@PathVariable long AHPId, @RequestBody CriteriaComparisonCreateDTO criteriaComparisonCreateDTO) {
-        
-        return criterionComparisonService.createCriteriaComparison(criteriaComparisonCreateDTO, AHPId);
-    
-    }
-
-    // UPDATE
-    @PutMapping("/{AHPId}/criteriaComparisons/{criteriaComparisonId}")
-    public ResponseEntity<Void> updateCriterionComparison(@PathVariable long AHPId, @PathVariable long criteriaComparisonId, @RequestBody CriteriaComparisonUpdateDTO criteriaComparisonUpdateDTO) {
-        
-        return criterionComparisonService.updateCriteriaComparison(criteriaComparisonId, criteriaComparisonUpdateDTO);
-    
-    }
-
-    // DELETE
-    @DeleteMapping("/{AHPId}/criteriaComparisons/{criteriaComparisonId}")
-    public ResponseEntity<Void> disableCriterionComparison(@PathVariable long AHPId, @PathVariable long criteriaComparisonId) {
-        
-        return criterionComparisonService.disableCriteriaComparison(criteriaComparisonId);
-    
-    }
-
-    @DeleteMapping("/{AHPId}/criteriaComparisons/{criteriaComparisonId}/hard-delete")
-    public ResponseEntity<Void> deleteCriterionComparison(@PathVariable long AHPId, @PathVariable long criteriaComparisonId) {
-        
-        return criterionComparisonService.deleteCriteriaComparison(criteriaComparisonId);
-    
-    }
-
-    // READ
-    @GetMapping("/{AHPId}/criteriaComparisons")
-    public ResponseEntity<List<CriteriaComparisonReadDTO>> getCriteriaComparisons(
-            @PathVariable long AHPId,
-            @RequestParam(required = false) Long comparedCriterionId,
-            @RequestParam(required = false) Long referenceCriterionId,
-            @RequestParam(defaultValue = "false") boolean includeDisabled
-    ) {
-        return criterionComparisonService.getCriteriaComparisons(AHPId, comparedCriterionId, referenceCriterionId, includeDisabled);
-    }
-
-    @GetMapping("/{AHPId}/criteriaComparisons/{criteriaComparisonId}")
-    public ResponseEntity<CriteriaComparisonReadDTO> getCriteriaComparisonById(
-            @PathVariable long AHPId,
-            @PathVariable long criteriaComparisonId
-    ) {
-        return criterionComparisonService.getCriteriaComparisonById(criteriaComparisonId);
-    }
-    
-    
 }
