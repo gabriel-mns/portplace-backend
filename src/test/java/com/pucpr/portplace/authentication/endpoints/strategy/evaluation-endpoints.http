@@ -1,0 +1,36 @@
+@host = http://localhost:8080/api/v1
+
+// COMPARAÇÃO DE CRITÉRIOS
+
+### BUSCA DE TODAS AS AVALIAÇÕES
+GET {{host}}/strategies/1/ahps/1/evaluations?includeDisabled=true
+
+### BUSCAR AVALIAÇÃO POR ID
+GET {{host}}/strategies/1/ahps/1/evaluations/1
+
+### CADASTRAR AVALIAÇÃO
+POST {{host}}/strategies/1/ahps/1/evaluations
+Content-Type: application/json
+
+{
+  "score": 200,
+  "projectId": 3,
+  "criterionId": 1,
+  "ahpId": 1
+}
+
+### EDITAR AVALIAÇÃO
+PUT {{host}}/strategies/1/ahps/1/evaluations/3
+Content-Type: application/json
+
+{
+  "id": 1,
+  "score": 300
+}
+
+
+### DESABILITAR AVALIAÇÃO
+DELETE  {{host}}/strategies/1/ahps/1/evaluations/3
+
+### DELETAR AVALIAÇÃO
+DELETE  {{host}}/strategies/1/ahps/1/evaluations/3/hard-delete

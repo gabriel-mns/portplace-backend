@@ -22,6 +22,7 @@ import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -30,6 +31,7 @@ import lombok.Setter;
 @Table(name = "evaluations")
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 @Getter
 @Setter
 @EntityListeners(AuditingEntityListener.class)
@@ -46,6 +48,9 @@ public class Evaluation {
     @JoinColumn(name = "project_id")
     private Project project;
     @ManyToOne
+    @JoinColumn(name = "criterion_id")
+    private Criterion criterion;
+    @ManyToOne
     @JoinColumn(name = "ahp_id")
     private AHP ahp;
     
@@ -55,7 +60,10 @@ public class Evaluation {
     private LocalDateTime lastModifiedAt;
     @JsonIdentityReference(alwaysAsId = true)
     private User lastModifiedBy;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     @CreatedDate
     private LocalDateTime createdAt;
+    @Builder.Default
+    private boolean disabled = false;
 
 }

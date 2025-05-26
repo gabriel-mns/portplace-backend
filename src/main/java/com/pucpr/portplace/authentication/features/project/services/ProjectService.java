@@ -132,6 +132,13 @@ public class ProjectService {
     
     }
 
+    public Project getProjecEntitytById(long projectId) {
+
+        // TODO: Treat the case when the project is not found
+        return projectRepository.findById(projectId).get();
+    
+    }
+
     public ResponseEntity<List<ProjectReadDTO>> getAllProjects(boolean includeDisabled) {
 
         List<Project> projects;
