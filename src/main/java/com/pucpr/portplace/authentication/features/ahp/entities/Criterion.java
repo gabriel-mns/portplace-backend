@@ -1,6 +1,17 @@
 package com.pucpr.portplace.authentication.features.ahp.entities;
 
+import java.time.LocalDateTime;
+
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIdentityReference;
+import com.pucpr.portplace.authentication.features.user.entities.User;
+
 import jakarta.persistence.Entity;
+import jakarta.persistence.EntityListeners;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -22,6 +33,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Builder
+@EntityListeners(AuditingEntityListener.class)
 public class Criterion {
     
     @Id
@@ -37,4 +49,12 @@ public class Criterion {
     @Builder.Default
     private boolean disabled = false;
 
+    // Audit fields
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
+    @LastModifiedDate
+    private LocalDateTime lastModifiedAt;
+    @JsonIdentityReference(alwaysAsId = true)
+    private User lastModifiedBy;
+    @CreatedDate
+    private LocalDateTime createdAt;
 }

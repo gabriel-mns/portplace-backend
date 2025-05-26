@@ -57,10 +57,10 @@ public class CriteriaGroup {
     // Audit fields
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     @LastModifiedDate
-    private LocalDateTime lastUpdated;
+    private LocalDateTime lastModifiedAt;
     
     @JsonIdentityReference(alwaysAsId = true)
-    private User lastUpdatedBy;
+    private User lastModifiedBy;
     
     @CreatedDate
     private LocalDateTime createdAt;

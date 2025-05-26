@@ -1,5 +1,8 @@
 package com.pucpr.portplace.authentication.features.ahp.dtos;
 
+import java.time.LocalDateTime;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.pucpr.portplace.authentication.features.ahp.enums.ImportanceScale;
 
 import lombok.AllArgsConstructor;
@@ -19,5 +22,10 @@ public class CriteriaComparisonReadDTO {
     private ImportanceScale importanceScale;
     private long criteriaGroupId;
     private boolean disabled;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime createdAt;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime lastModifiedAt;
+    // private UserReadDto lastUpdatedBy; // Uncomment if needed
 
 }

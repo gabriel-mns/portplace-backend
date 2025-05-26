@@ -64,10 +64,10 @@ public class AHP {
     
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     @LastModifiedDate
-    private LocalDateTime lastUpdate;
+    private LocalDateTime lastModifiedAt;
     
     @LastModifiedBy
-    private User lastUpdatedBy;
+    private User lastModifiedBy;
 
     // #endregion
 

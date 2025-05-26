@@ -1,6 +1,10 @@
 package com.pucpr.portplace.authentication.features.ahp.dtos;
 
 
+import java.time.LocalDateTime;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -21,5 +25,10 @@ public class CriterionReadDTO {
     private String description;
     private long criteriaGroupId;
     private boolean disabled;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime createdAt;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime lastModifiedAt;
+    // private UserReadDto lastUpdatedBy; // Uncomment if needed
 
 }

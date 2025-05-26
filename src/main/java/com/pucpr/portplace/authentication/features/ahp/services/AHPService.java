@@ -102,7 +102,7 @@ public class AHPService {
         ahpReadDto.setDescription(ahp.getDescription());
         ahpReadDto.setCriteriaGroupId(ahp.getCriteriaGroup().getId());
         ahpReadDto.setCreatedAt(ahp.getCreatedAt());
-        ahpReadDto.setLastUpdatedAt(ahp.getLastUpdate());
+        ahpReadDto.setLastModifiedAt(ahp.getLastModifiedAt());
         ahpReadDto.setDisabled(ahp.isDisabled());
 
         return ResponseEntity.ok(ahpReadDto);
@@ -133,7 +133,7 @@ public class AHPService {
                 new ArrayList<>(), // Placeholder for evaluations, should be replaced with actual mapping
                 ahp.isDisabled(),
                 ahp.getCreatedAt(),
-                ahp.getLastUpdate()
+                ahp.getLastModifiedAt()
                 // ahp.getLastUpdatedBy()
                 
             )
@@ -167,7 +167,7 @@ public class AHPService {
                 new ArrayList<>(), // Placeholder for evaluations, should be replaced with actual mapping
                 ahp.isDisabled(),
                 ahp.getCreatedAt(),
-                ahp.getLastUpdate()
+                ahp.getLastModifiedAt()
                 // ahp.getLastUpdatedBy()
                 
             )

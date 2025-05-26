@@ -74,7 +74,7 @@ public class CriteriaGroupService {
 
         criteriaGroup.setName(criteriaGroupCreateDto.getName());
         criteriaGroup.setDescription(criteriaGroupCreateDto.getDescription());
-        criteriaGroup.setLastUpdated(LocalDateTime.now());
+        criteriaGroup.setLastModifiedAt(LocalDateTime.now());
 
         criteriaGroupRepository.save(criteriaGroup);
 
@@ -147,7 +147,7 @@ public class CriteriaGroupService {
             .description(criteriaGroup.getDescription())
             .criteriaList(criteriaDTOs)
             .criteriaComparisons(criteriaComparisonsDTOs)
-            .lastUpdated(criteriaGroup.getLastUpdated())
+            .lastModifiedAt(criteriaGroup.getLastModifiedAt())
             // .lastUpdatedBy(criteriaGroup.getLastUpdatedBy().getId())
             .createdAt(criteriaGroup.getCreatedAt())
             .disabled(criteriaGroup.isDisabled())
@@ -181,7 +181,7 @@ public class CriteriaGroupService {
                 .id(criteriaGroup.getId())
                 .name(criteriaGroup.getName())
                 .description(criteriaGroup.getDescription())
-                .lastUpdated(criteriaGroup.getLastUpdated())
+                .lastModifiedAt(criteriaGroup.getLastModifiedAt())
                 // .lastUpdatedBy(criteriaGroup.getLastUpdatedBy().getId())
                 .createdAt(criteriaGroup.getCreatedAt())
                 .disabled(criteriaGroup.isDisabled())

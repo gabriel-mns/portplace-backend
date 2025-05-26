@@ -26,8 +26,8 @@ public class CriteriaGroupReadDTO {
     private List<CriterionReadDTO> criteriaList;
     private List<CriteriaComparisonReadDTO> criteriaComparisons;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
-    private LocalDateTime lastUpdated;
-    private Long lastUpdatedBy;
+    private LocalDateTime lastModifiedAt;
+    private Long lastModifiedBy;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime createdAt;
     private boolean disabled;

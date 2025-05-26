@@ -37,7 +37,7 @@ public class Strategy {
     @CreatedDate
     private LocalDateTime createdAt;
     @LastModifiedDate
-    private LocalDateTime lastUpdated;
-    private long lastUpdatedBy;
+    private LocalDateTime lastModifiedAt;
+    private long lastModifiedBy;
     
 }
