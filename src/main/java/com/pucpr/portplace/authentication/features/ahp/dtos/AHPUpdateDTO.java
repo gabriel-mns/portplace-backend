@@ -14,8 +14,9 @@ import lombok.Setter;
 @Builder
 @Getter
 @Setter
-public class AHPCreateDTO {
+public class AHPUpdateDTO {
     
+    private Long id;
     private String name;
     private String description;
     @NotNull

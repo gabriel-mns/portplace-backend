@@ -10,4 +10,8 @@ public interface AHPRepository extends JpaRepository<AHP, Long> {
     
     List<AHP> findByDisabledFalse();
 
+    List<AHP> findByStrategyIdAndDisabledFalse(Long strategyId);
+    
+    List<AHP> findByStrategyId(Long strategyId);
+
 }

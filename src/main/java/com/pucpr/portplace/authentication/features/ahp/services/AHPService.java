@@ -8,8 +8,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import com.pucpr.portplace.authentication.features.ahp.dtos.AHPCreateDTO;
 import com.pucpr.portplace.authentication.features.ahp.dtos.AHPReadDTO;
+import com.pucpr.portplace.authentication.features.ahp.dtos.AHPUpdateDTO;
 import com.pucpr.portplace.authentication.features.ahp.entities.AHP;
+import com.pucpr.portplace.authentication.features.ahp.entities.CriteriaGroup;
 import com.pucpr.portplace.authentication.features.ahp.repositories.AHPRepository;
 
 @Service
@@ -18,25 +21,56 @@ public class AHPService {
     @Autowired
     private AHPRepository ahpRepository;
 
+    @Autowired
+    private CriteriaGroupService criteriaGroupService;
+
+    // @Autowired
+    // private StrategyService strategyService;
+
     //CREATE
-    public ResponseEntity<Void> createAHP() {
-        // AHPCreateDTO ahpCreateDto
+    public ResponseEntity<Void> createAHP(long strategyId, AHPCreateDTO ahpCreateDto) {
+        
+        AHP ahp = new AHP();
 
+        CriteriaGroup criteriaGroup = criteriaGroupService.getCriteriaGroupEntityById(strategyId, ahpCreateDto.getCriteriaGroupId());
 
-        // AHP ahp = AHP.builder()
-        //     .criteriaGroup()
-        //     .disabled(false)
-        //     // .projects(ahpCreateDto.getProjects()) // Assuming projects are handled elsewhere
-        //     .build();
+        ahp.setName(ahpCreateDto.getName());
+        ahp.setDescription(ahpCreateDto.getDescription());
+        ahp.setDisabled(false);
+        ahp.setCriteriaGroup(criteriaGroup);
+        // ahp.setStrategy(null); 
+        
 
-        ahpRepository.save(new AHP());
+        ahpRepository.save(ahp);
     
         return ResponseEntity.status(HttpStatus.CREATED).build();
 
     }
 
+    // UPDATE
+    public ResponseEntity<Void> updateAHP(long strategyId, Long ahpId, AHPUpdateDTO ahpUpdateDto) {
+
+        // TODO: Treat case when AHP is not found
+        AHP ahp = ahpRepository.findById(ahpId).get();
+
+        ahp.setName(ahpUpdateDto.getName());
+        ahp.setDescription(ahpUpdateDto.getDescription());
+
+        if( ahpUpdateDto.getCriteriaGroupId() != null ) {
+
+            CriteriaGroup criteriaGroup = criteriaGroupService.getCriteriaGroupEntityById(strategyId, ahpUpdateDto.getCriteriaGroupId());
+            ahp.setCriteriaGroup(criteriaGroup);
+        
+        }
+
+        ahpRepository.save(ahp);
+
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+
+    }
+
     // DELETE
-    public ResponseEntity<Void> disableAHP(Long id) {
+    public ResponseEntity<Void> disableAHP(long strategyId, Long id) {
         
         // TODO: Treat case when AHP is not found
         AHP ahp = ahpRepository.findById(id).get();
@@ -47,7 +81,7 @@ public class AHPService {
         
     }
 
-    public ResponseEntity<Void> deleteAHP(Long id) {
+    public ResponseEntity<Void> deleteAHP(long strategyId, Long id) {
         
         // TODO: Treat case when AHP is not found
         ahpRepository.deleteById(id);
@@ -57,26 +91,25 @@ public class AHPService {
     }
 
     // READ
-    public ResponseEntity<AHPReadDTO> getAHPById(Long id) {
+    public ResponseEntity<AHPReadDTO> getAHPById(long strategyId, Long id) {
 
         AHPReadDTO ahpReadDto = new AHPReadDTO();
 
         AHP ahp = ahpRepository.findById(id).get();
 
         ahpReadDto.setId(ahp.getId());
-        // ahpReadDto.setCreatedAt(ahp.getCreatedAt());
+        ahpReadDto.setName(ahp.getName());
+        ahpReadDto.setDescription(ahp.getDescription());
+        ahpReadDto.setCriteriaGroupId(ahp.getCriteriaGroup().getId());
+        ahpReadDto.setCreatedAt(ahp.getCreatedAt());
+        ahpReadDto.setLastUpdatedAt(ahp.getLastUpdate());
         ahpReadDto.setDisabled(ahp.isDisabled());
-        // ahpReadDto.setProjects(ahp.getProjects());
-        // ahpReadDto.setCriteria(ahp.getCriteria());
-        // ahpReadDto.setCriteriaComparisons(ahp.getCriteriaComparisons());
-        // ahpReadDto.setEvaluations(ahp.getEvaluations());
-
 
         return ResponseEntity.ok(ahpReadDto);
 
     }
 
-    public ResponseEntity<List<AHPReadDTO>> getAllAHPs(boolean includeDisabled) {
+    public ResponseEntity<List<AHPReadDTO>> getAllAHPs(long strategyId, boolean includeDisabled) {
 
         List<AHP> ahps;
         
@@ -93,12 +126,48 @@ public class AHPService {
         List<AHPReadDTO> ahpReadDto = ahps.stream().map(ahp ->
             new AHPReadDTO(
                 ahp.getId(),
+                ahp.getName(),
+                ahp.getDescription(),
                 ahp.getCriteriaGroup().getId(),
                 // ahp.getEvaluations(),
                 new ArrayList<>(), // Placeholder for evaluations, should be replaced with actual mapping
-                ahp.isDisabled()
-                // ahp.getCreatedAt(),
-                // ahp.getLastUpdatedAt(),
+                ahp.isDisabled(),
+                ahp.getCreatedAt(),
+                ahp.getLastUpdate()
+                // ahp.getLastUpdatedBy()
+                
+            )
+        ).toList();
+
+        return ResponseEntity.ok(ahpReadDto);
+
+    }
+
+    public ResponseEntity<List<AHPReadDTO>> getAHPsByStrategyId(long strategyId, boolean includeDisabled) {
+
+        List<AHP> ahps;
+        
+        if(includeDisabled) {
+
+            ahps = ahpRepository.findByStrategyId(strategyId);
+
+        } else {
+
+            ahps = ahpRepository.findByStrategyIdAndDisabledFalse(strategyId);
+
+        }
+        
+        List<AHPReadDTO> ahpReadDto = ahps.stream().map(ahp ->
+            new AHPReadDTO(
+                ahp.getId(),
+                ahp.getName(),
+                ahp.getDescription(),
+                ahp.getCriteriaGroup().getId(),
+                // ahp.getEvaluations(),
+                new ArrayList<>(), // Placeholder for evaluations, should be replaced with actual mapping
+                ahp.isDisabled(),
+                ahp.getCreatedAt(),
+                ahp.getLastUpdate()
                 // ahp.getLastUpdatedBy()
                 
             )
