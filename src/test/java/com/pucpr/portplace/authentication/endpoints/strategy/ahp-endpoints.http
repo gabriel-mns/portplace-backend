@@ -13,9 +13,9 @@ POST {{host}}/strategies/1/ahps
 Content-Type: application/json
 
 {
-  "name": "AHP 2",
-  "description": "Descrição da AHP 2",
-  "criteriaGroupId": 2,
+  "name": "AHP TESTE2605",
+  "description": "Descrição TESTE2605",
+  "criteriaGroupId": 3,
   "strategyId": 1
   //"projectIds": [1, 3]
 }

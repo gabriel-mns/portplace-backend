@@ -117,6 +117,9 @@ public class CriteriaGroupService {
             criterionReadDto.setId(criterion.getId());
             criterionReadDto.setName(criterion.getName());
             criterionReadDto.setDescription(criterion.getDescription());
+            criterionReadDto.setCreatedAt(criterion.getCreatedAt());
+            criterionReadDto.setDisabled(criterion.isDisabled());
+            criterionReadDto.setLastModifiedAt(criterion.getLastModifiedAt());
             criterionReadDto.setCriteriaGroupId(criterion.getCriteriaGroup().getId());
             
             return criterionReadDto;

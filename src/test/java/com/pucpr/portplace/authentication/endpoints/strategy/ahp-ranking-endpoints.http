@@ -1,0 +1,10 @@
+@host = http://localhost:8080/api/v1
+
+// COMPARAÇÃO DE CRITÉRIOS
+
+### BUSCA DE TODAS AS AHPs
+GET {{host}}/strategies/1/ahps?includeDisabled=true
+
+### BUSCA POR ID DE UMA AHP
+GET {{host}}/strategies/1/ahps/4/ranking
+

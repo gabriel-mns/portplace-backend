@@ -5,8 +5,8 @@ POST {{host}}/projects
 Content-Type: application/json
 
 {
-  "name": "Projeto Portplace",
-  "description": "Projeto de gerenciamento de portfólio",
+  "name": "Projeto 2 TESTE2605",
+  "description": "Projeto  2 TESTE2605TESTE2605TESTE2605TESTE2605",
   "startDate": "2023-10-01",
   "endDate": "2023-12-31",
   "status": "IN_PROGRESS",
