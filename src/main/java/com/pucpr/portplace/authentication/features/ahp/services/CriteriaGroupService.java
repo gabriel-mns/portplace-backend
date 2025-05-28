@@ -137,6 +137,10 @@ public class CriteriaGroupService {
             criteriaComparisonDTO.setReferenceCriterionId(criteriaComparison.getReferenceCriterion().getId());
             criteriaComparisonDTO.setImportanceScale(criteriaComparison.getImportanceScale());
             criteriaComparisonDTO.setDisabled(criteriaComparison.isDisabled());
+            criteriaComparisonDTO.setCreatedAt(criteriaComparison.getCreatedAt());
+            criteriaComparisonDTO.setLastModifiedAt(criteriaComparison.getLastModifiedAt());
+            criteriaComparisonDTO.setCriteriaGroupId(criteriaComparison.getCriteriaGroup().getId());
+            // criteriaComparisonDTO.setStrategyId(criteriaComparison.getStrategy().getId());
             
             return criteriaComparisonDTO;
             

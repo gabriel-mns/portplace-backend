@@ -3,19 +3,19 @@
 // GRUPO DE CRITÉRIOS
 
 ### BUSCA DE TODOS OS CRITÉRIOS
-GET {{host}}/strategies/1/criteria-groups/3/criteria
+GET {{host}}/strategies/1/criteria-groups/7/criteria
 
 ### BUSCA POR ID DE UM CRITÉRIO
-GET {{host}}/strategies/1/criteria-groups/2/criteria/2
+GET {{host}}/strategies/1/criteria-groups/7/criteria/2
 
 ### CADASTRAR DE CRITÉRIO
-POST {{host}}/strategies/1/criteria-groups/3/criteria
+POST {{host}}/strategies/1/criteria-groups/7/criteria
 Content-Type: application/json
 
 {
-  "name": "Critério 2 TESTE2605",
-  "description": "Critério 2 TESTE2605Critério TESTE2605",
-  "criteriaGroupId": 3
+  "name": "Critério 2 2705",
+  "description": "Descrição do critério 3 2705",
+  "criteriaGroupId": 1
 }
 
 ### EDIÇÃO DE GRUPO DE CRITÉRIOS

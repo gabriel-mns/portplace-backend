@@ -6,15 +6,15 @@
 GET {{host}}/strategies/1/criteria-groups
 
 ### BUSCA POR ID DE UM GRUPO DE CRITÉRIOS
-GET {{host}}/strategies/1/criteria-groups/3
+GET {{host}}/strategies/1/criteria-groups/7
 
 ### CADASTRAR GRUPO DE CRITÉRIOS
 POST {{host}}/strategies/1/criteria-groups
 Content-Type: application/json
 
 {
-  "name": "Grupo de Critérios TESTE2605",
-  "description": "Descrição do grupo de critérios TESTE2605"
+  "name": "Grupo de Critérios 2 2705",
+  "description": "Descrição do grupo de critérios 2705"
 }
 
 ### EDIÇÃOD DE GRUPO DE CRITÉRIOS

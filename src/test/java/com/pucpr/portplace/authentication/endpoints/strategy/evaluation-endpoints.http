@@ -9,14 +9,14 @@ GET {{host}}/strategies/1/ahps/4/evaluations?includeDisabled=true
 GET {{host}}/strategies/1/ahps/1/evaluations/1
 
 ### CADASTRAR AVALIAÇÃO
-POST {{host}}/strategies/1/ahps/4/evaluations
+POST {{host}}/strategies/1/ahps/3/evaluations
 Content-Type: application/json
 
 {
   "score": 150,
-  "projectId": 6,
-  "criterionId": 5,
-  "ahpId": 4
+  "projectId": 2,
+  "criterionId": 7,
+  "ahpId": 3
 }
 
 ### EDITAR AVALIAÇÃO

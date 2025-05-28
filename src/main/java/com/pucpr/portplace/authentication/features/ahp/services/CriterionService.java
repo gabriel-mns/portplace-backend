@@ -88,6 +88,9 @@ public class CriterionService {
         criterionReadDto.setName(criterion.getName());
         criterionReadDto.setDescription(criterion.getDescription());
         criterionReadDto.setCriteriaGroupId(criterion.getCriteriaGroup().getId());
+        criterionReadDto.setLastModifiedAt(criterion.getLastModifiedAt());
+        criterionReadDto.setCreatedAt(criterion.getCreatedAt());
+        // criterionReadDto.setLastModifiedBy(criterion.getLastModifiedBy());
         criterionReadDto.setDisabled(criterion.isDisabled());
 
         return ResponseEntity.ok(criterionReadDto);
@@ -122,6 +125,8 @@ public class CriterionService {
             criterionReadDto.setName(criterion.getName());
             criterionReadDto.setDescription(criterion.getDescription());
             criterionReadDto.setCriteriaGroupId(criterion.getCriteriaGroup().getId());
+            criterionReadDto.setLastModifiedAt(criterion.getLastModifiedAt());
+            criterionReadDto.setCreatedAt(criterion.getCreatedAt());
             criterionReadDto.setDisabled(criterion.isDisabled());
             return criterionReadDto;
         }).toList();

@@ -6,15 +6,15 @@
 GET {{host}}/strategies/1/ahps?includeDisabled=true
 
 ### BUSCA POR ID DE UMA AHP
-GET {{host}}/strategies/1/ahps/1
+GET {{host}}/strategies/1/ahps/3
 
 ### CADASTRAR DE AHP
 POST {{host}}/strategies/1/ahps
 Content-Type: application/json
 
 {
-  "name": "AHP TESTE2605",
-  "description": "Descrição TESTE2605",
+  "name": "AHP  2 2705",
+  "description": "De zscrição 2 2705",
   "criteriaGroupId": 3,
   "strategyId": 1
   //"projectIds": [1, 3]
