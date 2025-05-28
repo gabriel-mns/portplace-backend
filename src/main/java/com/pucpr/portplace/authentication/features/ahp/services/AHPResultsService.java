@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -14,7 +15,6 @@ import com.pucpr.portplace.authentication.features.ahp.dtos.ProjectRankingReadDT
 import com.pucpr.portplace.authentication.features.ahp.entities.AHP;
 import com.pucpr.portplace.authentication.features.ahp.entities.CriteriaComparison;
 import com.pucpr.portplace.authentication.features.ahp.entities.Evaluation;
-import com.pucpr.portplace.authentication.features.ahp.enums.ImportanceScale;
 
 @Service
 public class AHPResultsService {
@@ -35,35 +35,67 @@ public class AHPResultsService {
     }
 
     private Map<Long, Double> calculateCriteriaWeights(List<CriteriaComparison> comparisons) {
-        
-        Map<Long, Double> criteriaSums = new HashMap<>();
 
-        // Soma os valores
-        for (CriteriaComparison comparison : comparisons) {
-            
-            Long comparedId = comparison.getComparedCriterion().getId();
-            Long referenceId = comparison.getReferenceCriterion().getId();
+        // 1) Get all unique criteria IDs from comparisons
+        List<Long> criteriaIds = comparisons.stream()
+            .flatMap(cmp -> Stream.of(
+                cmp.getComparedCriterion().getId(),
+                cmp.getReferenceCriterion().getId()))
+            .distinct()
+            .sorted() // opcional: ordem crescente
+            .collect(Collectors.toList());
 
-            ImportanceScale scale = comparison.getImportanceScale();
+        int criteriaSize = criteriaIds.size();
 
-            // Para quem está sendo comparado, soma o valor direto
-            criteriaSums.merge(comparedId, scale.getValue(), Double::sum);
-
-            // Para quem está sendo referência, soma o valor recíproco
-            criteriaSums.merge(referenceId, scale.getReciprocal(), Double::sum);
+        // Maps criteria ID to its index in the matrix
+        Map<Long,Integer> indexById = new HashMap<>();
+        for (int i = 0; i < criteriaSize; i++) {
+            indexById.put(criteriaIds.get(i), i);
         }
 
-        // Opcional: normalizar os valores para somarem 1 (virar porcentagem)
-        double totalSum = criteriaSums.values().stream().mapToDouble(Double::doubleValue).sum();
+        // 2) Initialize matrix of values me→others, with 1.0 on the diagonal (self-comparison)
+        double[][] matrix = new double[criteriaSize][criteriaSize];
+        for (int i = 0; i < criteriaSize; i++) {
+            matrix[i][i] = 1.0;
+        }
 
+        // 3) For each criteria comparison, fill the matrix with values
+        
+        for (CriteriaComparison cmp : comparisons) {
+            int me      = indexById.get(cmp.getComparedCriterion().getId());   // eu
+            int other   = indexById.get(cmp.getReferenceCriterion().getId());  // outro
+            double v    = cmp.getImportanceScale().getValue();               // eu→outro
+            double r    = cmp.getImportanceScale().getReciprocal();          // outro→eu
+
+            matrix[me][other] = v;
+            matrix[other][me] = r;
+        }
+
+        // 4) Soma cada coluna
+        double[] colSum = new double[criteriaSize];
+        for (int j = 0; j < criteriaSize; j++) {
+            double sum = 0;
+            for (int i = 0; i < criteriaSize; i++) {
+                sum += matrix[i][j];
+            }
+            colSum[j] = sum;
+        }
+
+        // 5) Normaliza colunas e calcula a média de cada linha
         Map<Long, Double> criteriaWeights = new HashMap<>();
-        for (Map.Entry<Long, Double> entry : criteriaSums.entrySet()) {
-            criteriaWeights.put(entry.getKey(), entry.getValue() / totalSum);
+        for (int i = 0; i < criteriaSize; i++) {
+            double sumNormalized = 0;
+            
+            for (int j = 0; j < criteriaSize; j++) {
+                sumNormalized += matrix[i][j] / colSum[j];
+            }
+            
+            double average = sumNormalized / criteriaSize;
+            criteriaWeights.put(criteriaIds.get(i), average);
         }
 
         return criteriaWeights;
-
-    } 
+    }
 
     private Map<Long, Double> calculateProjectWeightedScores(
             List<Evaluation> evaluations,
