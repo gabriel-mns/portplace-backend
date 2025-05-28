@@ -14,6 +14,7 @@ import com.pucpr.portplace.authentication.features.user.entities.User;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
@@ -47,11 +48,11 @@ public class AHP {
     @ManyToOne
     private Strategy strategy;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "criteria_group_id")
     private CriteriaGroup criteriaGroup;
     
-    @OneToMany(mappedBy = "ahp", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "ahp", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<Evaluation> evaluations;
 
     // #region Auditing fields
