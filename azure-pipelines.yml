@@ -14,18 +14,28 @@ stages:
   - job: Build
     steps:
     
-    - task: JavaToolInstaller@0
+    - task: JavaToolInstaller@1
       inputs:
         versionSpec: '21'
         jdkArchitectureOption: 'x64'
         jdkSourceOption: 'PreInstalled'
 
-    - task: Maven@3
+    - task: Maven@4
       inputs:
+        azureSubscription: 'portplacebackend-connection'
         mavenPomFile: 'pom.xml'
         goals: 'clean verify package'
-        options: '-B'
-      displayName: 'Build com Maven'
+        options: '-X -B'
+        publishJUnitResults: true
+        testResultsFiles: '**/surefire-reports/TEST-*.xml'
+        testRunTitle: 'Build com Maven'
+        javaHomeOption: 'JDKVersion'
+        jdkVersionOption: '1.21'
+        mavenVersionOption: 'Default'
+        mavenAuthenticateFeed: false
+        effectivePomSkip: false
+        sonarQubeRunAnalysis: false
+        
     - task: PublishTestResults@2
       inputs:
         testResultsFiles: '**/surefire-reports/TEST-*.xml'
@@ -41,12 +51,19 @@ stages:
     steps:
     - task: Docker@2
       inputs:
-        command: 'buildAndPush'
-        repository: '$(IMAGE_NAME)'
-        dockerfile: '**/Dockerfile'
         containerRegistry: 'portplacebackend-cr'
-        tags: |
-          latest
-          $(Build.BuildId)
+        repository: '$(IMAGE_NAME)'
+        command: 'buildAndPush'
+        Dockerfile: '**/Dockerfile'
+
+    # - task: Docker@2
+    #   inputs:
+    #     command: 'buildAndPush'
+    #     repository: '$(IMAGE_NAME)'
+    #     dockerfile: '**/Dockerfile'
+    #     containerRegistry: 'portplacebackend-cr'
+    #     tags: |
+    #       latest
+    #       $(Build.BuildId)
       env:
         IMAGE_NAME: $(imageName)
