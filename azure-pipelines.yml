@@ -6,7 +6,7 @@ pool:
 
 variables:
   imageName: 'portplacebackend'
-  -group: portplace
+  -group: portplace-vg
 
 stages:
 - stage: Build_and_Test
@@ -37,10 +37,10 @@ stages:
         effectivePomSkip: false
         sonarQubeRunAnalysis: false
       env:
-        DB_URL: "$(dbUrl)"
-        DB_USERNAME: "$(dbUsername)"
-        DB_PASSWORD: "$(dbPassword)"
-        DRIVER_CLASS: "$(driverClass)"
+        DB_URL: $(dbUrl)
+        DB_USERNAME: $(dbUsername)
+        DB_PASSWORD: $(dbPassword)
+        DRIVER_CLASS: $(driverClass)
         SECRET_KEY: $(secretKey)
         
     - task: PublishTestResults@2
