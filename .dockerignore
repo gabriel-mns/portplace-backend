@@ -1,0 +1,17 @@
+# Diretórios que não precisam estar na imagem
+target/
+.idea/
+.vscode/
+.git/
+.gitignore
+Dockerfile
+.dockerignore
+
+# Arquivos temporários e de sistema
+*.log
+*.md
+*.iml
+*.swp
+*.bak
+*.tmp
+*~
