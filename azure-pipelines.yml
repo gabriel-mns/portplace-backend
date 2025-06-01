@@ -14,7 +14,7 @@ stages:
   jobs:
   - job: Build
     steps:
-    
+
     - task: JavaToolInstaller@1
       inputs:
         versionSpec: '21'
@@ -42,6 +42,13 @@ stages:
         DB_PASSWORD: $(dbPassword)
         DRIVER_CLASS: $(driverClass)
         SECRET_KEY: $(secretKey)
+
+        -script: |
+          echo TESTE123TESTE$(dbUrl)
+          echo TESTE123TESTE$(dbUsername)
+          echo TESTE123TESTE$(dbPassword)
+          echo TESTE123TESTE$(driverClass)
+          echo TESTE123TESTE$(secretKey)
         
     - task: PublishTestResults@2
       inputs:
