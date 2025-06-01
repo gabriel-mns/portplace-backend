@@ -6,6 +6,10 @@ pool:
 
 variables:
   imageName: 'portplacebackend'
+  DB_URL: $(DB_URL)
+  DB_USERNAME: $(DB_USERNAME)
+  DB_PASSWORD: $(DB_PASSWORD)
+  SECRET_KEY: $(SECRET_KEY)
 
 stages:
 - stage: Build_and_Test
@@ -35,12 +39,12 @@ stages:
         mavenAuthenticateFeed: false
         effectivePomSkip: false
         sonarQubeRunAnalysis: false
-      env:
-        DB_URL: "$(dbUrl)"
-        DB_USERNAME: "$(dbUsername)"
-        DB_PASSWORD: "$(dbPassword)"
-        DRIVER_CLASS: "$(driverClass)"
-        SECRET_KEY: 1234
+      # env:
+      #   DB_URL: "$(dbUrl)"
+      #   DB_USERNAME: "$(dbUsername)"
+      #   DB_PASSWORD: "$(dbPassword)"
+      #   DRIVER_CLASS: "$(driverClass)"
+      #   SECRET_KEY: 1234
         
     - task: PublishTestResults@2
       inputs:
