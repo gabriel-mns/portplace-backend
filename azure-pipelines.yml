@@ -26,7 +26,7 @@ stages:
         azureSubscription: 'portplacebackend-connection'
         mavenPomFile: 'pom.xml'
         goals: 'clean verify package'
-        options: '-X -B -DskipTests'
+        options: '-X -B'
         # options: '-X -B -Dspring.datasource.url=$(DB_URL) -Dspring.datasource.username=$(DB_USERNAME) -Dspring.datasource.password=$(DB_PASSWORD) -Dspring.datasource.driver-class-name=$(DRIVER_CLASS) -Dsecurity.jwt.secret-key=$(SECRET_KEY)'
         publishJUnitResults: true
         testResultsFiles: '**/surefire-reports/TEST-*.xml'
@@ -38,11 +38,11 @@ stages:
         effectivePomSkip: false
         sonarQubeRunAnalysis: false
       env:
-        DB_URL: $(dbUrl)
-        DB_USERNAME: $(dbUsername)
-        DB_PASSWORD: $(dbPassword)
-        DRIVER_CLASS: $(driverClass)
-        SECRET_KEY: $(secretKey)
+        DB_URL: ${{ variables.dbUrl }}
+        DB_USERNAME: ${{ variables.dbUsername }}
+        DB_PASSWORD: ${{ variables.dbPassword }}
+        DRIVER_CLASS: ${{ variables.driverClass }}
+        SECRET_KEY: ${{ variables.secretKey }}
         
         -script: |
           echo TESTE123TESTE$(dbUrl)
@@ -67,7 +67,7 @@ stages:
     - task: Docker@2
       inputs:
         containerRegistry: 'portplacebackend-cr'
-        repository: '$(IMAGE_NAME)'
+        repository: ${{ variables.IMAGE_NAME }}
         command: 'buildAndPush'
         Dockerfile: '**/Dockerfile'
 
