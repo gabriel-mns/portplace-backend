@@ -35,6 +35,12 @@ stages:
         mavenAuthenticateFeed: false
         effectivePomSkip: false
         sonarQubeRunAnalysis: false
+      env:
+        DB_URL: "$(dbUrl)"
+        DB_USERNAME: "$(dbUsername)"
+        DB_PASSWORD: "$(dbPassword)"
+        DRIVER_CLASS: "$(driverClass)"
+        SECRET_KEY: "$(secretKey)"
         
     - task: PublishTestResults@2
       inputs:
