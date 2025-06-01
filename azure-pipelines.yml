@@ -26,7 +26,13 @@ stages:
         azureSubscription: 'portplacebackend-connection'
         mavenPomFile: 'pom.xml'
         goals: 'clean verify package'
-        options: '-X -B'
+        options: >
+          -DDB_URL="$(DB_URL)"
+          -DDB_USERNAME="$(DB_USERNAME)"
+          -DDB_PASSWORD="$(DB_PASSWORD)"
+          -DDRIVER_CLASS="$(DRIVER_CLASS)"
+          -DSECRET_KEY="$(SECRET_KEY)"
+          -X -B
         publishJUnitResults: true
         testResultsFiles: '**/surefire-reports/TEST-*.xml'
         testRunTitle: 'Build com Maven'
