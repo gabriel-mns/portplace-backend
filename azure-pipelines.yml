@@ -35,9 +35,12 @@ stages:
     - task: Docker@2
       inputs:
         command: 'buildAndPush'
-        repository: '$(containerRegistry)/$(imageName)'
+        repository: '$(CONTAINER_REGISTRY)/$(IMAGE_NAME)'
         dockerfile: '**/Dockerfile'
         containerRegistry: 'portplacebackend-connection'
         tags: |
           latest
           $(Build.BuildId)
+      env:
+        CONTAINER_REGISTRY: $(containerRegistry)
+        IMAGE_NAME: $(imageName)
