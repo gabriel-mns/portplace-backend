@@ -26,7 +26,7 @@ stages:
         azureSubscription: 'portplacebackend-connection'
         mavenPomFile: 'pom.xml'
         goals: 'clean verify package'
-        options: '-X -B'
+        options: '-X -B -Dspring.datasource.url=$(DB_URL) -Dspring.datasource.username=$(DB_USERNAME) -Dspring.datasource.password=$(DB_PASSWORD) -Dspring.datasource.driver-class-name=$(DRIVER_CLASS) -Dsecurity.jwt.secret-key=$(SECRET_KEY)'
         publishJUnitResults: true
         testResultsFiles: '**/surefire-reports/TEST-*.xml'
         testRunTitle: 'Build com Maven'
@@ -42,14 +42,14 @@ stages:
         DB_PASSWORD: $(dbPassword)
         DRIVER_CLASS: $(driverClass)
         SECRET_KEY: $(secretKey)
-
+        
         -script: |
           echo TESTE123TESTE$(dbUrl)
           echo TESTE123TESTE$(dbUsername)
           echo TESTE123TESTE$(dbPassword)
           echo TESTE123TESTE$(driverClass)
           echo TESTE123TESTE$(secretKey)
-        
+          
     - task: PublishTestResults@2
       inputs:
         testResultsFiles: '**/surefire-reports/TEST-*.xml'
