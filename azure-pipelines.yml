@@ -31,11 +31,11 @@ stages:
         DB_PASSWORD="$(DB_PASSWORD)"
         DRIVER_CLASS="$(DRIVER_CLASS)"
         SECRET_KEY="1234"
-        echo DB_URL
-        echo DB_USERNAME
-        echo DB_PASSWORD
-        echo DRIVER_CLASS
-        echo SECRET_KEY
+        echo $DB_URL
+        echo $DB_USERNAME
+        echo $DB_PASSWORD
+        echo $DRIVER_CLASS
+        echo $SECRET_KEY
         mvn package
 
     - task: Maven@4
