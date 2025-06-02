@@ -6,7 +6,6 @@ pool:
 
 variables:
   imageName: 'portplacebackend'
-  -group: portplace-vg
 
 stages:
 - stage: Build_and_Test
@@ -20,6 +19,14 @@ stages:
         versionSpec: '21'
         jdkArchitectureOption: 'x64'
         jdkSourceOption: 'PreInstalled'
+
+    - script: |
+        DB_URL="$(DB_URL)"
+        DB_USERNAME="$(DB_USERNAME)"
+        DB_PASSWORD="$(DB_PASSWORD)"
+        DRIVER_CLASS="$(DRIVER_CLASS)"
+        SECRET_KEY="1234"
+        mvn package
 
     - task: Maven@4
       inputs:
