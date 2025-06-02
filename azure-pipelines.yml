@@ -41,9 +41,10 @@ steps:
 - task: Docker@2
   inputs:
     containerRegistry: 'Docker Hub - Gabriel'
-    repository: '$(imageName):latest'
+    repository: '$(imageName)'
     command: 'buildAndPush'
     Dockerfile: '$(Build.SourcesDirectory)'
+    tags: 'latest'
 
 - task: AzureCLI@2
   displayName: 'Deploy no Azure Container Apps'
