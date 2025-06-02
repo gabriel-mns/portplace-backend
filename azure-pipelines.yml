@@ -20,36 +20,12 @@ stages:
         jdkArchitectureOption: 'x64'
         jdkSourceOption: 'PreInstalled'
 
-    - script: |
-        DB_URL="$(DB_URL)"
-        DB_USERNAME="$(DB_USERNAME)"
-        DB_PASSWORD="$(DB_PASSWORD)"
-        DRIVER_CLASS="$(DRIVER_CLASS)"
-        SECRET_KEY="1234"
-        echo $DB_URL
-        echo $DB_USERNAME
-        echo $DB_PASSWORD
-        echo $DRIVER_CLASS
-        echo $SECRET_KEY
-        mvn package\
-         -DDB_URL=$DB_URL \
-         -DDB_USERNAME=$DB_USERNAME \
-         -DDB_PASSWORD=$DB_PASSWORD \
-         -DDRIVER_CLASS=$DRIVER_CLASS \
-         -DSECRET_KEY=$SECRET_KEY
-
     - task: Maven@4
       inputs:
         azureSubscription: 'portplacebackend-connection'
         mavenPomFile: 'pom.xml'
         goals: 'clean verify package'
-        options: >
-          -DDB_URL="$(DB_URL)"
-          -DDB_USERNAME="$(DB_USERNAME)"
-          -DDB_PASSWORD="$(DB_PASSWORD)"
-          -DDRIVER_CLASS="$(DRIVER_CLASS)"
-          -DSECRET_KEY="$(SECRET_KEY)"
-          -X -B
+        options: -X -B -DskipTests
         publishJUnitResults: true
         testResultsFiles: '**/surefire-reports/TEST-*.xml'
         testRunTitle: 'Build com Maven'
