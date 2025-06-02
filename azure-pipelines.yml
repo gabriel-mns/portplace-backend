@@ -38,19 +38,13 @@ steps:
     command: 'login'
 
 - task: Docker@2
-  displayName: 'Build da imagem Docker'
+  displayName: 'Build e Push da imagem docker no DockerHub'
   inputs:
-    command: 'build'
+    containerRegistry: 'Docker Hub - Gabriel'
+    repository: '$(imageName)'
+    command: 'buildAndPush'
     Dockerfile: '**/Dockerfile'
-    tags: |
-      $(imageName):latest
 
-- task: Docker@2
-  displayName: 'Push da imagem para o Docker Hub'
-  inputs:
-    command: 'push'
-    tags: |
-      $(imageName):latest
 
 - task: AzureCLI@2
   displayName: 'Deploy no Azure Container Apps'
