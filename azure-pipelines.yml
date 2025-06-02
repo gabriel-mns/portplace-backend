@@ -41,7 +41,7 @@ steps:
   displayName: 'Build e Push da imagem docker no DockerHub'
   inputs:
     containerRegistry: 'Docker Hub - Gabriel'
-    repository: '$(imageName)'
+    repository: '$(imageName):latest'
     command: 'buildAndPush'
     Dockerfile: '**/Dockerfile'
 
