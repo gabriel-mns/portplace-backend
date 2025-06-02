@@ -8,5 +8,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/strategies")
 public class StrategyController {
 
+    @GetMapping("/hello-world")
+    public String helloWorld(){
+
+        return "Hello World!"
+
+    }
 
 }
