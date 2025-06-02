@@ -43,7 +43,7 @@ steps:
     containerRegistry: 'Docker Hub - Gabriel'
     repository: '$(imageName)'
     command: 'buildAndPush'
-    Dockerfile: '$(Build.SourcesDirectory)'
+    Dockerfile: '$(Build.SourcesDirectory)/Dockerfile'
     tags: 'latest'
 
 - task: AzureCLI@2
