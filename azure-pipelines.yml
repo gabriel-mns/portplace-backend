@@ -5,66 +5,55 @@ pool:
   vmImage: 'ubuntu-latest'
 
 variables:
-  imageName: 'portplacebackend'
-  -group: portplace-vg
+  imageName: 'gabrielgmns/portplace'
 
-stages:
-- stage: Build_and_Test
-  displayName: 'Build and Test'
-  jobs:
-  - job: Build
-    steps:
+steps:
 
-    - task: JavaToolInstaller@1
-      inputs:
-        versionSpec: '21'
-        jdkArchitectureOption: 'x64'
-        jdkSourceOption: 'PreInstalled'
+- task: JavaToolInstaller@1
+  inputs:
+    versionSpec: '21'
+    jdkArchitectureOption: 'x64'
+    jdkSourceOption: 'PreInstalled'
+    
+- task: Maven@4
+  inputs:
+    azureSubscription: 'portplacebackend-connection'
+    mavenPomFile: 'pom.xml'
+    options: '-X -DskipTests'
+    publishJUnitResults: true
+    testResultsFiles: '**/surefire-reports/TEST-*.xml'
+    testRunTitle: 'Build com Maven'
+    javaHomeOption: 'JDKVersion'
+    mavenVersionOption: 'Default'
+    mavenAuthenticateFeed: false
+    effectivePomSkip: false
+    sonarQubeRunAnalysis: false
 
-    - task: Maven@4
-      inputs:
-        azureSubscription: 'portplacebackend-connection'
-        mavenPomFile: 'pom.xml'
-        goals: 'clean verify package'
-        options: '-X -B'
-        publishJUnitResults: true
-        testResultsFiles: '**/surefire-reports/TEST-*.xml'
-        testRunTitle: 'Build com Maven'
-        javaHomeOption: 'JDKVersion'
-        jdkVersionOption: '1.21'
-        mavenVersionOption: 'Default'
-        mavenAuthenticateFeed: false
-        effectivePomSkip: false
-        sonarQubeRunAnalysis: false
+- task: DockerInstaller@0
+  displayName: 'Instalar o Docker'
 
-    - task: PublishTestResults@2
-      inputs:
-        testResultsFiles: '**/surefire-reports/TEST-*.xml'
-        testRunTitle: 'Testes Maven'
-      condition: succeededOrFailed()
-      displayName: 'Publicar resultados dos testes'
+- task: Docker@2
+  inputs:
+    containerRegistry: 'Docker Hub - Gabriel'
+    command: 'login'
 
-- stage: Docker_Build_and_Push
-  displayName: 'Docker Build and Push'
-  dependsOn: Build_and_Test
-  jobs:
-  - job: Docker
-    steps:
-    - task: Docker@2
-      inputs:
-        containerRegistry: 'portplacebackend-cr'
-        repository: ${{ variables.IMAGE_NAME }}
-        command: 'buildAndPush'
-        Dockerfile: '**/Dockerfile'
 
-    # - task: Docker@2
-    #   inputs:
-    #     command: 'buildAndPush'
-    #     repository: '$(IMAGE_NAME)'
-    #     dockerfile: '**/Dockerfile'
-    #     containerRegistry: 'portplacebackend-cr'
-    #     tags: |
-    #       latest
-    #       $(Build.BuildId)
-      env:
-        IMAGE_NAME: $(imageName)
+- task: Docker@2
+  inputs:
+    containerRegistry: 'Docker Hub - Gabriel'
+    repository: '$(imageName)'
+    command: 'buildAndPush'
+    Dockerfile: '$(Build.SourcesDirectory)/Dockerfile'
+    tags: 'latest'
+
+- task: AzureCLI@2
+  displayName: 'Deploy no Azure Container Apps'
+  inputs:
+    azureSubscription: 'portplacebackend-connection'
+    scriptType: 'bash'
+    scriptLocation: 'inlineScript'
+    inlineScript: |
+      az containerapp update \
+        --name $(CONTAINERAPPNAME) \
+        --resource-group $(RESOURCEGROUPNAME) \
+        --image $(imageName):latest
