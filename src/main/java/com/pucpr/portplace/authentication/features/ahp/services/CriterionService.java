@@ -109,19 +109,27 @@ public class CriterionService {
 
     }
 
-    public ResponseEntity<List<CriterionReadDTO>> getCriteriaByCriteriaGroupId(long criteriaGroupId, boolean includeWeight, boolean includeDisabled) {
+    public ResponseEntity<List<CriterionReadDTO>> getCriteriaByCriteriaGroupId(long criteriaGroupId, boolean includeDisabled) {
 
         List<Criterion> criteria;
 
         List<CriteriaComparison> criteriaComparisons = criteriaGroupService.getCriteriaGroupEntityById(1, criteriaGroupId).getCriteriaComparisons();
 
+        boolean allCriteriaCompared = ahpResultsService.allCriteriaCompared(
+            criteriaGroupService.getCriteriaGroupEntityById(1, criteriaGroupId).getCriteria(),
+            criteriaGroupService.getCriteriaGroupEntityById(1, criteriaGroupId).getCriteriaComparisons()
+            );
+
+        boolean includeWeight;
         if(includeDisabled) {
 
             criteria = criterionRepository.findByCriteriaGroupId(criteriaGroupId);
-
+            includeWeight = false; // If we are including disabled criteria, we cannot include weight as it is not calculated for them.
+            
         } else {
-
+            
             criteria = criterionRepository.findByCriteriaGroupIdAndDisabledFalse(criteriaGroupId);
+            includeWeight = allCriteriaCompared;
 
         }
 
