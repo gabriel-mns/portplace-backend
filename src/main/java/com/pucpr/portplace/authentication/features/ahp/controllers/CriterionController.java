@@ -32,9 +32,10 @@ public class CriterionController {
     //#region CRITERION CRUD
     // READ
     @GetMapping
-    public ResponseEntity<List<CriterionReadDTO>> getAllCriteria(@PathVariable long strategyId, @PathVariable long criteriaGroupId, @RequestParam(defaultValue="false") boolean includeDisabled) {
+    public ResponseEntity<List<CriterionReadDTO>> getAllCriteria(@PathVariable long strategyId, @PathVariable long criteriaGroupId, @RequestParam(defaultValue="false") boolean includeWeight, @RequestParam(defaultValue="false") boolean includeDisabled) {
         
-        return criterionService.getCriteriaByCriteriaGroupId(criteriaGroupId, includeDisabled);
+        //TODO: Create a check if the weights can be calculated, so the include weight parameter can be removed
+        return criterionService.getCriteriaByCriteriaGroupId(criteriaGroupId, includeWeight, includeDisabled);
     
     }
 

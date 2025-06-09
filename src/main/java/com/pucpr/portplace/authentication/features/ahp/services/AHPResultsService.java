@@ -162,5 +162,12 @@ public class AHPResultsService {
 
     }
 
+    public double getCriterionWeight(Long criterionId, List<CriteriaComparison> criteriaComparisons) {
+
+        Map<Long, Double> criterionWeights = calculateCriteriaWeights(criteriaComparisons);
+
+        return criterionWeights.getOrDefault(criterionId, 0.0);
+        
+    }
 
 }

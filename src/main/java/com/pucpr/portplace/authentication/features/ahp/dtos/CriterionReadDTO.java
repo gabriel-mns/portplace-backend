@@ -24,6 +24,7 @@ public class CriterionReadDTO {
     private String name;
     private String description;
     private long criteriaGroupId;
+    private double weight;
     private boolean disabled;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime createdAt;
