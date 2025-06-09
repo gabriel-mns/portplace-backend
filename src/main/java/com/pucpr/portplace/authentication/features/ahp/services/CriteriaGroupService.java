@@ -194,6 +194,8 @@ public class CriteriaGroupService {
                 .name(criteriaGroup.getName())
                 .description(criteriaGroup.getDescription())
                 .lastModifiedAt(criteriaGroup.getLastModifiedAt())
+                .criteriaCount(criteriaGroup.getCriteria().size())
+                .criteriaComparisonCount(criteriaGroup.getCriteriaComparisons().size())
                 // .lastUpdatedBy(criteriaGroup.getLastUpdatedBy().getId())
                 .createdAt(criteriaGroup.getCreatedAt())
                 .disabled(criteriaGroup.isDisabled())

@@ -7,7 +7,7 @@
 GET {{host}}/strategies/11/criteria-groups
 
 ### BUSCA POR ID DE UM GRUPO DE CRITÉRIOS
-GET {{host}}/strategies/1/criteria-groups/20
+GET {{host}}/strategies/1/criteria-groups/18
 
 ### CADASTRAR GRUPO DE CRITÉRIOS
 POST {{host}}/strategies/1/criteria-groups
