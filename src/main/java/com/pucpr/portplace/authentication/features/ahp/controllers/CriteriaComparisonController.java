@@ -52,7 +52,7 @@ public class CriteriaComparisonController {
     
     }
 
-    @DeleteMapping("/{criteriaComparsionId}/hard-delete")
+    @DeleteMapping("/{criteriaComparisonId}/hard-delete")
     public ResponseEntity<Void> deleteCriterionComparison(@PathVariable long strategyId, @PathVariable long criteriaComparisonId) {
         
         return criterionComparisonService.deleteCriteriaComparison(criteriaComparisonId);
