@@ -1,0 +1,59 @@
+trigger:
+- feature-ahp-pipeline
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+variables:
+  imageName: 'gabrielgmns/portplace'
+
+steps:
+
+- task: JavaToolInstaller@1
+  inputs:
+    versionSpec: '21'
+    jdkArchitectureOption: 'x64'
+    jdkSourceOption: 'PreInstalled'
+    
+- task: Maven@4
+  inputs:
+    azureSubscription: 'portplacebackend-connection'
+    mavenPomFile: 'pom.xml'
+    options: '-X -DskipTests'
+    publishJUnitResults: true
+    testResultsFiles: '**/surefire-reports/TEST-*.xml'
+    testRunTitle: 'Build com Maven'
+    javaHomeOption: 'JDKVersion'
+    mavenVersionOption: 'Default'
+    mavenAuthenticateFeed: false
+    effectivePomSkip: false
+    sonarQubeRunAnalysis: false
+
+- task: DockerInstaller@0
+  displayName: 'Instalar o Docker'
+
+- task: Docker@2
+  inputs:
+    containerRegistry: 'Docker Hub - Gabriel'
+    command: 'login'
+
+
+- task: Docker@2
+  inputs:
+    containerRegistry: 'Docker Hub - Gabriel'
+    repository: '$(imageName)'
+    command: 'buildAndPush'
+    Dockerfile: '$(Build.SourcesDirectory)/Dockerfile'
+    tags: 'latest'
+
+- task: AzureCLI@2
+  displayName: 'Deploy no Azure Container Apps'
+  inputs:
+    azureSubscription: 'portplacebackend-connection'
+    scriptType: 'bash'
+    scriptLocation: 'inlineScript'
+    inlineScript: |
+      az containerapp update \
+        --name $(CONTAINERAPPNAME) \
+        --resource-group $(RESOURCEGROUPNAME) \
+        --image $(imageName):latest

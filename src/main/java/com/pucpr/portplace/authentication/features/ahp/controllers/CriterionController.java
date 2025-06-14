@@ -33,7 +33,7 @@ public class CriterionController {
     // READ
     @GetMapping
     public ResponseEntity<List<CriterionReadDTO>> getAllCriteria(@PathVariable long strategyId, @PathVariable long criteriaGroupId, @RequestParam(defaultValue="false") boolean includeDisabled) {
-        
+
         return criterionService.getCriteriaByCriteriaGroupId(criteriaGroupId, includeDisabled);
     
     }

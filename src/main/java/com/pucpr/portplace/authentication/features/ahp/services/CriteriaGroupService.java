@@ -18,6 +18,7 @@ import com.pucpr.portplace.authentication.features.ahp.dtos.CriterionReadDTO;
 import com.pucpr.portplace.authentication.features.ahp.entities.CriteriaGroup;
 // import com.pucpr.portplace.authentication.features.ahp.entities.Criterion;
 import com.pucpr.portplace.authentication.features.ahp.repositories.CriteriaGroupRepository;
+import com.pucpr.portplace.authentication.features.ahp.repositories.StrategyRepository;
 
 @Service
 public class CriteriaGroupService {
@@ -27,6 +28,9 @@ public class CriteriaGroupService {
 
     // @Autowired
     // private CriterionService criterionService;
+    @Autowired
+    private StrategyRepository strategyRepository;
+    
 
     // CREATE
     public ResponseEntity<Void> createCriteriaGroup(long strategyId, CriteriaGroupCreateDTO criteriaGroupCreateDto) {
@@ -36,6 +40,7 @@ public class CriteriaGroupService {
         CriteriaGroup criteriaGroup = CriteriaGroup.builder()
         .name(criteriaGroupCreateDto.getName())
         .description(criteriaGroupCreateDto.getDescription())
+        .strategy(strategyRepository.findById(strategyId).get())
         .build();
 
         // if( criteriaIdList != null && !criteriaIdList.isEmpty() ) {
@@ -189,6 +194,8 @@ public class CriteriaGroupService {
                 .name(criteriaGroup.getName())
                 .description(criteriaGroup.getDescription())
                 .lastModifiedAt(criteriaGroup.getLastModifiedAt())
+                .criteriaCount(criteriaGroup.getCriteria().size())
+                .criteriaComparisonCount(criteriaGroup.getCriteriaComparisons().size())
                 // .lastUpdatedBy(criteriaGroup.getLastUpdatedBy().getId())
                 .createdAt(criteriaGroup.getCreatedAt())
                 .disabled(criteriaGroup.isDisabled())

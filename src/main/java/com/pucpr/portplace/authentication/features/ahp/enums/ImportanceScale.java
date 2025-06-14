@@ -12,7 +12,8 @@ public enum ImportanceScale {
     MORE_IMPORTANT(3.0, 1.0 / 3.0),
     EQUALLY_IMPORTANT(1.0, 1.0),
     LESS_IMPORTANT(1.0 / 3.0, 3.0),
-    MUCH_LESS_IMPORTANT(1.0 / 6.0, 6.0);
+    MUCH_LESS_IMPORTANT(1.0 / 6.0, 6.0),
+    EXTREMELY_LESS_IMPORTANT(1.0 / 9.0, 9.0);
 
     private final double value;
     private final double reciprocal;
