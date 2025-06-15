@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.pucpr.portplace.authentication.features.ahp.dtos.CriterionCreateDTO;
 import com.pucpr.portplace.authentication.features.ahp.dtos.CriterionReadDTO;
 import com.pucpr.portplace.authentication.features.ahp.dtos.CriterionUpdateDTO;
+import com.pucpr.portplace.authentication.features.ahp.entities.CriteriaComparison;
 import com.pucpr.portplace.authentication.features.ahp.entities.CriteriaGroup;
 import com.pucpr.portplace.authentication.features.ahp.entities.Criterion;
 import com.pucpr.portplace.authentication.features.ahp.repositories.CriterionRepository;
@@ -22,6 +23,9 @@ public class CriterionService {
 
     @Autowired
     private CriterionRepository criterionRepository;
+
+    @Autowired
+    private AHPResultsService ahpResultsService;
 
     // CREATE
     public ResponseEntity<Void> createCriterion(long strategyId, long criteriaGroupId, CriterionCreateDTO criterionCreateDTO) {
@@ -109,13 +113,23 @@ public class CriterionService {
 
         List<Criterion> criteria;
 
+        List<CriteriaComparison> criteriaComparisons = criteriaGroupService.getCriteriaGroupEntityById(1, criteriaGroupId).getCriteriaComparisons();
+
+        boolean allCriteriaCompared = ahpResultsService.allCriteriaCompared(
+            criteriaGroupService.getCriteriaGroupEntityById(1, criteriaGroupId).getCriteria(),
+            criteriaGroupService.getCriteriaGroupEntityById(1, criteriaGroupId).getCriteriaComparisons()
+            );
+
+        boolean includeWeight;
         if(includeDisabled) {
 
             criteria = criterionRepository.findByCriteriaGroupId(criteriaGroupId);
-
+            includeWeight = false; // If we are including disabled criteria, we cannot include weight as it is not calculated for them.
+            
         } else {
-
+            
             criteria = criterionRepository.findByCriteriaGroupIdAndDisabledFalse(criteriaGroupId);
+            includeWeight = allCriteriaCompared;
 
         }
 
@@ -128,6 +142,11 @@ public class CriterionService {
             criterionReadDto.setLastModifiedAt(criterion.getLastModifiedAt());
             criterionReadDto.setCreatedAt(criterion.getCreatedAt());
             criterionReadDto.setDisabled(criterion.isDisabled());
+
+            if (includeWeight) {
+                criterionReadDto.setWeight(ahpResultsService.getCriterionWeight(criterion.getId(), criteriaComparisons));
+            }
+
             return criterionReadDto;
         }).toList();
 
