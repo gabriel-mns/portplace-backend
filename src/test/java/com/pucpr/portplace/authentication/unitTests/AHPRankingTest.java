@@ -27,10 +27,12 @@ import com.pucpr.portplace.authentication.features.ahp.dtos.ProjectRankingReadDT
 import com.pucpr.portplace.authentication.features.ahp.entities.AHP;
 import com.pucpr.portplace.authentication.features.ahp.entities.CriteriaGroup;
 import com.pucpr.portplace.authentication.features.ahp.entities.Criterion;
+import com.pucpr.portplace.authentication.features.ahp.entities.Strategy;
 import com.pucpr.portplace.authentication.features.ahp.enums.ImportanceScale;
 import com.pucpr.portplace.authentication.features.ahp.repositories.AHPRepository;
 import com.pucpr.portplace.authentication.features.ahp.repositories.CriteriaGroupRepository;
 import com.pucpr.portplace.authentication.features.ahp.repositories.CriterionRepository;
+import com.pucpr.portplace.authentication.features.ahp.repositories.StrategyRepository;
 import com.pucpr.portplace.authentication.features.project.controllers.ProjectController;
 import com.pucpr.portplace.authentication.features.project.dtos.ProjectCreateDTO;
 import com.pucpr.portplace.authentication.features.project.entities.Project;
@@ -68,11 +70,15 @@ public class AHPRankingTest {
     private ProjectRepository projectRepository;
     @Autowired
     private UserController userController;
-
+    @Autowired
+    private StrategyRepository strategyRepository;
 
     @Test
     void testAHPRanking() {
         
+        // Create a strategy
+        createStrategy();
+
         // Create criteria group
         createCriteriaGroup();
         CriteriaGroup criteriaGroup = criteriaGroupRepository.findById(Long.valueOf(1)).get();
@@ -149,6 +155,19 @@ public class AHPRankingTest {
 
     }
     
+    private void createStrategy() {
+
+        // Create a strategy
+        Strategy strategy = Strategy.builder()
+                .name("Test Strategy")
+                .description("This is a test strategy for AHP ranking.")
+                .disabled(false)
+                .lastModifiedBy(1L)
+                .build();
+        strategyRepository.save(strategy);
+
+    }
+
     private void createCriteriaGroup() {
         CriteriaGroupCreateDTO criteriaGroupCreateDTO = new CriteriaGroupCreateDTO();
 
