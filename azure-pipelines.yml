@@ -17,7 +17,7 @@ steps:
     
 - task: Maven@4
   inputs:
-    azureSubscription: 'portplacebackend-connection'
+    azureSubscription: 'Azure for Students (5e2f68b6-8f75-4b5e-b098-968da9bb135c)'
     mavenPomFile: 'pom.xml'
     options: '-X -DskipTests'
     publishJUnitResults: true
