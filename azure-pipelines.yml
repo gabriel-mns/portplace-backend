@@ -17,7 +17,7 @@ steps:
     
 - task: Maven@4
   inputs:
-    azureSubscription: 'Azure for Students (5e2f68b6-8f75-4b5e-b098-968da9bb135c)'
+    azureSubscription: 'portplace-carlos-connection'
     mavenPomFile: 'pom.xml'
     options: '-X -DskipTests'
     publishJUnitResults: true
@@ -49,7 +49,7 @@ steps:
 - task: AzureCLI@2
   displayName: 'Deploy no Azure Container Apps'
   inputs:
-    azureSubscription: 'Azure for Students (5e2f68b6-8f75-4b5e-b098-968da9bb135c)'
+    azureSubscription: 'portplace-carlos-connection'
     scriptType: 'bash'
     scriptLocation: 'inlineScript'
     inlineScript: |
