@@ -3,18 +3,18 @@
 // COMPARAÇÃO DE CRITÉRIOS
 
 ### BUSCA DE TODOS AS COMPARAÇÕES DE CRITÉRIOS
-GET {{host}}/strategies/1/criteria-groups/7/criteria-comparisons
+GET {{host}}/strategies/1/criteria-groups/3/criteria-comparisons
 
 ### BUSCA POR ID DE UMA COMPARAÇÃO DE CRITÉRIOS
 GET {{host}}/strategies/1/criteria-groups/1/criteria-comparisons/1
 
 ### CADASTRAR DE COMPARAÇÃO DE CRITÉRIOS
-POST {{host}}/strategies/1/criteria-groups/20/criteria-comparisons
+POST {{host}}/strategies/1/criteria-groups/3/criteria-comparisons
 Content-Type: application/json
 
 {
-  "comparedCriterionId": 9,
-  "referenceCriterionId": 11,
+  "comparedCriterionId": 1,
+  "referenceCriterionId": 2,
   "importanceScale": "EXTREMELY_MORE_IMPORTANT",
   "criteriaGroupId": 20
 }

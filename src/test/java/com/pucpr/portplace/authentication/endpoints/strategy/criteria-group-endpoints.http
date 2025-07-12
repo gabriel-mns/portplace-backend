@@ -4,18 +4,18 @@
 // GRUPO DE CRITÉRIOS
 
 ### BUSCA DE TODOS OS GRUPOS DE CRITÉRIOS
-GET {{host}}/strategies/11/criteria-groups
+GET {{host}}/strategies/1/criteria-groups
 
 ### BUSCA POR ID DE UM GRUPO DE CRITÉRIOS
-GET {{host}}/strategies/1/criteria-groups/18
+GET {{host}}/strategies/1/criteria-groups/3
 
 ### CADASTRAR GRUPO DE CRITÉRIOS
 POST {{host}}/strategies/1/criteria-groups
 Content-Type: application/json
 
 {
-  "name": "Grupo de Critérios 2 2705",
-  "description": "Descrição do grupo de critérios 2705"
+  "name": "Grupo de Critérios 1",
+  "description": "Descrição do grupo de critérios 1"
 }
 
 ### EDIÇÃOD DE GRUPO DE CRITÉRIOS
@@ -23,9 +23,9 @@ PUT {{host}}/strategies/1/criteria-groups/2
 Content-Type: application/json
 
 {
-  "name": "abrobrinha",
-  "description": "abrobbrobrinha do grupo de critérios 2"
+  "name": "Grupo de Critério 1 Alterado",
+  "description": "Grupo de critérios 1 alterado"
 }
 
 ### DESABILITAR GRUPO DE CRITÉRIOS
-DELETE  {{host}}/strategies/1/criteria-groups/1/hard-delete
+DELETE  {{host}}/strategies/1/criteria-groups/2/hard-delete
