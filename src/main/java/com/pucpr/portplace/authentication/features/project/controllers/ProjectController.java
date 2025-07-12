@@ -2,6 +2,7 @@ package com.pucpr.portplace.authentication.features.project.controllers;
 
 import java.util.List;
 
+import org.apache.catalina.connector.Response;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,8 +30,12 @@ public class ProjectController {
 
     // CREATE
     @PostMapping
-    public ResponseEntity<Void> createProject(@RequestBody ProjectCreateDTO projectDTO) {
-        return projectService.createProject(projectDTO);
+    public ResponseEntity<ProjectReadDTO> createProject(@RequestBody ProjectCreateDTO projectDTO) {
+        
+        ProjectReadDTO createdProject = projectService.createProject(projectDTO);
+        
+        return ResponseEntity.status(Response.SC_CREATED).body(createdProject);
+        
     }
 
     // UPDATE

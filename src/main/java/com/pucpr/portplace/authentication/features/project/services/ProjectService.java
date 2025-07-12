@@ -10,6 +10,7 @@ import com.pucpr.portplace.authentication.features.project.dtos.ProjectCreateDTO
 import com.pucpr.portplace.authentication.features.project.dtos.ProjectReadDTO;
 import com.pucpr.portplace.authentication.features.project.dtos.ProjectUpdateDTO;
 import com.pucpr.portplace.authentication.features.project.entities.Project;
+import com.pucpr.portplace.authentication.features.project.mappers.ProjectMapper;
 import com.pucpr.portplace.authentication.features.project.repositories.ProjectRepository;
 import com.pucpr.portplace.authentication.features.user.entities.User;
 import com.pucpr.portplace.authentication.features.user.services.UserService;
@@ -22,32 +23,35 @@ public class ProjectService {
     
     private ProjectRepository projectRepository;
     private UserService userService;
+    private ProjectMapper projectMapper;
 
     // CREATE
-    public ResponseEntity<Void> createProject(ProjectCreateDTO projectDTO) {
+    public ProjectReadDTO createProject(ProjectCreateDTO projectDTO) {
 
         //TODO: Treat the case when the project manager is not found (try catch)
         User projectManager = userService.getUserByIdEntity(projectDTO.getProjectManager());
 
+        Project newProject = projectMapper.toEntity(projectDTO);
+        newProject.setProjectManager(projectManager);
 
         // TODO: Create mapper to convert DTO to entity and vice versa
-        Project newProject = new Project(
-            projectDTO.getName(),
-            projectDTO.getDescription(),
-            projectDTO.getStatus(),
-            projectDTO.getEarnedValue(),
-            projectDTO.getPlannedValue(),
-            projectDTO.getActualCost(),
-            projectDTO.getBudget(),
-            projectDTO.getPayback(),
-            projectDTO.getStartDate(),
-            projectDTO.getEndDate(),
-            projectManager
-        );
+        // Project newProject = new Project(
+        //     projectDTO.getName(),
+        //     projectDTO.getDescription(),
+        //     projectDTO.getStatus(),
+        //     projectDTO.getEarnedValue(),
+        //     projectDTO.getPlannedValue(),
+        //     projectDTO.getActualCost(),
+        //     projectDTO.getBudget(),
+        //     projectDTO.getPayback(),
+        //     projectDTO.getStartDate(),
+        //     projectDTO.getEndDate(),
+        //     projectManager
+        // );
 
-        projectRepository.save(newProject);
-
-        return ResponseEntity.status(201).build();
+        Project savedProject = projectRepository.save(newProject);
+        
+        return projectMapper.toReadDTO(savedProject);
 
     }
 

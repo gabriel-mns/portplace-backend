@@ -5,8 +5,8 @@ POST {{host}}/projects
 Content-Type: application/json
 
 {
-  "name": "Projeto 2 TESTE2605",
-  "description": "Projeto  2 TESTE2605TESTE2605TESTE2605TESTE2605",
+  "name": "Projeto 4",
+  "description": "Projeto  4",
   "startDate": "2023-10-01",
   "endDate": "2023-12-31",
   "status": "IN_PROGRESS",
