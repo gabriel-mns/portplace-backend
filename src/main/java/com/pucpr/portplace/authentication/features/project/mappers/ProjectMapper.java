@@ -1,5 +1,7 @@
 package com.pucpr.portplace.authentication.features.project.mappers;
 
+import java.util.List;
+
 import org.mapstruct.BeanMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -10,8 +12,9 @@ import com.pucpr.portplace.authentication.features.project.dtos.ProjectCreateDTO
 import com.pucpr.portplace.authentication.features.project.dtos.ProjectReadDTO;
 import com.pucpr.portplace.authentication.features.project.dtos.ProjectUpdateDTO;
 import com.pucpr.portplace.authentication.features.project.entities.Project;
+import com.pucpr.portplace.authentication.features.user.mappers.UserMapper;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", uses = UserMapper.class)
 public interface ProjectMapper {
     
     // Create
@@ -24,7 +27,10 @@ public interface ProjectMapper {
     // @Mapping(target = "projectManager", source = "projectManager.id")
     ProjectReadDTO toReadDTO(Project entity);
 
-    // @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
-    // @Mapping(target = "projectManager.id", source = "projectManagerId")
-    // void updateFromDTO(ProjectUpdateDTO dto, @MappingTarget Project entity);
+    List<ProjectReadDTO> toReadDTO(List<Project> entities);
+
+    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+    @Mapping(target = "projectManager.id", source = "projectManager")
+    @Mapping(target = "disabled", ignore = true)
+    void updateFromDTO(ProjectUpdateDTO dto, @MappingTarget Project entity);
 }

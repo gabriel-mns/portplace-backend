@@ -5,8 +5,8 @@ POST {{host}}/projects
 Content-Type: application/json
 
 {
-  "name": "Projeto 4",
-  "description": "Projeto  4",
+  "name": "Projeto 6",
+  "description": "Projeto  6",
   "startDate": "2023-10-01",
   "endDate": "2023-12-31",
   "status": "IN_PROGRESS",
@@ -19,9 +19,15 @@ Content-Type: application/json
 }
 
 ### BUSCA DE PROJETOS
-GET  {{host}}/projects
+GET  {{host}}/projects?includeDisabled=true
 Accept: application/json
 Host: localhost:8080
+
+### BUSCA DE PROJETOS POR GERENTE DE PROJETO
+GET  {{host}}/projects/manager/1?includeDisabled=true
+Accept: application/json
+Host: localhost:8080
+
 
 ### BUSCA DE PROJETO POR ID
 GET  {{host}}/projects/1
@@ -30,12 +36,12 @@ Host: localhost:8080
 
 
 ### ALTERAR PROJETO
-PUT {{host}}/projects/1
+PUT {{host}}/projects/6
 Accept: application/json
 Content-Type: application/json
 
 {
-  "id": 1,
+  "id": 6,
   "name": "Projeto Portplace",
   "description": "Projeto de gerenciaasdasdmento de portfólio",
   "status": "IN_PROGRESS",
