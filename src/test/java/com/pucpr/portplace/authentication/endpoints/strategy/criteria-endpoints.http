@@ -6,7 +6,7 @@
 GET {{host}}/strategies/11/criteria-groups/3/criteria
 
 ### BUSCA POR ID DE UM CRITÉRIO
-GET {{host}}/strategies/1/criteria-groups/3/criteria/2
+GET {{host}}/strategies/1/criteria-groups/3/criteria/1
 
 ### CADASTRAR DE CRITÉRIO
 POST {{host}}/strategies/1/criteria-groups/3/criteria
@@ -19,12 +19,12 @@ Content-Type: application/json
 }
 
 ### EDIÇÃO DE GRUPO DE CRITÉRIOS
-PUT {{host}}/strategies/1/criteria-groups/2/criteria/1
+PUT {{host}}/strategies/1/criteria-groups/3/criteria/1
 Content-Type: application/json
 
 {
-  "name": "Grupo de Critérios 2 Editado",
-  "description": "abrobbrobrinha do grupo de critérios 2 Editado"
+  "name": "ROI EDITADO",
+  "description": "ROI EDITADO"
 }
 
 ### DESABILITAR GRUPO DE CRITÉRIOS

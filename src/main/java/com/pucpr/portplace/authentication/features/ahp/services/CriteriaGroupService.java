@@ -1,18 +1,13 @@
 package com.pucpr.portplace.authentication.features.ahp.services;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import com.pucpr.portplace.authentication.features.ahp.dtos.CriteriaComparisonReadDTO;
 import com.pucpr.portplace.authentication.features.ahp.dtos.CriteriaGroupCreateDTO;
 import com.pucpr.portplace.authentication.features.ahp.dtos.CriteriaGroupListReadDTO;
 import com.pucpr.portplace.authentication.features.ahp.dtos.CriteriaGroupReadDTO;
 import com.pucpr.portplace.authentication.features.ahp.dtos.CriteriaGroupUpdateDTO;
-import com.pucpr.portplace.authentication.features.ahp.dtos.CriterionReadDTO;
 import com.pucpr.portplace.authentication.features.ahp.entities.CriteriaGroup;
 import com.pucpr.portplace.authentication.features.ahp.mappers.CriteriaGroupMapper;
 // import com.pucpr.portplace.authentication.features.ahp.entities.Criterion;
@@ -131,27 +126,6 @@ public class CriteriaGroupService {
         List<CriteriaGroupListReadDTO> criteriaGroupsDTOs = criteriaGroupMapper.toCriteriaGroupListReadDTO(criteriaGroups);
 
         return criteriaGroupsDTOs;
-
-    }
-
-    public CriteriaGroup getCriteriaGroupEntityById(
-        long strategyId, 
-        long criteriaGroupId
-        ) {
-
-        CriteriaGroup criteriaGroup = criteriaGroupRepository.findById(criteriaGroupId).get();
-
-        return criteriaGroup;
-
-    }
-
-    public CriteriaGroup getCriteriaGroupEntityById(
-        long criteriaGroupId
-        ) {
-
-        CriteriaGroup criteriaGroup = criteriaGroupRepository.findById(criteriaGroupId).get();
-
-        return criteriaGroup;
 
     }
 

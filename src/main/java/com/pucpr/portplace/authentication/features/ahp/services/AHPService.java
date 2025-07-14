@@ -3,7 +3,6 @@ package com.pucpr.portplace.authentication.features.ahp.services;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -14,15 +13,16 @@ import com.pucpr.portplace.authentication.features.ahp.dtos.AHPUpdateDTO;
 import com.pucpr.portplace.authentication.features.ahp.entities.AHP;
 import com.pucpr.portplace.authentication.features.ahp.entities.CriteriaGroup;
 import com.pucpr.portplace.authentication.features.ahp.repositories.AHPRepository;
+import com.pucpr.portplace.authentication.features.ahp.services.internal.CriteriaGroupEntityService;
+
+import lombok.AllArgsConstructor;
 
 @Service
+@AllArgsConstructor
 public class AHPService {
     
-    @Autowired
     private AHPRepository ahpRepository;
-
-    @Autowired
-    private CriteriaGroupService criteriaGroupService;
+    private CriteriaGroupEntityService criteriaGroupEntityService;
 
     // @Autowired
     // private StrategyService strategyService;
@@ -32,7 +32,7 @@ public class AHPService {
         
         AHP ahp = new AHP();
 
-        CriteriaGroup criteriaGroup = criteriaGroupService.getCriteriaGroupEntityById(strategyId, ahpCreateDto.getCriteriaGroupId());
+        CriteriaGroup criteriaGroup = criteriaGroupEntityService.getById(strategyId, ahpCreateDto.getCriteriaGroupId());
 
         ahp.setName(ahpCreateDto.getName());
         ahp.setDescription(ahpCreateDto.getDescription());
@@ -58,7 +58,7 @@ public class AHPService {
 
         if( ahpUpdateDto.getCriteriaGroupId() != null ) {
 
-            CriteriaGroup criteriaGroup = criteriaGroupService.getCriteriaGroupEntityById(strategyId, ahpUpdateDto.getCriteriaGroupId());
+            CriteriaGroup criteriaGroup = criteriaGroupEntityService.getById(strategyId, ahpUpdateDto.getCriteriaGroupId());
             ahp.setCriteriaGroup(criteriaGroup);
         
         }

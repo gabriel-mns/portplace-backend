@@ -2,7 +2,6 @@ package com.pucpr.portplace.authentication.features.ahp.services;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -14,18 +13,17 @@ import com.pucpr.portplace.authentication.features.ahp.entities.CriteriaComparis
 import com.pucpr.portplace.authentication.features.ahp.entities.CriteriaGroup;
 import com.pucpr.portplace.authentication.features.ahp.entities.Criterion;
 import com.pucpr.portplace.authentication.features.ahp.repositories.CriteriaComparisonRepository;
+import com.pucpr.portplace.authentication.features.ahp.services.internal.CriteriaGroupEntityService;
+
+import lombok.AllArgsConstructor;
 
 @Service
+@AllArgsConstructor
 public class CriteriaComparisonService {
     
-    @Autowired
     private CriteriaComparisonRepository criteriaComparisonRepository;
-
-    @Autowired
     private CriterionService criterionService;
-
-    @Autowired
-    private CriteriaGroupService criteriaGroupService;
+    private CriteriaGroupEntityService criteriaGroupEntityService;
 
     // CREATE
     public ResponseEntity<Void> createCriteriaComparison(long strategyId, long criteriaGroupId, CriteriaComparisonCreateDTO criteriaComparisonCreateDTO) {
@@ -34,7 +32,7 @@ public class CriteriaComparisonService {
 
         Criterion comparedCriterion = criterionService.getCriterionEntityById(criteriaComparisonCreateDTO.getComparedCriterionId());
         Criterion referenceCriterion = criterionService.getCriterionEntityById(criteriaComparisonCreateDTO.getReferenceCriterionId());
-        CriteriaGroup criteriaGroup = criteriaGroupService.getCriteriaGroupEntityById(strategyId, criteriaGroupId);
+        CriteriaGroup criteriaGroup = criteriaGroupEntityService.getById(strategyId, criteriaGroupId);
 
         //TODO: Treat case when comparedCriterion and referenceCriterion are not found
         //TODO: Treat case when ahp is not found
