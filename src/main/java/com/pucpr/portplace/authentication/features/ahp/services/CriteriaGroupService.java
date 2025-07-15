@@ -128,24 +128,4 @@ public class CriteriaGroupService {
 
     }
 
-    public List<CriteriaGroup> getCriteriaGroupsEntitiesByStrategyId(long strategyId, boolean includeDisabled) {
-
-        //TODO: Treat case when strategy is not found
-
-        List<CriteriaGroup> criteriaGroups;
-        
-        if(includeDisabled){
-            
-            criteriaGroups = criteriaGroupRepository.findByStrategyId(strategyId);
-
-        } else {
-
-            criteriaGroups = criteriaGroupRepository.findByStrategyIdAndDisabledFalse(strategyId);
-
-        }
-
-        return criteriaGroups;
-
-    }
-
 }
