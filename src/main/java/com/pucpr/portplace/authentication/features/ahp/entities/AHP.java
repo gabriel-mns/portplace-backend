@@ -52,7 +52,7 @@ public class AHP {
     @JoinColumn(name = "criteria_group_id")
     private CriteriaGroup criteriaGroup;
     
-    @OneToMany(mappedBy = "ahp", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "ahp")
     private List<Evaluation> evaluations;
 
     // #region Auditing fields
