@@ -53,11 +53,18 @@ public interface CriteriaGroupMapper {
 
     @Named("mapCriteriaCount")
     default int mapCriteriaCount(CriteriaGroup group) {
-        return group.getCriteria() != null ? group.getCriteria().size() : 0;
+        if (group.getCriteria() == null) return 0;
+        return (int) group.getCriteria().stream()
+            .filter(c -> !c.isDisabled())
+            .count();
     }
+
     @Named("mapComparisonCount")
     default int mapComparisonCount(CriteriaGroup group) {
-        return group.getCriteriaComparisons() != null ? group.getCriteriaComparisons().size() : 0;
+        if (group.getCriteriaComparisons() == null) return 0;
+        return (int) group.getCriteriaComparisons().stream()
+            .filter(c -> !c.isDisabled())
+            .count();
     }
     
 }
