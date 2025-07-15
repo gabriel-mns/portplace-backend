@@ -3,7 +3,8 @@ package com.pucpr.portplace.authentication.features.ahp.services;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -11,45 +12,28 @@ import org.springframework.stereotype.Service;
 import com.pucpr.portplace.authentication.features.ahp.dtos.EvaluationCreateDTO;
 import com.pucpr.portplace.authentication.features.ahp.dtos.EvaluationReadDTO;
 import com.pucpr.portplace.authentication.features.ahp.dtos.EvaluationUpdateDTO;
-import com.pucpr.portplace.authentication.features.ahp.entities.AHP;
-import com.pucpr.portplace.authentication.features.ahp.entities.Criterion;
 import com.pucpr.portplace.authentication.features.ahp.entities.Evaluation;
+import com.pucpr.portplace.authentication.features.ahp.mappers.EvaluationMapper;
 import com.pucpr.portplace.authentication.features.ahp.repositories.EvaluationRepository;
-import com.pucpr.portplace.authentication.features.project.entities.Project;
-import com.pucpr.portplace.authentication.features.project.services.ProjectService;
+
+import lombok.AllArgsConstructor;
 
 @Service
+@AllArgsConstructor
 public class EvaluationService {
-    
-    @Autowired
+
     private EvaluationRepository evaluationRepository;
-
-    @Autowired
-    private ProjectService projectService;
-
-    @Autowired
-    private AHPService ahpService;
-
-    @Autowired
-    private CriterionService criterionService;
+    private EvaluationMapper evaluationMapper;
+    private static final Logger logger = LoggerFactory.getLogger(EvaluationService.class); 
 
     //CREATE
-    public ResponseEntity<Void> createEvaluation(long ahpId, EvaluationCreateDTO evaluationCreateDTO) {
+    public EvaluationReadDTO createEvaluation(long ahpId, EvaluationCreateDTO evaluationCreateDTO) {
         
-        Evaluation evaluation = new Evaluation();
-
-        Project project = projectService.getProjecEntitytById(evaluationCreateDTO.getProjectId());
-        AHP ahp = ahpService.getAHPEntityById(evaluationCreateDTO.getAhpId());
-        Criterion criterion = criterionService.getCriterionEntityById(evaluationCreateDTO.getCriterionId());
-
-        evaluation.setScore(evaluationCreateDTO.getScore());
-        evaluation.setProject(project);
-        evaluation.setCriterion(criterion);
-        evaluation.setAhp(ahp);
+        Evaluation evaluation = evaluationMapper.toEntity(evaluationCreateDTO);
 
         evaluationRepository.save(evaluation);
 
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+        return evaluationMapper.toReadDTO(evaluation);
     }
 
     // UPDATE

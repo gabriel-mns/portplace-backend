@@ -6,27 +6,27 @@
 GET {{host}}/strategies/1/ahps?includeDisabled=true
 
 ### BUSCA POR ID DE UMA AHP
-GET {{host}}/strategies/1/ahps/3
+GET {{host}}/strategies/1/ahps/1
 
 ### CADASTRAR DE AHP
 POST {{host}}/strategies/1/ahps
 Content-Type: application/json
 
 {
-  "name": "AHP  2 2705",
-  "description": "De zscrição 2 2705",
-  "criteriaGroupId": 3,
+  "name": "AHP 2",
+  "description": "Descrição 2",
+  "criteriaGroupId": 1,
   "strategyId": 1
   //"projectIds": [1, 3]
 }
 
 ### EDIÇÃO DE AHP
-PUT {{host}}/strategies/1/ahps/2
+PUT {{host}}/strategies/1/ahps/1
 Content-Type: application/json
 
 {
-  "name": "AHP 2 Editado",
-  "description": "Descrição da AHP 2 Editada"
+  "name": "AHP 1 Alterada",
+  "description": "Descrição da AHP 1 Alterada"
   //"projectIds": [1, 2]
 }
 

@@ -1,5 +1,6 @@
 package com.pucpr.portplace.authentication.features.ahp.controllers;
 
+import java.net.URI;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.azure.core.annotation.QueryParam;
 import com.pucpr.portplace.authentication.features.ahp.dtos.EvaluationCreateDTO;
@@ -42,9 +44,16 @@ public class EvaluationController {
     }
 
     @PostMapping
-    public ResponseEntity<Void> createEvaluation(@PathVariable long ahpId, @RequestBody EvaluationCreateDTO evaluationCreateDTO) {
+    public ResponseEntity<EvaluationReadDTO> createEvaluation(@PathVariable long ahpId, @RequestBody EvaluationCreateDTO evaluationCreateDTO) {
         
-        return evaluationService.createEvaluation(ahpId, evaluationCreateDTO);
+        EvaluationReadDTO evaluationReadDTO = evaluationService.createEvaluation(ahpId, evaluationCreateDTO);
+
+        URI location = ServletUriComponentsBuilder.fromCurrentRequest()
+                .path("/{evaluationId}")
+                .buildAndExpand(evaluationReadDTO.getId())
+                .toUri();
+
+        return ResponseEntity.created(location).body(evaluationReadDTO);
         
     }
 

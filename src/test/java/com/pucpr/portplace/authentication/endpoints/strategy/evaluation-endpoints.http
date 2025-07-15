@@ -3,20 +3,20 @@
 // COMPARAÇÃO DE CRITÉRIOS
 
 ### BUSCA DE TODAS AS AVALIAÇÕES
-GET {{host}}/strategies/1/ahps/4/evaluations?includeDisabled=true
+GET {{host}}/strategies/1/ahps/1/evaluations?includeDisabled=true
 
 ### BUSCAR AVALIAÇÃO POR ID
-GET {{host}}/strategies/1/ahps/1/evaluations/1
+GET {{host}}/strategies/1/ahps/1/evaluations/3
 
 ### CADASTRAR AVALIAÇÃO
-POST {{host}}/strategies/1/ahps/3/evaluations
+POST {{host}}/strategies/1/ahps/1/evaluations
 Content-Type: application/json
 
 {
-  "score": 150,
+  "score": 140,
   "projectId": 2,
-  "criterionId": 7,
-  "ahpId": 3
+  "criterionId": 2,
+  "ahpId": 1
 }
 
 ### EDITAR AVALIAÇÃO
