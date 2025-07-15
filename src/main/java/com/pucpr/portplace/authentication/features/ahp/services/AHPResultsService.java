@@ -149,7 +149,7 @@ public class AHPResultsService {
         return ranking;
     }
 
-    public ResponseEntity<List<ProjectRankingReadDTO>> getProjectRankingByAHPId(Long ahpId) {
+    public List<ProjectRankingReadDTO> getProjectRankingByAHPId(Long ahpId) {
         
         AHP ahp = ahpService.getAHPEntityById(ahpId);
 
@@ -158,7 +158,7 @@ public class AHPResultsService {
 
         List<ProjectRankingReadDTO> ranking = calculateProjectRanking(evaluations, criteriaComparisons);
 
-        return ResponseEntity.ok(ranking);
+        return ranking;
 
     }
 

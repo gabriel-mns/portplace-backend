@@ -6,5 +6,5 @@
 GET {{host}}/strategies/1/ahps?includeDisabled=true
 
 ### BUSCA POR ID DE UMA AHP
-GET {{host}}/strategies/1/ahps/3/ranking
+GET {{host}}/strategies/1/ahps/1/ranking
 
