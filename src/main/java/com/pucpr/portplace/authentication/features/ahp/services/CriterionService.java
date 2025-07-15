@@ -80,6 +80,7 @@ public class CriterionService {
 
         Criterion criterion = criterionRepository.findById(criterionId).get();
         CriterionReadDTO criterionDTO = criterionMapper.toReadDTO(criterion);
+        
         CriteriaGroup criteriaGroup = criteriaGroupEntityService.getById(1, criteriaGroupId);
         boolean allCriteriaCompared = allCriteriaComparedSpecification.isSatisfiedBy(
             criteriaGroup
