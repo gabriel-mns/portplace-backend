@@ -10,7 +10,6 @@ import com.pucpr.portplace.authentication.features.ahp.dtos.CriteriaGroupReadDTO
 import com.pucpr.portplace.authentication.features.ahp.dtos.CriteriaGroupUpdateDTO;
 import com.pucpr.portplace.authentication.features.ahp.entities.CriteriaGroup;
 import com.pucpr.portplace.authentication.features.ahp.mappers.CriteriaGroupMapper;
-// import com.pucpr.portplace.authentication.features.ahp.entities.Criterion;
 import com.pucpr.portplace.authentication.features.ahp.repositories.CriteriaGroupRepository;
 import com.pucpr.portplace.authentication.features.ahp.repositories.StrategyRepository;
 

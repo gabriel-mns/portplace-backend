@@ -14,8 +14,8 @@ POST {{host}}/strategies/1/criteria-groups
 Content-Type: application/json
 
 {
-  "name": "Grupo de Critérios 1",
-  "description": "Descrição do grupo de critérios 1"
+  "name": "Grupo de Critérios 3",
+  "description": "Descrição do grupo de critérios 3"
 }
 
 ### EDIÇÃOD DE GRUPO DE CRITÉRIOS

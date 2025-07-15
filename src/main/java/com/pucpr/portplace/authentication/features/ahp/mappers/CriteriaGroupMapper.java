@@ -1,7 +1,9 @@
 package com.pucpr.portplace.authentication.features.ahp.mappers;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import org.mapstruct.AfterMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
@@ -67,4 +69,24 @@ public interface CriteriaGroupMapper {
             .count();
     }
     
+    @AfterMapping
+    default void handleNullDeptList(CriteriaGroup source, @MappingTarget CriteriaGroupReadDTO target) {
+        if (source.getCriteria() == null) {
+            target.setCriteriaList(new ArrayList<>());
+        }
+        if(source.getCriteriaComparisons() == null) {
+            target.setCriteriaComparisons(new ArrayList<>());
+        }
+    }
+    
+    @AfterMapping
+    default void handleNullDeptList(CriteriaGroup source, @MappingTarget CriteriaGroupListReadDTO target) {
+        if (source.getCriteria() == null) {
+            target.setCriteriaCount(0);
+        }
+        if(source.getCriteriaComparisons() == null) {
+            target.setCriteriaComparisonCount(0);
+        }
+    }
+
 }
