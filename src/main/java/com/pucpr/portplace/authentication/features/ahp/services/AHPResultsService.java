@@ -8,19 +8,19 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.pucpr.portplace.authentication.features.ahp.dtos.ProjectRankingReadDTO;
 import com.pucpr.portplace.authentication.features.ahp.entities.AHP;
 import com.pucpr.portplace.authentication.features.ahp.entities.CriteriaComparison;
 import com.pucpr.portplace.authentication.features.ahp.entities.Evaluation;
+import com.pucpr.portplace.authentication.features.ahp.services.internal.AHPEntityService;
 
 @Service
 public class AHPResultsService {
     
     @Autowired
-    private AHPService ahpService;
+    private AHPEntityService ahpEntityService;
 
     public List<ProjectRankingReadDTO> calculateProjectRanking(
             List<Evaluation> evaluations,
@@ -151,7 +151,7 @@ public class AHPResultsService {
 
     public List<ProjectRankingReadDTO> getProjectRankingByAHPId(Long ahpId) {
         
-        AHP ahp = ahpService.getAHPEntityById(ahpId);
+        AHP ahp = ahpEntityService.getAHPEntityById(ahpId);
 
         List<Evaluation> evaluations = ahp.getEvaluations();
         List<CriteriaComparison> criteriaComparisons = ahp.getCriteriaGroup().getCriteriaComparisons();

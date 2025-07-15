@@ -21,9 +21,6 @@ public class AHPService {
     private AHPRepository ahpRepository;
     private AHPMapper ahpMapper;
 
-    // @Autowired
-    // private StrategyService strategyService;
-
     //CREATE
     public AHPReadDTO createAHP(long strategyId, AHPCreateDTO ahpCreateDto) {
         
@@ -122,13 +119,6 @@ public class AHPService {
         List<AHPReadDTO> ahpReadDto = ahpMapper.toReadDTO(ahps);
 
         return ResponseEntity.ok(ahpReadDto);
-
-    }
-
-    public AHP getAHPEntityById(Long id) {
-
-        // TODO: Treat case when AHP is not found
-        return ahpRepository.findById(id).get();
 
     }
 

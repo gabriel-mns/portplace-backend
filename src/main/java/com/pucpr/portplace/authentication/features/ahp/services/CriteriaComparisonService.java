@@ -8,12 +8,8 @@ import com.pucpr.portplace.authentication.features.ahp.dtos.CriteriaComparisonCr
 import com.pucpr.portplace.authentication.features.ahp.dtos.CriteriaComparisonReadDTO;
 import com.pucpr.portplace.authentication.features.ahp.dtos.CriteriaComparisonUpdateDTO;
 import com.pucpr.portplace.authentication.features.ahp.entities.CriteriaComparison;
-import com.pucpr.portplace.authentication.features.ahp.entities.CriteriaGroup;
-import com.pucpr.portplace.authentication.features.ahp.entities.Criterion;
 import com.pucpr.portplace.authentication.features.ahp.mappers.CriteriaComparisonMapper;
 import com.pucpr.portplace.authentication.features.ahp.repositories.CriteriaComparisonRepository;
-import com.pucpr.portplace.authentication.features.ahp.services.internal.CriteriaGroupEntityService;
-
 import lombok.AllArgsConstructor;
 
 @Service
@@ -21,8 +17,6 @@ import lombok.AllArgsConstructor;
 public class CriteriaComparisonService {
     
     private CriteriaComparisonRepository criteriaComparisonRepository;
-    private CriterionService criterionService;
-    private CriteriaGroupEntityService criteriaGroupEntityService;
     private CriteriaComparisonMapper criteriaComparisonMapper;
 
     // CREATE
