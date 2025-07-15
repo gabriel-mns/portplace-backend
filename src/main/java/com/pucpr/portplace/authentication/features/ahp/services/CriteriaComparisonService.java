@@ -28,12 +28,6 @@ public class CriteriaComparisonService {
     // CREATE
     public CriteriaComparisonReadDTO createCriteriaComparison(long strategyId, long criteriaGroupId, CriteriaComparisonCreateDTO criteriaComparisonCreateDTO) {
         
-        CriteriaComparison newCriteriaComparison = criteriaComparisonMapper.toEntity(criteriaComparisonCreateDTO);
-
-        Criterion comparedCriterion = criterionService.getCriterionEntityById(criteriaComparisonCreateDTO.getComparedCriterionId());
-        Criterion referenceCriterion = criterionService.getCriterionEntityById(criteriaComparisonCreateDTO.getReferenceCriterionId());
-        CriteriaGroup criteriaGroup = criteriaGroupEntityService.getById(strategyId, criteriaGroupId);
-
         //TODO: Treat case when comparedCriterion and referenceCriterion are not found
         //TODO: Treat case when ahp is not found
         //TODO: Treat case when comparedCriterion and referenceCriterion are the same
@@ -41,11 +35,8 @@ public class CriteriaComparisonService {
         //TODO: Treat case when comparedCriterion and referenceCriterion are already compared in the opposite direction
         //TODO: Treat case when comparedCriterion and referenceCriterion are already compared in the opposite direction with different importanceScale
         //TODO: Treat case when comparedCriterion or referenceCriterion are not in the same AHP
-
         
-        newCriteriaComparison.setComparedCriterion(comparedCriterion);
-        newCriteriaComparison.setReferenceCriterion(referenceCriterion);
-        newCriteriaComparison.setCriteriaGroup(criteriaGroup);
+        CriteriaComparison newCriteriaComparison = criteriaComparisonMapper.toEntity(criteriaComparisonCreateDTO);
 
         criteriaComparisonRepository.save(newCriteriaComparison);
 
@@ -55,11 +46,11 @@ public class CriteriaComparisonService {
 
     // UPDATE
     public CriteriaComparisonReadDTO updateCriteriaComparison(long criteriaComparisonId, CriteriaComparisonUpdateDTO criteriaComparisonCreateDTO) {
-
-        CriteriaComparison criteriaComparison = criteriaComparisonRepository.findById(criteriaComparisonId).get();
-
+        
         //TODO: Treat case when criteriaComparison is disabled
         //TODO: Treat case when criteriaComparison was not found
+
+        CriteriaComparison criteriaComparison = criteriaComparisonRepository.findById(criteriaComparisonId).get();
 
         criteriaComparisonMapper.updateFromDTO(criteriaComparisonCreateDTO, criteriaComparison);
         
@@ -72,10 +63,10 @@ public class CriteriaComparisonService {
     // DELETE
     public void disableCriteriaComparison(long criteriaComparisonId) {
 
-        CriteriaComparison criteriaComparison = criteriaComparisonRepository.findById(criteriaComparisonId).get();
-
         //TODO: Treat case when criteriaComparison is already disabled
         //TODO: Treat case when criteriaComparison was not found
+        
+        CriteriaComparison criteriaComparison = criteriaComparisonRepository.findById(criteriaComparisonId).get();
 
         criteriaComparison.setDisabled(true);
         
@@ -84,8 +75,9 @@ public class CriteriaComparisonService {
     }
 
     public void deleteCriteriaComparison(long criteriaComparisonId) {
-
+        
         //TODO: Treat case when criteriaComparison was not found
+
         criteriaComparisonRepository.deleteById(criteriaComparisonId);
     
     }
@@ -94,6 +86,7 @@ public class CriteriaComparisonService {
     public CriteriaComparisonReadDTO getCriteriaComparisonById(long criteriaComparisonId) {
         
         //TODO: Treat case when criteriaComparison was not found
+        
         CriteriaComparison criteriaComparison = criteriaComparisonRepository.findById(criteriaComparisonId).get();
         
         CriteriaComparisonReadDTO criteriaComparisonDTO = criteriaComparisonMapper.toReadDTO(criteriaComparison);

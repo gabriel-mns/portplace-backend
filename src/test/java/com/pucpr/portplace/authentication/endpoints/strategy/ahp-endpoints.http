@@ -13,8 +13,8 @@ POST {{host}}/strategies/1/ahps
 Content-Type: application/json
 
 {
-  "name": "AHP 2",
-  "description": "Descrição 2",
+  "name": "AHP 3",
+  "description": "Descrição 3",
   "criteriaGroupId": 1,
   "strategyId": 1
   //"projectIds": [1, 3]

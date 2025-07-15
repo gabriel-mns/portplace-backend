@@ -38,6 +38,7 @@ public class AHPService {
     public AHPReadDTO updateAHP(long strategyId, Long ahpId, AHPUpdateDTO ahpUpdateDto) {
 
         // TODO: Treat case when AHP is not found
+
         AHP ahp = ahpRepository.findById(ahpId).get();
 
         // if( ahpUpdateDto.getCriteriaGroupId() != null ) {
@@ -58,6 +59,7 @@ public class AHPService {
     public void disableAHP(long strategyId, Long id) {
         
         // TODO: Treat case when AHP is not found
+
         AHP ahp = ahpRepository.findById(id).get();
         ahp.setDisabled(true);
         ahpRepository.save(ahp);
@@ -67,6 +69,7 @@ public class AHPService {
     public void deleteAHP(long strategyId, Long id) {
         
         // TODO: Treat case when AHP is not found
+        
         ahpRepository.deleteById(id);
 
     }
