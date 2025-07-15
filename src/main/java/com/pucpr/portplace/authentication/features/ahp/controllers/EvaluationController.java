@@ -32,14 +32,18 @@ public class EvaluationController {
     @GetMapping
     public ResponseEntity<List<EvaluationReadDTO>> getAllEvaluationsByAHPId(@PathVariable long ahpId, @QueryParam("includeDisabled") boolean includeDisabled) {
         
-        return evaluationService.getAllEvaluationsByAHPId(ahpId, includeDisabled);
+        List<EvaluationReadDTO> evaluations = evaluationService.getAllEvaluationsByAHPId(ahpId, includeDisabled);
+
+        return ResponseEntity.ok().body(evaluations);
         
     }
 
     @GetMapping("/{evaluationId}")
     public ResponseEntity<EvaluationReadDTO> getEvaluationById(@PathVariable long ahpId, @PathVariable long evaluationId) {
         
-        return evaluationService.getEvaluationById(ahpId, evaluationId);
+        EvaluationReadDTO evaluationReadDTO = evaluationService.getEvaluationById(ahpId, evaluationId);
+
+        return ResponseEntity.ok().body(evaluationReadDTO);
         
     }
 
@@ -58,23 +62,28 @@ public class EvaluationController {
     }
 
     @PutMapping("/{evaluationId}")
-    public ResponseEntity<Void> updateEvaluation(@PathVariable long ahpId, @PathVariable long evaluationId, @RequestBody EvaluationUpdateDTO evaluationUpdateDTO) {
-        
-        return evaluationService.updateEvaluation(ahpId, evaluationId, evaluationUpdateDTO);
-        
+    public ResponseEntity<EvaluationReadDTO> updateEvaluation(@PathVariable long ahpId, @PathVariable long evaluationId, @RequestBody EvaluationUpdateDTO evaluationUpdateDTO) {
+
+        EvaluationReadDTO evaluationReadDTO = evaluationService.updateEvaluation(ahpId, evaluationId, evaluationUpdateDTO);
+
+        return ResponseEntity.ok().body(evaluationReadDTO);
     }
 
     @DeleteMapping("/{evaluationId}")
     public ResponseEntity<Void> disableEvaluation(@PathVariable long ahpId, @PathVariable long evaluationId) {
         
-        return evaluationService.disableEvaluation(ahpId, evaluationId);
-        
+        evaluationService.disableEvaluation(ahpId, evaluationId);
+
+        return ResponseEntity.noContent().build();
+
     }
 
     @DeleteMapping("/{evaluationId}/hard-delete")
     public ResponseEntity<Void> deleteEvaluation(@PathVariable long ahpId, @PathVariable long evaluationId) {
         
-        return evaluationService.deleteEvaluation(ahpId, evaluationId);
+        evaluationService.deleteEvaluation(ahpId, evaluationId);
+
+        return ResponseEntity.noContent().build();
         
     }
 

@@ -1,12 +1,6 @@
 package com.pucpr.portplace.authentication.features.ahp.services;
 
 import java.util.List;
-import java.util.stream.Collectors;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.pucpr.portplace.authentication.features.ahp.dtos.EvaluationCreateDTO;
@@ -23,8 +17,7 @@ import lombok.AllArgsConstructor;
 public class EvaluationService {
 
     private EvaluationRepository evaluationRepository;
-    private EvaluationMapper evaluationMapper;
-    private static final Logger logger = LoggerFactory.getLogger(EvaluationService.class); 
+    private EvaluationMapper evaluationMapper; 
 
     //CREATE
     public EvaluationReadDTO createEvaluation(long ahpId, EvaluationCreateDTO evaluationCreateDTO) {
@@ -37,21 +30,21 @@ public class EvaluationService {
     }
 
     // UPDATE
-    public ResponseEntity<Void> updateEvaluation(long ahpId, long evaluationId,EvaluationUpdateDTO evaluation) {
+    public EvaluationReadDTO updateEvaluation(long ahpId, long evaluationId,EvaluationUpdateDTO evaluation) {
         
         // TODO: Treat the case when the evaluation is not found (try catch)
         Evaluation existingEvaluation = evaluationRepository.findById(evaluationId).get();
 
-        existingEvaluation.setScore(evaluation.getScore());
+        evaluationMapper.updateFromDTO(evaluation, existingEvaluation);
 
         evaluationRepository.save(existingEvaluation);
 
-        return ResponseEntity.status(HttpStatus.OK).build();
+        return evaluationMapper.toReadDTO(existingEvaluation);
         
     }
 
     // DELETE
-    public ResponseEntity<Void> disableEvaluation(long ahpId, long evaluationId) {
+    public void disableEvaluation(long ahpId, long evaluationId) {
 
         //Treat the case when the evaluation is not found (try catch)
         Evaluation evaluation = evaluationRepository.findById(evaluationId).get();
@@ -60,48 +53,26 @@ public class EvaluationService {
 
         evaluationRepository.save(evaluation);
 
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
-
     }
 
-    public ResponseEntity<Void> deleteEvaluation(long ahpId, long evaluationId) {
+    public void deleteEvaluation(long ahpId, long evaluationId) {
 
         //Treat the case when the evaluation is not found (try catch)
         evaluationRepository.deleteById(evaluationId);
 
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
-
     }
 
     // READ
-    public ResponseEntity<EvaluationReadDTO> getEvaluationById(long ahpId, long evaluationId) {
+    public EvaluationReadDTO getEvaluationById(long ahpId, long evaluationId) {
 
         Evaluation evaluation = evaluationRepository.findById(evaluationId).get();
 
-        EvaluationReadDTO evaluationDTO = new EvaluationReadDTO();
+        EvaluationReadDTO evaluationDTO = evaluationMapper.toReadDTO(evaluation);
 
-        evaluationDTO.setId(evaluation.getId());
-        evaluationDTO.setScore(evaluation.getScore());
-        evaluationDTO.setProjectId(evaluation.getProject().getId());
-        evaluationDTO.setCriterionId(evaluation.getCriterion().getId());
-        evaluationDTO.setAhpId(evaluation.getAhp().getId());
-        evaluationDTO.setLastModifiedAt(evaluation.getLastModifiedAt());
-        evaluationDTO.setCreatedAt(evaluation.getCreatedAt());
-        evaluationDTO.setDisabled(evaluation.isDisabled());
-        // evaluationDTO.setLastModifiedBy(evaluation.getLastModifiedBy().getId());
-
-        return ResponseEntity.ok(evaluationDTO);
-
+        return evaluationDTO;
     }
 
-    public Evaluation getEvaluationEntityById(long evaluationId) {
-
-        // Treat the case when the evaluation is not found (try catch)
-        return evaluationRepository.findById(evaluationId).get();
-
-    }
-
-    public ResponseEntity<List<EvaluationReadDTO>> getAllEvaluationsByAHPId(long ahpId, boolean includeDisabled) {
+    public List<EvaluationReadDTO> getAllEvaluationsByAHPId(long ahpId, boolean includeDisabled) {
 
         List<Evaluation> evaluations;
 
@@ -115,25 +86,9 @@ public class EvaluationService {
 
         }
 
-        List<EvaluationReadDTO> evaluationDTOs = evaluations.stream().map(evaluation -> {
+        List<EvaluationReadDTO> evaluationDTOs = evaluationMapper.toReadDTO(evaluations);
 
-            EvaluationReadDTO evaluationDTO = new EvaluationReadDTO();
-
-            evaluationDTO.setId(evaluation.getId());
-            evaluationDTO.setScore(evaluation.getScore());
-            evaluationDTO.setProjectId(evaluation.getProject().getId());
-            evaluationDTO.setCriterionId(evaluation.getCriterion().getId());
-            evaluationDTO.setAhpId(evaluation.getAhp().getId());
-            evaluationDTO.setLastModifiedAt(evaluation.getLastModifiedAt());
-            evaluationDTO.setCreatedAt(evaluation.getCreatedAt());
-            evaluationDTO.setDisabled(evaluation.isDisabled());
-            // evaluationDTO.setLastModifiedBy(evaluation.getLastModifiedBy().getId());
-
-            return evaluationDTO;
-
-        }).collect(Collectors.toList());
-
-        return ResponseEntity.ok(evaluationDTOs);
+        return evaluationDTOs;
 
     }
 

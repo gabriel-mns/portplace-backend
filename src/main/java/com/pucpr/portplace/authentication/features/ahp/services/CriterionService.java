@@ -97,14 +97,6 @@ public class CriterionService {
 
     }
 
-    public Criterion getCriterionEntityById(Long id) {
-
-        Criterion criterion = criterionRepository.findById(id).get();
-
-        return criterion;
-
-    }
-
     public List<CriterionReadDTO> getCriteriaByCriteriaGroupId(long criteriaGroupId, boolean includeDisabled) {
 
         List<Criterion> criteria;

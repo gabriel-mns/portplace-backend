@@ -6,7 +6,7 @@
 GET {{host}}/strategies/1/ahps/1/evaluations?includeDisabled=true
 
 ### BUSCAR AVALIAÇÃO POR ID
-GET {{host}}/strategies/1/ahps/1/evaluations/3
+GET {{host}}/strategies/1/ahps/1/evaluations/5
 
 ### CADASTRAR AVALIAÇÃO
 POST {{host}}/strategies/1/ahps/1/evaluations
@@ -20,17 +20,17 @@ Content-Type: application/json
 }
 
 ### EDITAR AVALIAÇÃO
-PUT {{host}}/strategies/1/ahps/1/evaluations/3
+PUT {{host}}/strategies/1/ahps/1/evaluations/5
 Content-Type: application/json
 
 {
-  "id": 1,
-  "score": 300
+  "id": 5,
+  "score": 500
 }
 
 
 ### DESABILITAR AVALIAÇÃO
-DELETE  {{host}}/strategies/1/ahps/1/evaluations/3
+DELETE  {{host}}/strategies/1/ahps/1/evaluations/5
 
 ### DELETAR AVALIAÇÃO
-DELETE  {{host}}/strategies/1/ahps/1/evaluations/3/hard-delete
+DELETE  {{host}}/strategies/1/ahps/1/evaluations/5/hard-delete
