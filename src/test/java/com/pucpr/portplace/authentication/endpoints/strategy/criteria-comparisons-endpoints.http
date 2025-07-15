@@ -6,7 +6,7 @@
 GET {{host}}/strategies/1/criteria-groups/3/criteria-comparisons
 
 ### BUSCA POR ID DE UMA COMPARAÇÃO DE CRITÉRIOS
-GET {{host}}/strategies/1/criteria-groups/1/criteria-comparisons/1
+GET {{host}}/strategies/1/criteria-groups/3/criteria-comparisons/2
 
 ### CADASTRAR DE COMPARAÇÃO DE CRITÉRIOS
 POST {{host}}/strategies/1/criteria-groups/3/criteria-comparisons
@@ -15,7 +15,7 @@ Content-Type: application/json
 {
   "comparedCriterionId": 1,
   "referenceCriterionId": 2,
-  "importanceScale": "EXTREMELY_MORE_IMPORTANT",
+  "importanceScale": "EXTREMELY_LESS_IMPORTANT",
   "criteriaGroupId": 20
 }
 
@@ -29,7 +29,7 @@ Content-Type: application/json
 }
 
 ### DESABILITAR COMPARAÇÃO DE CRITÉRIOS
-DELETE  {{host}}/strategies/1/criteria-groups/2/criteria-comparisons/1
+DELETE  {{host}}/strategies/1/criteria-groups/2/criteria-comparisons/2
 
 ### DELETAR COMPARAÇÃO DE CRITÉRIOS
-DELETE  {{host}}/strategies/1/criteria-groups/2/criteria-comparisons/1/hard-delete
+DELETE  {{host}}/strategies/1/criteria-groups/3/criteria-comparisons/4/hard-delete

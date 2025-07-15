@@ -4,17 +4,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.pucpr.portplace.authentication.features.ahp.entities.CriteriaComparison;
-import com.pucpr.portplace.authentication.features.ahp.services.CriteriaComparisonService;
+import com.pucpr.portplace.authentication.features.ahp.services.internal.CriteriaComparisonEntityService;
 
 @Component
 public class CriteriaComparisonMapHelper {
     
     @Autowired
-    private CriteriaComparisonService criteriaComparisonService;
+    private CriteriaComparisonEntityService criteriaComparisonEntityService;
 
     public CriteriaComparison fromId(Long id) {
 
-        return criteriaComparisonService.getCriteriaComparisonEntityById(id);
+        return criteriaComparisonEntityService.getCriteriaComparisonEntityById(id);
 
     }
 

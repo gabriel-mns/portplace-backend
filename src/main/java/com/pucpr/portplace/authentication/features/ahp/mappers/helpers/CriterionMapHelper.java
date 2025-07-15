@@ -5,7 +5,6 @@ import org.springframework.stereotype.Component;
 
 import com.pucpr.portplace.authentication.features.ahp.entities.CriteriaGroup;
 import com.pucpr.portplace.authentication.features.ahp.services.internal.CriteriaGroupEntityService;
-
 @Component
 public class CriterionMapHelper {
  

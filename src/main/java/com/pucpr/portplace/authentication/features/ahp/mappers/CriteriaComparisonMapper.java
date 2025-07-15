@@ -1,5 +1,7 @@
 package com.pucpr.portplace.authentication.features.ahp.mappers;
 
+import java.util.List;
+
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
@@ -21,12 +23,17 @@ public interface CriteriaComparisonMapper {
     @Mapping(target = "comparedCriterion.id", source = "comparedCriterionId")
     @Mapping(target = "criteriaGroup.id", source = "criteriaGroupId")
     @Mapping(target = "referenceCriterion.id", source = "referenceCriterionId")
-    CriteriaComparison toCriteriaComparisonEntity(CriteriaComparisonCreateDTO criteriaComparisonCreateDto);
+    CriteriaComparison toEntity(CriteriaComparisonCreateDTO criteriaComparisonCreateDto);
 
     @Mapping(target = "comparedCriterionId", source = "comparedCriterion.id")
     @Mapping(target = "criteriaGroupId", source = "criteriaGroup.id")
     @Mapping(target = "referenceCriterionId", source = "referenceCriterion.id")
-    CriteriaComparisonReadDTO toCriteriaComparisonReadDTO(CriteriaComparison criteriaComparison);
+    CriteriaComparisonReadDTO toReadDTO(CriteriaComparison criteriaComparison);
+
+    @Mapping(target = "comparedCriterionId", source = "comparedCriterion.id")
+    @Mapping(target = "criteriaGroupId", source = "criteriaGroup.id")
+    @Mapping(target = "referenceCriterionId", source = "referenceCriterion.id")
+    List<CriteriaComparisonReadDTO> toReadDTO(List<CriteriaComparison> criteriaComparisonList);
 
     @Mapping(target = "disabled", ignore = true)
     @Mapping(target = "createdAt", ignore = true)

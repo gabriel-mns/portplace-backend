@@ -12,7 +12,7 @@ import com.pucpr.portplace.authentication.features.ahp.dtos.CriterionUpdateDTO;
 import com.pucpr.portplace.authentication.features.ahp.entities.Criterion;
 import com.pucpr.portplace.authentication.features.ahp.mappers.helpers.CriterionMapHelper;
 
-@Mapper(componentModel = "spring", uses = {CriteriaGroupMapper.class, CriterionMapHelper.class})
+@Mapper(componentModel = "spring", uses = {CriteriaGroupMapper.class, CriteriaComparisonMapper.class, CriterionMapHelper.class})
 public interface CriterionMapper {
     
     @Mapping(target = "criteriaGroupId", source = "criteriaGroup.id") 
@@ -27,6 +27,8 @@ public interface CriterionMapper {
     @Mapping(target = "lastModifiedBy", ignore = true)
     @Mapping(target = "weight", ignore = true)
     @Mapping(target = "criteriaGroup.id", source = "criteriaGroupId")
+    @Mapping(target = "comparedInComparisons", ignore = true)
+    @Mapping(target = "referenceInComparisons", ignore = true)
     Criterion toEntity(CriterionCreateDTO criterionCreateDto);
 
     @Mapping(target = "disabled", ignore = true)
@@ -36,6 +38,8 @@ public interface CriterionMapper {
     @Mapping(target = "lastModifiedBy", ignore = true)
     @Mapping(target = "weight", ignore = true)
     @Mapping(target = "criteriaGroup", ignore = true)
+    @Mapping(target = "comparedInComparisons", ignore = true)
+    @Mapping(target = "referenceInComparisons", ignore = true)
     void updateFromDTO(CriterionUpdateDTO criterionUpdateDto, @MappingTarget Criterion criterion);
 
 }

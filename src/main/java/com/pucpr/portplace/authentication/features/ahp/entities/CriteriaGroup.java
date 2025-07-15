@@ -70,10 +70,11 @@ public class CriteriaGroup {
 
 
     // Relationships
-    @OneToMany(mappedBy = "criteriaGroup", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "criteriaGroup")
     private List<Criterion> criteria;
 
-    @OneToMany(mappedBy = "criteriaGroup", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "criteriaGroup")
+    // @OneToMany(mappedBy = "criteriaGroup", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<CriteriaComparison> criteriaComparisons;
 
 }
