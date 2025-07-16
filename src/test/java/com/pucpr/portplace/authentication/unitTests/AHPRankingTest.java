@@ -216,7 +216,7 @@ public class AHPRankingTest {
         projectCreateDTO.setStartDate(LocalDate.now());
         projectCreateDTO.setEndDate(LocalDate.now().plusDays(30));
         projectCreateDTO.setPayback(30);
-        projectCreateDTO.setStatus(ProjectStatusEnum.IN_PROGRESS);
+        projectCreateDTO.setStatus(ProjectStatusEnum.IN_PROGRESS.toString());
         projectCreateDTO.setProjectManager(index);
         projectController.createProject(projectCreateDTO);
 

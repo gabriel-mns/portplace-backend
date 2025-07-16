@@ -1,10 +1,18 @@
 package com.pucpr.portplace.authentication.core.exception;
 
+import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+
+import com.fasterxml.jackson.databind.JsonMappingException.Reference;
+import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -13,29 +21,80 @@ import jakarta.servlet.http.HttpServletRequest;
 public class GlobalExceptionHandler {
     
     @ExceptionHandler(EntityNotFoundException.class)
-    public ResponseEntity<ApiError> handleNotFound(EntityNotFoundException ex, HttpServletRequest request) {
+    public ResponseEntity<ApiErrorResponse> handleNotFound(EntityNotFoundException ex, HttpServletRequest request) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                .body(new ApiError(HttpStatus.NOT_FOUND, ex.getMessage(), request.getRequestURI()));
+                .body(new ApiErrorResponse(HttpStatus.NOT_FOUND, ex.getMessage(), request.getMethod(), request.getRequestURI()));
     }
 
     @ExceptionHandler(BusinessException.class)
-    public ResponseEntity<ApiError> handleBusiness(BusinessException ex, HttpServletRequest request) {
+    public ResponseEntity<ApiErrorResponse> handleBusiness(BusinessException ex, HttpServletRequest request) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                .body(new ApiError(HttpStatus.BAD_REQUEST, ex.getMessage(), request.getRequestURI()));
+                .body(new ApiErrorResponse(HttpStatus.BAD_REQUEST, ex.getMessage(), request.getMethod(), request.getRequestURI()));
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<ApiError> handleValidation(MethodArgumentNotValidException ex, HttpServletRequest request) {
-        String message = ex.getBindingResult().getAllErrors().get(0).getDefaultMessage();
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                .body(new ApiError(HttpStatus.BAD_REQUEST, message, request.getRequestURI()));
+    public ResponseEntity<ValidationErrorResponse> handleValidation(MethodArgumentNotValidException ex, HttpServletRequest request) {
+        List<ValidationErrorResponse.FieldValidationError> validationErrors = ex.getBindingResult()
+                .getFieldErrors()
+                .stream()
+                .map(error -> new ValidationErrorResponse.FieldValidationError(
+                        error.getField(),
+                        error.getRejectedValue() != null ? error.getRejectedValue().toString() : "null",
+                        error.getDefaultMessage()
+                ))
+                .collect(Collectors.toList());
+
+        ValidationErrorResponse errorResponse = new ValidationErrorResponse(
+                "There are invalid values in your request",
+                request.getRequestURI(),
+                request.getMethod(),
+                validationErrors
+        );
+
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
+    }
+    
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    public ResponseEntity<ValidationErrorResponse> handleHttpMessageNotReadable(HttpMessageNotReadableException ex, HttpServletRequest request) {
+        Throwable cause = ex.getCause();
+
+        if (cause instanceof InvalidFormatException invalidFormatException) {
+            List<Reference> path = invalidFormatException.getPath();
+            String fieldName = path.isEmpty() ? "unknown" : path.get(0).getFieldName();
+            Object invalidValue = invalidFormatException.getValue();
+
+            var fieldError = new ValidationErrorResponse.FieldValidationError(
+                    fieldName,
+                    invalidValue,
+                    "Invalid value type for field: " + fieldName
+            );
+
+            var errorResponse = new ValidationErrorResponse(
+                    "There are invalid values in your request",
+                    request.getRequestURI(),
+                    request.getMethod(),
+                    List.of(fieldError)
+            );
+
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
+        }
+
+        // fallback
+        var fallbackError = new ValidationErrorResponse(
+                "Malformed JSON or invalid values",
+                request.getRequestURI(),
+                request.getMethod(),
+                Collections.emptyList()
+        );
+
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(fallbackError);
     }
 
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<ApiError> handleGeneric(Exception ex, HttpServletRequest request) {
+    public ResponseEntity<ApiErrorResponse> handleGeneric(Exception ex, HttpServletRequest request) {
         ex.printStackTrace(); // Log para análise
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                .body(new ApiError(HttpStatus.INTERNAL_SERVER_ERROR, "Erro interno no servidor", request.getRequestURI()));
+                .body(new ApiErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, "Erro interno no servidor", request.getMethod(), request.getRequestURI()));
     }
 
 }

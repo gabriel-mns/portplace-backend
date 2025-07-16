@@ -3,15 +3,14 @@ package com.pucpr.portplace.authentication.features.project.services;
 import java.util.List;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+
 import com.pucpr.portplace.authentication.features.project.dtos.ProjectCreateDTO;
 import com.pucpr.portplace.authentication.features.project.dtos.ProjectReadDTO;
 import com.pucpr.portplace.authentication.features.project.dtos.ProjectUpdateDTO;
 import com.pucpr.portplace.authentication.features.project.entities.Project;
 import com.pucpr.portplace.authentication.features.project.mappers.ProjectMapper;
 import com.pucpr.portplace.authentication.features.project.repositories.ProjectRepository;
-import com.pucpr.portplace.authentication.features.user.entities.User;
-import com.pucpr.portplace.authentication.features.user.services.UserService;
-
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 
 @Service
@@ -19,17 +18,12 @@ import lombok.AllArgsConstructor;
 public class ProjectService {
     
     private ProjectRepository projectRepository;
-    private UserService userService;
     private ProjectMapper projectMapper;
 
     // CREATE
-    public ProjectReadDTO createProject(ProjectCreateDTO projectDTO) {
-
-        //TODO: Treat the case when the project manager is not found (try catch)
-        User projectManager = userService.getUserByIdEntity(projectDTO.getProjectManager());
+    public ProjectReadDTO createProject(@Valid ProjectCreateDTO projectDTO) {
 
         Project newProject = projectMapper.toEntity(projectDTO);
-        newProject.setProjectManager(projectManager);
 
         Project savedProject = projectRepository.save(newProject);
         
@@ -56,8 +50,6 @@ public class ProjectService {
     public void deleteProject(long projectId) {
 
         projectRepository.deleteById(projectId);
-
-        // TODO: Treat the case when the project is not found
 
     }
 

@@ -20,6 +20,7 @@ import com.pucpr.portplace.authentication.features.project.dtos.ProjectReadDTO;
 import com.pucpr.portplace.authentication.features.project.dtos.ProjectUpdateDTO;
 import com.pucpr.portplace.authentication.features.project.services.ProjectService;
 
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 
 @RestController
@@ -31,7 +32,7 @@ public class ProjectController {
 
     // CREATE
     @PostMapping
-    public ResponseEntity<ProjectReadDTO> createProject(@RequestBody ProjectCreateDTO projectDTO) {
+    public ResponseEntity<ProjectReadDTO> createProject(@RequestBody @Valid ProjectCreateDTO projectDTO) {
         
         ProjectReadDTO createdProject = projectService.createProject(projectDTO);
 
@@ -49,7 +50,7 @@ public class ProjectController {
     @PutMapping("/{projectId}")
     public ResponseEntity<ProjectReadDTO> updateProject(
         @PathVariable long projectId,
-        @RequestBody ProjectUpdateDTO projectDTO
+        @RequestBody @Valid ProjectUpdateDTO projectDTO
     ) {
         ProjectReadDTO updatedProject = projectService.updateProject(projectDTO, projectId);
 

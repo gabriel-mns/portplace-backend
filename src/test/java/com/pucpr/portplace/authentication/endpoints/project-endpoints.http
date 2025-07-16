@@ -5,16 +5,16 @@ POST {{host}}/projects
 Content-Type: application/json
 
 {
-  "name": "Projeto 3",
-  "description": "Projeto  3",
+  "name": "",
+  "description": "Projeto  teste usuario mapper 4",
   "startDate": "2023-10-01",
   "endDate": "2023-12-31",
-  "status": "IN_PROGRESS",
-  "projectManager": 1,
+  "status": "sssss",
+  "projectManager": -5,
   "earnedValue": 152752.87,
   "plannedValue": 25781.90,
   "actualCost": 25440.00,
-  "budget": 150000.00,
+  "budget": -150000.00,
   "payback": 124521.13
 }
 
@@ -36,23 +36,23 @@ Host: localhost:8080
 
 
 ### ALTERAR PROJETO
-PUT {{host}}/projects/6
+PUT {{host}}/projects/1?trace=true
 Accept: application/json
 Content-Type: application/json
 
 {
-  "id": 6,
-  "name": "Projeto Portplace",
-  "description": "Projeto de gerenciaasdasdmento de portfólio",
+  "id": 1,
+  "name": "Teste de projeto 1",
+  "description": "Projeto 1 descrição alterada",
   "status": "IN_PROGRESS",
   "earnedValue": 152752.87,
   "plannedValue": 25781.90,
   "actualCost": 25440.00,
-  "budget": 150000.00,
-  "payback": 124521.13,
-  "startDate": "2023-10-01",
-  "endDate": "2023-12-31",
-  "projectManager": 1
+  "budget": "-255555.0",
+  "payback": "150000.0",
+  "startDate": "2020-10-01",
+  "endDate": "2025-12-31",
+  "projectManager": "1"
 }
 
 ### DELETAR PROJETO
