@@ -11,10 +11,8 @@ import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import com.pucpr.portplace.authentication.features.project.entities.Project;
 import com.pucpr.portplace.authentication.features.user.entities.User;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
