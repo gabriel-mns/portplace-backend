@@ -20,13 +20,9 @@ public interface CriterionMapper {
     
     List<CriterionReadDTO> toReadDTO(List<Criterion> criteria);
 
-    @Mapping(target = "disabled", ignore = true)
     @Mapping(target = "id", ignore = true)
-    @Mapping(target = "createdAt", ignore = true)
-    @Mapping(target = "lastModifiedAt", ignore = true)
-    @Mapping(target = "lastModifiedBy", ignore = true)
     @Mapping(target = "weight", ignore = true)
-    @Mapping(target = "criteriaGroup.id", source = "criteriaGroupId")
+    @Mapping(target = "criteriaGroup", ignore = true)
     @Mapping(target = "comparedInComparisons", ignore = true)
     @Mapping(target = "referenceInComparisons", ignore = true)
     Criterion toEntity(CriterionCreateDTO criterionCreateDto);
@@ -36,6 +32,7 @@ public interface CriterionMapper {
     @Mapping(target = "createdAt", ignore = true)
     @Mapping(target = "lastModifiedAt", ignore = true)
     @Mapping(target = "lastModifiedBy", ignore = true)
+    @Mapping(target = "createdBy", ignore = true)
     @Mapping(target = "weight", ignore = true)
     @Mapping(target = "criteriaGroup", ignore = true)
     @Mapping(target = "comparedInComparisons", ignore = true)

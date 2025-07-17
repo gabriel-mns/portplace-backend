@@ -20,22 +20,18 @@ public interface CriteriaGroupMapper {
     
     @Mapping(source = "criteriaComparisons", target = "criteriaComparisons")
     @Mapping(source = "criteria", target = "criteriaList")
-    @Mapping(source = "lastModifiedBy.id", target = "lastModifiedBy")
     public CriteriaGroupReadDTO toCriteriaGroupReadDTO(CriteriaGroup criteriaGroup);
 
-    @Mapping(target = "createdAt", ignore = true)
-    @Mapping(target = "lastModifiedAt", ignore = true)
-    @Mapping(target = "lastModifiedBy", ignore = true)
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "criteriaComparisons", ignore = true)
     @Mapping(target = "criteria", ignore = true)
-    @Mapping(target = "disabled", ignore = true)
     @Mapping(target = "strategy", ignore = true)
     public CriteriaGroup toCriteriaGroupEntity(CriteriaGroupCreateDTO criteriaGroupCreateDto);
 
     @Mapping(target = "createdAt", ignore = true)
     @Mapping(target = "lastModifiedAt", ignore = true)
     @Mapping(target = "lastModifiedBy", ignore = true)
+    @Mapping(target = "createdBy", ignore = true)
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "criteriaComparisons", ignore = true)
     @Mapping(target = "criteria", ignore = true)

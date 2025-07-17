@@ -17,10 +17,6 @@ public interface AHPMapper {
     @Mapping(target = "criteriaGroup.id", source = "criteriaGroupId")
     @Mapping(target = "strategy.id", source = "strategyId")
     @Mapping(target = "evaluations", ignore = true)
-    @Mapping(target = "createdAt", ignore = true)
-    @Mapping(target = "lastModifiedAt", ignore = true)
-    @Mapping(target = "disabled", ignore = true)
-    @Mapping(target = "lastModifiedBy", ignore = true)
     @Mapping(target = "id", ignore = true)
     AHP toEntity(AHPCreateDTO ahpCreateDTO);
 
@@ -39,6 +35,7 @@ public interface AHPMapper {
     @Mapping(target = "lastModifiedAt", ignore = true)
     @Mapping(target = "disabled", ignore = true)
     @Mapping(target = "lastModifiedBy", ignore = true)
+    @Mapping(target = "createdBy", ignore = true)
     @Mapping(target = "id", ignore = true)
     void updateFromDTO(AHPUpdateDTO ahpUpdateDTO, @MappingTarget AHP ahp);
 

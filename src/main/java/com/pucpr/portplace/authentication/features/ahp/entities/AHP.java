@@ -1,17 +1,10 @@
 package com.pucpr.portplace.authentication.features.ahp.entities;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedBy;
-import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.pucpr.portplace.authentication.features.user.entities.User;
-
-import jakarta.persistence.CascadeType;
+import com.pucpr.portplace.authentication.core.entities.AuditableEntity;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
 import jakarta.persistence.FetchType;
@@ -35,7 +28,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Builder
 @EntityListeners(AuditingEntityListener.class)
-public class AHP {
+public class AHP extends AuditableEntity {
     
     @Id
     @GeneratedValue(strategy = jakarta.persistence.GenerationType.IDENTITY)
@@ -54,22 +47,5 @@ public class AHP {
     
     @OneToMany(mappedBy = "ahp")
     private List<Evaluation> evaluations;
-
-    // #region Auditing fields
-    @Builder.Default
-    private boolean disabled = false;
-    
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
-    @CreatedDate
-    private LocalDateTime createdAt;
-    
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
-    @LastModifiedDate
-    private LocalDateTime lastModifiedAt;
-    
-    @LastModifiedBy
-    private User lastModifiedBy;
-
-    // #endregion
 
 }

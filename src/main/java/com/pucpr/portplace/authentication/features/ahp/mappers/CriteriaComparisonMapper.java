@@ -15,11 +15,8 @@ import com.pucpr.portplace.authentication.features.ahp.mappers.helpers.CriteriaC
 @Mapper(componentModel = "spring", uses = {CriterionMapper.class, CriteriaGroupMapper.class, CriteriaComparisonMapHelper.class})
 public interface CriteriaComparisonMapper {
     
-    @Mapping(target = "disabled", ignore = true)
+    
     @Mapping(target = "id", ignore = true)
-    @Mapping(target = "createdAt", ignore = true)
-    @Mapping(target = "lastModifiedAt", ignore = true)
-    @Mapping(target = "lastModifiedBy", ignore = true)
     @Mapping(target = "comparedCriterion.id", source = "comparedCriterionId")
     @Mapping(target = "criteriaGroup.id", source = "criteriaGroupId")
     @Mapping(target = "referenceCriterion.id", source = "referenceCriterionId")
@@ -37,6 +34,7 @@ public interface CriteriaComparisonMapper {
 
     @Mapping(target = "disabled", ignore = true)
     @Mapping(target = "createdAt", ignore = true)
+    @Mapping(target = "createdBy", ignore = true)
     @Mapping(target = "lastModifiedAt", ignore = true)
     @Mapping(target = "lastModifiedBy", ignore = true)
     @Mapping(target = "comparedCriterion", ignore = true)

@@ -18,10 +18,6 @@ public interface EvaluationMapper {
     @Mapping(target = "ahp.id", source = "ahpId")
     @Mapping(target = "project.id", source = "projectId")
     @Mapping(target = "criterion.id", source = "criterionId")
-    @Mapping(target = "createdAt", ignore = true)
-    @Mapping(target = "lastModifiedAt", ignore = true)
-    @Mapping(target = "disabled", ignore = true)
-    @Mapping(target = "lastModifiedBy", ignore = true)
     @Mapping(target = "id", ignore = true)
     Evaluation toEntity(EvaluationCreateDTO dto);
 
@@ -39,6 +35,7 @@ public interface EvaluationMapper {
     @Mapping(target = "lastModifiedAt", ignore = true)
     @Mapping(target = "disabled", ignore = true)
     @Mapping(target = "lastModifiedBy", ignore = true)
+    @Mapping(target = "createdBy", ignore = true)
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "ahp", ignore = true)
     @Mapping(target = "project", ignore = true)
