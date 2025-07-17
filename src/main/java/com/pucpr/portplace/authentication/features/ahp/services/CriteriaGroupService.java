@@ -12,6 +12,7 @@ import com.pucpr.portplace.authentication.features.ahp.entities.CriteriaGroup;
 import com.pucpr.portplace.authentication.features.ahp.mappers.CriteriaGroupMapper;
 import com.pucpr.portplace.authentication.features.ahp.repositories.CriteriaGroupRepository;
 import com.pucpr.portplace.authentication.features.ahp.repositories.StrategyRepository;
+import com.pucpr.portplace.authentication.features.ahp.services.validations.CriteriaGroupValidationService;
 
 import lombok.AllArgsConstructor;
 
@@ -22,26 +23,23 @@ public class CriteriaGroupService {
     private CriteriaGroupRepository criteriaGroupRepository;
     private CriteriaGroupMapper criteriaGroupMapper;
     private StrategyRepository strategyRepository;
+
+    private CriteriaGroupValidationService validationService;
     
 
     // CREATE
-    public CriteriaGroupReadDTO createCriteriaGroup(long strategyId, CriteriaGroupCreateDTO criteriaGroupCreateDto) {
+    public CriteriaGroupReadDTO createCriteriaGroup(
+        long strategyId,
+        CriteriaGroupCreateDTO criteriaGroupCreateDto
+        ) {
 
-        // List<Long> criteriaIdList = criteriaGroupCreateDto.getCriteriaIdList();
+        // TODO: Check if criteria will be added to the group on group creation
         
-        
+        validationService.validateBeforeCreation(strategyId);
+
         CriteriaGroup criteriaGroup = criteriaGroupMapper.toCriteriaGroupEntity(criteriaGroupCreateDto);
-        criteriaGroup.setStrategy(strategyRepository.findById(strategyId).get()); //TODO: Change to use strategyService;
-
-        // if( criteriaIdList != null && !criteriaIdList.isEmpty() ) {
-            
-        //     List<Criterion> criteriaList = criteriaIdList.stream()
-        //         .map(id -> criterionService.getCriterionEntityById(id))
-        //         .toList();
-
-        //     criteriaGroup.setCriteria(criteriaList);
-
-        // }
+        //TODO: Change to use strategyService;
+        criteriaGroup.setStrategy(strategyRepository.findById(strategyId).get());
 
         CriteriaGroup entityCreated = criteriaGroupRepository.save(criteriaGroup);
         CriteriaGroupReadDTO criteriaGroupReadDTO = criteriaGroupMapper.toCriteriaGroupReadDTO(entityCreated);
@@ -51,22 +49,15 @@ public class CriteriaGroupService {
     }
 
     // UPDATE
-    public CriteriaGroupReadDTO updateCriteriaGroup(long strategyId, long criteriaGroupId, CriteriaGroupUpdateDTO criteriaGroupCreateDto) {
+    public CriteriaGroupReadDTO updateCriteriaGroup(
+        long strategyId,
+        long criteriaGroupId,
+        CriteriaGroupUpdateDTO criteriaGroupCreateDto
+        ) {
 
-        //TODO: Treat not found exception
+        validationService.validateBeforeUpdate(strategyId, criteriaGroupId);
+        
         CriteriaGroup criteriaGroup = criteriaGroupRepository.findById(criteriaGroupId).get();
-
-        // List<Long> criteriaIdList = criteriaGroupCreateDto.getCriteriaIdList();
-
-        // if( criteriaIdList != null && !criteriaIdList.isEmpty() ) {
-            
-        //     List<Criterion> criteriaList = criteriaIdList.stream()
-        //         .map(criterionService::getCriterionEntityById)
-        //         .toList();
-
-        //     criteriaGroup.setCriteria(criteriaList);
-
-        // }
 
         criteriaGroupMapper.updateFromDTO(criteriaGroupCreateDto, criteriaGroup);
         criteriaGroupRepository.save(criteriaGroup);
@@ -79,7 +70,8 @@ public class CriteriaGroupService {
     // DELETE
     public void disableCriteriaGroup(long strategyId, long criteriaGroupId) {
 
-        //TODO: Treat not found exception
+        validationService.validateBeforeDelete(strategyId, criteriaGroupId);
+
         CriteriaGroup criteriaGroup = criteriaGroupRepository.findById(criteriaGroupId).get();
 
         criteriaGroup.setDisabled(true);
@@ -90,13 +82,16 @@ public class CriteriaGroupService {
 
     public void deleteCriteriaGroup(long strategyId, long criteriaGroupId) {
 
-        //TODO: Treat not found exception
+        validationService.validateBeforeDelete(strategyId, criteriaGroupId);
+        
         criteriaGroupRepository.deleteById(criteriaGroupId);
 
     }
 
     // READ
     public CriteriaGroupReadDTO getCriteriaGroupById(long strategyId, long criteriaGroupId) {
+
+        validationService.validateBeforeGet(strategyId, criteriaGroupId);
 
         CriteriaGroup criteriaGroup = criteriaGroupRepository.findById(criteriaGroupId).get();
 
@@ -108,7 +103,7 @@ public class CriteriaGroupService {
 
     public List<CriteriaGroupListReadDTO> getCriteriaGroupsByStrategyId(long strategyId, boolean includeDisabled) {
 
-        //TODO: Treat case when strategy is not found
+        validationService.validateBeforeGetAll(strategyId);
 
         List<CriteriaGroup> criteriaGroups;
         

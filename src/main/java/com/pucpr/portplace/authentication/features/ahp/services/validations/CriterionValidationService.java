@@ -19,9 +19,9 @@ public class CriterionValidationService {
     CriteriaGroupEntityService service;
 
     // Specifications
-    EntityIsEnabledSpecification entityIsEnabledSpecification;
-    CriteriaGroupExistsSpecification criteriaGroupExistsSpecification;
-    CriterionExistsSpecification criterionExistsSpecification;
+    private EntityIsEnabledSpecification entityIsEnabledSpecification;
+    private CriteriaGroupExistsSpecification criteriaGroupExistsSpecification;
+    private CriterionExistsSpecification criterionExistsSpecification;
 
     public void validateBeforeCreation(Long criteriaGroupId) {
 

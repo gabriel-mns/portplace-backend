@@ -21,6 +21,9 @@ import com.pucpr.portplace.authentication.features.ahp.dtos.CriteriaGroupListRea
 import com.pucpr.portplace.authentication.features.ahp.dtos.CriteriaGroupReadDTO;
 import com.pucpr.portplace.authentication.features.ahp.dtos.CriteriaGroupUpdateDTO;
 import com.pucpr.portplace.authentication.features.ahp.services.CriteriaGroupService;
+
+import jakarta.validation.Valid;
+
 import com.pucpr.portplace.authentication.features.ahp.paths.StrategyPaths;
 
 @RestController
@@ -32,7 +35,7 @@ public class CriteriaGroupController {
 
      // CREATE
     @PostMapping
-    public ResponseEntity<CriteriaGroupReadDTO> createCriteriaGroup(@PathVariable long strategyId, @RequestBody CriteriaGroupCreateDTO criteriaGroupCreateDto) {
+    public ResponseEntity<CriteriaGroupReadDTO> createCriteriaGroup(@PathVariable long strategyId, @RequestBody @Valid CriteriaGroupCreateDTO criteriaGroupCreateDto) {
         
         CriteriaGroupReadDTO criteriaGroupReadDto = criteriaGroupService.createCriteriaGroup(strategyId, criteriaGroupCreateDto);
 
@@ -49,7 +52,7 @@ public class CriteriaGroupController {
 
     // UPDATE
     @PutMapping("/{criteriaGroupId}")
-    public ResponseEntity<CriteriaGroupReadDTO> updateCriteriaGroup(@PathVariable long strategyId, @PathVariable long criteriaGroupId, @RequestBody CriteriaGroupUpdateDTO criteriaGroupUpdateDto) {
+    public ResponseEntity<CriteriaGroupReadDTO> updateCriteriaGroup(@PathVariable long strategyId, @PathVariable long criteriaGroupId, @RequestBody @Valid CriteriaGroupUpdateDTO criteriaGroupUpdateDto) {
         
         CriteriaGroupReadDTO criteriaGroupReadDto = criteriaGroupService.updateCriteriaGroup(strategyId, criteriaGroupId, criteriaGroupUpdateDto);
 
