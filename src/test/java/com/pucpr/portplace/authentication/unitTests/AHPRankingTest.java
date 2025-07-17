@@ -161,8 +161,6 @@ public class AHPRankingTest {
         Strategy strategy = Strategy.builder()
                 .name("Test Strategy")
                 .description("This is a test strategy for AHP ranking.")
-                .disabled(false)
-                .lastModifiedBy(1L)
                 .build();
         strategyRepository.save(strategy);
 
@@ -182,7 +180,6 @@ public class AHPRankingTest {
         CriterionCreateDTO criterionCreateDTO = new CriterionCreateDTO();
         criterionCreateDTO.setName("Test Criterion" + index);
         criterionCreateDTO.setDescription("This is a test criterion for AHP ranking." + index);
-        criterionCreateDTO.setCriteriaGroupId(criteriaGroup.getId());
         criterionController.createCriterion(1, criteriaGroup.getId(), criterionCreateDTO);
 
     }

@@ -14,7 +14,6 @@ import lombok.Setter;
 @Setter
 public class CriteriaGroupUpdateDTO {
     
-    private long id;
     @NotBlank
     private String name;
     private String description;
