@@ -12,6 +12,7 @@ import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.servlet.NoHandlerFoundException;
 
 import com.fasterxml.jackson.databind.JsonMappingException.Reference;
@@ -108,16 +109,40 @@ public class GlobalExceptionHandler {
 	@ExceptionHandler(HttpRequestMethodNotSupportedException.class)
 	public ResponseEntity<Object> handleMethodNotSupported(HttpRequestMethodNotSupportedException ex, HttpServletRequest request) {
 
-			String suportados = String.join(", ", ex.getSupportedHttpMethods().stream().map(method -> method.name()).toList());
+		String suportados = String.join(", ", ex.getSupportedHttpMethods().stream().map(method -> method.name()).toList());
 
-			var response = new ApiErrorResponse(
-					HttpStatus.METHOD_NOT_ALLOWED.value(),
-					"Método HTTP não suportado. Métodos permitidos: " + suportados,
-					request.getRequestURI(),
-					ex.getMethod(),
-					LocalDateTime.now()
-			);
-			return ResponseEntity.status(HttpStatus.METHOD_NOT_ALLOWED).body(response);
+		var response = new ApiErrorResponse(
+				HttpStatus.METHOD_NOT_ALLOWED.value(),
+				"Método HTTP não suportado. Métodos permitidos: " + suportados,
+				request.getRequestURI(),
+				ex.getMethod(),
+				LocalDateTime.now()
+		);
+
+		return ResponseEntity.status(HttpStatus.METHOD_NOT_ALLOWED).body(response);
+
+	}
+
+	@ExceptionHandler(MethodArgumentTypeMismatchException.class)
+	public ResponseEntity<Object> handleTypeMismatch(
+			MethodArgumentTypeMismatchException ex,
+			HttpServletRequest request
+			) {
+
+		String paramName = ex.getName(); // nome do parâmetro
+		String expectedType = ex.getRequiredType() != null ? ex.getRequiredType().getSimpleName() : "desconhecido";
+		String providedType = ex.getValue() != null ? ex.getValue().getClass().getSimpleName() : "null";
+
+		String path = request.getRequestURI();
+
+		var response = new ApiErrorResponse(
+			HttpStatus.BAD_REQUEST,
+			"Invalid value for parameter '" + paramName + "'. Expected type: " + expectedType + ", provided: " + providedType,
+			request.getMethod(),
+			path
+		);
+
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
 	}
 
     @ExceptionHandler(Exception.class)
