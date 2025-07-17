@@ -34,4 +34,12 @@ public class CriteriaGroupEntityService {
 
     }
 
+    public boolean existsById(
+        long criteriaGroupId
+        ) {
+
+        return criteriaGroupRepository.existsById(criteriaGroupId);
+
+    }
+    
 }

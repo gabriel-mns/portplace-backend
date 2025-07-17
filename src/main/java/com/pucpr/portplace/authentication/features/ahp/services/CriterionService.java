@@ -13,6 +13,7 @@ import com.pucpr.portplace.authentication.features.ahp.entities.Criterion;
 import com.pucpr.portplace.authentication.features.ahp.mappers.CriterionMapper;
 import com.pucpr.portplace.authentication.features.ahp.repositories.CriterionRepository;
 import com.pucpr.portplace.authentication.features.ahp.services.internal.CriteriaGroupEntityService;
+import com.pucpr.portplace.authentication.features.ahp.services.validations.CriterionValidationService;
 import com.pucpr.portplace.authentication.features.ahp.specs.AllCriteriaComparedSpecification;
 
 import lombok.AllArgsConstructor;
@@ -25,6 +26,9 @@ public class CriterionService {
     private CriterionRepository criterionRepository;
     private AHPResultsService ahpResultsService;
     private CriterionMapper criterionMapper;
+
+    // VALIDATIONS
+    private CriterionValidationService validationService;
     
     // SPECS
     private AllCriteriaComparedSpecification allCriteriaComparedSpecification;
@@ -32,23 +36,27 @@ public class CriterionService {
     // CREATE
     public CriterionReadDTO createCriterion(long strategyId, long criteriaGroupId, CriterionCreateDTO criterionCreateDTO) {
         
+        validationService.validateBeforeCreation(criteriaGroupId);
+
         Criterion newCriterion = criterionMapper.toEntity(criterionCreateDTO);
+        newCriterion.setCriteriaGroup(
+            criteriaGroupEntityService.getById(strategyId, criteriaGroupId)
+        );
 
         criterionRepository.save(newCriterion);
-        
-        CriterionReadDTO criterionReadDto = criterionMapper.toReadDTO(newCriterion);
 
-        return criterionReadDto;
+        return criterionMapper.toReadDTO(newCriterion);
 
     }
 
     // UPDATE
-    public CriterionReadDTO updateCriterion(Long id, CriterionUpdateDTO criterionCreateDTO) {
+    public CriterionReadDTO updateCriterion(Long id, CriterionUpdateDTO criterionUpdateDTO) {
 
-        //TODO: Treat case when criterion is not found
+        validationService.validateBeforeUpdate(id);
+
         Criterion criterion = criterionRepository.findById(id).get();
 
-        criterionMapper.updateFromDTO(criterionCreateDTO, criterion);
+        criterionMapper.updateFromDTO(criterionUpdateDTO, criterion);
 
         criterionRepository.save(criterion);
 
@@ -59,7 +67,8 @@ public class CriterionService {
     // DELETE
     public void disableCriterion(Long criteriaGroupId, Long id) {
 
-        //TODO: Treat case when criterion is not found
+        validationService.validateBeforeDeletion(id);
+
         Criterion criterion = criterionRepository.findById(id).get();
 
         criterion.setDisabled(true);
@@ -70,7 +79,8 @@ public class CriterionService {
 
     public void deleteCriterion(Long criteriaGroupId, Long id) {
 
-        //TODO: Treat case when criterion is not found
+        validationService.validateBeforeDeletion(id);
+
         criterionRepository.deleteById(id);
 
     }
@@ -78,16 +88,19 @@ public class CriterionService {
     // READ
     public CriterionReadDTO getCriterionById(Long criteriaGroupId,Long criterionId) {
 
+        validationService.validateBeforeGet(criteriaGroupId, criterionId);
+
         Criterion criterion = criterionRepository.findById(criterionId).get();
         CriterionReadDTO criterionDTO = criterionMapper.toReadDTO(criterion);
         
+        // Weight calculation
         CriteriaGroup criteriaGroup = criteriaGroupEntityService.getById(1, criteriaGroupId);
         boolean allCriteriaCompared = allCriteriaComparedSpecification.isSatisfiedBy(
             criteriaGroup
         );
         List<CriteriaComparison> comparisons = criteriaGroupEntityService
-        .getById(1, criteriaGroupId)
-        .getCriteriaComparisons();
+            .getById(1, criteriaGroupId)
+            .getCriteriaComparisons();
 
         if (allCriteriaCompared) {
             double weight = ahpResultsService.getCriterionWeight(criterionId, comparisons);
@@ -99,6 +112,8 @@ public class CriterionService {
     }
 
     public List<CriterionReadDTO> getCriteriaByCriteriaGroupId(long criteriaGroupId, boolean includeDisabled) {
+
+        validationService.validateBeforeGetAll(criteriaGroupId);
 
         List<Criterion> criteria;
         CriteriaGroup criteriaGroup = criteriaGroupEntityService.getById(1, criteriaGroupId);

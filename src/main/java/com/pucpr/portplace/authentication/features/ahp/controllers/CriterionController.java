@@ -23,6 +23,8 @@ import com.pucpr.portplace.authentication.features.ahp.dtos.CriterionUpdateDTO;
 import com.pucpr.portplace.authentication.features.ahp.paths.StrategyPaths;
 import com.pucpr.portplace.authentication.features.ahp.services.CriterionService;
 
+import jakarta.validation.Valid;
+
 @RestController
 @RequestMapping(StrategyPaths.CRITERIA)
 public class CriterionController {
@@ -53,7 +55,7 @@ public class CriterionController {
 
     //#region CREATE
     @PostMapping
-    public ResponseEntity<CriterionReadDTO> createCriterion(@PathVariable long strategyId, @PathVariable Long criteriaGroupId, @RequestBody CriterionCreateDTO criterionCreateDTO) {
+    public ResponseEntity<CriterionReadDTO> createCriterion(@PathVariable long strategyId, @PathVariable Long criteriaGroupId, @RequestBody @Valid CriterionCreateDTO criterionCreateDTO) {
         
         CriterionReadDTO createdCriterion = criterionService.createCriterion(strategyId, criteriaGroupId, criterionCreateDTO);
 
@@ -68,7 +70,7 @@ public class CriterionController {
 
     //#region UPDATE
     @PutMapping("/{criterionId}")
-    public ResponseEntity<CriterionReadDTO> updateCriterion(@PathVariable long strategyId, @PathVariable Long criteriaGroupId, @PathVariable long criterionId, @RequestBody CriterionUpdateDTO criterionUpdateDTO) {
+    public ResponseEntity<CriterionReadDTO> updateCriterion(@PathVariable long strategyId, @PathVariable Long criteriaGroupId, @PathVariable long criterionId, @RequestBody @Valid CriterionUpdateDTO criterionUpdateDTO) {
         
         CriterionReadDTO updatedCriterion = criterionService.updateCriterion(criterionId, criterionUpdateDTO);
 
