@@ -22,6 +22,8 @@ import com.pucpr.portplace.authentication.features.ahp.dtos.CriteriaComparisonUp
 import com.pucpr.portplace.authentication.features.ahp.paths.StrategyPaths;
 import com.pucpr.portplace.authentication.features.ahp.services.CriteriaComparisonService;
 
+import jakarta.validation.Valid;
+
 @RestController
 @RequestMapping(StrategyPaths.CRITERIA_COMPARISONS)
 // @RequestMapping("/strategies/{strategyId}/criteria-groups/{criteriaGroupId}/criteria-comparisons")
@@ -32,7 +34,7 @@ public class CriteriaComparisonController {
     
     // CREATE
     @PostMapping
-    public ResponseEntity<CriteriaComparisonReadDTO> createCriterionComparison(@PathVariable long strategyId, @PathVariable long criteriaGroupId, @RequestBody CriteriaComparisonCreateDTO criteriaComparisonCreateDTO) {
+    public ResponseEntity<CriteriaComparisonReadDTO> createCriterionComparison(@PathVariable long strategyId, @PathVariable long criteriaGroupId, @RequestBody @Valid CriteriaComparisonCreateDTO criteriaComparisonCreateDTO) {
         
         CriteriaComparisonReadDTO createdCriteriaComparison = criterionComparisonService.createCriteriaComparison(strategyId, criteriaGroupId, criteriaComparisonCreateDTO);
 
@@ -47,9 +49,9 @@ public class CriteriaComparisonController {
 
     // UPDATE
     @PutMapping("/{criteriaComparisonId}")
-    public ResponseEntity<CriteriaComparisonReadDTO> updateCriterionComparison(@PathVariable long strategyId, @PathVariable long criteriaGroupId, @PathVariable long criteriaComparisonId, @RequestBody CriteriaComparisonUpdateDTO criteriaComparisonUpdateDTO) {
+    public ResponseEntity<CriteriaComparisonReadDTO> updateCriterionComparison(@PathVariable long strategyId, @PathVariable long criteriaGroupId, @PathVariable long criteriaComparisonId, @RequestBody @Valid CriteriaComparisonUpdateDTO dto) {
         
-        CriteriaComparisonReadDTO updatedCriteriaComparison = criterionComparisonService.updateCriteriaComparison(criteriaComparisonId, criteriaComparisonUpdateDTO);
+        CriteriaComparisonReadDTO updatedCriteriaComparison = criterionComparisonService.updateCriteriaComparison(strategyId, criteriaComparisonId, dto);
 
         return ResponseEntity.ok().body(updatedCriteriaComparison);
     
@@ -79,13 +81,13 @@ public class CriteriaComparisonController {
     public ResponseEntity<List<CriteriaComparisonReadDTO>> getCriteriaComparisons(
             @PathVariable long strategyId,
             @PathVariable long criteriaGroupId,
-            @RequestParam(required = false) Long comparedCriterionId,
-            @RequestParam(required = false) Long referenceCriterionId,
+            @RequestParam(required = false) Long criterion1Id,
+            @RequestParam(required = false) Long criterion2Id,
             @RequestParam(defaultValue = "false") boolean includeDisabled
     ) {
         
         List<CriteriaComparisonReadDTO> criteriaComparisons = criterionComparisonService.getCriteriaComparisons(
-            strategyId, criteriaGroupId, comparedCriterionId, referenceCriterionId, includeDisabled
+            strategyId, criteriaGroupId, criterion1Id, criterion2Id, includeDisabled
         );
 
         return ResponseEntity.ok(criteriaComparisons);

@@ -4,10 +4,10 @@
 // GRUPO DE CRITÉRIOS
 
 ### BUSCA DE TODOS OS GRUPOS DE CRITÉRIOS
-GET {{host}}/strategies/1000/criteria-groups/1
+GET {{host}}/strategies/1/criteria-groups
 
 ### BUSCA POR ID DE UM GRUPO DE CRITÉRIOS
-GET {{host}}/strategies/1/criteria-groups/5
+GET {{host}}/strategies/1/criteria-groups/1
 
 ### CADASTRAR GRUPO DE CRITÉRIOS
 POST {{host}}/strategies/1/criteria-groups

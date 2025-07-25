@@ -31,7 +31,7 @@ public class CriteriaGroup extends AuditableEntity {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
     private String name;
     private String description;
     
@@ -44,5 +44,18 @@ public class CriteriaGroup extends AuditableEntity {
     private List<Criterion> criteria;
     @OneToMany(mappedBy = "criteriaGroup")
     private List<CriteriaComparison> criteriaComparisons;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof CriteriaGroup)) return false;
+        CriteriaGroup that = (CriteriaGroup) o;
+        return id != null && id.equals(that.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return getClass().hashCode(); // Ou Objects.hash(id);
+    }
 
 }

@@ -16,6 +16,8 @@ import com.pucpr.portplace.authentication.features.ahp.entities.CriteriaComparis
 import com.pucpr.portplace.authentication.features.ahp.entities.Evaluation;
 import com.pucpr.portplace.authentication.features.ahp.services.internal.AHPEntityService;
 
+import jakarta.transaction.Transactional;
+
 @Service
 public class AHPResultsService {
     
@@ -149,6 +151,7 @@ public class AHPResultsService {
         return ranking;
     }
 
+    @Transactional
     public List<ProjectRankingReadDTO> getProjectRankingByAHPId(Long ahpId) {
         
         AHP ahp = ahpEntityService.getAHPEntityById(ahpId);

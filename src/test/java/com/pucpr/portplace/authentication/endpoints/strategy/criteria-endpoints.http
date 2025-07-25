@@ -9,7 +9,7 @@ GET {{host}}/strategies/1/criteria-groups/1/criteria
 GET {{host}}/strategies/1/criteria-groups/1/criteria
 
 ### CADASTRAR DE CRITÉRIO
-POST {{host}}/strategies/1/criteria-groups/3/criteria/2
+POST {{host}}/strategies/1/criteria-groups/2/criteria
 Content-Type: application/json
 
 {

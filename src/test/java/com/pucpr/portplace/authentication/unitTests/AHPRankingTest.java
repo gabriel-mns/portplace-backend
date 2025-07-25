@@ -75,7 +75,8 @@ public class AHPRankingTest {
 
     @Test
     void testAHPRanking() {
-        
+
+
         // Create a strategy
         createStrategy();
 
@@ -188,7 +189,7 @@ public class AHPRankingTest {
         CriteriaComparisonCreateDTO criteriaComparisonCreateDTO = new CriteriaComparisonCreateDTO();
         criteriaComparisonCreateDTO.setComparedCriterionId(comparedCriterion.getId());
         criteriaComparisonCreateDTO.setReferenceCriterionId(referenceCriterion.getId());
-        criteriaComparisonCreateDTO.setImportanceScale(importanceScale);
+        criteriaComparisonCreateDTO.setImportanceScale(importanceScale.toString());
         criteriaComparisonController.createCriterionComparison(1, criteriaGroupId, criteriaComparisonCreateDTO);
     }
 

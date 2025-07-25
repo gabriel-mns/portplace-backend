@@ -6,13 +6,15 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Component;
 
+import com.pucpr.portplace.authentication.core.validation.specs.Specification;
 import com.pucpr.portplace.authentication.features.ahp.entities.CriteriaComparison;
 import com.pucpr.portplace.authentication.features.ahp.entities.CriteriaGroup;
 import com.pucpr.portplace.authentication.features.ahp.entities.Criterion;
 
 @Component
-public class AllCriteriaComparedSpecification {
+public class AllCriteriaComparedSpecification implements Specification<CriteriaGroup> {
     
+    @Override
     public boolean isSatisfiedBy(CriteriaGroup criteriaGroup) {
 
         return allCriteriaCompared(criteriaGroup.getCriteria(), criteriaGroup.getCriteriaComparisons());

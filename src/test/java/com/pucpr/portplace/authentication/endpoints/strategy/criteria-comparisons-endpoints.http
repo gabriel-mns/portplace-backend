@@ -3,7 +3,7 @@
 // COMPARAÇÃO DE CRITÉRIOS
 
 ### BUSCA DE TODOS AS COMPARAÇÕES DE CRITÉRIOS
-GET {{host}}/strategies/1/criteria-groups/3/criteria-comparisons
+GET {{host}}/strategies/1/criteria-groups/1/criteria-comparisons?criterion1Id=2&criterion2Id=3&includeDisabled=false
 
 ### BUSCA POR ID DE UMA COMPARAÇÃO DE CRITÉRIOS
 GET {{host}}/strategies/1/criteria-groups/3/criteria-comparisons/2
@@ -15,8 +15,7 @@ Content-Type: application/json
 {
   "comparedCriterionId": 3,
   "referenceCriterionId": 2,
-  "importanceScale": "EXTREMELY_LESS_IMPORTANT",
-  "criteriaGroupId": 1
+  "importanceScale": "EXTREMELY_MORE_IMPORTANT"
 }
 
 ### EDIÇÃO DE COMPARAÇÃO DE CRITÉRIOS
