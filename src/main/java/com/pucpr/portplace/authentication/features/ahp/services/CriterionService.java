@@ -12,6 +12,7 @@ import com.pucpr.portplace.authentication.features.ahp.entities.CriteriaGroup;
 import com.pucpr.portplace.authentication.features.ahp.entities.Criterion;
 import com.pucpr.portplace.authentication.features.ahp.mappers.CriterionMapper;
 import com.pucpr.portplace.authentication.features.ahp.repositories.CriterionRepository;
+import com.pucpr.portplace.authentication.features.ahp.services.internal.AHPCalculationService;
 import com.pucpr.portplace.authentication.features.ahp.services.internal.CriteriaGroupEntityService;
 import com.pucpr.portplace.authentication.features.ahp.services.validations.CriterionValidationService;
 import com.pucpr.portplace.authentication.features.ahp.specs.AllCriteriaComparedSpecification;
@@ -24,7 +25,7 @@ public class CriterionService {
 
     private CriteriaGroupEntityService criteriaGroupEntityService;
     private CriterionRepository criterionRepository;
-    private AHPResultsService ahpResultsService;
+    private AHPCalculationService ahpCalculationService;
     private CriterionMapper criterionMapper;
 
     // VALIDATIONS
@@ -103,7 +104,7 @@ public class CriterionService {
             .getCriteriaComparisons();
 
         if (allCriteriaCompared) {
-            double weight = ahpResultsService.getCriterionWeight(criterionId, comparisons);
+            double weight = ahpCalculationService.getCriterionWeight(criterionId, comparisons);
             criterionDTO.setWeight(weight);
         }
 
@@ -139,7 +140,7 @@ public class CriterionService {
             .map(criterionMapper::toReadDTO)
             .peek(dto -> {
                 if (includeWeight) {
-                    double weight = ahpResultsService.getCriterionWeight(dto.getId(), criteriaComparisons);
+                    double weight = ahpCalculationService.getCriterionWeight(dto.getId(), criteriaComparisons);
                     dto.setWeight(weight);
                 }
             })
