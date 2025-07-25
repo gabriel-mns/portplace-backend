@@ -6,7 +6,6 @@ import com.pucpr.portplace.authentication.features.project.dtos.ProjectCreateDTO
 import com.pucpr.portplace.authentication.features.project.dtos.ProjectUpdateDTO;
 import com.pucpr.portplace.authentication.features.project.exceptions.ProjectNotFoundException;
 import com.pucpr.portplace.authentication.features.project.specs.ProjectExistsSpecification;
-import com.pucpr.portplace.authentication.features.user.dtos.UserRegisterDTO;
 import com.pucpr.portplace.authentication.features.user.exceptions.UserNotFoundException;
 import com.pucpr.portplace.authentication.features.user.specs.UserExistsSpecification;
 

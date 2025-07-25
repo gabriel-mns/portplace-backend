@@ -2,15 +2,12 @@ package com.pucpr.portplace.authentication.features.ahp.services.validations;
 
 import org.springframework.stereotype.Service;
 
-import com.pucpr.portplace.authentication.core.exception.BusinessException;
-import com.pucpr.portplace.authentication.features.ahp.entities.CriteriaComparison;
 import com.pucpr.portplace.authentication.features.ahp.entities.Criterion;
 import com.pucpr.portplace.authentication.features.ahp.exceptions.ComparisonOfCriteriaFromDifferentGroupsException;
 import com.pucpr.portplace.authentication.features.ahp.exceptions.CriteriaComparisonNotFoundException;
 import com.pucpr.portplace.authentication.features.ahp.exceptions.CriteriaGroupNotFoundException;
 import com.pucpr.portplace.authentication.features.ahp.exceptions.CriterionNotFoundException;
 import com.pucpr.portplace.authentication.features.ahp.exceptions.SameCriteriaException;
-import com.pucpr.portplace.authentication.features.ahp.services.internal.CriteriaComparisonEntityService;
 import com.pucpr.portplace.authentication.features.ahp.services.internal.CriterionEntityService;
 import com.pucpr.portplace.authentication.features.ahp.specs.ComparedCriteriaAreDifferentSpecification;
 import com.pucpr.portplace.authentication.features.ahp.specs.CriteriaComparisonExistsSpecification;
@@ -25,7 +22,6 @@ import lombok.AllArgsConstructor;
 public class CriteriaComparisonValidationService {
     
     private CriterionEntityService criterionEntityService;
-    private CriteriaComparisonEntityService criteriaComparisonService;
 
     private CriteriaComparisonExistsSpecification criteriaComparisonExistsSpecification;
     private CriteriaGroupExistsSpecification criteriaGroupExistsSpecification;

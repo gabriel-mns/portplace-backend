@@ -5,7 +5,6 @@ import java.time.LocalDate;
 import com.pucpr.portplace.authentication.core.validation.constraints.enumValues.ValidEnum;
 import com.pucpr.portplace.authentication.core.validation.constraints.dateRange.ValidDateRange;
 import com.pucpr.portplace.authentication.features.project.enums.ProjectStatusEnum;
-import com.pucpr.portplace.authentication.features.user.constraintValidators.UserExists;
 
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;

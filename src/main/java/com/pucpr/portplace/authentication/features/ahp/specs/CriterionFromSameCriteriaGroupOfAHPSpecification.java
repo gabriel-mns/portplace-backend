@@ -4,11 +4,7 @@ import org.springframework.stereotype.Component;
 
 import com.pucpr.portplace.authentication.core.validation.specs.BiSpecification;
 import com.pucpr.portplace.authentication.features.ahp.entities.AHP;
-import com.pucpr.portplace.authentication.features.ahp.entities.CriteriaGroup;
 import com.pucpr.portplace.authentication.features.ahp.entities.Criterion;
-import com.pucpr.portplace.authentication.features.ahp.services.internal.AHPEntityService;
-import com.pucpr.portplace.authentication.features.ahp.services.internal.CriterionEntityService;
-
 import lombok.AllArgsConstructor;
 
 @Component

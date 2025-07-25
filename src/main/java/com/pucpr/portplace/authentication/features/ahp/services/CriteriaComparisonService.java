@@ -3,7 +3,6 @@ package com.pucpr.portplace.authentication.features.ahp.services;
 import java.util.List;
 import java.util.logging.Logger;
 
-import org.springframework.data.relational.core.query.Criteria;
 import org.springframework.stereotype.Service;
 
 import com.pucpr.portplace.authentication.features.ahp.dtos.CriteriaComparisonCreateDTO;
