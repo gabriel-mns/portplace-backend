@@ -10,6 +10,8 @@ import com.pucpr.portplace.authentication.features.project.dtos.ProjectUpdateDTO
 import com.pucpr.portplace.authentication.features.project.entities.Project;
 import com.pucpr.portplace.authentication.features.project.mappers.ProjectMapper;
 import com.pucpr.portplace.authentication.features.project.repositories.ProjectRepository;
+import com.pucpr.portplace.authentication.features.project.services.validations.ProjectValidationService;
+
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 
@@ -19,9 +21,12 @@ public class ProjectService {
     
     private ProjectRepository projectRepository;
     private ProjectMapper projectMapper;
+    private ProjectValidationService validationService;
 
     // CREATE
     public ProjectReadDTO createProject(@Valid ProjectCreateDTO projectDTO) {
+
+        validationService.validateBeforeCreate(projectDTO);
 
         Project newProject = projectMapper.toEntity(projectDTO);
 
@@ -33,6 +38,8 @@ public class ProjectService {
 
     // UPDATE
     public ProjectReadDTO updateProject(ProjectUpdateDTO projectDTO, long projectId) {
+
+        validationService.validateBeforeUpdate(projectId, projectDTO);
 
         Project updatedProject = projectRepository.findById(projectId).get();
 
@@ -49,11 +56,15 @@ public class ProjectService {
     // DELETE
     public void deleteProject(long projectId) {
 
+        validationService.validateBeforeDelete(projectId);
+
         projectRepository.deleteById(projectId);
 
     }
 
     public void disableProject(long projectId) {
+
+        validationService.validateBeforeDisable(projectId);
 
         Project project = projectRepository.findById(projectId).get();
 
@@ -69,6 +80,8 @@ public class ProjectService {
     // TODO: Implement pagination, sorting and filtering methods
     public ProjectReadDTO getProjectById(long projectId) {
 
+        validationService.validateBeforeGet(projectId);
+
         Project project = projectRepository.findById(projectId).get();
 
         ProjectReadDTO projectDTO = projectMapper.toReadDTO(project);
@@ -76,12 +89,6 @@ public class ProjectService {
         // TODO: Treat the case when the project is not found
 
         return projectDTO;
-    
-    }
-
-    public Project getProjecEntitytById(long projectId) {
-
-        return projectRepository.findById(projectId).get();
     
     }
 
@@ -108,6 +115,8 @@ public class ProjectService {
     }
 
     public List<ProjectReadDTO> getAllProjectsByProjectManagerId(long projectManagerId, boolean includeDisabled) {
+
+        validationService.validateBeforeGetByProjectManagerId(projectManagerId);
 
         List<Project> projects;
 

@@ -34,7 +34,6 @@ public class ProjectCreateDTO {
     private double payback;
     private LocalDate startDate;
     private LocalDate endDate;
-    @UserExists
     private long projectManager;
 
 }

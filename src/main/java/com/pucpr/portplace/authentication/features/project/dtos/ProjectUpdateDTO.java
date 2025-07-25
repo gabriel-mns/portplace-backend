@@ -37,8 +37,6 @@ public class ProjectUpdateDTO {
     private double payback;
     private LocalDate startDate;
     private LocalDate endDate;
-    // private User projectManager;
-    @UserExists
     private long projectManager;
 
 }

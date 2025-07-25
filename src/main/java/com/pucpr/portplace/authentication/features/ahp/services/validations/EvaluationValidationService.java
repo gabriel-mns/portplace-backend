@@ -36,7 +36,7 @@ public class EvaluationValidationService {
     private EvaluationIsFromAHPSpecification evaluationIsFromAHPSpecification;
     private CriterionFromSameCriteriaGroupOfAHPSpecification criterionFromSameCriteriaGroupOfAHPSpecification;
 
-    public void validateBeforeCreate(long ahpId, EvaluationCreateDTO evaluationCreateDTO) {
+    public void validateBeforeCreation(long ahpId, EvaluationCreateDTO evaluationCreateDTO) {
 
         if(!ahpExistsSpecification.isSatisfiedBy(ahpId)) {
             throw new AHPNotFoundException(ahpId);

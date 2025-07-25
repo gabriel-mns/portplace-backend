@@ -5,8 +5,8 @@ POST {{host}}/projects
 Content-Type: application/json
 
 {
-  "name": "Projeto 2",
-  "description": "Projeto 2",
+  "name": "Projeto 3",
+  "description": "Projeto 3",
   "startDate": "2023-10-01",
   "endDate": "2023-12-31",
   "status": "CANDIDATE",
@@ -36,7 +36,7 @@ Host: localhost:8080
 
 
 ### ALTERAR PROJETO
-PUT {{host}}/projects/1?trace=true
+PUT {{host}}/projects/1
 Accept: application/json
 Content-Type: application/json
 
@@ -48,12 +48,12 @@ Content-Type: application/json
   "earnedValue": 152752.87,
   "plannedValue": 25781.90,
   "actualCost": 25440.00,
-  "budget": "-255555.0",
+  "budget": "55555.0",
   "payback": "150000.0",
   "startDate": "2020-10-01",
   "endDate": "2025-12-31",
-  "projectManager": "1"
+  "projectManager": 1
 }
 
 ### DELETAR PROJETO
-DELETE {{host}}/projects/5
+DELETE {{host}}/projects

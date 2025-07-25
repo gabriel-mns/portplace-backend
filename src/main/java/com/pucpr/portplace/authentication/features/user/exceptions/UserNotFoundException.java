@@ -1,9 +1,11 @@
 package com.pucpr.portplace.authentication.features.user.exceptions;
 
-public class UserNotFoundException extends RuntimeException {
+import jakarta.persistence.EntityNotFoundException;
+
+public class UserNotFoundException extends EntityNotFoundException {
 
     public UserNotFoundException(String email) {
-        super("User with email " + email + " could not be found");
+        super("User could not be found with email: " + email);
     }
 
     public UserNotFoundException() {
@@ -11,7 +13,7 @@ public class UserNotFoundException extends RuntimeException {
     }
 
     public UserNotFoundException(Long id) {
-        super("User with id " + id + " could not be found");
+        super("User could not be found with ID: " + id);
     }
 
 }
