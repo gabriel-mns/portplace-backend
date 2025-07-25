@@ -6,18 +6,22 @@ import org.mapstruct.AfterMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
+import org.mapstruct.ReportingPolicy;
 import com.pucpr.portplace.authentication.features.ahp.dtos.AHPCreateDTO;
 import com.pucpr.portplace.authentication.features.ahp.dtos.AHPReadDTO;
 import com.pucpr.portplace.authentication.features.ahp.dtos.AHPUpdateDTO;
 import com.pucpr.portplace.authentication.features.ahp.entities.AHP;
 
-@Mapper(componentModel = "spring", uses = { EvaluationMapper.class })
+@Mapper(
+    componentModel = "spring", 
+    uses = { EvaluationMapper.class },
+    unmappedSourcePolicy = ReportingPolicy.IGNORE,
+    unmappedTargetPolicy = ReportingPolicy.IGNORE
+)
 public interface AHPMapper {
 
     @Mapping(target = "criteriaGroup.id", source = "criteriaGroupId")
     @Mapping(target = "strategy.id", source = "strategyId")
-    @Mapping(target = "evaluations", ignore = true)
-    @Mapping(target = "id", ignore = true)
     AHP toEntity(AHPCreateDTO ahpCreateDTO);
 
     @Mapping(target = "criteriaGroupId", source = "criteriaGroup.id")
@@ -30,13 +34,6 @@ public interface AHPMapper {
 
     @Mapping(target = "criteriaGroup.id", source = "criteriaGroupId")
     @Mapping(target = "strategy.id", source = "strategyId")
-    @Mapping(target = "evaluations", ignore = true)
-    @Mapping(target = "createdAt", ignore = true)
-    @Mapping(target = "lastModifiedAt", ignore = true)
-    @Mapping(target = "disabled", ignore = true)
-    @Mapping(target = "lastModifiedBy", ignore = true)
-    @Mapping(target = "createdBy", ignore = true)
-    @Mapping(target = "id", ignore = true)
     void updateFromDTO(AHPUpdateDTO ahpUpdateDTO, @MappingTarget AHP ahp);
 
     @AfterMapping

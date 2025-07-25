@@ -12,11 +12,14 @@ import com.pucpr.portplace.authentication.features.ahp.dtos.CriteriaComparisonUp
 import com.pucpr.portplace.authentication.features.ahp.entities.CriteriaComparison;
 import com.pucpr.portplace.authentication.features.ahp.mappers.helpers.CriteriaComparisonMapHelper;
 
-@Mapper(componentModel = "spring", uses = {CriterionMapper.class, CriteriaGroupMapper.class, CriteriaComparisonMapHelper.class})
+@Mapper(
+    componentModel = "spring",
+    uses = {CriterionMapper.class, CriteriaGroupMapper.class, CriteriaComparisonMapHelper.class},
+    unmappedTargetPolicy = org.mapstruct.ReportingPolicy.IGNORE,
+    unmappedSourcePolicy = org.mapstruct.ReportingPolicy.IGNORE
+    )
 public interface CriteriaComparisonMapper {
     
-    
-    @Mapping(target = "id", ignore = true)
     @Mapping(target = "comparedCriterion.id", source = "comparedCriterionId")
     @Mapping(target = "criteriaGroup.id", source = "criteriaGroupId")
     @Mapping(target = "referenceCriterion.id", source = "referenceCriterionId")
@@ -32,13 +35,5 @@ public interface CriteriaComparisonMapper {
     @Mapping(target = "referenceCriterionId", source = "referenceCriterion.id")
     List<CriteriaComparisonReadDTO> toReadDTO(List<CriteriaComparison> criteriaComparisonList);
 
-    @Mapping(target = "disabled", ignore = true)
-    @Mapping(target = "createdAt", ignore = true)
-    @Mapping(target = "createdBy", ignore = true)
-    @Mapping(target = "lastModifiedAt", ignore = true)
-    @Mapping(target = "lastModifiedBy", ignore = true)
-    @Mapping(target = "comparedCriterion", ignore = true)
-    @Mapping(target = "referenceCriterion", ignore = true)
-    @Mapping(target = "criteriaGroup", ignore = true)
     void updateFromDTO(CriteriaComparisonUpdateDTO dto, @MappingTarget CriteriaComparison entity);
 }

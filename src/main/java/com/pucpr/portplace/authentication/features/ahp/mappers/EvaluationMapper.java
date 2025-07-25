@@ -13,13 +13,16 @@ import com.pucpr.portplace.authentication.features.ahp.entities.Evaluation;
 import com.pucpr.portplace.authentication.features.project.mappers.ProjectMapper;
 import org.mapstruct.ReportingPolicy;
 
-@Mapper(componentModel = "spring", uses = {ProjectMapper.class, CriterionMapper.class, AHPMapper.class}, unmappedTargetPolicy = ReportingPolicy.IGNORE)
+@Mapper(
+    componentModel = "spring", 
+    uses = {ProjectMapper.class, CriterionMapper.class, AHPMapper.class},
+    unmappedSourcePolicy = ReportingPolicy.IGNORE,
+    unmappedTargetPolicy = ReportingPolicy.IGNORE
+)
 public interface EvaluationMapper {
     
     @Mapping(target = "project.id", source = "projectId")
     @Mapping(target = "criterion.id", source = "criterionId")
-    @Mapping(target = "id", ignore = true)
-    @Mapping(target = "ahp", ignore = true)
     Evaluation toEntity(EvaluationCreateDTO dto);
 
     @Mapping(target = "ahpId", source = "ahp.id")
@@ -31,16 +34,7 @@ public interface EvaluationMapper {
     @Mapping(target = "projectId", source = "project.id")
     @Mapping(target = "criterionId", source = "criterion.id")
     List<EvaluationReadDTO> toReadDTO(List<Evaluation> evaluation);
-
-    @Mapping(target = "createdAt", ignore = true)
-    @Mapping(target = "lastModifiedAt", ignore = true)
-    @Mapping(target = "disabled", ignore = true)
-    @Mapping(target = "lastModifiedBy", ignore = true)
-    @Mapping(target = "createdBy", ignore = true)
-    @Mapping(target = "id", ignore = true)
-    @Mapping(target = "ahp", ignore = true)
-    @Mapping(target = "project", ignore = true)
-    @Mapping(target = "criterion", ignore = true)
+    
     void updateFromDTO(EvaluationUpdateDTO dto, @MappingTarget Evaluation entity);
 
 }

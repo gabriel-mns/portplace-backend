@@ -8,6 +8,7 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 import org.mapstruct.Named;
+import org.mapstruct.ReportingPolicy;
 
 import com.pucpr.portplace.authentication.features.ahp.dtos.CriteriaGroupCreateDTO;
 import com.pucpr.portplace.authentication.features.ahp.dtos.CriteriaGroupListReadDTO;
@@ -15,36 +16,26 @@ import com.pucpr.portplace.authentication.features.ahp.dtos.CriteriaGroupReadDTO
 import com.pucpr.portplace.authentication.features.ahp.dtos.CriteriaGroupUpdateDTO;
 import com.pucpr.portplace.authentication.features.ahp.entities.CriteriaGroup;
 
-@Mapper(componentModel = "spring", uses = {CriterionMapper.class, CriteriaComparisonMapper.class})
+@Mapper(
+    componentModel = "spring", 
+    uses = {CriterionMapper.class, CriteriaComparisonMapper.class},
+    unmappedSourcePolicy = ReportingPolicy.IGNORE,
+    unmappedTargetPolicy = ReportingPolicy.IGNORE
+)
 public interface CriteriaGroupMapper {
     
     @Mapping(source = "criteriaComparisons", target = "criteriaComparisons")
     @Mapping(source = "criteria", target = "criteriaList")
     public CriteriaGroupReadDTO toCriteriaGroupReadDTO(CriteriaGroup criteriaGroup);
 
-    @Mapping(target = "id", ignore = true)
-    @Mapping(target = "criteriaComparisons", ignore = true)
-    @Mapping(target = "criteria", ignore = true)
-    @Mapping(target = "strategy", ignore = true)
     public CriteriaGroup toCriteriaGroupEntity(CriteriaGroupCreateDTO criteriaGroupCreateDto);
 
-    @Mapping(target = "createdAt", ignore = true)
-    @Mapping(target = "lastModifiedAt", ignore = true)
-    @Mapping(target = "lastModifiedBy", ignore = true)
-    @Mapping(target = "createdBy", ignore = true)
-    @Mapping(target = "id", ignore = true)
-    @Mapping(target = "criteriaComparisons", ignore = true)
-    @Mapping(target = "criteria", ignore = true)
-    @Mapping(target = "disabled", ignore = true)
-    @Mapping(target = "strategy", ignore = true)
     public void updateFromDTO(CriteriaGroupUpdateDTO criteriaGroupUpdateDto, @MappingTarget CriteriaGroup criteriaGroup);
 
-    @Mapping(target = "lastModifiedBy", ignore = true)
     @Mapping(target = "criteriaCount", source = "criteriaGroup", qualifiedByName = "mapCriteriaCount")
     @Mapping(target = "criteriaComparisonCount", source = "criteriaGroup", qualifiedByName = "mapComparisonCount")
     CriteriaGroupListReadDTO toCriteriaGroupListReadDTO(CriteriaGroup criteriaGroup);
 
-    @Mapping(target = "lastModifiedBy", ignore = true)
     @Mapping(target = "criteriaCount", source = "criteriaGroup", qualifiedByName = "mapCriteriaCount")
     @Mapping(target = "criteriaComparisonCount", source = "criteriaGroup", qualifiedByName = "mapComparisonCount")
     List<CriteriaGroupListReadDTO> toCriteriaGroupListReadDTO(List<CriteriaGroup> criteriaGroup);
