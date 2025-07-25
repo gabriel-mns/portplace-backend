@@ -16,7 +16,6 @@ import lombok.Setter;
 @Setter
 public class EvaluationUpdateDTO {
     
-    private long id;
     @NotNull
     @Min(0)
     @Max(1000)

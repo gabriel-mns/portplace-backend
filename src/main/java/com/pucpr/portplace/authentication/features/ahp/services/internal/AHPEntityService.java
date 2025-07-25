@@ -13,11 +13,16 @@ public class AHPEntityService {
     
     private final AHPRepository ahpRepository;
 
-    public AHP getAHPEntityById(Long id) {
+    public AHP getById(Long id) {
 
-        // TODO: Treat case when AHP is not found
         return ahpRepository.findById(id).get();
 
+    }
+
+    public boolean existsById(Long ahpId) {
+        
+        return ahpRepository.existsById(ahpId);
+        
     }
 
 }

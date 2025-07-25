@@ -6,10 +6,14 @@ import org.springframework.stereotype.Service;
 import com.pucpr.portplace.authentication.features.ahp.dtos.EvaluationCreateDTO;
 import com.pucpr.portplace.authentication.features.ahp.dtos.EvaluationReadDTO;
 import com.pucpr.portplace.authentication.features.ahp.dtos.EvaluationUpdateDTO;
+import com.pucpr.portplace.authentication.features.ahp.entities.AHP;
 import com.pucpr.portplace.authentication.features.ahp.entities.Evaluation;
 import com.pucpr.portplace.authentication.features.ahp.mappers.EvaluationMapper;
 import com.pucpr.portplace.authentication.features.ahp.repositories.EvaluationRepository;
+import com.pucpr.portplace.authentication.features.ahp.services.internal.AHPEntityService;
+import com.pucpr.portplace.authentication.features.ahp.services.validations.EvaluationValidationService;
 
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 
 @Service
@@ -18,21 +22,32 @@ public class EvaluationService {
 
     private EvaluationRepository evaluationRepository;
     private EvaluationMapper evaluationMapper; 
+    private EvaluationValidationService validationService;
+    private AHPEntityService ahpEntityService;
 
     //CREATE
+
+    @Transactional
     public EvaluationReadDTO createEvaluation(long ahpId, EvaluationCreateDTO evaluationCreateDTO) {
-        
+
+        validationService.validateBeforeCreate(ahpId, evaluationCreateDTO);
+
         Evaluation evaluation = evaluationMapper.toEntity(evaluationCreateDTO);
 
-        evaluationRepository.save(evaluation);
+        AHP ahp = ahpEntityService.getById(ahpId);
+
+        evaluation.setAhp(ahp);
+
+        evaluation = evaluationRepository.save(evaluation);
 
         return evaluationMapper.toReadDTO(evaluation);
     }
 
     // UPDATE
-    public EvaluationReadDTO updateEvaluation(long ahpId, long evaluationId,EvaluationUpdateDTO evaluation) {
+    public EvaluationReadDTO updateEvaluation(long ahpId, long evaluationId, EvaluationUpdateDTO evaluation) {
         
-        // TODO: Treat the case when the evaluation is not found (try catch)
+        validationService.validateBeforeUpdate(ahpId, evaluationId, evaluation);
+        
         Evaluation existingEvaluation = evaluationRepository.findById(evaluationId).get();
 
         evaluationMapper.updateFromDTO(evaluation, existingEvaluation);
@@ -46,7 +61,8 @@ public class EvaluationService {
     // DELETE
     public void disableEvaluation(long ahpId, long evaluationId) {
 
-        //Treat the case when the evaluation is not found (try catch)
+        validationService.validateBeforeDisable(ahpId, evaluationId);
+        
         Evaluation evaluation = evaluationRepository.findById(evaluationId).get();
 
         evaluation.setDisabled(true);
@@ -57,13 +73,16 @@ public class EvaluationService {
 
     public void deleteEvaluation(long ahpId, long evaluationId) {
 
-        //Treat the case when the evaluation is not found (try catch)
+        validationService.validateBeforeDelete(ahpId, evaluationId);
+
         evaluationRepository.deleteById(evaluationId);
 
     }
 
     // READ
     public EvaluationReadDTO getEvaluationById(long ahpId, long evaluationId) {
+
+        validationService.validateBeforeGet(ahpId, evaluationId);
 
         Evaluation evaluation = evaluationRepository.findById(evaluationId).get();
 
@@ -73,6 +92,8 @@ public class EvaluationService {
     }
 
     public List<EvaluationReadDTO> getAllEvaluationsByAHPId(long ahpId, boolean includeDisabled) {
+
+        validationService.validateBeforeGetAll(ahpId);
 
         List<Evaluation> evaluations;
 

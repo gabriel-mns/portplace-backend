@@ -11,14 +11,15 @@ import com.pucpr.portplace.authentication.features.ahp.dtos.EvaluationReadDTO;
 import com.pucpr.portplace.authentication.features.ahp.dtos.EvaluationUpdateDTO;
 import com.pucpr.portplace.authentication.features.ahp.entities.Evaluation;
 import com.pucpr.portplace.authentication.features.project.mappers.ProjectMapper;
+import org.mapstruct.ReportingPolicy;
 
-@Mapper(componentModel = "spring", uses = {ProjectMapper.class, CriterionMapper.class, AHPMapper.class})
+@Mapper(componentModel = "spring", uses = {ProjectMapper.class, CriterionMapper.class, AHPMapper.class}, unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface EvaluationMapper {
     
-    @Mapping(target = "ahp.id", source = "ahpId")
     @Mapping(target = "project.id", source = "projectId")
     @Mapping(target = "criterion.id", source = "criterionId")
     @Mapping(target = "id", ignore = true)
+    @Mapping(target = "ahp", ignore = true)
     Evaluation toEntity(EvaluationCreateDTO dto);
 
     @Mapping(target = "ahpId", source = "ahp.id")

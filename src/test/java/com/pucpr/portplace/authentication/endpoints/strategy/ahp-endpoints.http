@@ -3,7 +3,7 @@
 // COMPARAÇÃO DE CRITÉRIOS
 
 ### BUSCA DE TODAS AS AHPs
-GET {{host}}/strategies/1/ahps?includeDisabled=true
+GET {{host}}/strategies/1/ahps
 
 ### BUSCA POR ID DE UMA AHP
 GET {{host}}/strategies/1/ahps/1
@@ -13,9 +13,9 @@ POST {{host}}/strategies/1/ahps
 Content-Type: application/json
 
 {
-  "name": "AHP 3",
-  "description": "Descrição 3",
-  "criteriaGroupId": 1,
+  "name": "AHP 2",
+  "description": "Descrição 2",
+  "criteriaGroupId": 2,
   "strategyId": 1
   //"projectIds": [1, 3]
 }

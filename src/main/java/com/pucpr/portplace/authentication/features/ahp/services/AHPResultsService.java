@@ -154,7 +154,7 @@ public class AHPResultsService {
     @Transactional
     public List<ProjectRankingReadDTO> getProjectRankingByAHPId(Long ahpId) {
         
-        AHP ahp = ahpEntityService.getAHPEntityById(ahpId);
+        AHP ahp = ahpEntityService.getById(ahpId);
 
         List<Evaluation> evaluations = ahp.getEvaluations();
         List<CriteriaComparison> criteriaComparisons = ahp.getCriteriaGroup().getCriteriaComparisons();

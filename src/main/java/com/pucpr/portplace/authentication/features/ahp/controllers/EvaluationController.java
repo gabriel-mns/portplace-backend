@@ -22,6 +22,8 @@ import com.pucpr.portplace.authentication.features.ahp.dtos.EvaluationUpdateDTO;
 import com.pucpr.portplace.authentication.features.ahp.paths.StrategyPaths;
 import com.pucpr.portplace.authentication.features.ahp.services.EvaluationService;
 
+import jakarta.validation.Valid;
+
 @RestController
 @RequestMapping(StrategyPaths.EVALUATIONS)
 public class EvaluationController {
@@ -48,8 +50,8 @@ public class EvaluationController {
     }
 
     @PostMapping
-    public ResponseEntity<EvaluationReadDTO> createEvaluation(@PathVariable long ahpId, @RequestBody EvaluationCreateDTO evaluationCreateDTO) {
-        
+    public ResponseEntity<EvaluationReadDTO> createEvaluation(@PathVariable long ahpId, @RequestBody @Valid EvaluationCreateDTO evaluationCreateDTO) {
+
         EvaluationReadDTO evaluationReadDTO = evaluationService.createEvaluation(ahpId, evaluationCreateDTO);
 
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
@@ -62,7 +64,7 @@ public class EvaluationController {
     }
 
     @PutMapping("/{evaluationId}")
-    public ResponseEntity<EvaluationReadDTO> updateEvaluation(@PathVariable long ahpId, @PathVariable long evaluationId, @RequestBody EvaluationUpdateDTO evaluationUpdateDTO) {
+    public ResponseEntity<EvaluationReadDTO> updateEvaluation(@PathVariable long ahpId, @PathVariable long evaluationId, @RequestBody @Valid EvaluationUpdateDTO evaluationUpdateDTO) {
 
         EvaluationReadDTO evaluationReadDTO = evaluationService.updateEvaluation(ahpId, evaluationId, evaluationUpdateDTO);
 

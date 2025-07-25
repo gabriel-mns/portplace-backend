@@ -15,13 +15,13 @@ import lombok.Setter;
 @Getter
 @Setter
 public class EvaluationCreateDTO {
-    
+
     @NotNull
     @Min(0)
     @Max(1000)
     private int score;
     private long projectId;
     private long criterionId;
-    private long ahpId;
+    private Long ahpId; // Usando Long (wrapper) permite valor nulo, tornando opcional
 
 }

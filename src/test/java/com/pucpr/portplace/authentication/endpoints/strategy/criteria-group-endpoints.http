@@ -14,19 +14,21 @@ POST {{host}}/strategies/1/criteria-groups
 Content-Type: application/json
 
 {
-  "name": "Grupo de Critérios 8",
-  "description": "Descrição do grupo de critérios 8",
-
+  "name": "Grupo de critérios 3",
+  "description": "Grupo de critérios 3"
 }
 
 ### EDIÇÃOD DE GRUPO DE CRITÉRIOS
-PUT {{host}}/strategies/1/criteria-groups/7
+PUT {{host}}/strategies/1/criteria-groups/1
 Content-Type: application/json
 
 {
-  "name": "Grupo de critérios 7",
-  "description": "Grupo de critérios 7"
+  "name": "Grupo de critérios 1 atualizado",
+  "description": "Grupo de critérios 1"
 }
 
 ### DESABILITAR GRUPO DE CRITÉRIOS
-DELETE  {{host}}/strategies/1/criteria-groups/2/hard-delete
+DELETE {{host}}/strategies/1/criteria-groups/1
+
+### DELETAR GRUPO DE CRITÉRIOS
+DELETE {{host}}/strategies/1/criteria-groups/1/hard-delete
