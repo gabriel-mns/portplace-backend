@@ -11,7 +11,9 @@ import com.pucpr.portplace.authentication.features.ahp.dtos.AHPUpdateDTO;
 import com.pucpr.portplace.authentication.features.ahp.entities.AHP;
 import com.pucpr.portplace.authentication.features.ahp.mappers.AHPMapper;
 import com.pucpr.portplace.authentication.features.ahp.repositories.AHPRepository;
+import com.pucpr.portplace.authentication.features.ahp.services.validations.AHPValidationService;
 
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 
 @Service
@@ -21,9 +23,15 @@ public class AHPService {
     private AHPRepository ahpRepository;
     private AHPMapper ahpMapper;
 
+    private AHPValidationService validationService;
+
     //CREATE
     public AHPReadDTO createAHP(long strategyId, AHPCreateDTO ahpCreateDto) {
-        
+
+        validationService.validateBeforeCreation(strategyId, ahpCreateDto);
+
+        ahpCreateDto.setStrategyId(strategyId);
+
         AHP ahp = ahpMapper.toEntity(ahpCreateDto);
 
         ahpRepository.save(ahp);
@@ -32,20 +40,16 @@ public class AHPService {
     }
 
     // UPDATE
-    public AHPReadDTO updateAHP(long strategyId, Long ahpId, AHPUpdateDTO ahpUpdateDto) {
+    @Transactional
+    public AHPReadDTO updateAHP(long strategyId, Long ahpId, AHPUpdateDTO ahpUpdateDTO) {
 
-        // TODO: Treat case when AHP is not found
+        validationService.validateBeforeUpdate(strategyId, ahpId, ahpUpdateDTO);
 
         AHP ahp = ahpRepository.findById(ahpId).get();
 
-        // if( ahpUpdateDto.getCriteriaGroupId() != null ) {
+        ahpUpdateDTO.setStrategyId(ahp.getStrategy().getId());
 
-        //     CriteriaGroup criteriaGroup = criteriaGroupEntityService.getById(strategyId, ahpUpdateDto.getCriteriaGroupId());
-        //     ahp.setCriteriaGroup(criteriaGroup);
-        
-        // }
-
-        ahpMapper.updateFromDTO(ahpUpdateDto, ahp);
+        ahpMapper.updateFromDTO(ahpUpdateDTO, ahp);
 
         ahpRepository.save(ahp);
 
@@ -55,7 +59,7 @@ public class AHPService {
     // DELETE
     public void disableAHP(long strategyId, Long id) {
         
-        // TODO: Treat case when AHP is not found
+        validationService.validateBeforeDisable(strategyId, id);
 
         AHP ahp = ahpRepository.findById(id).get();
         ahp.setDisabled(true);
@@ -65,7 +69,7 @@ public class AHPService {
 
     public void deleteAHP(long strategyId, Long id) {
         
-        // TODO: Treat case when AHP is not found
+        validationService.validateBeforeDelete(strategyId, id);
         
         ahpRepository.deleteById(id);
 

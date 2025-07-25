@@ -11,6 +11,8 @@ import com.pucpr.portplace.authentication.features.ahp.dtos.AHPUpdateDTO;
 import com.pucpr.portplace.authentication.features.ahp.paths.StrategyPaths;
 import com.pucpr.portplace.authentication.features.ahp.services.AHPService;
 
+import jakarta.validation.Valid;
+
 import java.net.URI;
 import java.util.List;
 
@@ -55,7 +57,7 @@ public class AHPController {
     }
 
     @PostMapping
-    public ResponseEntity<AHPReadDTO> createAHP(@PathVariable long strategyId, @RequestBody AHPCreateDTO ahpCreateDto) {
+    public ResponseEntity<AHPReadDTO> createAHP(@PathVariable long strategyId, @RequestBody @Valid AHPCreateDTO ahpCreateDto) {
         
         AHPReadDTO createdAHP = ahpService.createAHP(strategyId, ahpCreateDto);
 
@@ -70,7 +72,7 @@ public class AHPController {
     }
 
     @PutMapping("/{AHPId}")
-    public ResponseEntity<AHPReadDTO> updateAHP(@PathVariable long strategyId,@PathVariable long AHPId, @RequestBody AHPUpdateDTO ahpUpdateDto) {
+    public ResponseEntity<AHPReadDTO> updateAHP(@PathVariable long strategyId,@PathVariable long AHPId, @RequestBody @Valid AHPUpdateDTO ahpUpdateDto) {
         
         AHPReadDTO updatedAHP = ahpService.updateAHP(strategyId, AHPId, ahpUpdateDto);
 

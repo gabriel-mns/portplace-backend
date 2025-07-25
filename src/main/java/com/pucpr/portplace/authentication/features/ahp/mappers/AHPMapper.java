@@ -32,7 +32,7 @@ public interface AHPMapper {
     @Mapping(target = "evaluations", source = "evaluations")
     List<AHPReadDTO> toReadDTO(List<AHP> ahp);
 
-    @Mapping(target = "criteriaGroup.id", source = "criteriaGroupId")
+    // @Mapping(target = "criteriaGroup.id", source = "criteriaGroupId")
     @Mapping(target = "strategy.id", source = "strategyId")
     void updateFromDTO(AHPUpdateDTO ahpUpdateDTO, @MappingTarget AHP ahp);
 
