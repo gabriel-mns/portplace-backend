@@ -23,8 +23,10 @@ import com.pucpr.portplace.features.ahp.dtos.CriterionUpdateDTO;
 import com.pucpr.portplace.features.ahp.paths.StrategyPaths;
 import com.pucpr.portplace.features.ahp.services.CriterionService;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 
+@Tag(name = "Criterion", description = "Related to the Criterion CRUD operations")
 @RestController
 @RequestMapping(StrategyPaths.CRITERIA)
 public class CriterionController {

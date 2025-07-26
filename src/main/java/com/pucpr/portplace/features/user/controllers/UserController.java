@@ -17,8 +17,10 @@ import com.pucpr.portplace.features.user.dtos.UserRegisterDTO;
 import com.pucpr.portplace.features.user.dtos.UserUpdateRequestDTO;
 import com.pucpr.portplace.features.user.services.UserService;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 
+@Tag(name = "User", description = "Related to the User CRUD operations")
 @RestController
 @RequestMapping(value = "/users", produces = "application/json")
 public class UserController {

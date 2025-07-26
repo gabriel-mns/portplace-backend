@@ -22,8 +22,10 @@ import com.pucpr.portplace.features.ahp.dtos.CriteriaComparisonUpdateDTO;
 import com.pucpr.portplace.features.ahp.paths.StrategyPaths;
 import com.pucpr.portplace.features.ahp.services.CriteriaComparisonService;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 
+@Tag(name = "Criteria Comparison", description = "Related to the Criteria Comparison CRUD operations")
 @RestController
 @RequestMapping(StrategyPaths.CRITERIA_COMPARISONS)
 // @RequestMapping("/strategies/{strategyId}/criteria-groups/{criteriaGroupId}/criteria-comparisons")

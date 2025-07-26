@@ -22,10 +22,12 @@ import com.pucpr.portplace.features.ahp.dtos.CriteriaGroupReadDTO;
 import com.pucpr.portplace.features.ahp.dtos.CriteriaGroupUpdateDTO;
 import com.pucpr.portplace.features.ahp.services.CriteriaGroupService;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 
 import com.pucpr.portplace.features.ahp.paths.StrategyPaths;
 
+@Tag(name = "Criteria Group", description = "Related to the Criteria Group CRUD operations")
 @RestController
 @RequestMapping(StrategyPaths.CRITERIA_GROUPS)
 public class CriteriaGroupController {

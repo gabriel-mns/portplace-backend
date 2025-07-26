@@ -20,9 +20,11 @@ import com.pucpr.portplace.features.project.dtos.ProjectReadDTO;
 import com.pucpr.portplace.features.project.dtos.ProjectUpdateDTO;
 import com.pucpr.portplace.features.project.services.ProjectService;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 
+@Tag(name = "Project", description = "Related to the Project CRUD operations")
 @RestController
 @RequestMapping("/projects")
 @AllArgsConstructor

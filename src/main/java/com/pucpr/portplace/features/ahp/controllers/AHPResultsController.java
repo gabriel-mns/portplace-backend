@@ -13,6 +13,9 @@ import com.pucpr.portplace.features.ahp.dtos.ProjectRankingReadDTO;
 import com.pucpr.portplace.features.ahp.paths.StrategyPaths;
 import com.pucpr.portplace.features.ahp.services.AHPResultsService;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
+
+@Tag(name = "AHP", description = "Related to the AHP CRUD operations")
 @RestController
 @RequestMapping(StrategyPaths.AHP_RANKING)
 public class AHPResultsController {

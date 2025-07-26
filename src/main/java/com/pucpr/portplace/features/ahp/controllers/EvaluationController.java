@@ -22,8 +22,10 @@ import com.pucpr.portplace.features.ahp.dtos.EvaluationUpdateDTO;
 import com.pucpr.portplace.features.ahp.paths.StrategyPaths;
 import com.pucpr.portplace.features.ahp.services.EvaluationService;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 
+@Tag(name = "Evaluation", description = "Related to the Evaluation CRUD operations")
 @RestController
 @RequestMapping(StrategyPaths.EVALUATIONS)
 public class EvaluationController {

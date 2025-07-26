@@ -11,6 +11,7 @@ import com.pucpr.portplace.features.ahp.dtos.AHPUpdateDTO;
 import com.pucpr.portplace.features.ahp.paths.StrategyPaths;
 import com.pucpr.portplace.features.ahp.services.AHPService;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 
 import java.net.URI;
@@ -27,6 +28,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 
 
 
+@Tag(name = "AHP", description = "Related to the AHP CRUD operations")
 @RestController
 @RequestMapping(StrategyPaths.AHPS)
 public class AHPController {
