@@ -3,7 +3,7 @@
 // COMPARAÇÃO DE CRITÉRIOS
 
 ### BUSCA DE TODAS AS AHPs
-GET {{host}}/strategies/1/ahps?includeDisabled=true
+GET {{host}}/strategies/1/ahps
 
 ### BUSCA POR ID DE UMA AHP
 GET {{host}}/strategies/1/ahps/3
@@ -13,10 +13,9 @@ POST {{host}}/strategies/1/ahps
 Content-Type: application/json
 
 {
-  "name": "AHP  2 2705",
-  "description": "De zscrição 2 2705",
-  "criteriaGroupId": 3,
-  "strategyId": 1
+  "name": "AHP 3",
+  "description": "Descrição 3",
+  "criteriaGroupId": 3
   //"projectIds": [1, 3]
 }
 
@@ -25,13 +24,13 @@ PUT {{host}}/strategies/1/ahps/2
 Content-Type: application/json
 
 {
-  "name": "AHP 2 Editado",
-  "description": "Descrição da AHP 2 Editada"
+  "name": "AHP 2 Alterada",
+  "description": "Descrição da AHP 2 Alterada"
   //"projectIds": [1, 2]
 }
 
 ### DESABILITAR AHP
-DELETE  {{host}}/strategies/1/ahps/2
+DELETE  {{host}}/strategies/1/ahps/3
 
 ### DELETAR AHP
 DELETE  {{host}}/strategies/1/ahps/2/hard-delete

@@ -1,5 +1,6 @@
 package com.pucpr.portplace.authentication.features.ahp.dtos;
 
+import com.pucpr.portplace.authentication.core.validation.constraints.enumValues.ValidEnum;
 import com.pucpr.portplace.authentication.features.ahp.enums.ImportanceScale;
 
 import lombok.AllArgsConstructor;
@@ -13,7 +14,7 @@ import lombok.Setter;
 @NoArgsConstructor
 public class CriteriaComparisonUpdateDTO {
 
-    private Long id;
-    private ImportanceScale importanceScale;
+    @ValidEnum(enumClass = ImportanceScale.class)
+    private String importanceScale;
 
 }

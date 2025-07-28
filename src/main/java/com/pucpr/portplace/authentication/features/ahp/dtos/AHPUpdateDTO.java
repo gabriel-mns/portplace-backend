@@ -16,11 +16,10 @@ import lombok.Setter;
 @Setter
 public class AHPUpdateDTO {
     
-    private Long id;
     private String name;
     private String description;
     @NotNull
-    private Long criteriaGroupId;
+    // private Long criteriaGroupId; TODO: Check if it makes sense to update criteriaGroup
     private Long strategyId;
     private List<Long> projectIds; // REVIEW: Check if projects will be added later or if they are required at creation time
 

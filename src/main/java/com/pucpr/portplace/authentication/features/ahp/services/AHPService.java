@@ -1,10 +1,7 @@
 package com.pucpr.portplace.authentication.features.ahp.services;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -12,104 +9,84 @@ import com.pucpr.portplace.authentication.features.ahp.dtos.AHPCreateDTO;
 import com.pucpr.portplace.authentication.features.ahp.dtos.AHPReadDTO;
 import com.pucpr.portplace.authentication.features.ahp.dtos.AHPUpdateDTO;
 import com.pucpr.portplace.authentication.features.ahp.entities.AHP;
-import com.pucpr.portplace.authentication.features.ahp.entities.CriteriaGroup;
+import com.pucpr.portplace.authentication.features.ahp.mappers.AHPMapper;
 import com.pucpr.portplace.authentication.features.ahp.repositories.AHPRepository;
+import com.pucpr.portplace.authentication.features.ahp.services.validations.AHPValidationService;
+
+import jakarta.transaction.Transactional;
+import lombok.AllArgsConstructor;
 
 @Service
+@AllArgsConstructor
 public class AHPService {
     
-    @Autowired
     private AHPRepository ahpRepository;
+    private AHPMapper ahpMapper;
 
-    @Autowired
-    private CriteriaGroupService criteriaGroupService;
-
-    // @Autowired
-    // private StrategyService strategyService;
+    private AHPValidationService validationService;
 
     //CREATE
-    public ResponseEntity<Void> createAHP(long strategyId, AHPCreateDTO ahpCreateDto) {
-        
-        AHP ahp = new AHP();
+    public AHPReadDTO createAHP(long strategyId, AHPCreateDTO ahpCreateDto) {
 
-        CriteriaGroup criteriaGroup = criteriaGroupService.getCriteriaGroupEntityById(strategyId, ahpCreateDto.getCriteriaGroupId());
+        validationService.validateBeforeCreation(strategyId, ahpCreateDto);
 
-        ahp.setName(ahpCreateDto.getName());
-        ahp.setDescription(ahpCreateDto.getDescription());
-        ahp.setDisabled(false);
-        ahp.setCriteriaGroup(criteriaGroup);
-        // ahp.setStrategy(null); 
-        
+        ahpCreateDto.setStrategyId(strategyId);
+
+        AHP ahp = ahpMapper.toEntity(ahpCreateDto);
 
         ahpRepository.save(ahp);
     
-        return ResponseEntity.status(HttpStatus.CREATED).build();
-
+        return ahpMapper.toReadDTO(ahp);
     }
 
     // UPDATE
-    public ResponseEntity<Void> updateAHP(long strategyId, Long ahpId, AHPUpdateDTO ahpUpdateDto) {
+    @Transactional
+    public AHPReadDTO updateAHP(long strategyId, Long ahpId, AHPUpdateDTO ahpUpdateDTO) {
 
-        // TODO: Treat case when AHP is not found
+        validationService.validateBeforeUpdate(strategyId, ahpId, ahpUpdateDTO);
+
         AHP ahp = ahpRepository.findById(ahpId).get();
 
-        ahp.setName(ahpUpdateDto.getName());
-        ahp.setDescription(ahpUpdateDto.getDescription());
+        ahpUpdateDTO.setStrategyId(ahp.getStrategy().getId());
 
-        if( ahpUpdateDto.getCriteriaGroupId() != null ) {
-
-            CriteriaGroup criteriaGroup = criteriaGroupService.getCriteriaGroupEntityById(strategyId, ahpUpdateDto.getCriteriaGroupId());
-            ahp.setCriteriaGroup(criteriaGroup);
-        
-        }
+        ahpMapper.updateFromDTO(ahpUpdateDTO, ahp);
 
         ahpRepository.save(ahp);
 
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
-
+        return ahpMapper.toReadDTO(ahp);
     }
 
     // DELETE
-    public ResponseEntity<Void> disableAHP(long strategyId, Long id) {
+    public void disableAHP(long strategyId, Long id) {
         
-        // TODO: Treat case when AHP is not found
+        validationService.validateBeforeDisable(strategyId, id);
+
         AHP ahp = ahpRepository.findById(id).get();
         ahp.setDisabled(true);
         ahpRepository.save(ahp);
-    
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
         
     }
 
-    public ResponseEntity<Void> deleteAHP(long strategyId, Long id) {
+    public void deleteAHP(long strategyId, Long id) {
         
-        // TODO: Treat case when AHP is not found
+        validationService.validateBeforeDelete(strategyId, id);
+        
         ahpRepository.deleteById(id);
-    
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 
     }
 
     // READ
-    public ResponseEntity<AHPReadDTO> getAHPById(long strategyId, Long id) {
-
-        AHPReadDTO ahpReadDto = new AHPReadDTO();
-
+    public AHPReadDTO getAHPById(long strategyId, Long id) {
+        
         AHP ahp = ahpRepository.findById(id).get();
 
-        ahpReadDto.setId(ahp.getId());
-        ahpReadDto.setName(ahp.getName());
-        ahpReadDto.setDescription(ahp.getDescription());
-        ahpReadDto.setCriteriaGroupId(ahp.getCriteriaGroup().getId());
-        ahpReadDto.setCreatedAt(ahp.getCreatedAt());
-        ahpReadDto.setLastModifiedAt(ahp.getLastModifiedAt());
-        ahpReadDto.setDisabled(ahp.isDisabled());
+        AHPReadDTO ahpReadDto = ahpMapper.toReadDTO(ahp);
 
-        return ResponseEntity.ok(ahpReadDto);
+        return ahpReadDto;
 
     }
 
-    public ResponseEntity<List<AHPReadDTO>> getAllAHPs(long strategyId, boolean includeDisabled) {
+    public List<AHPReadDTO> getAllAHPs(long strategyId, boolean includeDisabled) {
 
         List<AHP> ahps;
         
@@ -122,24 +99,10 @@ public class AHPService {
             ahps = ahpRepository.findByDisabledFalse();
 
         }
-        
-        List<AHPReadDTO> ahpReadDto = ahps.stream().map(ahp ->
-            new AHPReadDTO(
-                ahp.getId(),
-                ahp.getName(),
-                ahp.getDescription(),
-                ahp.getCriteriaGroup().getId(),
-                // ahp.getEvaluations(),
-                new ArrayList<>(), // Placeholder for evaluations, should be replaced with actual mapping
-                ahp.isDisabled(),
-                ahp.getCreatedAt(),
-                ahp.getLastModifiedAt()
-                // ahp.getLastUpdatedBy()
-                
-            )
-        ).toList();
 
-        return ResponseEntity.ok(ahpReadDto);
+        List<AHPReadDTO> ahpReadDTOs = ahpMapper.toReadDTO(ahps);
+
+        return ahpReadDTOs;
 
     }
 
@@ -157,30 +120,9 @@ public class AHPService {
 
         }
         
-        List<AHPReadDTO> ahpReadDto = ahps.stream().map(ahp ->
-            new AHPReadDTO(
-                ahp.getId(),
-                ahp.getName(),
-                ahp.getDescription(),
-                ahp.getCriteriaGroup().getId(),
-                // ahp.getEvaluations(),
-                new ArrayList<>(), // Placeholder for evaluations, should be replaced with actual mapping
-                ahp.isDisabled(),
-                ahp.getCreatedAt(),
-                ahp.getLastModifiedAt()
-                // ahp.getLastUpdatedBy()
-                
-            )
-        ).toList();
+        List<AHPReadDTO> ahpReadDto = ahpMapper.toReadDTO(ahps);
 
         return ResponseEntity.ok(ahpReadDto);
-
-    }
-
-    public AHP getAHPEntityById(Long id) {
-
-        // TODO: Treat case when AHP is not found
-        return ahpRepository.findById(id).get();
 
     }
 

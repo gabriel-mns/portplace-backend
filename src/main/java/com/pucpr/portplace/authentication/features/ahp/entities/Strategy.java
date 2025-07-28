@@ -1,10 +1,8 @@
 package com.pucpr.portplace.authentication.features.ahp.entities;
 
-import java.time.LocalDateTime;
-
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
+import com.pucpr.portplace.authentication.core.entities.AuditableEntity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
@@ -26,18 +24,12 @@ import lombok.Setter;
 @Setter
 @Builder
 @EntityListeners(AuditingEntityListener.class)
-public class Strategy {
+public class Strategy extends AuditableEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private String name;
     private String description;
-    private boolean disabled;
-    @CreatedDate
-    private LocalDateTime createdAt;
-    @LastModifiedDate
-    private LocalDateTime lastModifiedAt;
-    private long lastModifiedBy;
-    
+
 }

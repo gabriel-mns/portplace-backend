@@ -69,16 +69,6 @@ public class UserService {
 
     }
 
-    public User getUserByIdEntity(@NotNull Long id) {
-        
-        Optional<User> user = userRepository.findById(id);
-        
-        if(!user.isPresent()) throw new UserNotFoundException(id);
-        
-        return user.get();
-
-    }
-
     // UPDATE
     public ResponseEntity<Void> updateUser(@Valid UserUpdateRequestDTO updatedUser, Long userId) {
 

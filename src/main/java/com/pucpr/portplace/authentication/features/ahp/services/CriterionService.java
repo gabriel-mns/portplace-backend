@@ -2,9 +2,6 @@ package com.pucpr.portplace.authentication.features.ahp.services;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.pucpr.portplace.authentication.features.ahp.dtos.CriterionCreateDTO;
@@ -13,113 +10,119 @@ import com.pucpr.portplace.authentication.features.ahp.dtos.CriterionUpdateDTO;
 import com.pucpr.portplace.authentication.features.ahp.entities.CriteriaComparison;
 import com.pucpr.portplace.authentication.features.ahp.entities.CriteriaGroup;
 import com.pucpr.portplace.authentication.features.ahp.entities.Criterion;
+import com.pucpr.portplace.authentication.features.ahp.mappers.CriterionMapper;
 import com.pucpr.portplace.authentication.features.ahp.repositories.CriterionRepository;
+import com.pucpr.portplace.authentication.features.ahp.services.internal.AHPCalculationService;
+import com.pucpr.portplace.authentication.features.ahp.services.internal.CriteriaGroupEntityService;
+import com.pucpr.portplace.authentication.features.ahp.services.validations.CriterionValidationService;
+import com.pucpr.portplace.authentication.features.ahp.specs.AllCriteriaComparedSpecification;
+
+import lombok.AllArgsConstructor;
 
 @Service
+@AllArgsConstructor
 public class CriterionService {
 
-    @Autowired
-    private CriteriaGroupService criteriaGroupService;
-
-    @Autowired
+    private CriteriaGroupEntityService criteriaGroupEntityService;
     private CriterionRepository criterionRepository;
+    private AHPCalculationService ahpCalculationService;
+    private CriterionMapper criterionMapper;
 
-    @Autowired
-    private AHPResultsService ahpResultsService;
+    // VALIDATIONS
+    private CriterionValidationService validationService;
+    
+    // SPECS
+    private AllCriteriaComparedSpecification allCriteriaComparedSpecification;
 
     // CREATE
-    public ResponseEntity<Void> createCriterion(long strategyId, long criteriaGroupId, CriterionCreateDTO criterionCreateDTO) {
+    public CriterionReadDTO createCriterion(long strategyId, long criteriaGroupId, CriterionCreateDTO criterionCreateDTO) {
         
-        Criterion criterion = new Criterion();
+        validationService.validateBeforeCreation(criteriaGroupId);
 
-        CriteriaGroup criteriaGroup = criteriaGroupService.getCriteriaGroupEntityById(strategyId, criteriaGroupId);
+        Criterion newCriterion = criterionMapper.toEntity(criterionCreateDTO);
+        newCriterion.setCriteriaGroup(
+            criteriaGroupEntityService.getById(strategyId, criteriaGroupId)
+        );
 
-        criterion.setName(criterionCreateDTO.getName());
-        criterion.setDescription(criterionCreateDTO.getDescription());
-        criterion.setCriteriaGroup(criteriaGroup);
+        criterionRepository.save(newCriterion);
 
-        criterionRepository.save(criterion);
-        
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+        return criterionMapper.toReadDTO(newCriterion);
 
     }
 
     // UPDATE
-    public ResponseEntity<Void> updateCriterion(Long id, CriterionUpdateDTO criterionCreateDTO) {
+    public CriterionReadDTO updateCriterion(Long id, CriterionUpdateDTO criterionUpdateDTO) {
 
-        //TODO: Treat case when criterion is not found
+        validationService.validateBeforeUpdate(id);
+
         Criterion criterion = criterionRepository.findById(id).get();
 
-        criterion.setName(criterionCreateDTO.getName());
-        criterion.setDescription(criterionCreateDTO.getDescription());
+        criterionMapper.updateFromDTO(criterionUpdateDTO, criterion);
 
         criterionRepository.save(criterion);
 
-        return ResponseEntity.ok().build();
+        return criterionMapper.toReadDTO(criterion);
 
     }
 
     // DELETE
-    public ResponseEntity<Void> disableCriterion(Long criteriaGroupId, Long id) {
+    public void disableCriterion(Long criteriaGroupId, Long id) {
 
-        //TODO: Treat case when criterion is not found
+        validationService.validateBeforeDeletion(id);
+
         Criterion criterion = criterionRepository.findById(id).get();
 
         criterion.setDisabled(true);
 
         criterionRepository.save(criterion);
 
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
-
     }
 
-    public ResponseEntity<Void> deleteCriterion(Long criteriaGroupId, Long id) {
+    public void deleteCriterion(Long criteriaGroupId, Long id) {
 
-        //TODO: Treat case when criterion is not found
+        validationService.validateBeforeDeletion(id);
+
         criterionRepository.deleteById(id);
-
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 
     }
 
     // READ
-    public ResponseEntity<CriterionReadDTO> getCriterionById(Long criteriaGroupId,Long id) {
+    public CriterionReadDTO getCriterionById(Long criteriaGroupId,Long criterionId) {
 
-        Criterion criterion = criterionRepository.findById(id).get();
-        CriterionReadDTO criterionReadDto = new CriterionReadDTO();
+        validationService.validateBeforeGet(criteriaGroupId, criterionId);
 
-        criterionReadDto.setId(criterion.getId());
-        criterionReadDto.setName(criterion.getName());
-        criterionReadDto.setDescription(criterion.getDescription());
-        criterionReadDto.setCriteriaGroupId(criterion.getCriteriaGroup().getId());
-        criterionReadDto.setLastModifiedAt(criterion.getLastModifiedAt());
-        criterionReadDto.setCreatedAt(criterion.getCreatedAt());
-        // criterionReadDto.setLastModifiedBy(criterion.getLastModifiedBy());
-        criterionReadDto.setDisabled(criterion.isDisabled());
+        Criterion criterion = criterionRepository.findById(criterionId).get();
+        CriterionReadDTO criterionDTO = criterionMapper.toReadDTO(criterion);
+        
+        // Weight calculation
+        CriteriaGroup criteriaGroup = criteriaGroupEntityService.getById(1, criteriaGroupId);
+        boolean allCriteriaCompared = allCriteriaComparedSpecification.isSatisfiedBy(
+            criteriaGroup
+        );
+        List<CriteriaComparison> comparisons = criteriaGroupEntityService
+            .getById(1, criteriaGroupId)
+            .getCriteriaComparisons();
 
-        return ResponseEntity.ok(criterionReadDto);
+        if (allCriteriaCompared) {
+            double weight = ahpCalculationService.getCriterionWeight(criterionId, comparisons);
+            criterionDTO.setWeight(weight);
+        }
+
+        return criterionDTO;
 
     }
 
-    public Criterion getCriterionEntityById(Long id) {
+    public List<CriterionReadDTO> getCriteriaByCriteriaGroupId(long criteriaGroupId, boolean includeDisabled) {
 
-        Criterion criterion = criterionRepository.findById(id).get();
-
-        return criterion;
-
-    }
-
-    public ResponseEntity<List<CriterionReadDTO>> getCriteriaByCriteriaGroupId(long criteriaGroupId, boolean includeDisabled) {
+        validationService.validateBeforeGetAll(criteriaGroupId);
 
         List<Criterion> criteria;
-
-        List<CriteriaComparison> criteriaComparisons = criteriaGroupService.getCriteriaGroupEntityById(1, criteriaGroupId).getCriteriaComparisons();
-
-        boolean allCriteriaCompared = ahpResultsService.allCriteriaCompared(
-            criteriaGroupService.getCriteriaGroupEntityById(1, criteriaGroupId).getCriteria(),
-            criteriaGroupService.getCriteriaGroupEntityById(1, criteriaGroupId).getCriteriaComparisons()
-            );
-
+        CriteriaGroup criteriaGroup = criteriaGroupEntityService.getById(1, criteriaGroupId);
+        List<CriteriaComparison> criteriaComparisons = criteriaGroup.getCriteriaComparisons();
+        boolean allCriteriaCompared = allCriteriaComparedSpecification.isSatisfiedBy(
+            criteriaGroup
+        );
+        
         boolean includeWeight;
         if(includeDisabled) {
 
@@ -133,24 +136,17 @@ public class CriterionService {
 
         }
 
-        List<CriterionReadDTO> criteriaDTOs = criteria.stream().map(criterion -> {
-            CriterionReadDTO criterionReadDto = new CriterionReadDTO();
-            criterionReadDto.setId(criterion.getId());
-            criterionReadDto.setName(criterion.getName());
-            criterionReadDto.setDescription(criterion.getDescription());
-            criterionReadDto.setCriteriaGroupId(criterion.getCriteriaGroup().getId());
-            criterionReadDto.setLastModifiedAt(criterion.getLastModifiedAt());
-            criterionReadDto.setCreatedAt(criterion.getCreatedAt());
-            criterionReadDto.setDisabled(criterion.isDisabled());
+        List<CriterionReadDTO> dtos = criteria.stream()
+            .map(criterionMapper::toReadDTO)
+            .peek(dto -> {
+                if (includeWeight) {
+                    double weight = ahpCalculationService.getCriterionWeight(dto.getId(), criteriaComparisons);
+                    dto.setWeight(weight);
+                }
+            })
+            .toList();
 
-            if (includeWeight) {
-                criterionReadDto.setWeight(ahpResultsService.getCriterionWeight(criterion.getId(), criteriaComparisons));
-            }
-
-            return criterionReadDto;
-        }).toList();
-
-        return ResponseEntity.ok(criteriaDTOs);
+        return dtos;
 
     }
 

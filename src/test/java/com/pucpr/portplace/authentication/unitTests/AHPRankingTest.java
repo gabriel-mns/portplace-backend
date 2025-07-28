@@ -75,7 +75,8 @@ public class AHPRankingTest {
 
     @Test
     void testAHPRanking() {
-        
+
+
         // Create a strategy
         createStrategy();
 
@@ -161,8 +162,6 @@ public class AHPRankingTest {
         Strategy strategy = Strategy.builder()
                 .name("Test Strategy")
                 .description("This is a test strategy for AHP ranking.")
-                .disabled(false)
-                .lastModifiedBy(1L)
                 .build();
         strategyRepository.save(strategy);
 
@@ -182,7 +181,6 @@ public class AHPRankingTest {
         CriterionCreateDTO criterionCreateDTO = new CriterionCreateDTO();
         criterionCreateDTO.setName("Test Criterion" + index);
         criterionCreateDTO.setDescription("This is a test criterion for AHP ranking." + index);
-        criterionCreateDTO.setCriteriaGroupId(criteriaGroup.getId());
         criterionController.createCriterion(1, criteriaGroup.getId(), criterionCreateDTO);
 
     }
@@ -191,7 +189,7 @@ public class AHPRankingTest {
         CriteriaComparisonCreateDTO criteriaComparisonCreateDTO = new CriteriaComparisonCreateDTO();
         criteriaComparisonCreateDTO.setComparedCriterionId(comparedCriterion.getId());
         criteriaComparisonCreateDTO.setReferenceCriterionId(referenceCriterion.getId());
-        criteriaComparisonCreateDTO.setImportanceScale(importanceScale);
+        criteriaComparisonCreateDTO.setImportanceScale(importanceScale.toString());
         criteriaComparisonController.createCriterionComparison(1, criteriaGroupId, criteriaComparisonCreateDTO);
     }
 
@@ -216,7 +214,7 @@ public class AHPRankingTest {
         projectCreateDTO.setStartDate(LocalDate.now());
         projectCreateDTO.setEndDate(LocalDate.now().plusDays(30));
         projectCreateDTO.setPayback(30);
-        projectCreateDTO.setStatus(ProjectStatusEnum.IN_PROGRESS);
+        projectCreateDTO.setStatus(ProjectStatusEnum.IN_PROGRESS.toString());
         projectCreateDTO.setProjectManager(index);
         projectController.createProject(projectCreateDTO);
 

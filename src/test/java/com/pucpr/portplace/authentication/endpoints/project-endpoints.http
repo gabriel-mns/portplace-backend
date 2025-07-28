@@ -5,11 +5,11 @@ POST {{host}}/projects
 Content-Type: application/json
 
 {
-  "name": "Projeto 2 TESTE2605",
-  "description": "Projeto  2 TESTE2605TESTE2605TESTE2605TESTE2605",
+  "name": "Projeto 3",
+  "description": "Projeto 3",
   "startDate": "2023-10-01",
   "endDate": "2023-12-31",
-  "status": "IN_PROGRESS",
+  "status": "CANDIDATE",
   "projectManager": 1,
   "earnedValue": 152752.87,
   "plannedValue": 25781.90,
@@ -19,9 +19,15 @@ Content-Type: application/json
 }
 
 ### BUSCA DE PROJETOS
-GET  {{host}}/projects
+GET  {{host}}/projects?includeDisabled=true
 Accept: application/json
 Host: localhost:8080
+
+### BUSCA DE PROJETOS POR GERENTE DE PROJETO
+GET  {{host}}/projects/manager/1?includeDisabled=true
+Accept: application/json
+Host: localhost:8080
+
 
 ### BUSCA DE PROJETO POR ID
 GET  {{host}}/projects/1
@@ -36,18 +42,18 @@ Content-Type: application/json
 
 {
   "id": 1,
-  "name": "Projeto Portplace",
-  "description": "Projeto de gerenciaasdasdmento de portfólio",
+  "name": "Teste de projeto 1",
+  "description": "Projeto 1 descrição alterada",
   "status": "IN_PROGRESS",
   "earnedValue": 152752.87,
   "plannedValue": 25781.90,
   "actualCost": 25440.00,
-  "budget": 150000.00,
-  "payback": 124521.13,
-  "startDate": "2023-10-01",
-  "endDate": "2023-12-31",
+  "budget": "55555.0",
+  "payback": "150000.0",
+  "startDate": "2020-10-01",
+  "endDate": "2025-12-31",
   "projectManager": 1
 }
 
 ### DELETAR PROJETO
-DELETE {{host}}/projects/5
+DELETE {{host}}/projects

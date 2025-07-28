@@ -3,20 +3,19 @@
 // COMPARAÇÃO DE CRITÉRIOS
 
 ### BUSCA DE TODOS AS COMPARAÇÕES DE CRITÉRIOS
-GET {{host}}/strategies/1/criteria-groups/7/criteria-comparisons
+GET {{host}}/strategies/1/criteria-groups/1/criteria-comparisons?criterion1Id=2&criterion2Id=3&includeDisabled=false
 
 ### BUSCA POR ID DE UMA COMPARAÇÃO DE CRITÉRIOS
-GET {{host}}/strategies/1/criteria-groups/1/criteria-comparisons/1
+GET {{host}}/strategies/1/criteria-groups/3/criteria-comparisons/2
 
 ### CADASTRAR DE COMPARAÇÃO DE CRITÉRIOS
-POST {{host}}/strategies/1/criteria-groups/20/criteria-comparisons
+POST {{host}}/strategies/1/criteria-groups/2/criteria-comparisons
 Content-Type: application/json
 
 {
-  "comparedCriterionId": 9,
-  "referenceCriterionId": 11,
-  "importanceScale": "EXTREMELY_MORE_IMPORTANT",
-  "criteriaGroupId": 20
+  "comparedCriterionId": 3,
+  "referenceCriterionId": 4,
+  "importanceScale": "EXTREMELY_MORE_IMPORTANT"
 }
 
 ### EDIÇÃO DE COMPARAÇÃO DE CRITÉRIOS
@@ -29,7 +28,7 @@ Content-Type: application/json
 }
 
 ### DESABILITAR COMPARAÇÃO DE CRITÉRIOS
-DELETE  {{host}}/strategies/1/criteria-groups/2/criteria-comparisons/1
+DELETE  {{host}}/strategies/1/criteria-groups/2/criteria-comparisons/2
 
 ### DELETAR COMPARAÇÃO DE CRITÉRIOS
-DELETE  {{host}}/strategies/1/criteria-groups/2/criteria-comparisons/1/hard-delete
+DELETE  {{host}}/strategies/1/criteria-groups/3/criteria-comparisons/4/hard-delete
