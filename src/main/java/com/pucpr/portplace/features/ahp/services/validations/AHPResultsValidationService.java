@@ -1,6 +1,5 @@
 package com.pucpr.portplace.features.ahp.services.validations;
 
-import org.springframework.data.relational.core.query.Criteria;
 import org.springframework.stereotype.Service;
 
 import com.pucpr.portplace.features.ahp.entities.AHP;
