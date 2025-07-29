@@ -1,8 +1,6 @@
 package com.pucpr.portplace.features.project.controllers;
 
 import java.net.URI;
-import java.util.List;
-
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,6 +12,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 
 import com.pucpr.portplace.features.project.dtos.ProjectCreateDTO;
 import com.pucpr.portplace.features.project.dtos.ProjectReadDTO;
@@ -87,7 +89,6 @@ public class ProjectController {
     }
 
     // READ
-    // TODO: Implement pagination, filtering and sorting
     @GetMapping("/{projectId}")
     public ResponseEntity<ProjectReadDTO> getProjectById(@PathVariable long projectId) {
 
@@ -98,26 +99,37 @@ public class ProjectController {
 
     }
 
+    // TODO: Implement pagination, filtering and sorting
     @GetMapping
-    public ResponseEntity<List<ProjectReadDTO>> getAllProjects(
-
-        @RequestParam(defaultValue = "false") boolean includeDisabled
-
+    public ResponseEntity<Page<ProjectReadDTO>> getAllProjects(
+        @RequestParam(defaultValue = "false") boolean includeDisabled,
+        @RequestParam(defaultValue = "0") int page,
+        @RequestParam(defaultValue = "10") int size,
+        @RequestParam(defaultValue = "id") String sortBy,
+        @RequestParam(defaultValue = "asc") String sortDir
     ) {
 
-        return projectService.getAllProjects(includeDisabled);
+        Sort.Direction direction = sortDir.equalsIgnoreCase("desc") ? Sort.Direction.DESC : Sort.Direction.ASC;
+        Pageable pageable = PageRequest.of(page, size, Sort.by(direction, sortBy));
+
+        return projectService.getAllProjects(pageable, includeDisabled);
 
     }
 
     @GetMapping("/manager/{projectManagerId}")
-    public ResponseEntity<List<ProjectReadDTO>> getProjectsByManager(
-
+    public ResponseEntity<Page<ProjectReadDTO>> getProjectsByManager(
         @PathVariable long projectManagerId,
-        @RequestParam(defaultValue = "false") boolean includeDisabled
+        @RequestParam(defaultValue = "false") boolean includeDisabled,
+        @RequestParam(defaultValue = "0") int page,
+        @RequestParam(defaultValue = "10") int size,
+        @RequestParam(defaultValue = "id") String sortBy,
+        @RequestParam(defaultValue = "asc") String sortDir
+    ) {
 
-        ) {
+        Sort.Direction direction = sortDir.equalsIgnoreCase("desc") ? Sort.Direction.DESC : Sort.Direction.ASC;
+        Pageable pageable = PageRequest.of(page, size, Sort.by(direction, sortBy));
 
-        List<ProjectReadDTO> projects = projectService.getAllProjectsByProjectManagerId(projectManagerId, includeDisabled);
+        Page<ProjectReadDTO> projects = projectService.getAllProjectsByProjectManagerId(projectManagerId, includeDisabled, pageable);
 
         return ResponseEntity.ok()
             .body(projects);
