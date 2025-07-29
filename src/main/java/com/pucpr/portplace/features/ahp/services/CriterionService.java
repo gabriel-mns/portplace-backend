@@ -2,6 +2,9 @@ package com.pucpr.portplace.features.ahp.services;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.pucpr.portplace.features.ahp.dtos.CriterionCreateDTO;
@@ -112,31 +115,28 @@ public class CriterionService {
 
     }
 
-    public List<CriterionReadDTO> getCriteriaByCriteriaGroupId(long criteriaGroupId, boolean includeDisabled) {
+    public Page<CriterionReadDTO> getCriteriaByCriteriaGroupId(long criteriaGroupId, boolean includeDisabled, Pageable pageable) {
 
         validationService.validateBeforeGetAll(criteriaGroupId);
 
-        List<Criterion> criteria;
         CriteriaGroup criteriaGroup = criteriaGroupEntityService.getById(1, criteriaGroupId);
         List<CriteriaComparison> criteriaComparisons = criteriaGroup.getCriteriaComparisons();
         boolean allCriteriaCompared = allCriteriaComparedSpecification.isSatisfiedBy(
             criteriaGroup
-        );
-        
-        boolean includeWeight;
+            );
+        boolean includeWeight = !includeDisabled && allCriteriaCompared;
+        Page<Criterion> criteria;
+
         if(includeDisabled) {
 
-            criteria = criterionRepository.findByCriteriaGroupId(criteriaGroupId);
-            includeWeight = false; // If we are including disabled criteria, we cannot include weight as it is not calculated for them.
-            
+            criteria = criterionRepository.findByCriteriaGroupId(criteriaGroupId, pageable);
+
         } else {
             
-            criteria = criterionRepository.findByCriteriaGroupIdAndDisabledFalse(criteriaGroupId);
-            includeWeight = allCriteriaCompared;
-
+            criteria = criterionRepository.findByCriteriaGroupIdAndDisabledFalse(criteriaGroupId, pageable);
         }
 
-        List<CriterionReadDTO> dtos = criteria.stream()
+        List<CriterionReadDTO> dtos = criteria.getContent().stream()
             .map(criterionMapper::toReadDTO)
             .peek(dto -> {
                 if (includeWeight) {
@@ -146,7 +146,7 @@ public class CriterionService {
             })
             .toList();
 
-        return dtos;
+        return new PageImpl<>(dtos, pageable, criteria.getTotalElements());
 
     }
 

@@ -3,7 +3,7 @@
 // GRUPO DE CRITÉRIOS
 
 ### BUSCA DE TODOS OS CRITÉRIOS
-GET {{host}}/strategies/1/criteria-groups/1/criteria
+GET {{host}}/strategies/1/criteria-groups/2/criteria?sortBy=createdAt&sortDir=desc
 
 ### BUSCA POR ID DE UM CRITÉRIO
 GET {{host}}/strategies/1/criteria-groups/1/criteria
