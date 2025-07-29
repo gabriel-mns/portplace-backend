@@ -2,6 +2,8 @@ package com.pucpr.portplace.features.ahp.services;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.pucpr.portplace.features.ahp.dtos.CriteriaGroupCreateDTO;
@@ -101,23 +103,23 @@ public class CriteriaGroupService {
 
     }
 
-    public List<CriteriaGroupListReadDTO> getCriteriaGroupsByStrategyId(long strategyId, boolean includeDisabled) {
+    public Page<CriteriaGroupListReadDTO> getCriteriaGroupsByStrategyId(long strategyId, boolean includeDisabled, Pageable pageable) {
 
         validationService.validateBeforeGetAll(strategyId);
 
-        List<CriteriaGroup> criteriaGroups;
-        
+        Page<CriteriaGroup> criteriaGroups;
+
         if(includeDisabled){
-            
-            criteriaGroups = criteriaGroupRepository.findByStrategyId(strategyId);
+
+            criteriaGroups = criteriaGroupRepository.findByStrategyId(strategyId, pageable);
 
         } else {
 
-            criteriaGroups = criteriaGroupRepository.findByStrategyIdAndDisabledFalse(strategyId);
+            criteriaGroups = criteriaGroupRepository.findByStrategyIdAndDisabledFalse(strategyId, pageable);
 
         }
 
-        List<CriteriaGroupListReadDTO> criteriaGroupsDTOs = criteriaGroupMapper.toCriteriaGroupListReadDTO(criteriaGroups);
+        Page<CriteriaGroupListReadDTO> criteriaGroupsDTOs = criteriaGroups.map(criteriaGroupMapper::toCriteriaGroupListReadDTO);
 
         return criteriaGroupsDTOs;
 

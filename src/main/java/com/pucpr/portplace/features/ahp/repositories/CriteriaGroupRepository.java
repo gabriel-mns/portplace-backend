@@ -1,17 +1,17 @@
 package com.pucpr.portplace.features.ahp.repositories;
 
-import java.util.List;
-
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.pucpr.portplace.features.ahp.entities.CriteriaGroup;
 
 public interface CriteriaGroupRepository extends JpaRepository<CriteriaGroup, Long> {
 
-    List<CriteriaGroup> findByDisabledFalse();
+    Page<CriteriaGroup> findByDisabledFalse(Pageable pageable);
     
-    List<CriteriaGroup> findByStrategyIdAndDisabledFalse(long strategyId);
+    Page<CriteriaGroup> findByStrategyIdAndDisabledFalse(long strategyId, Pageable pageable);
     
-    List<CriteriaGroup> findByStrategyId(long strategyId);
+    Page<CriteriaGroup> findByStrategyId(long strategyId, Pageable pageable);
 
 }

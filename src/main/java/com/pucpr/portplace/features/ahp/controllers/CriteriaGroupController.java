@@ -1,9 +1,10 @@
 package com.pucpr.portplace.features.ahp.controllers;
 
 import java.net.URI;
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,10 +13,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.azure.core.annotation.QueryParam;
 import com.pucpr.portplace.features.ahp.dtos.CriteriaGroupCreateDTO;
 import com.pucpr.portplace.features.ahp.dtos.CriteriaGroupListReadDTO;
 import com.pucpr.portplace.features.ahp.dtos.CriteriaGroupReadDTO;
@@ -24,47 +25,58 @@ import com.pucpr.portplace.features.ahp.services.CriteriaGroupService;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import lombok.AllArgsConstructor;
 
 import com.pucpr.portplace.features.ahp.paths.StrategyPaths;
 
 @Tag(name = "Criteria Group", description = "Related to the Criteria Group CRUD operations")
 @RestController
 @RequestMapping(StrategyPaths.CRITERIA_GROUPS)
+@AllArgsConstructor
 public class CriteriaGroupController {
     
-    @Autowired
     private CriteriaGroupService criteriaGroupService;
 
      // CREATE
     @PostMapping
-    public ResponseEntity<CriteriaGroupReadDTO> createCriteriaGroup(@PathVariable long strategyId, @RequestBody @Valid CriteriaGroupCreateDTO criteriaGroupCreateDto) {
-        
-        CriteriaGroupReadDTO criteriaGroupReadDto = criteriaGroupService.createCriteriaGroup(strategyId, criteriaGroupCreateDto);
+    public ResponseEntity<CriteriaGroupReadDTO> createCriteriaGroup(
+        @PathVariable long strategyId, 
+        @RequestBody @Valid CriteriaGroupCreateDTO criteriaGroupCreateDto
+     ) {
+
+        CriteriaGroupReadDTO criteriaGroupDto = criteriaGroupService.createCriteriaGroup(strategyId, criteriaGroupCreateDto);
 
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
             .path("/{criteriaGroupId}")
-            .buildAndExpand(criteriaGroupReadDto.getId())
+            .buildAndExpand(criteriaGroupDto.getId())
             .toUri();
 
         return ResponseEntity
             .created(location)
-            .body(criteriaGroupReadDto);
+            .body(criteriaGroupDto);
     
     }
 
     // UPDATE
     @PutMapping("/{criteriaGroupId}")
-    public ResponseEntity<CriteriaGroupReadDTO> updateCriteriaGroup(@PathVariable long strategyId, @PathVariable long criteriaGroupId, @RequestBody @Valid CriteriaGroupUpdateDTO criteriaGroupUpdateDto) {
+    public ResponseEntity<CriteriaGroupReadDTO> updateCriteriaGroup(
+        @PathVariable long strategyId, 
+        @PathVariable long criteriaGroupId, 
+        @RequestBody @Valid CriteriaGroupUpdateDTO criteriaGroupUpdateDto
+    ) {
         
-        CriteriaGroupReadDTO criteriaGroupReadDto = criteriaGroupService.updateCriteriaGroup(strategyId, criteriaGroupId, criteriaGroupUpdateDto);
+        CriteriaGroupReadDTO criteriaGroupDto = criteriaGroupService.updateCriteriaGroup(strategyId, criteriaGroupId, criteriaGroupUpdateDto);
 
-        return ResponseEntity.ok().body(criteriaGroupReadDto);
+        return ResponseEntity.ok().body(criteriaGroupDto);
     
     }
 
     // DELETE
     @DeleteMapping("/{criteriaGroupId}")
-    public ResponseEntity<Void> disableCriteriaGroup(@PathVariable long strategyId, @PathVariable long criteriaGroupId) {
+    public ResponseEntity<Void> disableCriteriaGroup(
+        @PathVariable long strategyId, 
+        @PathVariable long criteriaGroupId
+    ) {
 
         criteriaGroupService.disableCriteriaGroup(strategyId, criteriaGroupId);
 
@@ -73,8 +85,11 @@ public class CriteriaGroupController {
     }
 
     @DeleteMapping("/{criteriaGroupId}/hard-delete")
-    public ResponseEntity<Void> deleteCriteriaGroup(@PathVariable long strategyId, @PathVariable long criteriaGroupId) {
-        
+    public ResponseEntity<Void> deleteCriteriaGroup(
+        @PathVariable long strategyId, 
+        @PathVariable long criteriaGroupId
+    ) {
+
         criteriaGroupService.deleteCriteriaGroup(strategyId, criteriaGroupId);
         
         return ResponseEntity.noContent().build(); 
@@ -83,19 +98,29 @@ public class CriteriaGroupController {
     
     //READ
     @GetMapping
-    public ResponseEntity<List<CriteriaGroupListReadDTO>> getCriteriaGroupsByStrategyId(
+    public ResponseEntity<Page<CriteriaGroupListReadDTO>> getCriteriaGroupsByStrategyId(
         @PathVariable long strategyId,
-        @QueryParam("includeDisabled") boolean includeDisabled
-        ) {
-        
-        List<CriteriaGroupListReadDTO> criteriaGroupListReadDto = criteriaGroupService.getCriteriaGroupsByStrategyId(strategyId, includeDisabled);
+        @RequestParam(defaultValue = "false") boolean includeDisabled,
+        @RequestParam(defaultValue = "0") int page,
+        @RequestParam(defaultValue = "10") int size,
+        @RequestParam(defaultValue = "id") String sortBy,
+        @RequestParam(defaultValue = "asc") String sortDir
+    ) {
+
+        Sort.Direction direction = sortDir.equalsIgnoreCase("desc") ? Sort.Direction.DESC : Sort.Direction.ASC;
+        Pageable pageable = PageRequest.of(page, size, Sort.by(direction, sortBy));
+
+        Page<CriteriaGroupListReadDTO> criteriaGroupListReadDto = criteriaGroupService.getCriteriaGroupsByStrategyId(strategyId, includeDisabled, pageable);
 
         return ResponseEntity.ok().body(criteriaGroupListReadDto);
-    
+
     }
 
     @GetMapping("/{criteriaGroupId}")
-    public ResponseEntity<CriteriaGroupReadDTO> getCriteriaGroupById(@PathVariable long strategyId, @PathVariable long criteriaGroupId) {
+    public ResponseEntity<CriteriaGroupReadDTO> getCriteriaGroupById(
+        @PathVariable long strategyId, 
+        @PathVariable long criteriaGroupId
+    ) {
         
         CriteriaGroupReadDTO criteriaGroupReadDto = criteriaGroupService.getCriteriaGroupById(strategyId, criteriaGroupId);
 
