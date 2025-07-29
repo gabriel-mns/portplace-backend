@@ -1,10 +1,10 @@
 package com.pucpr.portplace.features.ahp.controllers;
 
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.azure.core.annotation.QueryParam;
 import com.pucpr.portplace.features.ahp.dtos.AHPCreateDTO;
 import com.pucpr.portplace.features.ahp.dtos.AHPReadDTO;
 import com.pucpr.portplace.features.ahp.dtos.AHPUpdateDTO;
@@ -15,9 +15,11 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 
 import java.net.URI;
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -41,9 +43,18 @@ public class AHPController {
      * AHP CRUD
      */
     @GetMapping
-    public ResponseEntity<List<AHPReadDTO>> getAllAHPs(@PathVariable long strategyId, @QueryParam("includeDisabled") boolean includeDisabled) {
+    public ResponseEntity<Page<AHPReadDTO>> getAllAHPs(
+        @PathVariable long strategyId, 
+        @RequestParam(defaultValue = "false") boolean includeDisabled,
+        @RequestParam(defaultValue = "0") int page,
+        @RequestParam(defaultValue = "10") int size,
+        @RequestParam(defaultValue = "id") String sortBy,
+        @RequestParam(defaultValue = "asc") String sortDir
+        ) {
         
-        List<AHPReadDTO> ahps = ahpService.getAllAHPs(strategyId, includeDisabled);
+        PageRequest pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.fromString(sortDir), sortBy));
+
+        Page<AHPReadDTO> ahps = ahpService.getAllAHPs(strategyId, includeDisabled, pageable);
 
         return ResponseEntity.ok(ahps);
     
