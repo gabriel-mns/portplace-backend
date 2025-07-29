@@ -1,9 +1,12 @@
 package com.pucpr.portplace.features.ahp.controllers;
 
 import java.net.URI;
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -36,7 +39,11 @@ public class CriteriaComparisonController {
     
     // CREATE
     @PostMapping
-    public ResponseEntity<CriteriaComparisonReadDTO> createCriterionComparison(@PathVariable long strategyId, @PathVariable long criteriaGroupId, @RequestBody @Valid CriteriaComparisonCreateDTO criteriaComparisonCreateDTO) {
+    public ResponseEntity<CriteriaComparisonReadDTO> createCriterionComparison(
+        @PathVariable long strategyId, 
+        @PathVariable long criteriaGroupId, 
+        @RequestBody @Valid CriteriaComparisonCreateDTO criteriaComparisonCreateDTO
+        ) {
         
         CriteriaComparisonReadDTO createdCriteriaComparison = criterionComparisonService.createCriteriaComparison(strategyId, criteriaGroupId, criteriaComparisonCreateDTO);
 
@@ -51,8 +58,13 @@ public class CriteriaComparisonController {
 
     // UPDATE
     @PutMapping("/{criteriaComparisonId}")
-    public ResponseEntity<CriteriaComparisonReadDTO> updateCriterionComparison(@PathVariable long strategyId, @PathVariable long criteriaGroupId, @PathVariable long criteriaComparisonId, @RequestBody @Valid CriteriaComparisonUpdateDTO dto) {
-        
+    public ResponseEntity<CriteriaComparisonReadDTO> updateCriterionComparison(
+        @PathVariable long strategyId, 
+        @PathVariable long criteriaGroupId, 
+        @PathVariable long criteriaComparisonId, 
+        @RequestBody @Valid CriteriaComparisonUpdateDTO dto
+    ) {
+
         CriteriaComparisonReadDTO updatedCriteriaComparison = criterionComparisonService.updateCriteriaComparison(strategyId, criteriaComparisonId, dto);
 
         return ResponseEntity.ok().body(updatedCriteriaComparison);
@@ -61,7 +73,10 @@ public class CriteriaComparisonController {
 
     // DELETE
     @DeleteMapping("/{criteriaComparisonId}")
-    public ResponseEntity<Void> disableCriterionComparison(@PathVariable long strategyId, @PathVariable long criteriaComparisonId) {
+    public ResponseEntity<Void> disableCriterionComparison(
+        @PathVariable long strategyId, 
+        @PathVariable long criteriaComparisonId
+        ) {
         
         criterionComparisonService.disableCriteriaComparison(criteriaComparisonId);
         
@@ -69,9 +84,13 @@ public class CriteriaComparisonController {
     
     }
 
+    
     @DeleteMapping("/{criteriaComparisonId}/hard-delete")
-    public ResponseEntity<Void> deleteCriterionComparison(@PathVariable long strategyId, @PathVariable long criteriaComparisonId) {
-        
+    public ResponseEntity<Void> deleteCriterionComparison(
+        @PathVariable long strategyId, 
+        @PathVariable long criteriaComparisonId
+    ) {
+
         criterionComparisonService.deleteCriteriaComparison(criteriaComparisonId);
 
         return ResponseEntity.noContent().build();
@@ -80,16 +99,23 @@ public class CriteriaComparisonController {
 
     // READ
     @GetMapping
-    public ResponseEntity<List<CriteriaComparisonReadDTO>> getCriteriaComparisons(
-            @PathVariable long strategyId,
-            @PathVariable long criteriaGroupId,
-            @RequestParam(required = false) Long criterion1Id,
-            @RequestParam(required = false) Long criterion2Id,
-            @RequestParam(defaultValue = "false") boolean includeDisabled
-    ) {
-        
-        List<CriteriaComparisonReadDTO> criteriaComparisons = criterionComparisonService.getCriteriaComparisons(
-            strategyId, criteriaGroupId, criterion1Id, criterion2Id, includeDisabled
+    public ResponseEntity<Page<CriteriaComparisonReadDTO>> getCriteriaComparisons(
+        @PathVariable long strategyId,
+        @PathVariable long criteriaGroupId,
+        @RequestParam(required = false) Long criterion1Id,
+        @RequestParam(required = false) Long criterion2Id,
+        @RequestParam(defaultValue = "false") boolean includeDisabled,
+        @RequestParam(defaultValue = "0") int page,
+        @RequestParam(defaultValue = "10") int size,
+        @RequestParam(defaultValue = "id") String sortBy,
+        @RequestParam(defaultValue = "asc") String sortDir
+
+        ) { 
+
+        Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.fromString(sortDir), sortBy));
+
+        Page<CriteriaComparisonReadDTO> criteriaComparisons = criterionComparisonService.getCriteriaComparisons(
+            strategyId, criteriaGroupId, criterion1Id, criterion2Id, includeDisabled, pageable
         );
 
         return ResponseEntity.ok(criteriaComparisons);

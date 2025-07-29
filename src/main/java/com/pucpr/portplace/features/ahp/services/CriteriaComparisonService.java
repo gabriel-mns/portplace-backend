@@ -1,8 +1,9 @@
 package com.pucpr.portplace.features.ahp.services;
 
-import java.util.List;
 import java.util.logging.Logger;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.pucpr.portplace.features.ahp.dtos.CriteriaComparisonCreateDTO;
@@ -61,9 +62,6 @@ public class CriteriaComparisonService {
 
     // UPDATE
     public CriteriaComparisonReadDTO updateCriteriaComparison(long strategyId, long criteriaComparisonId, CriteriaComparisonUpdateDTO dto) {
-        
-        //TODO: Treat case when criteriaComparison is disabled
-        //TODO: Treat case when criteriaComparison was not found
 
         validationService.validateBeforeUpdate(
             criteriaComparisonId,
@@ -114,106 +112,23 @@ public class CriteriaComparisonService {
 
     }
 
-    public List<CriteriaComparisonReadDTO> getCriteriaComparisons(long strategyId, long criteriaGroupId, Long criterion1Id, Long criterion2Id, boolean includeDisabled) {
+    public Page<CriteriaComparisonReadDTO> getCriteriaComparisons(
+        long strategyId,
+        long criteriaGroupId,
+        Long criterion1Id,
+        Long criterion2Id,
+        boolean includeDisabled,
+        Pageable pageable
+        ) {
 
         validationService.validateBeforeGetAll(criteriaGroupId);
         
-        List<CriteriaComparison> criteriaComparisons = criteriaComparisonRepository.findComparisons(
-            criteriaGroupId, criterion2Id, criterion1Id, includeDisabled
+        Page<CriteriaComparison> criteriaComparisons = criteriaComparisonRepository.findComparisons(
+            criteriaGroupId, criterion2Id, criterion1Id, includeDisabled, pageable
         );
 
-        return criteriaComparisonMapper.toReadDTO(criteriaComparisons);
-
-        // if (hasComparedCriterion && hasReferenceCriterion) {
-        //     return getCriteriaComparisonByComparedCriterionIdAndReferenceCriterionIdAndAhpId(comparedCriterionId, referenceCriterionId, criteriaGroupId, includeDisabled);
-        // } else if (hasComparedCriterion) {
-        //     return getCriteriaComparisonByComparedCriterionIdAndAhpId(comparedCriterionId, criteriaGroupId, includeDisabled);
-        // } else if (hasReferenceCriterion) {
-        //     return getCriteriaComparisonByReferenceCriterionIdAndAhpId(referenceCriterionId, criteriaGroupId, includeDisabled);
-        // } else {
-        //     return getCriteriaComparisonByAhpId(criteriaGroupId, includeDisabled);
-        // }
+        return criteriaComparisons.map(criteriaComparisonMapper::toReadDTO);
     
     }
-
-    // public List<CriteriaComparisonReadDTO> getCriteriaComparisonByComparedCriterionIdAndAhpId(long comparedCriterionId, long criteriaGroupId, boolean includeDisabled) {
-
-    //     List<CriteriaComparison> criteriaComparisonList;
-
-    //     if(includeDisabled){
-
-    //         criteriaComparisonList = criteriaComparisonRepository.findByComparedCriterionIdAndCriteriaGroupId(comparedCriterionId, criteriaGroupId);
-
-    //     } else {
-
-    //         criteriaComparisonList = criteriaComparisonRepository.findByComparedCriterionIdAndCriteriaGroupIdAndDisabledFalse(comparedCriterionId, criteriaGroupId);
-
-    //     }
-
-    //     List<CriteriaComparisonReadDTO> criteriaComparisonDTOList = criteriaComparisonMapper.toReadDTO(criteriaComparisonList);
-
-    //     return criteriaComparisonDTOList;
-    
-    // }
-
-    // public List<CriteriaComparisonReadDTO> getCriteriaComparisonByReferenceCriterionIdAndAhpId(long referenceCriterionId, long criteriaGroupId, boolean includeDisabled) {
-
-    //     List<CriteriaComparison> criteriaComparisonList;
-
-    //     if(includeDisabled){
-
-    //         criteriaComparisonList = criteriaComparisonRepository.findByReferenceCriterionIdAndCriteriaGroupId(referenceCriterionId, criteriaGroupId);
-
-    //     } else {
-
-    //         criteriaComparisonList = criteriaComparisonRepository.findByReferenceCriterionIdAndCriteriaGroupIdAndDisabledFalse(referenceCriterionId, criteriaGroupId);
-
-    //     }
-
-    //     List<CriteriaComparisonReadDTO> criteriaComparisonDTOList = criteriaComparisonMapper.toReadDTO(criteriaComparisonList);
-
-    //     return criteriaComparisonDTOList;
-    
-    // }
-
-    // public List<CriteriaComparisonReadDTO> getCriteriaComparisonByComparedCriterionIdAndReferenceCriterionIdAndAhpId(long comparedCriterionId, long referenceCriterionId, long criteriaGroupId, boolean includeDisabled) {
-
-    //     List<CriteriaComparison> criteriaComparisonList;
-
-    //     if(includeDisabled){
-
-    //         criteriaComparisonList = criteriaComparisonRepository.findByComparedCriterionIdAndReferenceCriterionIdAndCriteriaGroupId(comparedCriterionId, referenceCriterionId, criteriaGroupId);
-
-    //     } else {
-
-    //         criteriaComparisonList = criteriaComparisonRepository.findByComparedCriterionIdAndReferenceCriterionIdAndCriteriaGroupIdAndDisabledFalse(comparedCriterionId, referenceCriterionId, criteriaGroupId);
-
-    //     }
-
-    //     List<CriteriaComparisonReadDTO> criteriaComparisonDTOList = criteriaComparisonMapper.toReadDTO(criteriaComparisonList);
-
-    //     return criteriaComparisonDTOList;
-    
-    // }
-
-    // public List<CriteriaComparisonReadDTO> getCriteriaComparisonByAhpId(long criteriaGroupId, boolean includeDisabled) {
-
-    //     List<CriteriaComparison> criteriaComparisonList;
-
-    //     if(includeDisabled){
-
-    //         criteriaComparisonList = criteriaComparisonRepository.findByCriteriaGroupId(criteriaGroupId);
-
-    //     } else {
-
-    //         criteriaComparisonList = criteriaComparisonRepository.findByCriteriaGroupIdAndDisabledFalse(criteriaGroupId);
-
-    //     }
-
-    //     List<CriteriaComparisonReadDTO> criteriaComparisonDTOList = criteriaComparisonMapper.toReadDTO(criteriaComparisonList);
-
-    //     return criteriaComparisonDTOList;
-    
-    // }
 
 }
