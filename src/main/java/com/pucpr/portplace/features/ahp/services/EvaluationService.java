@@ -1,6 +1,7 @@
 package com.pucpr.portplace.features.ahp.services;
 
-import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import com.pucpr.portplace.features.ahp.dtos.EvaluationCreateDTO;
@@ -91,23 +92,19 @@ public class EvaluationService {
         return evaluationDTO;
     }
 
-    public List<EvaluationReadDTO> getAllEvaluationsByAHPId(long ahpId, boolean includeDisabled) {
+    public Page<EvaluationReadDTO> getAllEvaluationsByAHPId(long ahpId, boolean includeDisabled, PageRequest pageable) {
 
         validationService.validateBeforeGetAll(ahpId);
 
-        List<Evaluation> evaluations;
+        Page<Evaluation> evaluations;
 
         if(includeDisabled) {
-
-            evaluations = evaluationRepository.findByAhpId(ahpId);
-
+            evaluations = evaluationRepository.findByAhpId(ahpId, pageable);
         } else {
-
-            evaluations = evaluationRepository.findByAhpIdAndDisabledFalse(ahpId);
-
+            evaluations = evaluationRepository.findByAhpIdAndDisabledFalse(ahpId, pageable);
         }
 
-        List<EvaluationReadDTO> evaluationDTOs = evaluationMapper.toReadDTO(evaluations);
+        Page<EvaluationReadDTO> evaluationDTOs = evaluations.map(evaluationMapper::toReadDTO);
 
         return evaluationDTOs;
 

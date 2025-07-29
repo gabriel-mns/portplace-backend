@@ -52,7 +52,11 @@ public class AHPController {
         @RequestParam(defaultValue = "asc") String sortDir
         ) {
         
-        PageRequest pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.fromString(sortDir), sortBy));
+        PageRequest pageable = PageRequest.of(
+            page,
+            size,
+            Sort.by(Sort.Direction.fromString(sortDir), sortBy)
+        );
 
         Page<AHPReadDTO> ahps = ahpService.getAllAHPs(strategyId, includeDisabled, pageable);
 
@@ -61,7 +65,10 @@ public class AHPController {
     }
 
     @GetMapping("/{AHPId}")
-    public ResponseEntity<AHPReadDTO> getAHPById(@PathVariable long strategyId, @PathVariable long AHPId) {
+    public ResponseEntity<AHPReadDTO> getAHPById(
+        @PathVariable long strategyId, 
+        @PathVariable long AHPId
+        ) {
         
         AHPReadDTO ahp = ahpService.getAHPById(strategyId, AHPId);
 
@@ -70,7 +77,10 @@ public class AHPController {
     }
 
     @PostMapping
-    public ResponseEntity<AHPReadDTO> createAHP(@PathVariable long strategyId, @RequestBody @Valid AHPCreateDTO ahpCreateDto) {
+    public ResponseEntity<AHPReadDTO> createAHP(
+        @PathVariable long strategyId, 
+        @RequestBody @Valid AHPCreateDTO ahpCreateDto
+        ) {
         
         AHPReadDTO createdAHP = ahpService.createAHP(strategyId, ahpCreateDto);
 
@@ -85,8 +95,12 @@ public class AHPController {
     }
 
     @PutMapping("/{AHPId}")
-    public ResponseEntity<AHPReadDTO> updateAHP(@PathVariable long strategyId,@PathVariable long AHPId, @RequestBody @Valid AHPUpdateDTO ahpUpdateDto) {
-        
+    public ResponseEntity<AHPReadDTO> updateAHP(
+        @PathVariable long strategyId,
+        @PathVariable long AHPId,
+        @RequestBody @Valid AHPUpdateDTO ahpUpdateDto
+        ) {
+
         AHPReadDTO updatedAHP = ahpService.updateAHP(strategyId, AHPId, ahpUpdateDto);
 
         return ResponseEntity.ok().body(updatedAHP);
@@ -94,8 +108,11 @@ public class AHPController {
     }
 
     @DeleteMapping("/{AHPId}")
-    public ResponseEntity<Void> disableAHP(@PathVariable long strategyId, @PathVariable long AHPId) {
-        
+    public ResponseEntity<Void> disableAHP(
+        @PathVariable long strategyId, 
+        @PathVariable long AHPId
+        ) {
+
         ahpService.disableAHP(strategyId, AHPId);
 
         return ResponseEntity.noContent().build();
@@ -103,8 +120,11 @@ public class AHPController {
     }
 
     @DeleteMapping("/{AHPId}/hard-delete")
-    public ResponseEntity<Void> deleteAHP(@PathVariable long strategyId, @PathVariable long AHPId) {
-        
+    public ResponseEntity<Void> deleteAHP(
+        @PathVariable long strategyId, 
+        @PathVariable long AHPId
+        ) {
+
         ahpService.deleteAHP(strategyId, AHPId);
 
         return ResponseEntity.noContent().build();
