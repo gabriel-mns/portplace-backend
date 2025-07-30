@@ -2,6 +2,8 @@ package com.pucpr.portplace.features.ahp.repositories;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -39,15 +41,16 @@ public interface CriteriaComparisonRepository extends JpaRepository<CriteriaComp
             )
             AND cc.disabled = :includeDisabled
     """)
-    List<CriteriaComparison> findComparisons(
+    Page<CriteriaComparison> findComparisons(
         Long criteriaGroupId,
         Long criterion1Id,
         Long criterion2Id,
-        boolean includeDisabled
+        boolean includeDisabled,
+        Pageable pageable
     );
 
 
-    List<CriteriaComparison> findByCriteriaGroupId(long criteriaGroupId);
+    Page<CriteriaComparison> findByCriteriaGroupId(long criteriaGroupId, Pageable pageable);
 
     // VALIDATIONS
     @Query(

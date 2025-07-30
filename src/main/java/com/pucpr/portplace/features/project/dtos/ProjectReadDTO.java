@@ -1,6 +1,7 @@
 package com.pucpr.portplace.features.project.dtos;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.pucpr.portplace.features.project.enums.ProjectStatusEnum;
@@ -32,7 +33,13 @@ public class ProjectReadDTO {
     private LocalDate startDate;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private LocalDate endDate;
-    private boolean disabled;
     private UserGetResponseDTO projectManager;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
+    private LocalDateTime createdAt;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
+    private LocalDateTime lastModifiedAt;
+    // private UserGetResponseDTO createdBy;
+    // private UserGetResponseDTO lastModifiedBy;
+    private boolean disabled;
 
 }

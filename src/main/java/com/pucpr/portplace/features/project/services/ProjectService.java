@@ -1,6 +1,7 @@
 package com.pucpr.portplace.features.project.services;
 
-import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -92,47 +93,45 @@ public class ProjectService {
     
     }
 
-    public ResponseEntity<List<ProjectReadDTO>> getAllProjects(boolean includeDisabled) {
+    public ResponseEntity<Page<ProjectReadDTO>> getAllProjects(
+        Pageable pageable,
+        boolean includeDisabled
+    ) {
 
-        List<Project> projects;
+        Page<Project> projects;
 
         if(includeDisabled) {
             // If includes, get all projects
-            projects = projectRepository.findAll();
+            projects = projectRepository.findAll(pageable);
         } else {
             // Else, get only not disabled (enabled) projects
-            projects = projectRepository.findByDisabled(false);
+            projects = projectRepository.findByDisabled(pageable, false);
         }
 
-        List<ProjectReadDTO> projectsDTO = projectMapper.toReadDTO(projects);
+        // List<ProjectReadDTO> projectsDTO = projectMapper.toReadDTO(projects);
+        Page<ProjectReadDTO> projectsDTO = projects.map(projectMapper::toReadDTO);
 
-        // TODO: Implement pagination
-        // TODO: Implement sorting
         // TODO: Implement filtering
 
         return ResponseEntity.ok(projectsDTO);
     
     }
 
-    public List<ProjectReadDTO> getAllProjectsByProjectManagerId(long projectManagerId, boolean includeDisabled) {
+    public Page<ProjectReadDTO> getAllProjectsByProjectManagerId(long projectManagerId, boolean includeDisabled, Pageable pageable) {
 
         validationService.validateBeforeGetByProjectManagerId(projectManagerId);
 
-        List<Project> projects;
+        Page<Project> projects;
 
         if(includeDisabled) {
-            
             // If includes, get all projects by project manager id
-            projects = projectRepository.findByProjectManagerId(projectManagerId);
-            
+            projects = projectRepository.findByProjectManagerId(projectManagerId, pageable);
         } else {
-            
             // If includes, get only enabled projects by project manager id
-            projects = projectRepository.findByProjectManagerIdAndDisabled(projectManagerId, false);
-
+            projects = projectRepository.findByProjectManagerIdAndDisabled(projectManagerId, false, pageable);
         }
 
-        List<ProjectReadDTO> projectsDTO = projectMapper.toReadDTO(projects);
+        Page<ProjectReadDTO> projectsDTO = projects.map(projectMapper::toReadDTO);
 
         return projectsDTO;
    

@@ -1,7 +1,7 @@
 package com.pucpr.portplace.features.ahp.services;
 
-import java.util.List;
-
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -86,41 +86,41 @@ public class AHPService {
 
     }
 
-    public List<AHPReadDTO> getAllAHPs(long strategyId, boolean includeDisabled) {
+    public Page<AHPReadDTO> getAllAHPs(long strategyId, boolean includeDisabled, Pageable pageable) {
 
-        List<AHP> ahps;
+        Page<AHP> ahps;
         
         if(includeDisabled) {
 
-            ahps = ahpRepository.findAll();
+            ahps = ahpRepository.findAll(pageable);
 
         } else {
 
-            ahps = ahpRepository.findByDisabledFalse();
+            ahps = ahpRepository.findByDisabledFalse(pageable);
 
         }
 
-        List<AHPReadDTO> ahpReadDTOs = ahpMapper.toReadDTO(ahps);
+        Page<AHPReadDTO> ahpReadDTOs = ahps.map(ahpMapper::toReadDTO);
 
         return ahpReadDTOs;
 
     }
 
-    public ResponseEntity<List<AHPReadDTO>> getAHPsByStrategyId(long strategyId, boolean includeDisabled) {
+    public ResponseEntity<Page<AHPReadDTO>> getAHPsByStrategyId(long strategyId, boolean includeDisabled, Pageable pageable) {
 
-        List<AHP> ahps;
+        Page<AHP> ahps;
         
         if(includeDisabled) {
 
-            ahps = ahpRepository.findByStrategyId(strategyId);
+            ahps = ahpRepository.findByStrategyId(strategyId, pageable);
 
         } else {
 
-            ahps = ahpRepository.findByStrategyIdAndDisabledFalse(strategyId);
+            ahps = ahpRepository.findByStrategyIdAndDisabledFalse(strategyId, pageable);
 
         }
         
-        List<AHPReadDTO> ahpReadDto = ahpMapper.toReadDTO(ahps);
+        Page<AHPReadDTO> ahpReadDto = ahps.map(ahpMapper::toReadDTO);
 
         return ResponseEntity.ok(ahpReadDto);
 

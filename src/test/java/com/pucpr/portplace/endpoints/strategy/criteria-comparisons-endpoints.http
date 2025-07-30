@@ -3,7 +3,7 @@
 // COMPARAÇÃO DE CRITÉRIOS
 
 ### BUSCA DE TODOS AS COMPARAÇÕES DE CRITÉRIOS
-GET {{host}}/strategies/1/criteria-groups/1/criteria-comparisons?criterion1Id=2&criterion2Id=3&includeDisabled=false
+GET {{host}}/strategies/1/criteria-groups/1/criteria-comparisons
 
 ### BUSCA POR ID DE UMA COMPARAÇÃO DE CRITÉRIOS
 GET {{host}}/strategies/1/criteria-groups/3/criteria-comparisons/2

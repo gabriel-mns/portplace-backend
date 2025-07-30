@@ -5,8 +5,8 @@ POST {{host}}/projects
 Content-Type: application/json
 
 {
-  "name": "Projeto 3",
-  "description": "Projeto 3",
+  "name": "Projeto 12",
+  "description": "Projeto 12",
   "startDate": "2023-10-01",
   "endDate": "2023-12-31",
   "status": "CANDIDATE",
@@ -19,7 +19,7 @@ Content-Type: application/json
 }
 
 ### BUSCA DE PROJETOS
-GET  {{host}}/projects?includeDisabled=true
+GET  {{host}}/projects?sortBy=budget&sortDir=desc&includeDisabled=true
 Accept: application/json
 Host: localhost:8080
 
@@ -56,4 +56,4 @@ Content-Type: application/json
 }
 
 ### DELETAR PROJETO
-DELETE {{host}}/projects
+DELETE {{host}}/projects/11

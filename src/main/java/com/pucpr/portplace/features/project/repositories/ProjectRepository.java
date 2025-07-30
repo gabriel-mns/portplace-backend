@@ -1,7 +1,7 @@
 package com.pucpr.portplace.features.project.repositories;
 
-import java.util.List;
-
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.pucpr.portplace.features.project.entities.Project;
@@ -9,11 +9,11 @@ import com.pucpr.portplace.features.project.entities.Project;
 public interface ProjectRepository extends JpaRepository<Project, Long> {
     
     // TODO: Implement paginated methods
-    
-    List<Project> findByProjectManagerId(long projectManagerId);
 
-    List<Project> findByProjectManagerIdAndDisabled(long projectManagerId, boolean disabled);
+    Page<Project> findByProjectManagerId(long projectManagerId, Pageable pageable);
 
-    List<Project> findByDisabled(boolean disabled);
+    Page<Project> findByProjectManagerIdAndDisabled(long projectManagerId, boolean disabled, Pageable pageable);
+
+    Page<Project> findByDisabled(Pageable pageable, boolean disabled);
 
 }

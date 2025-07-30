@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.springframework.data.mapping.PropertyReferenceException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -144,6 +145,36 @@ public class GlobalExceptionHandler {
 
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
 	}
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<ApiErrorResponse> handleIllegalArgument(IllegalArgumentException ex, HttpServletRequest request) {
+        
+		String message = ex.getMessage();
+
+		var response = new ApiErrorResponse(
+				HttpStatus.BAD_REQUEST.value(),
+				message,
+				request.getRequestURI(),
+				request.getMethod(),
+				LocalDateTime.now()
+		);
+
+		return ResponseEntity.badRequest().body(response);
+    }
+
+	@ExceptionHandler(PropertyReferenceException.class)
+    public ResponseEntity<ApiErrorResponse> handleInvalidSortField(PropertyReferenceException ex, HttpServletRequest request) {
+
+		var response = new ApiErrorResponse(
+				HttpStatus.BAD_REQUEST.value(),
+				ex.getMessage(),
+				request.getRequestURI(),
+				request.getMethod(),
+				LocalDateTime.now()
+		);
+
+		return ResponseEntity.badRequest().body(response);
+    }
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ApiErrorResponse> handleGeneric(Exception ex, HttpServletRequest request) {

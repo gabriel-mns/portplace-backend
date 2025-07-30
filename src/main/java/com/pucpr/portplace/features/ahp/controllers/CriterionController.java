@@ -1,9 +1,11 @@
 package com.pucpr.portplace.features.ahp.controllers;
 
 import java.net.URI;
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -38,17 +40,32 @@ public class CriterionController {
     
     //#region READ
     @GetMapping
-    public ResponseEntity<List<CriterionReadDTO>> getAllCriteria(@PathVariable long strategyId, @PathVariable long criteriaGroupId, @RequestParam(defaultValue="false") boolean includeDisabled) {
+    public ResponseEntity<Page<CriterionReadDTO>> getAllCriteria(
+        @PathVariable long strategyId, 
+        @PathVariable long criteriaGroupId, 
+        @RequestParam(defaultValue="false") boolean includeDisabled,
+        @RequestParam(defaultValue="0") int page,
+        @RequestParam(defaultValue="10") int size,
+        @RequestParam(defaultValue="lastModifiedAt") String sortBy,
+        @RequestParam(defaultValue="asc") String sortDir
+        ) {
 
-        List<CriterionReadDTO> criteria = criterionService.getCriteriaByCriteriaGroupId(criteriaGroupId, includeDisabled);
+        Sort.Direction direction = sortDir.equalsIgnoreCase("desc") ? Sort.Direction.DESC : Sort.Direction.ASC;
+        PageRequest pageable = PageRequest.of(page, size, Sort.by(direction, sortBy));
+
+        Page<CriterionReadDTO> criteria = criterionService.getCriteriaByCriteriaGroupId(criteriaGroupId, includeDisabled, pageable);
 
         return ResponseEntity.ok(criteria);
     
     }
 
     @GetMapping("/{criterionId}")
-    public ResponseEntity<CriterionReadDTO> getCriterionById(@PathVariable long strategyId, @PathVariable Long criteriaGroupId, @PathVariable Long criterionId) {
-        
+    public ResponseEntity<CriterionReadDTO> getCriterionById(
+        @PathVariable long strategyId, 
+        @PathVariable Long criteriaGroupId, 
+        @PathVariable Long criterionId
+        ) {
+
         CriterionReadDTO criterion = criterionService.getCriterionById(criteriaGroupId, criterionId);
 
         return ResponseEntity.ok(criterion);
@@ -57,8 +74,12 @@ public class CriterionController {
 
     //#region CREATE
     @PostMapping
-    public ResponseEntity<CriterionReadDTO> createCriterion(@PathVariable long strategyId, @PathVariable Long criteriaGroupId, @RequestBody @Valid CriterionCreateDTO criterionCreateDTO) {
-        
+    public ResponseEntity<CriterionReadDTO> createCriterion(
+        @PathVariable long strategyId, 
+        @PathVariable Long criteriaGroupId, 
+        @RequestBody @Valid CriterionCreateDTO criterionCreateDTO
+        ) {
+
         CriterionReadDTO createdCriterion = criterionService.createCriterion(strategyId, criteriaGroupId, criterionCreateDTO);
 
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
@@ -72,8 +93,13 @@ public class CriterionController {
 
     //#region UPDATE
     @PutMapping("/{criterionId}")
-    public ResponseEntity<CriterionReadDTO> updateCriterion(@PathVariable long strategyId, @PathVariable Long criteriaGroupId, @PathVariable long criterionId, @RequestBody @Valid CriterionUpdateDTO criterionUpdateDTO) {
-        
+    public ResponseEntity<CriterionReadDTO> updateCriterion(
+        @PathVariable long strategyId, 
+        @PathVariable Long criteriaGroupId, 
+        @PathVariable long criterionId, 
+        @RequestBody @Valid CriterionUpdateDTO criterionUpdateDTO
+        ) {
+
         CriterionReadDTO updatedCriterion = criterionService.updateCriterion(criterionId, criterionUpdateDTO);
 
         return ResponseEntity.ok().body(updatedCriterion);
@@ -82,8 +108,12 @@ public class CriterionController {
 
     //#region DELETE
     @DeleteMapping("/{criterionId}")
-    public ResponseEntity<Void> disableCriterion(@PathVariable long strategyId, @PathVariable Long criteriaGroupId, @PathVariable long criterionId) {
-        
+    public ResponseEntity<Void> disableCriterion(
+        @PathVariable long strategyId, 
+        @PathVariable Long criteriaGroupId, 
+        @PathVariable long criterionId
+        ) {
+
         criterionService.disableCriterion(strategyId, criterionId);
 
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
@@ -91,8 +121,12 @@ public class CriterionController {
     }
 
     @DeleteMapping("/{criterionId}/hard-delete")
-    public ResponseEntity<Void> deleteCriterion(@PathVariable long strategyId, @PathVariable long criteriaGroupId, @PathVariable long criterionId) {
-        
+    public ResponseEntity<Void> deleteCriterion(
+        @PathVariable long strategyId, 
+        @PathVariable long criteriaGroupId, 
+        @PathVariable long criterionId
+        ) {
+
         criterionService.deleteCriterion(strategyId, criterionId);
         
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
