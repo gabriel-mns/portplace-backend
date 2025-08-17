@@ -18,6 +18,8 @@ import lombok.Setter;
 public class EvaluationReadDTO {
 
     private long id;
+    private String name;
+    private String description;
     private int score;
     private long projectId;
     private long criterionId;

@@ -37,6 +37,7 @@ public class EvaluationController {
     @GetMapping
     public ResponseEntity<Page<EvaluationReadDTO>> getAllEvaluationsByAHPId(
         @PathVariable long ahpId, 
+        @RequestParam(required = false) String name,
         @RequestParam(defaultValue = "false") boolean includeDisabled,
         @RequestParam(defaultValue = "0") int page,
         @RequestParam(defaultValue = "10") int size,
@@ -51,7 +52,7 @@ public class EvaluationController {
         );
 
         Page<EvaluationReadDTO> evaluations = evaluationService.getAllEvaluationsByAHPId(
-            ahpId, includeDisabled, pageable
+            ahpId, name, includeDisabled, pageable
         );
 
         return ResponseEntity.ok().body(evaluations);

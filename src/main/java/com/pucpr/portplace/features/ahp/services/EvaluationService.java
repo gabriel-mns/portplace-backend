@@ -92,16 +92,25 @@ public class EvaluationService {
         return evaluationDTO;
     }
 
-    public Page<EvaluationReadDTO> getAllEvaluationsByAHPId(long ahpId, boolean includeDisabled, PageRequest pageable) {
+    public Page<EvaluationReadDTO> getAllEvaluationsByAHPId(long ahpId, String name, boolean includeDisabled, PageRequest pageable) {
 
         validationService.validateBeforeGetAll(ahpId);
 
         Page<Evaluation> evaluations;
+        boolean containsName = name != null && !name.isEmpty();
 
-        if(includeDisabled) {
-            evaluations = evaluationRepository.findByAhpId(ahpId, pageable);
+        if(containsName) {
+
+            evaluations = evaluationRepository.findByAhpIdAndName(ahpId, name, includeDisabled, pageable);
+
         } else {
-            evaluations = evaluationRepository.findByAhpIdAndDisabledFalse(ahpId, pageable);
+
+            if(includeDisabled) {
+                evaluations = evaluationRepository.findByAhpId(ahpId, pageable);
+            } else {
+                evaluations = evaluationRepository.findByAhpIdAndDisabledFalse(ahpId, pageable);
+            }
+
         }
 
         Page<EvaluationReadDTO> evaluationDTOs = evaluations.map(evaluationMapper::toReadDTO);

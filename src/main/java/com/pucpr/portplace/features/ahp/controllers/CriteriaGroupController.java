@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.azure.core.annotation.QueryParam;
 import com.pucpr.portplace.features.ahp.dtos.CriteriaGroupCreateDTO;
 import com.pucpr.portplace.features.ahp.dtos.CriteriaGroupListReadDTO;
 import com.pucpr.portplace.features.ahp.dtos.CriteriaGroupReadDTO;
