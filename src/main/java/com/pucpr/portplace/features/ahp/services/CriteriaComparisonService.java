@@ -115,20 +115,57 @@ public class CriteriaComparisonService {
     public Page<CriteriaComparisonReadDTO> getCriteriaComparisons(
         long strategyId,
         long criteriaGroupId,
-        Long criterion1Id,
-        Long criterion2Id,
+        Long referenceCriterionId, 
+        Long comparedCriterionId, 
+        String criterionName,
         boolean includeDisabled,
         Pageable pageable
         ) {
 
         validationService.validateBeforeGetAll(criteriaGroupId);
-        
-        Page<CriteriaComparison> criteriaComparisons = criteriaComparisonRepository.findComparisons(
-            criteriaGroupId, criterion2Id, criterion1Id, includeDisabled, pageable
-        );
 
+        boolean containsName = criterionName != null && !criterionName.isEmpty();
+        boolean searchByReference = referenceCriterionId != null;
+        boolean searchByCompared = comparedCriterionId != null;
+        
+        Page<CriteriaComparison> criteriaComparisons;
+
+        
+        if(!containsName) criterionName = "";
+
+        if(searchByReference && !searchByCompared) {
+            criteriaComparisons = criteriaComparisonRepository.findComparisonsByReferenceCriterion(
+                criteriaGroupId, referenceCriterionId, criterionName, includeDisabled, pageable
+            );
+        } else if(searchByCompared && !searchByReference) {
+            criteriaComparisons = criteriaComparisonRepository.findComparisonsByComparedCriterion(
+                criteriaGroupId, comparedCriterionId, criterionName, includeDisabled, pageable
+            );
+        } else {
+            criteriaComparisons = criteriaComparisonRepository.findByCriteriaGroupId(criteriaGroupId, pageable);
+        }
+        
         return criteriaComparisons.map(criteriaComparisonMapper::toReadDTO);
     
     }
+
+    // public Page<CriteriaComparisonReadDTO> getCriteriaComparisons(
+    //     long strategyId,
+    //     long criteriaGroupId,
+    //     Long criterion1Id,
+    //     Long criterion2Id,
+    //     boolean includeDisabled,
+    //     Pageable pageable
+    //     ) {
+
+    //     validationService.validateBeforeGetAll(criteriaGroupId);
+        
+    //     Page<CriteriaComparison> criteriaComparisons = criteriaComparisonRepository.findComparisons(
+    //         criteriaGroupId, criterion2Id, criterion1Id, includeDisabled, pageable
+    //     );
+
+    //     return criteriaComparisons.map(criteriaComparisonMapper::toReadDTO);
+    
+    // }
 
 }

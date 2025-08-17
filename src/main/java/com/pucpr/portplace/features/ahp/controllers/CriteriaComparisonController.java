@@ -102,8 +102,9 @@ public class CriteriaComparisonController {
     public ResponseEntity<Page<CriteriaComparisonReadDTO>> getCriteriaComparisons(
         @PathVariable long strategyId,
         @PathVariable long criteriaGroupId,
-        @RequestParam(required = false) Long criterion1Id,
-        @RequestParam(required = false) Long criterion2Id,
+        @RequestParam(required = false) Long referenceCriterionId,
+        @RequestParam(required = false) Long comparedCriterionId,
+        @RequestParam(required = false) String criterionName,
         @RequestParam(defaultValue = "false") boolean includeDisabled,
         @RequestParam(defaultValue = "0") int page,
         @RequestParam(defaultValue = "10") int size,
@@ -115,7 +116,7 @@ public class CriteriaComparisonController {
         Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.fromString(sortDir), sortBy));
 
         Page<CriteriaComparisonReadDTO> criteriaComparisons = criterionComparisonService.getCriteriaComparisons(
-            strategyId, criteriaGroupId, criterion1Id, criterion2Id, includeDisabled, pageable
+            strategyId, criteriaGroupId, referenceCriterionId, comparedCriterionId, criterionName, includeDisabled, pageable
         );
 
         return ResponseEntity.ok(criteriaComparisons);
