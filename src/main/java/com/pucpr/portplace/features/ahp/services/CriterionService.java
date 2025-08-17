@@ -115,7 +115,12 @@ public class CriterionService {
 
     }
 
-    public Page<CriterionReadDTO> getCriteriaByCriteriaGroupId(long criteriaGroupId, boolean includeDisabled, Pageable pageable) {
+    public Page<CriterionReadDTO> getCriteriaByCriteriaGroupId(
+        long criteriaGroupId, 
+        boolean includeDisabled,
+        String name,
+        Pageable pageable
+        ) {
 
         validationService.validateBeforeGetAll(criteriaGroupId);
 
@@ -125,15 +130,22 @@ public class CriterionService {
             criteriaGroup
             );
         boolean includeWeight = !includeDisabled && allCriteriaCompared;
+        boolean containsName = name != null && !name.isEmpty();
         Page<Criterion> criteria;
 
         if(includeDisabled) {
-
-            criteria = criterionRepository.findByCriteriaGroupId(criteriaGroupId, pageable);
+            if(containsName){
+                criteria = criterionRepository.findByCriteriaGroupIdAndNameContainingIgnoreCase(criteriaGroupId, name, pageable);
+            } else {
+                criteria = criterionRepository.findByCriteriaGroupId(criteriaGroupId, pageable);
+            }
 
         } else {
-            
-            criteria = criterionRepository.findByCriteriaGroupIdAndDisabledFalse(criteriaGroupId, pageable);
+            if(containsName){
+                criteria = criterionRepository.findByCriteriaGroupIdAndDisabledFalseAndNameContainingIgnoreCase(criteriaGroupId, name, pageable);
+            } else {
+                criteria = criterionRepository.findByCriteriaGroupIdAndDisabledFalse(criteriaGroupId, pageable);
+            }
         }
 
         List<CriterionReadDTO> dtos = criteria.getContent().stream()

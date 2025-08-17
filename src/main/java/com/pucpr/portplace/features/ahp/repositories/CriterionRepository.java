@@ -12,4 +12,16 @@ public interface CriterionRepository extends JpaRepository<Criterion, Long> {
 
     Page<Criterion> findByCriteriaGroupIdAndDisabledFalse(Long criteriaGroupId, Pageable pageable);
 
+    Page<Criterion> findByCriteriaGroupIdAndNameContainingIgnoreCase(
+        long criteriaGroupId, 
+        String name, 
+        Pageable pageable
+    );
+
+    Page<Criterion> findByCriteriaGroupIdAndDisabledFalseAndNameContainingIgnoreCase(
+        long criteriaGroupId,
+        String name, 
+        Pageable pageable
+    );
+
 }
