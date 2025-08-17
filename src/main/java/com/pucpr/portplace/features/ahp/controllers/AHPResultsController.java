@@ -15,7 +15,7 @@ import com.pucpr.portplace.features.ahp.services.AHPResultsService;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
 
-@Tag(name = "AHP", description = "Related to the AHP CRUD operations")
+@Tag(name = "AHP Results", description = "Related to the AHP results operations")
 @RestController
 @RequestMapping(StrategyPaths.AHP_RANKING)
 public class AHPResultsController {

@@ -86,43 +86,34 @@ public class AHPService {
 
     }
 
-    public Page<AHPReadDTO> getAllAHPs(long strategyId, boolean includeDisabled, Pageable pageable) {
+    public Page<AHPReadDTO> getAllAHPs(long strategyId, String name, boolean includeDisabled, Pageable pageable) {
 
         Page<AHP> ahps;
+
+        boolean containsName = name != null && !name.isEmpty();
         
-        if(includeDisabled) {
-
-            ahps = ahpRepository.findAll(pageable);
-
+        if(containsName) {
+            
+            ahps = ahpRepository.findByName(name, includeDisabled, pageable);
+            
         } else {
 
-            ahps = ahpRepository.findByDisabledFalse(pageable);
+            if(includeDisabled) {
+    
+                ahps = ahpRepository.findAll(pageable);
+    
+            } else {
+    
+                ahps = ahpRepository.findByDisabledFalse(pageable);
+    
+            }
 
         }
+
 
         Page<AHPReadDTO> ahpReadDTOs = ahps.map(ahpMapper::toReadDTO);
 
         return ahpReadDTOs;
-
-    }
-
-    public ResponseEntity<Page<AHPReadDTO>> getAHPsByStrategyId(long strategyId, boolean includeDisabled, Pageable pageable) {
-
-        Page<AHP> ahps;
-        
-        if(includeDisabled) {
-
-            ahps = ahpRepository.findByStrategyId(strategyId, pageable);
-
-        } else {
-
-            ahps = ahpRepository.findByStrategyIdAndDisabledFalse(strategyId, pageable);
-
-        }
-        
-        Page<AHPReadDTO> ahpReadDto = ahps.map(ahpMapper::toReadDTO);
-
-        return ResponseEntity.ok(ahpReadDto);
 
     }
 

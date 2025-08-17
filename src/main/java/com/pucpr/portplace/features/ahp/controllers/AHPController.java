@@ -44,7 +44,8 @@ public class AHPController {
      */
     @GetMapping
     public ResponseEntity<Page<AHPReadDTO>> getAllAHPs(
-        @PathVariable long strategyId, 
+        @PathVariable long strategyId,
+        @RequestParam(required = false) String name,
         @RequestParam(defaultValue = "false") boolean includeDisabled,
         @RequestParam(defaultValue = "0") int page,
         @RequestParam(defaultValue = "10") int size,
@@ -58,7 +59,7 @@ public class AHPController {
             Sort.by(Sort.Direction.fromString(sortDir), sortBy)
         );
 
-        Page<AHPReadDTO> ahps = ahpService.getAllAHPs(strategyId, includeDisabled, pageable);
+        Page<AHPReadDTO> ahps = ahpService.getAllAHPs(strategyId, name, includeDisabled, pageable);
 
         return ResponseEntity.ok(ahps);
     
