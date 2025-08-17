@@ -14,4 +14,16 @@ public interface CriteriaGroupRepository extends JpaRepository<CriteriaGroup, Lo
     
     Page<CriteriaGroup> findByStrategyId(long strategyId, Pageable pageable);
 
+    Page<CriteriaGroup> findByStrategyIdAndNameContainingIgnoreCase(
+        long strategyId, 
+        String name, 
+        Pageable pageable
+        );
+
+    Page<CriteriaGroup> findByStrategyIdAndNameContainingIgnoreCaseAndDisabledFalse(
+        long strategyId,
+        String name,
+        Pageable pageable
+        );
+
 }

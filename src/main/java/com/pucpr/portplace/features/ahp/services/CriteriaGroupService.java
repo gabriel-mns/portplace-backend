@@ -101,19 +101,28 @@ public class CriteriaGroupService {
 
     }
 
-    public Page<CriteriaGroupListReadDTO> getCriteriaGroupsByStrategyId(long strategyId, boolean includeDisabled, Pageable pageable) {
+    public Page<CriteriaGroupListReadDTO> getCriteriaGroupsByStrategyId(long strategyId, boolean includeDisabled, String name, Pageable pageable) {
 
         validationService.validateBeforeGetAll(strategyId);
 
         Page<CriteriaGroup> criteriaGroups;
+        boolean containsName = name != null && !name.isEmpty();
 
         if(includeDisabled){
 
-            criteriaGroups = criteriaGroupRepository.findByStrategyId(strategyId, pageable);
+            if(containsName){
+                criteriaGroups = criteriaGroupRepository.findByStrategyIdAndNameContainingIgnoreCase(strategyId, name, pageable);
+            } else {
+                criteriaGroups = criteriaGroupRepository.findByStrategyId(strategyId, pageable);
+            }
 
         } else {
 
-            criteriaGroups = criteriaGroupRepository.findByStrategyIdAndDisabledFalse(strategyId, pageable);
+            if(containsName){
+                criteriaGroups = criteriaGroupRepository.findByStrategyIdAndNameContainingIgnoreCaseAndDisabledFalse(strategyId, name, pageable);
+            } else {
+                criteriaGroups = criteriaGroupRepository.findByStrategyIdAndDisabledFalse(strategyId, pageable);
+            }
 
         }
 

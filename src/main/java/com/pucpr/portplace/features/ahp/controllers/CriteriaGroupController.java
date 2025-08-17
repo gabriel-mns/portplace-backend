@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.azure.core.annotation.QueryParam;
 import com.pucpr.portplace.features.ahp.dtos.CriteriaGroupCreateDTO;
 import com.pucpr.portplace.features.ahp.dtos.CriteriaGroupListReadDTO;
 import com.pucpr.portplace.features.ahp.dtos.CriteriaGroupReadDTO;
@@ -100,6 +101,7 @@ public class CriteriaGroupController {
     @GetMapping
     public ResponseEntity<Page<CriteriaGroupListReadDTO>> getCriteriaGroupsByStrategyId(
         @PathVariable long strategyId,
+        @RequestParam(required = false) String name,
         @RequestParam(defaultValue = "false") boolean includeDisabled,
         @RequestParam(defaultValue = "0") int page,
         @RequestParam(defaultValue = "10") int size,
@@ -110,7 +112,12 @@ public class CriteriaGroupController {
         Sort.Direction direction = sortDir.equalsIgnoreCase("desc") ? Sort.Direction.DESC : Sort.Direction.ASC;
         Pageable pageable = PageRequest.of(page, size, Sort.by(direction, sortBy));
 
-        Page<CriteriaGroupListReadDTO> criteriaGroupListReadDto = criteriaGroupService.getCriteriaGroupsByStrategyId(strategyId, includeDisabled, pageable);
+        Page<CriteriaGroupListReadDTO> criteriaGroupListReadDto = criteriaGroupService.getCriteriaGroupsByStrategyId(
+            strategyId, 
+            includeDisabled, 
+            name, 
+            pageable
+        );
 
         return ResponseEntity.ok().body(criteriaGroupListReadDto);
 
