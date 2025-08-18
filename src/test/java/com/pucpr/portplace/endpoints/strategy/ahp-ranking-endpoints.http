@@ -1,0 +1,9 @@
+@host = http://localhost:8080/api/v1
+
+// COMPARAÇÃO DE CRITÉRIOS
+
+### BUSCA DE TODAS OS EVALUATION GROUPS
+GET {{host}}/strategies/1/evaluation-groups/1
+### BUSCA POR ID DE UM Evaluation Group
+GET {{host}}/strategies/1/evaluation-groups/1/ranking
+

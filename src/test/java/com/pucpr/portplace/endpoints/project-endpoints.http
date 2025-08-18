@@ -1,0 +1,59 @@
+@host = http://localhost:8080/api/v1
+
+### CADASTRAR PROJETO
+POST {{host}}/projects
+Content-Type: application/json
+
+{
+  "name": "Projeto 12",
+  "description": "Projeto 12",
+  "startDate": "2023-10-01",
+  "endDate": "2023-12-31",
+  "status": "CANDIDATE",
+  "projectManager": 1,
+  "earnedValue": 152752.87,
+  "plannedValue": 25781.90,
+  "actualCost": 25440.00,
+  "budget": 150000.00,
+  "payback": 124521.13
+}
+
+### BUSCA DE PROJETOS
+GET  {{host}}/projects?sortBy=budget&sortDir=desc&includeDisabled=true
+Accept: application/json
+Host: localhost:8080
+
+### BUSCA DE PROJETOS POR GERENTE DE PROJETO
+GET  {{host}}/projects/manager/1?includeDisabled=true
+Accept: application/json
+Host: localhost:8080
+
+
+### BUSCA DE PROJETO POR ID
+GET  {{host}}/projects/1
+Accept: application/json
+Host: localhost:8080
+
+
+### ALTERAR PROJETO
+PUT {{host}}/projects/1
+Accept: application/json
+Content-Type: application/json
+
+{
+  "id": 1,
+  "name": "Teste de projeto 1",
+  "description": "Projeto 1 descrição alterada",
+  "status": "IN_PROGRESS",
+  "earnedValue": 152752.87,
+  "plannedValue": 25781.90,
+  "actualCost": 25440.00,
+  "budget": "55555.0",
+  "payback": "150000.0",
+  "startDate": "2020-10-01",
+  "endDate": "2025-12-31",
+  "projectManager": 1
+}
+
+### DELETAR PROJETO
+DELETE {{host}}/projects/11

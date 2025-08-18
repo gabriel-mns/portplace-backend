@@ -1,0 +1,34 @@
+@host = http://localhost:8080/api/v1
+# @host = https://portplace-backend.greenstone-ec062121.brazilsouth.azurecontainerapps.io/api/v1
+
+// GRUPO DE CRITÉRIOS
+
+### BUSCA DE TODOS OS GRUPOS DE CRITÉRIOS
+GET {{host}}/strategies/1/criteria-groups?sortBy=lastModifiedAt&sortDir=desc
+
+### BUSCA POR ID DE UM GRUPO DE CRITÉRIOS
+GET {{host}}/strategies/1/criteria-groups/1
+
+### CADASTRAR GRUPO DE CRITÉRIOS
+POST {{host}}/strategies/1/criteria-groups
+Content-Type: application/json
+
+{
+  "name": "Grupo de critérios 3",
+  "description": "Grupo de critérios 3"
+}
+
+### EDIÇÃOD DE GRUPO DE CRITÉRIOS
+PUT {{host}}/strategies/1/criteria-groups/1
+Content-Type: application/json
+
+{
+  "name": "Grupo de critérios 1 atualizado",
+  "description": "Grupo de critérios 1"
+}
+
+### DESABILITAR GRUPO DE CRITÉRIOS
+DELETE {{host}}/strategies/1/criteria-groups/1
+
+### DELETAR GRUPO DE CRITÉRIOS
+DELETE {{host}}/strategies/1/criteria-groups/1/hard-delete

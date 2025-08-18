@@ -1,9 +1,0 @@
-package com.pucpr.portplace.authentication.features.project.repositories;
-
-import org.springframework.data.jpa.repository.JpaRepository;
-
-import com.pucpr.portplace.authentication.features.project.entities.Evaluation;
-
-public interface EvaluationRepository extends JpaRepository<Evaluation, Long> {
-     // TODO: Implement paginated methods
-}

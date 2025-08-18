@@ -1,0 +1,34 @@
+@host = http://localhost:8080/api/v1
+
+// COMPARAÇÃO DE CRITÉRIOS
+
+### BUSCA DE TODOS AS COMPARAÇÕES DE CRITÉRIOS
+GET {{host}}/strategies/1/criteria-groups/1/criteria-comparisons
+
+### BUSCA POR ID DE UMA COMPARAÇÃO DE CRITÉRIOS
+GET {{host}}/strategies/1/criteria-groups/3/criteria-comparisons/2
+
+### CADASTRAR DE COMPARAÇÃO DE CRITÉRIOS
+POST {{host}}/strategies/1/criteria-groups/2/criteria-comparisons
+Content-Type: application/json
+
+{
+  "comparedCriterionId": 3,
+  "referenceCriterionId": 4,
+  "importanceScale": "EXTREMELY_MORE_IMPORTANT"
+}
+
+### EDIÇÃO DE COMPARAÇÃO DE CRITÉRIOS
+PUT {{host}}/strategies/1/criteria-groups/2/criteria-comparisons/1
+Content-Type: application/json
+
+{
+  "id":1,
+  "importanceScale": "MORE_IMPORTANT"
+}
+
+### DESABILITAR COMPARAÇÃO DE CRITÉRIOS
+DELETE  {{host}}/strategies/1/criteria-groups/2/criteria-comparisons/2
+
+### DELETAR COMPARAÇÃO DE CRITÉRIOS
+DELETE  {{host}}/strategies/1/criteria-groups/3/criteria-comparisons/4/hard-delete

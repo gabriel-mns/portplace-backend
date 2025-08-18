@@ -1,0 +1,36 @@
+@host = http://localhost:8080/api/v1
+
+// COMPARAÇÃO DE CRITÉRIOS
+
+### BUSCA DE TODAS OS EVALUATION GROUPS
+GET {{host}}/strategies/1/evaluation-groups
+
+### BUSCA POR ID DE UMA Evaluation Group
+GET {{host}}/strategies/1/evaluation-groups/3
+
+### CADASTRAR DE Evaluation Group
+POST {{host}}/strategies/1/evaluation-groups
+Content-Type: application/json
+
+{
+  "name": "Evaluation Group 3",
+  "description": "Descrição 3",
+  "criteriaGroupId": 3
+  //"projectIds": [1, 3]
+}
+
+### EDIÇÃO DE Evaluation Group
+PUT {{host}}/strategies/1/evaluation-groups/2
+Content-Type: application/json
+
+{
+  "name": "Evaluation Group 2 Alterada",
+  "description": "Descrição da Evaluation Group 2 Alterada"
+  //"projectIds": [1, 2]
+}
+
+### DESABILITAR Evaluation Group
+DELETE  {{host}}/strategies/1/evaluation-groups/3
+
+### DELETAR Evaluation Group
+DELETE  {{host}}/strategies/1/evaluation-groups/2/hard-delete
