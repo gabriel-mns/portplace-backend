@@ -7,21 +7,21 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Component;
 
 import com.pucpr.portplace.core.validation.specs.Specification;
-import com.pucpr.portplace.features.ahp.entities.AHP;
+import com.pucpr.portplace.features.ahp.entities.EvaluationGroup;
 import com.pucpr.portplace.features.ahp.entities.Criterion;
 import com.pucpr.portplace.features.ahp.entities.Evaluation;
 import com.pucpr.portplace.features.project.entities.Project;
 
 @Component
-public class AllProjectsEvaluatedSpecification implements Specification<AHP> {
+public class AllProjectsEvaluatedSpecification implements Specification<EvaluationGroup> {
 
     @Override
-    public boolean isSatisfiedBy(AHP ahp) {
+    public boolean isSatisfiedBy(EvaluationGroup eg) {
 
-        List<Criterion> criteriaList = ahp.getCriteriaGroup().getCriteria();
+        List<Criterion> criteriaList = eg.getCriteriaGroup().getCriteria();
 
         // Evaluations by project
-        Map<Project, List<Evaluation>> evaluationsByProject = ahp.getEvaluations()
+        Map<Project, List<Evaluation>> evaluationsByProject = eg.getEvaluations()
             .stream()
             .filter(evaluation -> !evaluation.getProject().isDisabled())
             .collect(Collectors.groupingBy(Evaluation::getProject));

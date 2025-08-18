@@ -14,7 +14,7 @@ import lombok.Setter;
 @Builder
 @Getter
 @Setter
-public class AHPUpdateDTO {
+public class EvaluationGroupUpdateDTO {
     
     private String name;
     private String description;

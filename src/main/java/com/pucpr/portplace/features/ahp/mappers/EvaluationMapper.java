@@ -15,7 +15,7 @@ import org.mapstruct.ReportingPolicy;
 
 @Mapper(
     componentModel = "spring", 
-    uses = {ProjectMapper.class, CriterionMapper.class, AHPMapper.class},
+    uses = {ProjectMapper.class, CriterionMapper.class, EvaluationGroupMapper.class},
     unmappedSourcePolicy = ReportingPolicy.IGNORE,
     unmappedTargetPolicy = ReportingPolicy.IGNORE
 )
@@ -25,12 +25,12 @@ public interface EvaluationMapper {
     @Mapping(target = "criterion.id", source = "criterionId")
     Evaluation toEntity(EvaluationCreateDTO dto);
 
-    @Mapping(target = "ahpId", source = "ahp.id")
+    @Mapping(target = "evaluationGroupId", source = "evaluationGroup.id")
     @Mapping(target = "projectId", source = "project.id")
     @Mapping(target = "criterionId", source = "criterion.id")
     EvaluationReadDTO toReadDTO(Evaluation evaluation);
 
-    @Mapping(target = "ahpId", source = "ahp.id")
+    @Mapping(target = "evaluationGroupId", source = "evaluationGroup.id")
     @Mapping(target = "projectId", source = "project.id")
     @Mapping(target = "criterionId", source = "criterion.id")
     List<EvaluationReadDTO> toReadDTO(List<Evaluation> evaluation);

@@ -24,9 +24,9 @@ public class AHPResultsController {
     private AHPResultsService ahpResultsService;
     
     @GetMapping
-    public ResponseEntity<List<ProjectRankingReadDTO>> getRanking(@PathVariable Long ahpId) {
+    public ResponseEntity<List<ProjectRankingReadDTO>> getRanking(@PathVariable Long evaluationGroupId) {
 
-        List<ProjectRankingReadDTO> ranking = ahpResultsService.getProjectRankingByAHPId(ahpId);
+        List<ProjectRankingReadDTO> ranking = ahpResultsService.getProjectRankingByEvaluationGroupId(evaluationGroupId);
 
         return ResponseEntity.ok(ranking);
 

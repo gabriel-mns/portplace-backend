@@ -45,7 +45,7 @@ public class Evaluation extends AuditableEntity {
     @JoinColumn(name = "criterion_id")
     private Criterion criterion;
     @ManyToOne
-    @JoinColumn(name = "ahp_id")
-    private AHP ahp;
+    @JoinColumn(name = "evaluation_group_id")
+    private EvaluationGroup evaluationGroup;
 
 }

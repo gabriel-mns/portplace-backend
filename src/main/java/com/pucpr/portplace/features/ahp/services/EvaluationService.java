@@ -7,11 +7,11 @@ import org.springframework.stereotype.Service;
 import com.pucpr.portplace.features.ahp.dtos.EvaluationCreateDTO;
 import com.pucpr.portplace.features.ahp.dtos.EvaluationReadDTO;
 import com.pucpr.portplace.features.ahp.dtos.EvaluationUpdateDTO;
-import com.pucpr.portplace.features.ahp.entities.AHP;
+import com.pucpr.portplace.features.ahp.entities.EvaluationGroup;
 import com.pucpr.portplace.features.ahp.entities.Evaluation;
 import com.pucpr.portplace.features.ahp.mappers.EvaluationMapper;
 import com.pucpr.portplace.features.ahp.repositories.EvaluationRepository;
-import com.pucpr.portplace.features.ahp.services.internal.AHPEntityService;
+import com.pucpr.portplace.features.ahp.services.internal.EvaluationGroupEntityService;
 import com.pucpr.portplace.features.ahp.services.validations.EvaluationValidationService;
 
 import jakarta.transaction.Transactional;
@@ -24,20 +24,20 @@ public class EvaluationService {
     private EvaluationRepository evaluationRepository;
     private EvaluationMapper evaluationMapper; 
     private EvaluationValidationService validationService;
-    private AHPEntityService ahpEntityService;
+    private EvaluationGroupEntityService egEntityService;
 
     //CREATE
 
     @Transactional
-    public EvaluationReadDTO createEvaluation(long ahpId, EvaluationCreateDTO evaluationCreateDTO) {
+    public EvaluationReadDTO createEvaluation(long evaluationGroupId, EvaluationCreateDTO evaluationCreateDTO) {
 
-        validationService.validateBeforeCreation(ahpId, evaluationCreateDTO);
+        validationService.validateBeforeCreation(evaluationGroupId, evaluationCreateDTO);
 
         Evaluation evaluation = evaluationMapper.toEntity(evaluationCreateDTO);
 
-        AHP ahp = ahpEntityService.getById(ahpId);
+        EvaluationGroup eg = egEntityService.getById(evaluationGroupId);
 
-        evaluation.setAhp(ahp);
+        evaluation.setEvaluationGroup(eg);
 
         evaluation = evaluationRepository.save(evaluation);
 
@@ -45,9 +45,9 @@ public class EvaluationService {
     }
 
     // UPDATE
-    public EvaluationReadDTO updateEvaluation(long ahpId, long evaluationId, EvaluationUpdateDTO evaluation) {
+    public EvaluationReadDTO updateEvaluation(long evaluationGroupId, long evaluationId, EvaluationUpdateDTO evaluation) {
         
-        validationService.validateBeforeUpdate(ahpId, evaluationId, evaluation);
+        validationService.validateBeforeUpdate(evaluationGroupId, evaluationId, evaluation);
         
         Evaluation existingEvaluation = evaluationRepository.findById(evaluationId).get();
 
@@ -60,9 +60,9 @@ public class EvaluationService {
     }
 
     // DELETE
-    public void disableEvaluation(long ahpId, long evaluationId) {
+    public void disableEvaluation(long evaluationGroupId, long evaluationId) {
 
-        validationService.validateBeforeDisable(ahpId, evaluationId);
+        validationService.validateBeforeDisable(evaluationGroupId, evaluationId);
         
         Evaluation evaluation = evaluationRepository.findById(evaluationId).get();
 
@@ -72,18 +72,18 @@ public class EvaluationService {
 
     }
 
-    public void deleteEvaluation(long ahpId, long evaluationId) {
+    public void deleteEvaluation(long evaluationGroupId, long evaluationId) {
 
-        validationService.validateBeforeDelete(ahpId, evaluationId);
+        validationService.validateBeforeDelete(evaluationGroupId, evaluationId);
 
         evaluationRepository.deleteById(evaluationId);
 
     }
 
     // READ
-    public EvaluationReadDTO getEvaluationById(long ahpId, long evaluationId) {
+    public EvaluationReadDTO getEvaluationById(long evaluationGroupId, long evaluationId) {
 
-        validationService.validateBeforeGet(ahpId, evaluationId);
+        validationService.validateBeforeGet(evaluationGroupId, evaluationId);
 
         Evaluation evaluation = evaluationRepository.findById(evaluationId).get();
 
@@ -92,23 +92,23 @@ public class EvaluationService {
         return evaluationDTO;
     }
 
-    public Page<EvaluationReadDTO> getAllEvaluationsByAHPId(long ahpId, String name, boolean includeDisabled, PageRequest pageable) {
+    public Page<EvaluationReadDTO> getAllEvaluationsByEvaluationGroupId(long evaluationGroupId, String name, boolean includeDisabled, PageRequest pageable) {
 
-        validationService.validateBeforeGetAll(ahpId);
+        validationService.validateBeforeGetAll(evaluationGroupId);
 
         Page<Evaluation> evaluations;
         boolean containsName = name != null && !name.isEmpty();
 
         if(containsName) {
 
-            evaluations = evaluationRepository.findByAhpIdAndName(ahpId, name, includeDisabled, pageable);
+            evaluations = evaluationRepository.findByEvaluationGroupIdAndName(evaluationGroupId, name, includeDisabled, pageable);
 
         } else {
 
             if(includeDisabled) {
-                evaluations = evaluationRepository.findByAhpId(ahpId, pageable);
+                evaluations = evaluationRepository.findByEvaluationGroupId(evaluationGroupId, pageable);
             } else {
-                evaluations = evaluationRepository.findByAhpIdAndDisabledFalse(ahpId, pageable);
+                evaluations = evaluationRepository.findByEvaluationGroupIdAndDisabledFalse(evaluationGroupId, pageable);
             }
 
         }

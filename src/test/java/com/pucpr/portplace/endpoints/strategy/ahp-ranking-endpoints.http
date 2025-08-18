@@ -2,8 +2,8 @@
 
 // COMPARAÇÃO DE CRITÉRIOS
 
-### BUSCA DE TODAS AS AHPs
-GET {{host}}/strategies/1/ahps/1
-### BUSCA POR ID DE UMA AHP
-GET {{host}}/strategies/1/ahps/1/ranking
+### BUSCA DE TODAS OS EVALUATION GROUPS
+GET {{host}}/strategies/1/evaluation-groups/1
+### BUSCA POR ID DE UM Evaluation Group
+GET {{host}}/strategies/1/evaluation-groups/1/ranking
 

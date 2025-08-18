@@ -5,11 +5,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.pucpr.portplace.features.ahp.dtos.AHPCreateDTO;
-import com.pucpr.portplace.features.ahp.dtos.AHPReadDTO;
-import com.pucpr.portplace.features.ahp.dtos.AHPUpdateDTO;
+import com.pucpr.portplace.features.ahp.dtos.EvaluationGroupCreateDTO;
+import com.pucpr.portplace.features.ahp.dtos.EvaluationGroupReadDTO;
+import com.pucpr.portplace.features.ahp.dtos.EvaluationGroupUpdateDTO;
 import com.pucpr.portplace.features.ahp.paths.StrategyPaths;
-import com.pucpr.portplace.features.ahp.services.AHPService;
+import com.pucpr.portplace.features.ahp.services.EvaluationGroupService;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -30,20 +30,20 @@ import org.springframework.web.bind.annotation.PutMapping;
 
 
 
-@Tag(name = "AHP", description = "Related to the AHP CRUD operations")
+@Tag(name = "Evaluation Group", description = "Related to the Evaluation Group CRUD operations")
 @RestController
 @RequestMapping(StrategyPaths.AHPS)
-public class AHPController {
+public class EvaluationGroupController {
     
     @Autowired
-    private AHPService ahpService;
+    private EvaluationGroupService egService;
 
 
     /*
-     * AHP CRUD
+     * Evaluation Group CRUD
      */
     @GetMapping
-    public ResponseEntity<Page<AHPReadDTO>> getAllAHPs(
+    public ResponseEntity<Page<EvaluationGroupReadDTO>> getAllEvaluationGroups(
         @PathVariable long strategyId,
         @RequestParam(required = false) String name,
         @RequestParam(defaultValue = "false") boolean includeDisabled,
@@ -59,74 +59,74 @@ public class AHPController {
             Sort.by(Sort.Direction.fromString(sortDir), sortBy)
         );
 
-        Page<AHPReadDTO> ahps = ahpService.getAllAHPs(strategyId, name, includeDisabled, pageable);
+        Page<EvaluationGroupReadDTO> egs = egService.getAllEvaluationGroups(strategyId, name, includeDisabled, pageable);
 
-        return ResponseEntity.ok(ahps);
+        return ResponseEntity.ok(egs);
     
     }
 
-    @GetMapping("/{AHPId}")
-    public ResponseEntity<AHPReadDTO> getAHPById(
+    @GetMapping("/{evaluationGroupId}")
+    public ResponseEntity<EvaluationGroupReadDTO> getEvaluationGroupById(
         @PathVariable long strategyId, 
-        @PathVariable long AHPId
+        @PathVariable long evaluationGroupId
         ) {
         
-        AHPReadDTO ahp = ahpService.getAHPById(strategyId, AHPId);
+        EvaluationGroupReadDTO evaluationGroup = egService.getEvaluationGroupById(strategyId, evaluationGroupId);
 
-        return ResponseEntity.ok(ahp);
+        return ResponseEntity.ok(evaluationGroup);
     
     }
 
     @PostMapping
-    public ResponseEntity<AHPReadDTO> createAHP(
+    public ResponseEntity<EvaluationGroupReadDTO> createEvaluationGroup(
         @PathVariable long strategyId, 
-        @RequestBody @Valid AHPCreateDTO ahpCreateDto
+        @RequestBody @Valid EvaluationGroupCreateDTO evaluationGroupCreateDto
         ) {
         
-        AHPReadDTO createdAHP = ahpService.createAHP(strategyId, ahpCreateDto);
+        EvaluationGroupReadDTO createdEvaluationGroup = egService.createEvaluationGroup(strategyId, evaluationGroupCreateDto);
 
         URI location = ServletUriComponentsBuilder
             .fromCurrentRequest()
-            .path("/{AHPId}")
-            .buildAndExpand(createdAHP.getId())
+            .path("/{evaluationGroupId}")
+            .buildAndExpand(createdEvaluationGroup.getId())
             .toUri();
 
-        return ResponseEntity.created(location).body(createdAHP);
+        return ResponseEntity.created(location).body(createdEvaluationGroup);
     
     }
 
-    @PutMapping("/{AHPId}")
-    public ResponseEntity<AHPReadDTO> updateAHP(
+    @PutMapping("/{evaluationGroupId}")
+    public ResponseEntity<EvaluationGroupReadDTO> updateAHP(
         @PathVariable long strategyId,
-        @PathVariable long AHPId,
-        @RequestBody @Valid AHPUpdateDTO ahpUpdateDto
+        @PathVariable long evaluationGroupId,
+        @RequestBody @Valid EvaluationGroupUpdateDTO evaluationGroupUpdateDto
         ) {
 
-        AHPReadDTO updatedAHP = ahpService.updateAHP(strategyId, AHPId, ahpUpdateDto);
+        EvaluationGroupReadDTO updatedEvaluationGroup = egService.updateEvaluationGroup(strategyId, evaluationGroupId, evaluationGroupUpdateDto);
 
-        return ResponseEntity.ok().body(updatedAHP);
+        return ResponseEntity.ok().body(updatedEvaluationGroup);
 
     }
 
-    @DeleteMapping("/{AHPId}")
+    @DeleteMapping("/{evaluationGroupId}")
     public ResponseEntity<Void> disableAHP(
         @PathVariable long strategyId, 
-        @PathVariable long AHPId
+        @PathVariable long EvalutionGroupId
         ) {
 
-        ahpService.disableAHP(strategyId, AHPId);
+        egService.disableEvaluationGroup(strategyId, EvalutionGroupId);
 
         return ResponseEntity.noContent().build();
     
     }
 
-    @DeleteMapping("/{AHPId}/hard-delete")
-    public ResponseEntity<Void> deleteAHP(
+    @DeleteMapping("/{evaluationGroupId}/hard-delete")
+    public ResponseEntity<Void> deleteEvaluationGroup(
         @PathVariable long strategyId, 
-        @PathVariable long AHPId
+        @PathVariable long evaluationGroupId
         ) {
 
-        ahpService.deleteAHP(strategyId, AHPId);
+        egService.deleteEvaluationGroup(strategyId, evaluationGroupId);
 
         return ResponseEntity.noContent().build();
     

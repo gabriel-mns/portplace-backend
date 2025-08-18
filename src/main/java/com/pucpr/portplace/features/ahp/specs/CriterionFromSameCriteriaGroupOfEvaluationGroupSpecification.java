@@ -3,22 +3,22 @@ package com.pucpr.portplace.features.ahp.specs;
 import org.springframework.stereotype.Component;
 
 import com.pucpr.portplace.core.validation.specs.BiSpecification;
-import com.pucpr.portplace.features.ahp.entities.AHP;
+import com.pucpr.portplace.features.ahp.entities.EvaluationGroup;
 import com.pucpr.portplace.features.ahp.entities.Criterion;
 import lombok.AllArgsConstructor;
 
 @Component
 @AllArgsConstructor
-public class CriterionFromSameCriteriaGroupOfAHPSpecification implements BiSpecification<Criterion, AHP> {
+public class CriterionFromSameCriteriaGroupOfEvaluationGroupSpecification implements BiSpecification<Criterion, EvaluationGroup> {
 
     @Override
-    public boolean isSatisfiedBy(Criterion criterion, AHP ahp) {
+    public boolean isSatisfiedBy(Criterion criterion, EvaluationGroup evaluationGroup) {
         
-        if (criterion == null || ahp == null) {
+        if (criterion == null || evaluationGroup == null) {
             return false;
         }
 
-        long criteriaGroupIdAHP = ahp.getCriteriaGroup().getId();
+        long criteriaGroupIdAHP = evaluationGroup.getCriteriaGroup().getId();
         long criteriaGroupIdCriterion = criterion.getCriteriaGroup().getId();
 
         if (criteriaGroupIdAHP != criteriaGroupIdCriterion){

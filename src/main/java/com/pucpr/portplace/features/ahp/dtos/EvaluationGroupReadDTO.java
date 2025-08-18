@@ -17,7 +17,7 @@ import lombok.Setter;
 @Builder
 @Getter
 @Setter
-public class AHPReadDTO {
+public class EvaluationGroupReadDTO {
     
     private long id;
     private String name;

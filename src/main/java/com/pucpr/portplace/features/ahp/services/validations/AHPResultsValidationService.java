@@ -2,13 +2,13 @@ package com.pucpr.portplace.features.ahp.services.validations;
 
 import org.springframework.stereotype.Service;
 
-import com.pucpr.portplace.features.ahp.entities.AHP;
+import com.pucpr.portplace.features.ahp.entities.EvaluationGroup;
 import com.pucpr.portplace.features.ahp.entities.CriteriaGroup;
-import com.pucpr.portplace.features.ahp.exceptions.AHPNotFoundException;
+import com.pucpr.portplace.features.ahp.exceptions.EvaluationGroupNotFoundException;
 import com.pucpr.portplace.features.ahp.exceptions.NotAllCriteriaComparedException;
 import com.pucpr.portplace.features.ahp.exceptions.NotAllProjectsEvaluatedException;
-import com.pucpr.portplace.features.ahp.services.internal.AHPEntityService;
-import com.pucpr.portplace.features.ahp.specs.AHPExistsSpecification;
+import com.pucpr.portplace.features.ahp.services.internal.EvaluationGroupEntityService;
+import com.pucpr.portplace.features.ahp.specs.EvaluationGroupExistsSpecification;
 import com.pucpr.portplace.features.ahp.specs.AllCriteriaComparedSpecification;
 import com.pucpr.portplace.features.ahp.specs.AllProjectsEvaluatedSpecification;
 
@@ -18,27 +18,27 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class AHPResultsValidationService {
 
-    private AHPEntityService ahpEntityService;
+    private EvaluationGroupEntityService egEntityService;
 
-    private AHPExistsSpecification ahpExistsSpecification;
+    private EvaluationGroupExistsSpecification egExistsSpecification;
     private AllCriteriaComparedSpecification allCriteriaComparedSpecification;
     private AllProjectsEvaluatedSpecification allProjectsEvaluatedSpecification;
 
-    public void validateBeforeGet(Long ahpId) {
+    public void validateBeforeGet(Long evaluationGroupId) {
 
-        if(!ahpExistsSpecification.isSatisfiedBy(ahpId)) {
-            throw new AHPNotFoundException(ahpId);
+        if(!egExistsSpecification.isSatisfiedBy(evaluationGroupId)) {
+            throw new EvaluationGroupNotFoundException(evaluationGroupId);
         }
 
-        AHP ahp = ahpEntityService.getById(ahpId);
+        EvaluationGroup eg = egEntityService.getById(evaluationGroupId);
 
-        CriteriaGroup criteriaGroup = ahp.getCriteriaGroup();
+        CriteriaGroup criteriaGroup = eg.getCriteriaGroup();
 
         if(!allCriteriaComparedSpecification.isSatisfiedBy(criteriaGroup)) {
             throw new NotAllCriteriaComparedException();
         }
 
-        if(!allProjectsEvaluatedSpecification.isSatisfiedBy(ahp)) {
+        if(!allProjectsEvaluatedSpecification.isSatisfiedBy(eg)) {
             throw new NotAllProjectsEvaluatedException();
         }
 

@@ -11,19 +11,19 @@ import com.pucpr.portplace.features.ahp.entities.Evaluation;
 public interface EvaluationRepository extends JpaRepository<Evaluation, Long> {
      
 	// TODO: Implement paginated methods
-	public Page<Evaluation> findByAhpId(long ahpId, PageRequest pageable);
+	public Page<Evaluation> findByEvaluationGroupId(long evaluationGroupId, PageRequest pageable);
 
-	public Page<Evaluation> findByAhpIdAndDisabledFalse(long ahpId, PageRequest pageable);
+	public Page<Evaluation> findByEvaluationGroupIdAndDisabledFalse(long evaluationGroupId, PageRequest pageable);
 
 	@Query("""
 		SELECT e FROM Evaluation e
-		WHERE e.ahp.id = :ahpId
+		WHERE e.evaluationGroup.id = :evaluationGroupId
 		AND LOWER(e.name) LIKE LOWER(CONCAT('%', :name, '%'))
 		AND (:includeDisabled = true OR e.disabled = false)
 		"""
 	)
-	public Page<Evaluation> findByAhpIdAndName(
-		long ahpId, 
+	public Page<Evaluation> findByEvaluationGroupIdAndName(
+		long evaluationGroupId, 
 		String name,
 		boolean includeDisabled,
 		Pageable pageable

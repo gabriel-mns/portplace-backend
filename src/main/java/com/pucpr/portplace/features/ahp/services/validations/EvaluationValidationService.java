@@ -4,19 +4,19 @@ import org.springframework.stereotype.Service;
 
 import com.pucpr.portplace.features.ahp.dtos.EvaluationCreateDTO;
 import com.pucpr.portplace.features.ahp.dtos.EvaluationUpdateDTO;
-import com.pucpr.portplace.features.ahp.entities.AHP;
+import com.pucpr.portplace.features.ahp.entities.EvaluationGroup;
 import com.pucpr.portplace.features.ahp.entities.Criterion;
-import com.pucpr.portplace.features.ahp.exceptions.AHPNotFoundException;
+import com.pucpr.portplace.features.ahp.exceptions.EvaluationGroupNotFoundException;
 import com.pucpr.portplace.features.ahp.exceptions.CriterionNotFoundException;
-import com.pucpr.portplace.features.ahp.exceptions.EvaluationFromDifferentAHPException;
+import com.pucpr.portplace.features.ahp.exceptions.EvaluationFromDifferentEvaluationGroupException;
 import com.pucpr.portplace.features.ahp.exceptions.EvaluationNotFoundException;
-import com.pucpr.portplace.features.ahp.services.internal.AHPEntityService;
+import com.pucpr.portplace.features.ahp.services.internal.EvaluationGroupEntityService;
 import com.pucpr.portplace.features.ahp.services.internal.CriterionEntityService;
-import com.pucpr.portplace.features.ahp.specs.AHPExistsSpecification;
+import com.pucpr.portplace.features.ahp.specs.EvaluationGroupExistsSpecification;
 import com.pucpr.portplace.features.ahp.specs.CriterionExistsSpecification;
-import com.pucpr.portplace.features.ahp.specs.CriterionFromSameCriteriaGroupOfAHPSpecification;
+import com.pucpr.portplace.features.ahp.specs.CriterionFromSameCriteriaGroupOfEvaluationGroupSpecification;
 import com.pucpr.portplace.features.ahp.specs.EvaluationExistsSpecification;
-import com.pucpr.portplace.features.ahp.specs.EvaluationIsFromAHPSpecification;
+import com.pucpr.portplace.features.ahp.specs.EvaluationIsFromEvaluationGroupSpecification;
 import com.pucpr.portplace.features.project.exceptions.ProjectNotFoundException;
 import com.pucpr.portplace.features.project.specs.ProjectExistsSpecification;
 
@@ -26,31 +26,31 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class EvaluationValidationService {
     
-    private AHPEntityService ahpService;
+    private EvaluationGroupEntityService egService;
     private CriterionEntityService criterionService;
 
-    private AHPExistsSpecification ahpExistsSpecification;
+    private EvaluationGroupExistsSpecification egExistsSpecification;
     private ProjectExistsSpecification projectExistsSpecification;
     private CriterionExistsSpecification criterionExistsSpecification;
     private EvaluationExistsSpecification evaluationExistsSpecification;
-    private EvaluationIsFromAHPSpecification evaluationIsFromAHPSpecification;
-    private CriterionFromSameCriteriaGroupOfAHPSpecification criterionFromSameCriteriaGroupOfAHPSpecification;
+    private EvaluationIsFromEvaluationGroupSpecification evaluationIsFromEvaluationGroupSpecification;
+    private CriterionFromSameCriteriaGroupOfEvaluationGroupSpecification criterionFromSameCriteriaGroupOfEvaluationGroupSpecification;
 
-    public void validateBeforeCreation(long ahpId, EvaluationCreateDTO evaluationCreateDTO) {
+    public void validateBeforeCreation(long egId, EvaluationCreateDTO evaluationCreateDTO) {
 
-        if(!ahpExistsSpecification.isSatisfiedBy(ahpId)) {
-            throw new AHPNotFoundException(ahpId);
+        if(!egExistsSpecification.isSatisfiedBy(egId)) {
+            throw new EvaluationGroupNotFoundException(egId);
         }
         
         if(!criterionExistsSpecification.isSatisfiedBy(evaluationCreateDTO.getCriterionId())) {
             throw new CriterionNotFoundException(evaluationCreateDTO.getCriterionId());
         }
 
-        AHP ahp = ahpService.getById(ahpId);
+        EvaluationGroup eg = egService.getById(egId);
         Criterion criterion = criterionService.findById(evaluationCreateDTO.getCriterionId());
 
-        if(!criterionFromSameCriteriaGroupOfAHPSpecification.isSatisfiedBy(criterion, ahp)) {
-            throw new CriterionFromDifferentCriteriaGroupException(criterion.getId(), ahpId);
+        if(!criterionFromSameCriteriaGroupOfEvaluationGroupSpecification.isSatisfiedBy(criterion, eg)) {
+            throw new CriterionFromDifferentCriteriaGroupException(criterion.getId(), egId);
         }
 
         if(!projectExistsSpecification.isSatisfiedBy(evaluationCreateDTO.getProjectId())) {
@@ -59,74 +59,74 @@ public class EvaluationValidationService {
 
     }
 
-    public void validateBeforeUpdate(long ahpId, long evaluationId, EvaluationUpdateDTO evaluation) {
+    public void validateBeforeUpdate(long egId, long evaluationId, EvaluationUpdateDTO evaluation) {
 
-        if(!ahpExistsSpecification.isSatisfiedBy(ahpId)) {
-            throw new AHPNotFoundException(ahpId);
+        if(!egExistsSpecification.isSatisfiedBy(egId)) {
+            throw new EvaluationGroupNotFoundException(egId);
         }
 
         if(!evaluationExistsSpecification.isSatisfiedBy(evaluationId)) {
             throw new EvaluationNotFoundException(evaluationId);
         }
 
-        if(!evaluationIsFromAHPSpecification.isSatisfiedBy(evaluationId, ahpId)) {
-            throw new EvaluationFromDifferentAHPException(evaluationId, ahpId);
+        if(!evaluationIsFromEvaluationGroupSpecification.isSatisfiedBy(evaluationId, egId)) {
+            throw new EvaluationFromDifferentEvaluationGroupException(evaluationId, egId);
         }
 
     }
 
-    public void validateBeforeDelete(long ahpId, long evaluationId) {
+    public void validateBeforeDelete(long egId, long evaluationId) {
 
-        if(!ahpExistsSpecification.isSatisfiedBy(ahpId)) {
-            throw new AHPNotFoundException(ahpId);
+        if(!egExistsSpecification.isSatisfiedBy(egId)) {
+            throw new EvaluationGroupNotFoundException(egId);
         }
 
         if(!evaluationExistsSpecification.isSatisfiedBy(evaluationId)) {
             throw new EvaluationNotFoundException(evaluationId);
         }
 
-        if(!evaluationIsFromAHPSpecification.isSatisfiedBy(evaluationId, ahpId)) {
-            throw new EvaluationFromDifferentAHPException(evaluationId, ahpId);
+        if(!evaluationIsFromEvaluationGroupSpecification.isSatisfiedBy(evaluationId, egId)) {
+            throw new EvaluationFromDifferentEvaluationGroupException(evaluationId, egId);
         }
 
     }
 
-    public void validateBeforeDisable(long ahpId, long evaluationId) {
+    public void validateBeforeDisable(long evaluationGroupId, long evaluationId) {
 
-        if(!ahpExistsSpecification.isSatisfiedBy(ahpId)) {
-            throw new AHPNotFoundException(ahpId);
+        if(!egExistsSpecification.isSatisfiedBy(evaluationGroupId)) {
+            throw new EvaluationGroupNotFoundException(evaluationGroupId);
         }
 
         if(!evaluationExistsSpecification.isSatisfiedBy(evaluationId)) {
             throw new EvaluationNotFoundException(evaluationId);
         }
 
-        if(!evaluationIsFromAHPSpecification.isSatisfiedBy(evaluationId, ahpId)) {
-            throw new EvaluationFromDifferentAHPException(evaluationId, ahpId);
+        if(!evaluationIsFromEvaluationGroupSpecification.isSatisfiedBy(evaluationId, evaluationGroupId)) {
+            throw new EvaluationFromDifferentEvaluationGroupException(evaluationId, evaluationGroupId);
         }
 
     }
 
-    public void validateBeforeGet(long ahpId, long evaluationId) {
+    public void validateBeforeGet(long evaluationGroupId, long evaluationId) {
         
-        if(!ahpExistsSpecification.isSatisfiedBy(ahpId)) {
-            throw new AHPNotFoundException(ahpId);
+        if(!egExistsSpecification.isSatisfiedBy(evaluationGroupId)) {
+            throw new EvaluationGroupNotFoundException(evaluationGroupId);
         }
 
         if(!evaluationExistsSpecification.isSatisfiedBy(evaluationId)) {
             throw new EvaluationNotFoundException(evaluationId);
         }
 
-        if(!evaluationIsFromAHPSpecification.isSatisfiedBy(evaluationId, ahpId)) {
-            throw new EvaluationFromDifferentAHPException(evaluationId, ahpId);
+        if(!evaluationIsFromEvaluationGroupSpecification.isSatisfiedBy(evaluationId, evaluationGroupId)) {
+            throw new EvaluationFromDifferentEvaluationGroupException(evaluationId, evaluationGroupId);
         }
 
     }
 
-    public void validateBeforeGetAll(long ahpId) {
+    public void validateBeforeGetAll(long evaluationGroupId) {
 
-        if(!ahpExistsSpecification.isSatisfiedBy(ahpId)) {
-            throw new AHPNotFoundException(ahpId);
+        if(!egExistsSpecification.isSatisfiedBy(evaluationGroupId)) {
+            throw new EvaluationGroupNotFoundException(evaluationGroupId);
         }
 
     }

@@ -21,14 +21,14 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name = "ahps")
+@Table(name = "evaluation_groups")
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 @EntityListeners(AuditingEntityListener.class)
-public class AHP extends AuditableEntity {
+public class EvaluationGroup extends AuditableEntity {
     
     @Id
     @GeneratedValue(strategy = jakarta.persistence.GenerationType.IDENTITY)
@@ -45,7 +45,7 @@ public class AHP extends AuditableEntity {
     @JoinColumn(name = "criteria_group_id")
     private CriteriaGroup criteriaGroup;
     
-    @OneToMany(mappedBy = "ahp")
+    @OneToMany(mappedBy = "evaluationGroup")
     private List<Evaluation> evaluations;
 
 }

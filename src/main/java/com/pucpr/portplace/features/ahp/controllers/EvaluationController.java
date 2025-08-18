@@ -35,8 +35,8 @@ public class EvaluationController {
     private EvaluationService evaluationService;
 
     @GetMapping
-    public ResponseEntity<Page<EvaluationReadDTO>> getAllEvaluationsByAHPId(
-        @PathVariable long ahpId, 
+    public ResponseEntity<Page<EvaluationReadDTO>> getAllEvaluationsByEvaluationGroupId(
+        @PathVariable long evaluationGroupId, 
         @RequestParam(required = false) String name,
         @RequestParam(defaultValue = "false") boolean includeDisabled,
         @RequestParam(defaultValue = "0") int page,
@@ -51,8 +51,8 @@ public class EvaluationController {
             Sort.by(Sort.Direction.fromString(sortDir), sortBy)
         );
 
-        Page<EvaluationReadDTO> evaluations = evaluationService.getAllEvaluationsByAHPId(
-            ahpId, name, includeDisabled, pageable
+        Page<EvaluationReadDTO> evaluations = evaluationService.getAllEvaluationsByEvaluationGroupId(
+            evaluationGroupId, name, includeDisabled, pageable
         );
 
         return ResponseEntity.ok().body(evaluations);
@@ -60,18 +60,18 @@ public class EvaluationController {
     }
 
     @GetMapping("/{evaluationId}")
-    public ResponseEntity<EvaluationReadDTO> getEvaluationById(@PathVariable long ahpId, @PathVariable long evaluationId) {
+    public ResponseEntity<EvaluationReadDTO> getEvaluationById(@PathVariable long evaluationGroupId, @PathVariable long evaluationId) {
         
-        EvaluationReadDTO evaluationReadDTO = evaluationService.getEvaluationById(ahpId, evaluationId);
+        EvaluationReadDTO evaluationReadDTO = evaluationService.getEvaluationById(evaluationGroupId, evaluationId);
 
         return ResponseEntity.ok().body(evaluationReadDTO);
         
     }
 
     @PostMapping
-    public ResponseEntity<EvaluationReadDTO> createEvaluation(@PathVariable long ahpId, @RequestBody @Valid EvaluationCreateDTO evaluationCreateDTO) {
+    public ResponseEntity<EvaluationReadDTO> createEvaluation(@PathVariable long evaluationGroupId, @RequestBody @Valid EvaluationCreateDTO evaluationCreateDTO) {
 
-        EvaluationReadDTO evaluationReadDTO = evaluationService.createEvaluation(ahpId, evaluationCreateDTO);
+        EvaluationReadDTO evaluationReadDTO = evaluationService.createEvaluation(evaluationGroupId, evaluationCreateDTO);
 
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{evaluationId}")
@@ -83,26 +83,26 @@ public class EvaluationController {
     }
 
     @PutMapping("/{evaluationId}")
-    public ResponseEntity<EvaluationReadDTO> updateEvaluation(@PathVariable long ahpId, @PathVariable long evaluationId, @RequestBody @Valid EvaluationUpdateDTO evaluationUpdateDTO) {
+    public ResponseEntity<EvaluationReadDTO> updateEvaluation(@PathVariable long evaluationGroupId, @PathVariable long evaluationId, @RequestBody @Valid EvaluationUpdateDTO evaluationUpdateDTO) {
 
-        EvaluationReadDTO evaluationReadDTO = evaluationService.updateEvaluation(ahpId, evaluationId, evaluationUpdateDTO);
+        EvaluationReadDTO evaluationReadDTO = evaluationService.updateEvaluation(evaluationGroupId, evaluationId, evaluationUpdateDTO);
 
         return ResponseEntity.ok().body(evaluationReadDTO);
     }
 
     @DeleteMapping("/{evaluationId}")
-    public ResponseEntity<Void> disableEvaluation(@PathVariable long ahpId, @PathVariable long evaluationId) {
+    public ResponseEntity<Void> disableEvaluation(@PathVariable long evaluationGroupId, @PathVariable long evaluationId) {
         
-        evaluationService.disableEvaluation(ahpId, evaluationId);
+        evaluationService.disableEvaluation(evaluationGroupId, evaluationId);
 
         return ResponseEntity.noContent().build();
 
     }
 
     @DeleteMapping("/{evaluationId}/hard-delete")
-    public ResponseEntity<Void> deleteEvaluation(@PathVariable long ahpId, @PathVariable long evaluationId) {
+    public ResponseEntity<Void> deleteEvaluation(@PathVariable long evaluationGroupId, @PathVariable long evaluationId) {
         
-        evaluationService.deleteEvaluation(ahpId, evaluationId);
+        evaluationService.deleteEvaluation(evaluationGroupId, evaluationId);
 
         return ResponseEntity.noContent().build();
         

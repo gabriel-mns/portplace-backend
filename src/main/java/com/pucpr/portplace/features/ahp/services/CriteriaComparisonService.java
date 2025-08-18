@@ -36,7 +36,7 @@ public class CriteriaComparisonService {
     // CREATE
     public CriteriaComparisonReadDTO createCriteriaComparison(long strategyId, long criteriaGroupId, CriteriaComparisonCreateDTO criteriaComparisonCreateDTO) {
         
-        //TODO: Treat case when comparedCriterion or referenceCriterion are not in the same AHP
+        //TODO: Treat case when comparedCriterion or referenceCriterion are not in the same Evaluation Group
 
         validationService.validateBeforeCreation(strategyId, criteriaGroupId, criteriaComparisonCreateDTO.getComparedCriterionId(), criteriaComparisonCreateDTO.getReferenceCriterionId());
 

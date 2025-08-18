@@ -5,11 +5,11 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.pucpr.portplace.features.ahp.dtos.ProjectRankingReadDTO;
-import com.pucpr.portplace.features.ahp.entities.AHP;
+import com.pucpr.portplace.features.ahp.entities.EvaluationGroup;
 import com.pucpr.portplace.features.ahp.entities.CriteriaComparison;
 import com.pucpr.portplace.features.ahp.entities.Evaluation;
 import com.pucpr.portplace.features.ahp.services.internal.AHPCalculationService;
-import com.pucpr.portplace.features.ahp.services.internal.AHPEntityService;
+import com.pucpr.portplace.features.ahp.services.internal.EvaluationGroupEntityService;
 import com.pucpr.portplace.features.ahp.services.validations.AHPResultsValidationService;
 
 import jakarta.transaction.Transactional;
@@ -19,19 +19,19 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class AHPResultsService {
     
-    private AHPEntityService ahpEntityService;
+    private EvaluationGroupEntityService egEntityService;
     private AHPCalculationService calculatorService;
     private AHPResultsValidationService validationService;
 
     @Transactional
-    public List<ProjectRankingReadDTO> getProjectRankingByAHPId(Long ahpId) {
+    public List<ProjectRankingReadDTO> getProjectRankingByEvaluationGroupId(Long evaluationGroupId) {
         
-        validationService.validateBeforeGet(ahpId);   
+        validationService.validateBeforeGet(evaluationGroupId);   
 
-        AHP ahp = ahpEntityService.getById(ahpId);
+        EvaluationGroup eg = egEntityService.getById(evaluationGroupId);
 
-        List<Evaluation> evaluations = ahp.getEvaluations();
-        List<CriteriaComparison> criteriaComparisons = ahp.getCriteriaGroup().getCriteriaComparisons();
+        List<Evaluation> evaluations = eg.getEvaluations();
+        List<CriteriaComparison> criteriaComparisons = eg.getCriteriaGroup().getCriteriaComparisons();
 
         List<ProjectRankingReadDTO> ranking = calculatorService.calculateProjectRanking(evaluations, criteriaComparisons);
 

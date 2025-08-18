@@ -12,24 +12,24 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 
-import com.pucpr.portplace.features.ahp.controllers.AHPController;
+import com.pucpr.portplace.features.ahp.controllers.EvaluationGroupController;
 import com.pucpr.portplace.features.ahp.controllers.AHPResultsController;
 import com.pucpr.portplace.features.ahp.controllers.CriteriaComparisonController;
 import com.pucpr.portplace.features.ahp.controllers.CriteriaGroupController;
 import com.pucpr.portplace.features.ahp.controllers.CriterionController;
 import com.pucpr.portplace.features.ahp.controllers.EvaluationController;
-import com.pucpr.portplace.features.ahp.dtos.AHPCreateDTO;
+import com.pucpr.portplace.features.ahp.dtos.EvaluationGroupCreateDTO;
 import com.pucpr.portplace.features.ahp.dtos.CriteriaComparisonCreateDTO;
 import com.pucpr.portplace.features.ahp.dtos.CriteriaGroupCreateDTO;
 import com.pucpr.portplace.features.ahp.dtos.CriterionCreateDTO;
 import com.pucpr.portplace.features.ahp.dtos.EvaluationCreateDTO;
 import com.pucpr.portplace.features.ahp.dtos.ProjectRankingReadDTO;
-import com.pucpr.portplace.features.ahp.entities.AHP;
+import com.pucpr.portplace.features.ahp.entities.EvaluationGroup;
 import com.pucpr.portplace.features.ahp.entities.CriteriaGroup;
 import com.pucpr.portplace.features.ahp.entities.Criterion;
 import com.pucpr.portplace.features.ahp.entities.Strategy;
 import com.pucpr.portplace.features.ahp.enums.ImportanceScale;
-import com.pucpr.portplace.features.ahp.repositories.AHPRepository;
+import com.pucpr.portplace.features.ahp.repositories.EvaluationGroupRepository;
 import com.pucpr.portplace.features.ahp.repositories.CriteriaGroupRepository;
 import com.pucpr.portplace.features.ahp.repositories.CriterionRepository;
 import com.pucpr.portplace.features.ahp.repositories.StrategyRepository;
@@ -57,13 +57,13 @@ public class AHPRankingTest {
     @Autowired
     private CriteriaComparisonController criteriaComparisonController;
     @Autowired
-    private AHPController ahpController;
+    private EvaluationGroupController egController;
     @Autowired
-    private AHPRepository ahpRepository;
+    private EvaluationGroupRepository egRepository;
     @Autowired
     private EvaluationController evaluationController;
     @Autowired
-    private AHPResultsController ahpResultsController;
+    private AHPResultsController egResultsController;
     @Autowired
     private ProjectController projectController;
     @Autowired
@@ -107,26 +107,26 @@ public class AHPRankingTest {
         Project project3 = projectRepository.findById(Long.valueOf(3)).get();
         Project project4 = projectRepository.findById(Long.valueOf(4)).get();
 
-        // Create AHP
-        createAHP(criteriaGroup.getId(), 1);
-        AHP ahpCreateDTO = ahpRepository.findById(Long.valueOf(1)).get();
+        // Create Evaluation Group
+        createEvaluationGroup(criteriaGroup.getId(), 1);
+        EvaluationGroup egCreateDTO = egRepository.findById(Long.valueOf(1)).get();
 
         // Create evaluations
-        createEvaluation(project1, criterion1, ahpCreateDTO.getId(), 1000);
-        createEvaluation(project1, criterion2, ahpCreateDTO.getId(), 800);
-        createEvaluation(project1, criterion3, ahpCreateDTO.getId(), 600);
-        createEvaluation(project2, criterion1, ahpCreateDTO.getId(), 900);
-        createEvaluation(project2, criterion2, ahpCreateDTO.getId(), 700);
-        createEvaluation(project2, criterion3, ahpCreateDTO.getId(), 500);
-        createEvaluation(project3, criterion1, ahpCreateDTO.getId(), 100);
-        createEvaluation(project3, criterion2, ahpCreateDTO.getId(), 1000);
-        createEvaluation(project3, criterion3, ahpCreateDTO.getId(), 200);
-        createEvaluation(project4, criterion1, ahpCreateDTO.getId(), 800);
-        createEvaluation(project4, criterion2, ahpCreateDTO.getId(), 600);
-        createEvaluation(project4, criterion3, ahpCreateDTO.getId(), 400);
+        createEvaluation(project1, criterion1, egCreateDTO.getId(), 1000);
+        createEvaluation(project1, criterion2, egCreateDTO.getId(), 800);
+        createEvaluation(project1, criterion3, egCreateDTO.getId(), 600);
+        createEvaluation(project2, criterion1, egCreateDTO.getId(), 900);
+        createEvaluation(project2, criterion2, egCreateDTO.getId(), 700);
+        createEvaluation(project2, criterion3, egCreateDTO.getId(), 500);
+        createEvaluation(project3, criterion1, egCreateDTO.getId(), 100);
+        createEvaluation(project3, criterion2, egCreateDTO.getId(), 1000);
+        createEvaluation(project3, criterion3, egCreateDTO.getId(), 200);
+        createEvaluation(project4, criterion1, egCreateDTO.getId(), 800);
+        createEvaluation(project4, criterion2, egCreateDTO.getId(), 600);
+        createEvaluation(project4, criterion3, egCreateDTO.getId(), 400);
 
-        // Calculate AHP results
-        List<ProjectRankingReadDTO> ranking = ahpResultsController.getRanking(ahpCreateDTO.getId()).getBody();
+        // Calculate Evaluation Group results
+        List<ProjectRankingReadDTO> ranking = egResultsController.getRanking(egCreateDTO.getId()).getBody();
 
         // Verify order and size 
         assertNotNull(ranking);
@@ -161,7 +161,7 @@ public class AHPRankingTest {
         // Create a strategy
         Strategy strategy = Strategy.builder()
                 .name("Test Strategy")
-                .description("This is a test strategy for AHP ranking.")
+                .description("This is a test strategy for Evaluation Group ranking.")
                 .build();
         strategyRepository.save(strategy);
 
@@ -171,7 +171,7 @@ public class AHPRankingTest {
         CriteriaGroupCreateDTO criteriaGroupCreateDTO = new CriteriaGroupCreateDTO();
 
         criteriaGroupCreateDTO.setName("Test Criteria Group");
-        criteriaGroupCreateDTO.setDescription("This is a test criteria group for AHP ranking.");
+        criteriaGroupCreateDTO.setDescription("This is a test criteria group for Evaluation Group ranking.");
         criteriaGroupController.createCriteriaGroup(1, criteriaGroupCreateDTO);
 
     }
@@ -180,7 +180,7 @@ public class AHPRankingTest {
         // Create criteria
         CriterionCreateDTO criterionCreateDTO = new CriterionCreateDTO();
         criterionCreateDTO.setName("Test Criterion" + index);
-        criterionCreateDTO.setDescription("This is a test criterion for AHP ranking." + index);
+        criterionCreateDTO.setDescription("This is a test criterion for Evaluation Group ranking." + index);
         criterionController.createCriterion(1, criteriaGroup.getId(), criterionCreateDTO);
 
     }
@@ -206,7 +206,7 @@ public class AHPRankingTest {
         // Create a project
         ProjectCreateDTO projectCreateDTO = new ProjectCreateDTO();
         projectCreateDTO.setName("Test Project " + index);
-        projectCreateDTO.setDescription("This is a test project for AHP ranking." + index);
+        projectCreateDTO.setDescription("This is a test project for Evaluation Group ranking." + index);
         projectCreateDTO.setEarnedValue(2000);
         projectCreateDTO.setPlannedValue(1500);
         projectCreateDTO.setActualCost(1000.0);
@@ -221,18 +221,18 @@ public class AHPRankingTest {
 
     }
 
-    private void createAHP(long criteriaGroupId, int index) {
+    private void createEvaluationGroup(long criteriaGroupId, int index) {
 
-        AHPCreateDTO ahpCreateDTO = new AHPCreateDTO();
-        ahpCreateDTO.setName("AHP Test " + index);
-        ahpCreateDTO.setDescription("This is a test AHP for ranking projects." + index);
-        ahpCreateDTO.setStrategyId(1L);
-        ahpCreateDTO.setCriteriaGroupId(criteriaGroupId);
-        ahpController.createAHP(1, ahpCreateDTO);
+        EvaluationGroupCreateDTO egCreateDTO = new EvaluationGroupCreateDTO();
+        egCreateDTO.setName("Evaluation Group Test " + index);
+        egCreateDTO.setDescription("This is a test Evaluation Group for ranking projects." + index);
+        egCreateDTO.setStrategyId(1L);
+        egCreateDTO.setCriteriaGroupId(criteriaGroupId);
+        egController.createEvaluationGroup(1, egCreateDTO);
 
     }
 
-    private void createEvaluation(Project project, Criterion criterion, long ahpId, int score) {
+    private void createEvaluation(Project project, Criterion criterion, long evaluationGroupId, int score) {
         
         EvaluationCreateDTO evaluationCreateDTO = new EvaluationCreateDTO();
         evaluationCreateDTO.setName("Avaliação de " + project.getName() + " para " + criterion.getName());

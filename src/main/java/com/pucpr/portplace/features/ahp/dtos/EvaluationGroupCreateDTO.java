@@ -15,7 +15,7 @@ import lombok.Setter;
 @Builder
 @Getter
 @Setter
-public class AHPCreateDTO {
+public class EvaluationGroupCreateDTO {
     
     @NotBlank
     private String name;

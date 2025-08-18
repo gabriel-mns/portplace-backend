@@ -7,10 +7,10 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 import org.mapstruct.ReportingPolicy;
-import com.pucpr.portplace.features.ahp.dtos.AHPCreateDTO;
-import com.pucpr.portplace.features.ahp.dtos.AHPReadDTO;
-import com.pucpr.portplace.features.ahp.dtos.AHPUpdateDTO;
-import com.pucpr.portplace.features.ahp.entities.AHP;
+import com.pucpr.portplace.features.ahp.dtos.EvaluationGroupCreateDTO;
+import com.pucpr.portplace.features.ahp.dtos.EvaluationGroupReadDTO;
+import com.pucpr.portplace.features.ahp.dtos.EvaluationGroupUpdateDTO;
+import com.pucpr.portplace.features.ahp.entities.EvaluationGroup;
 
 @Mapper(
     componentModel = "spring", 
@@ -18,26 +18,26 @@ import com.pucpr.portplace.features.ahp.entities.AHP;
     unmappedSourcePolicy = ReportingPolicy.IGNORE,
     unmappedTargetPolicy = ReportingPolicy.IGNORE
 )
-public interface AHPMapper {
+public interface EvaluationGroupMapper {
 
     @Mapping(target = "criteriaGroup.id", source = "criteriaGroupId")
     @Mapping(target = "strategy.id", source = "strategyId")
-    AHP toEntity(AHPCreateDTO ahpCreateDTO);
+    EvaluationGroup toEntity(EvaluationGroupCreateDTO evaluationGroupCreateDTO);
 
     @Mapping(target = "criteriaGroupId", source = "criteriaGroup.id")
     @Mapping(target = "evaluations", source = "evaluations")
-    AHPReadDTO toReadDTO(AHP ahp);
+    EvaluationGroupReadDTO toReadDTO(EvaluationGroup evaluationGroup);
 
     @Mapping(target = "criteriaGroupId", source = "criteriaGroup.id")
     @Mapping(target = "evaluations", source = "evaluations")
-    List<AHPReadDTO> toReadDTO(List<AHP> ahp);
+    List<EvaluationGroupReadDTO> toReadDTO(List<EvaluationGroup> evaluationGroup);
 
     // @Mapping(target = "criteriaGroup.id", source = "criteriaGroupId")
     @Mapping(target = "strategy.id", source = "strategyId")
-    void updateFromDTO(AHPUpdateDTO ahpUpdateDTO, @MappingTarget AHP ahp);
+    void updateFromDTO(EvaluationGroupUpdateDTO evaluationGroupUpdateDTO, @MappingTarget EvaluationGroup evaluationGroup);
 
     @AfterMapping
-    default void handleNullDeptList(AHP source, @MappingTarget AHPReadDTO target) {
+    default void handleNullDeptList(EvaluationGroup source, @MappingTarget EvaluationGroupReadDTO target) {
         if (source.getEvaluations() == null) {
             target.setEvaluations(new ArrayList<>());
         }

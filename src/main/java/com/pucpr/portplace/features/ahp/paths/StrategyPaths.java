@@ -4,8 +4,8 @@ public class StrategyPaths {
     
     public static final String STRATEGIES               = "/strategies";
     public static final String STRATEGY_ID              = STRATEGIES + "/{strategyId}";
-    public static final String AHPS                     = STRATEGY_ID + "/ahps";
-    public static final String AHP_ID                   = AHPS + "/{ahpId}";
+    public static final String AHPS                     = STRATEGY_ID + "/evaluation-groups";
+    public static final String AHP_ID                   = AHPS + "/{evaluationGroupId}";
     public static final String AHP_RANKING              = AHP_ID + "/ranking";
     public static final String EVALUATIONS              = AHP_ID + "/evaluations";
     public static final String EVALUATION_ID            = EVALUATIONS + "/{evaluationId}";

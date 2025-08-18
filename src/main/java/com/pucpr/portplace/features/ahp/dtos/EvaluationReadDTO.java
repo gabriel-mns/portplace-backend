@@ -23,7 +23,7 @@ public class EvaluationReadDTO {
     private int score;
     private long projectId;
     private long criterionId;
-    private long ahpId;
+    private long evaluationGroupId;
     
     // Audit fields
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")

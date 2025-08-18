@@ -3,13 +3,13 @@
 // COMPARAÇÃO DE CRITÉRIOS
 
 ### BUSCA DE TODAS AS AVALIAÇÕES
-GET {{host}}/strategies/1/ahps/1/evaluations?sortDir=desc
+GET {{host}}/strategies/1/evaluation-groups/1/evaluations?sortDir=desc
 
 ### BUSCAR AVALIAÇÃO POR ID
-GET {{host}}/strategies/1/ahps/1/evaluations/7
+GET {{host}}/strategies/1/evaluation-groups/1/evaluations/7
 
 ### CADASTRAR AVALIAÇÃO
-POST {{host}}/strategies/1/ahps/1/evaluations
+POST {{host}}/strategies/1/evaluation-groups/1/evaluations
 Content-Type: application/json
 
 {
@@ -19,7 +19,7 @@ Content-Type: application/json
 }
 
 ### EDITAR AVALIAÇÃO
-PUT {{host}}/strategies/1/ahps/1/evaluations/7
+PUT {{host}}/strategies/1/evaluation-groups/1/evaluations/7
 Content-Type: application/json
 
 {
@@ -28,7 +28,7 @@ Content-Type: application/json
 
 
 ### DESABILITAR AVALIAÇÃO
-DELETE  {{host}}/strategies/1/ahps/1/evaluations/7
+DELETE  {{host}}/strategies/1/evaluation-groups/1/evaluations/7
 
 ### DELETAR AVALIAÇÃO
-DELETE  {{host}}/strategies/1/ahps/1/evaluations/5/hard-delete
+DELETE  {{host}}/strategies/1/evaluation-groups/1/evaluations/5/hard-delete
