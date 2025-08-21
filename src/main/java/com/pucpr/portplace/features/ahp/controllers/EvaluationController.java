@@ -36,8 +36,7 @@ public class EvaluationController {
 
     @GetMapping
     public ResponseEntity<Page<EvaluationReadDTO>> getAllEvaluationsByEvaluationGroupId(
-        @PathVariable long evaluationGroupId, 
-        @RequestParam(required = false) String name,
+        @PathVariable long evaluationGroupId,
         @RequestParam(defaultValue = "false") boolean includeDisabled,
         @RequestParam(defaultValue = "0") int page,
         @RequestParam(defaultValue = "10") int size,
@@ -52,7 +51,7 @@ public class EvaluationController {
         );
 
         Page<EvaluationReadDTO> evaluations = evaluationService.getAllEvaluationsByEvaluationGroupId(
-            evaluationGroupId, name, includeDisabled, pageable
+            evaluationGroupId, includeDisabled, pageable
         );
 
         return ResponseEntity.ok().body(evaluations);

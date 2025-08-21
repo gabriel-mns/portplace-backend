@@ -235,7 +235,6 @@ public class AHPRankingTest {
     private void createEvaluation(Project project, Criterion criterion, long evaluationGroupId, int score) {
         
         EvaluationCreateDTO evaluationCreateDTO = new EvaluationCreateDTO();
-        evaluationCreateDTO.setName("Avaliação de " + project.getName() + " para " + criterion.getName());
         evaluationCreateDTO.setProjectId(project.getId());
         evaluationCreateDTO.setCriterionId(criterion.getId());
         evaluationCreateDTO.setScore(score);

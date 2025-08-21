@@ -92,25 +92,16 @@ public class EvaluationService {
         return evaluationDTO;
     }
 
-    public Page<EvaluationReadDTO> getAllEvaluationsByEvaluationGroupId(long evaluationGroupId, String name, boolean includeDisabled, PageRequest pageable) {
+    public Page<EvaluationReadDTO> getAllEvaluationsByEvaluationGroupId(long evaluationGroupId, boolean includeDisabled, PageRequest pageable) {
 
         validationService.validateBeforeGetAll(evaluationGroupId);
 
         Page<Evaluation> evaluations;
-        boolean containsName = name != null && !name.isEmpty();
 
-        if(containsName) {
-
-            evaluations = evaluationRepository.findByEvaluationGroupIdAndName(evaluationGroupId, name, includeDisabled, pageable);
-
+        if(includeDisabled) {
+            evaluations = evaluationRepository.findByEvaluationGroupId(evaluationGroupId, pageable);
         } else {
-
-            if(includeDisabled) {
-                evaluations = evaluationRepository.findByEvaluationGroupId(evaluationGroupId, pageable);
-            } else {
-                evaluations = evaluationRepository.findByEvaluationGroupIdAndDisabledFalse(evaluationGroupId, pageable);
-            }
-
+            evaluations = evaluationRepository.findByEvaluationGroupIdAndDisabledFalse(evaluationGroupId, pageable);
         }
 
         Page<EvaluationReadDTO> evaluationDTOs = evaluations.map(evaluationMapper::toReadDTO);
