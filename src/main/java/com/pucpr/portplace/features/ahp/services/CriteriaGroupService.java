@@ -11,8 +11,8 @@ import com.pucpr.portplace.features.ahp.dtos.CriteriaGroupUpdateDTO;
 import com.pucpr.portplace.features.ahp.entities.CriteriaGroup;
 import com.pucpr.portplace.features.ahp.mappers.CriteriaGroupMapper;
 import com.pucpr.portplace.features.ahp.repositories.CriteriaGroupRepository;
-import com.pucpr.portplace.features.ahp.repositories.StrategyRepository;
 import com.pucpr.portplace.features.ahp.services.validations.CriteriaGroupValidationService;
+import com.pucpr.portplace.features.strategy.repositories.StrategyRepository;
 
 import lombok.AllArgsConstructor;
 

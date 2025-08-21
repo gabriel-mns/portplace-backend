@@ -1,14 +1,18 @@
-package com.pucpr.portplace.features.ahp.entities;
+package com.pucpr.portplace.features.strategy.entities;
+
+import java.util.List;
 
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import com.pucpr.portplace.core.entities.AuditableEntity;
+import com.pucpr.portplace.features.ahp.entities.EvaluationGroup;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -31,5 +35,10 @@ public class Strategy extends AuditableEntity {
     private long id;
     private String name;
     private String description;
+
+    @OneToMany(mappedBy = "strategy")
+    private List<EvaluationGroup> evaluationGroups;
+    @OneToMany(mappedBy = "strategy")
+    private List<StrategicObjective> strategicObjectives;
 
 }
