@@ -9,6 +9,7 @@ import com.pucpr.portplace.features.strategy.dtos.StrategyUpdateDTO;
 import com.pucpr.portplace.features.strategy.entities.Strategy;
 import com.pucpr.portplace.features.strategy.mappers.StrategyMapper;
 import com.pucpr.portplace.features.strategy.repositories.StrategyRepository;
+import com.pucpr.portplace.features.strategy.services.validations.StrategyValidationService;
 
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -17,6 +18,7 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class StrategyService {
     
+    private StrategyValidationService validationService;
     private StrategyRepository strategyRepository;
     private StrategyMapper strategyMapper;
 
@@ -39,7 +41,7 @@ public class StrategyService {
         long strategyId
     ){
 
-        //TODO: validate if strategy exists
+        validationService.validateBeforeUpdate(strategyId);
 
         Strategy updatedStrategy = strategyRepository.findById(strategyId).get();
 
@@ -56,7 +58,7 @@ public class StrategyService {
     //DELETE
     public void disableStrategy(long strategyId) {
 
-        //TODO: validate if strategy exists
+        validationService.validateBeforeDisable(strategyId);
 
         Strategy disabledStrategy = strategyRepository.findById(strategyId).get();
 
@@ -67,8 +69,6 @@ public class StrategyService {
     }
 
     public void deleteStrategy(long strategyId) {
-
-        //TODO: validate if strategy exists
 
         strategyRepository.deleteById(strategyId);
 
@@ -93,12 +93,12 @@ public class StrategyService {
     }
 
     public StrategyReadDTO getStrategy(
-        long id
+        long strategyId
     ){
 
-        //TODO: check if strategy exists
+        validationService.validateBeforeGet(strategyId);
 
-        Strategy strategy = strategyRepository.findById(id).get();
+        Strategy strategy = strategyRepository.findById(strategyId).get();
 
         return strategyMapper.toReadDTO(strategy);
         
