@@ -56,16 +56,10 @@ public class ProjectController {
         @PathVariable long projectId,
         @RequestBody @Valid ProjectUpdateDTO projectDTO
     ) {
+        
         ProjectReadDTO updatedProject = projectService.updateProject(projectDTO, projectId);
 
-        URI uri = ServletUriComponentsBuilder
-            .fromCurrentRequest()
-            .path("/{id}")
-            .buildAndExpand(updatedProject.getId())
-            .toUri();
-
         return ResponseEntity.ok()
-            .location(uri)
             .body(updatedProject);
     }
 
