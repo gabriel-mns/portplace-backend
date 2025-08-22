@@ -7,6 +7,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import com.pucpr.portplace.core.entities.AuditableEntity;
 import com.pucpr.portplace.features.ahp.entities.Criterion;
 import com.pucpr.portplace.features.project.entities.Project;
+import com.pucpr.portplace.features.strategy.enums.StrategicObjectiveStatusEnum;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
@@ -21,6 +22,7 @@ import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
@@ -28,6 +30,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @AllArgsConstructor
+@NoArgsConstructor
 @Builder
 @EntityListeners(AuditingEntityListener.class)
 public class StrategicObjective extends AuditableEntity{
@@ -37,6 +40,7 @@ public class StrategicObjective extends AuditableEntity{
     private Long id;
     private String name;
     private String description;
+    private StrategicObjectiveStatusEnum status;
 
     //Relationships
     @ManyToOne

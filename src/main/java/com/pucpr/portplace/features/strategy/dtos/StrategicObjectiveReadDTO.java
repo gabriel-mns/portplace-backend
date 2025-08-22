@@ -1,10 +1,9 @@
 package com.pucpr.portplace.features.strategy.dtos;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.pucpr.portplace.features.ahp.dtos.EvaluationGroupReadDTO;
+import com.pucpr.portplace.features.strategy.enums.StrategicObjectiveStatusEnum;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -15,13 +14,13 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class StrategyReadDTO {
+public class StrategicObjectiveReadDTO {
     
     private long id;
     private String name;
     private String description;
-    private List<StrategicObjectiveReadDTO> strategicObjectives;
-    private List<EvaluationGroupReadDTO> evaluationGroups;
+    private StrategicObjectiveStatusEnum status;
+    private long strategyId;
 
     private boolean disabled;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")

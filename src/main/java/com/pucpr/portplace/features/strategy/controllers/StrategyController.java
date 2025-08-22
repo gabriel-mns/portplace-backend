@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -27,7 +28,7 @@ import lombok.AllArgsConstructor;
 
 @Tag(name = "Strategy", description = "Related to the Strategy CRUD operations")
 @RestController
-@RequestMapping("/strategy")
+@RequestMapping("/strategies")
 @AllArgsConstructor
 public class StrategyController {
     
@@ -54,19 +55,13 @@ public class StrategyController {
     //UPDATE
     @PutMapping("/{strategyId}")
     ResponseEntity<StrategyReadDTO> updateStrategy(
-        StrategyUpdateDTO dto,
+        @RequestBody StrategyUpdateDTO dto,
         @PathVariable long strategyId
     ){
         
         StrategyReadDTO updatedStrategy = strategyService.updateStrategy(dto, strategyId);
 
-        URI uri = ServletUriComponentsBuilder
-            .fromCurrentRequest()
-            .path("/{id}")
-            .buildAndExpand(updatedStrategy.getId())
-            .toUri();
-
-        return ResponseEntity.created(uri).body(updatedStrategy);
+        return ResponseEntity.ok().body(updatedStrategy);
 
     }
 

@@ -1,0 +1,39 @@
+@host = http://localhost:8080/api/v1
+
+@host = http://localhost:8080/api/v1
+
+### GET TODOS OS OBJETIVOS
+GET {{host}}/strategies/1/strategic-objectives
+Accept: application/json
+
+### GET OBJETIVO ESTRATÉGICO
+GET {{host}}/strategies/1/strategic-objectives/1
+Accept: application/json
+
+### CADASTRAR OBJETIVO ESTRATÉGICO
+POST {{host}}/strategies/1/strategic-objectives
+Accept: application/json
+Content-Type: application/json
+
+{
+  "name": "Estratégia 1",
+  "description": "Descrição do Estratégia 1"
+}
+
+### EDITAR OBJETIVO ESTRATÉGICO
+PUT {{host}}/strategies/1/strategic-objectives/1
+Accept: application/json
+
+{
+  "name": "Objetivo Estratégico 1 Editado",
+  "description": "Descrição do Objetivo Estratégico 1 Editado",
+  "status": "ACTIVE"
+}
+
+### DESABILITAR OBJETIVO ESTRATÉGICO
+DELETE {{host}}/strategies/1/strategic-objectives/1
+Accept: application/json
+
+### DELETAR OBJETIVO ESTRATÉGICO
+DELETE {{host}}/strategies/1/hard-delete/strategic-objectives/1
+Accept: application/json
