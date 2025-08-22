@@ -10,6 +10,7 @@ import com.pucpr.portplace.features.strategy.dtos.StrategicObjectiveUpdateDTO;
 import com.pucpr.portplace.features.strategy.entities.StrategicObjective;
 import com.pucpr.portplace.features.strategy.mappers.StrategicObjectiveMapper;
 import com.pucpr.portplace.features.strategy.repositories.StrategicObjectiveRepository;
+import com.pucpr.portplace.features.strategy.services.validations.StrategicObjectiveValidationService;
 
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -18,6 +19,7 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class StrategicObjectiveService {
     
+    private StrategicObjectiveValidationService validationService;
     private StrategicObjectiveRepository repository;
     private StrategicObjectiveMapper mapper;
 
@@ -26,6 +28,8 @@ public class StrategicObjectiveService {
         @Valid StrategicObjectiveCreateDTO dto,
         long strategyId
     ){
+
+        validationService.validateBeforeCreation(strategyId);
 
         dto.setStrategyId(strategyId);
 
@@ -43,7 +47,7 @@ public class StrategicObjectiveService {
         StrategicObjectiveUpdateDTO dto
     ){
 
-        //TODO: check if exists
+        validationService.validateBeforeUpdate(strategicObjectiveId);
 
         StrategicObjective objective = repository.findById(strategicObjectiveId).get();
 
@@ -61,7 +65,7 @@ public class StrategicObjectiveService {
         long strategicObjectiveId
     ){
 
-        //TODO: check if exists
+        validationService.validateBeforeDisable(strategicObjectiveId);
 
         StrategicObjective objective = repository.findById(strategicObjectiveId).get();
 
@@ -74,8 +78,6 @@ public class StrategicObjectiveService {
     public void deleteStrategicObjective(
         long strategicObjectiveId
     ){
-
-        //TODO: check if exists
 
         repository.deleteById(strategicObjectiveId);
 
@@ -90,7 +92,7 @@ public class StrategicObjectiveService {
         Pageable pageable
     ){
 
-        //TODO: check if exists
+        validationService.validateBeforeGet(strategyId);
 
         Page<StrategicObjective> objectives;
 
@@ -108,8 +110,8 @@ public class StrategicObjectiveService {
         long strategicObjectiveId
     ){
 
-        //TODO: check if exists
-
+        validationService. validateBeforeGet(strategicObjectiveId);
+        
         StrategicObjective objective = repository.findById(strategicObjectiveId).get();
 
         return mapper.toReadDTO(objective);
