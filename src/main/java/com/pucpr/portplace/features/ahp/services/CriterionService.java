@@ -54,11 +54,11 @@ public class CriterionService {
     }
 
     // UPDATE
-    public CriterionReadDTO updateCriterion(Long id, CriterionUpdateDTO criterionUpdateDTO) {
+    public CriterionReadDTO updateCriterion(Long criterionId, Long criteriaGroupId, CriterionUpdateDTO criterionUpdateDTO) {
 
-        validationService.validateBeforeUpdate(id);
+        validationService.validateBeforeUpdate(criterionId, criteriaGroupId);
 
-        Criterion criterion = criterionRepository.findById(id).get();
+        Criterion criterion = criterionRepository.findById(criterionId).get();
 
         criterionMapper.updateFromDTO(criterionUpdateDTO, criterion);
 

@@ -37,12 +37,12 @@ public class CriterionValidationService {
 
     }
 
-    public void validateBeforeUpdate(Long id) {
+    public void validateBeforeUpdate(Long criterionId, Long criteriaGroupId) {
 
-        validateBeforeCreation(id);
+        validateBeforeCreation(criteriaGroupId);
 
-        if(!criterionExistsSpecification.isSatisfiedBy(id)) {
-            throw new CriterionNotFoundException(id);
+        if(!criterionExistsSpecification.isSatisfiedBy(criterionId)) {
+            throw new CriterionNotFoundException(criterionId);
         }
 
     }
