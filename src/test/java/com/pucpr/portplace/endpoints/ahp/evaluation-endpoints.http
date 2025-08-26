@@ -3,7 +3,7 @@
 // COMPARAÇÃO DE CRITÉRIOS
 
 ### BUSCA DE TODAS AS AVALIAÇÕES
-GET {{host}}/strategies/1/evaluation-groups/1/evaluations?sortDir=desc
+GET {{host}}/strategies/1/evaluation-groups/1/evaluations
 
 ### BUSCAR AVALIAÇÃO POR ID
 GET {{host}}/strategies/1/evaluation-groups/1/evaluations/7
