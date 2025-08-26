@@ -96,22 +96,7 @@ public class EvaluationService {
 
         validationService.validateBeforeGetAll(evaluationGroupId);
 
-        Page<Evaluation> evaluations;
-        boolean containsName = projectName != null && !projectName.isEmpty();
-
-        if(containsName) {
-
-            evaluations = evaluationRepository.findByEvaluationGroupIdAndProjectName(evaluationGroupId, projectName, includeDisabled, pageable);
-
-        } else {
-
-            if(includeDisabled) {
-                evaluations = evaluationRepository.findByEvaluationGroupId(evaluationGroupId, pageable);
-            } else {
-                evaluations = evaluationRepository.findByEvaluationGroupIdAndDisabledFalse(evaluationGroupId, pageable);
-            }
-
-        }
+        Page<Evaluation> evaluations = evaluationRepository.findByEvaluationGroupIdAndProjectName(evaluationGroupId, projectName, includeDisabled, pageable);
 
         Page<EvaluationReadDTO> evaluationDTOs = evaluations.map(evaluationMapper::toReadDTO);
 
