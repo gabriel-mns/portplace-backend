@@ -1,18 +1,17 @@
 package com.pucpr.portplace.features.strategy.entities;
 
-import java.util.List;
-
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import com.pucpr.portplace.core.entities.AuditableEntity;
-import com.pucpr.portplace.features.ahp.entities.EvaluationGroup;
+import com.pucpr.portplace.features.project.entities.Project;
+import com.pucpr.portplace.features.strategy.enums.ScenarioRankingStatusEnum;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -21,26 +20,27 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name = "strategies")
-@AllArgsConstructor
-@NoArgsConstructor
+@Table(name = "scenario_rankings")
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
 @Builder
 @EntityListeners(AuditingEntityListener.class)
-public class Strategy extends AuditableEntity {
-
+public class ScenarioRanking extends AuditableEntity {
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
-    private String name;
-    private String description;
+    private Long id;
+    // private int customPosition;
+    private int calculatedPosition;
+    private double totalScore;
+    private ScenarioRankingStatusEnum status;
 
-    @OneToMany(mappedBy = "strategy")
-    private List<EvaluationGroup> evaluationGroups;
-    @OneToMany(mappedBy = "strategy")
-    private List<StrategicObjective> strategicObjectives;
-    @OneToMany(mappedBy = "strategy")
-    private List<Scenario> scenarios; 
+    //Relationships
+    @ManyToOne
+    private Scenario scenario;
+    @ManyToOne
+    private Project project;
 
 }

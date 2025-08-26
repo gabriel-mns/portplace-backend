@@ -1,5 +1,7 @@
 package com.pucpr.portplace.features.strategy.controllers;
 
+import java.net.URI;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -11,6 +13,8 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+
 import com.pucpr.portplace.features.strategy.dtos.StrategicObjectiveCreateDTO;
 import com.pucpr.portplace.features.strategy.dtos.StrategicObjectiveReadDTO;
 import com.pucpr.portplace.features.strategy.dtos.StrategicObjectiveUpdateDTO;
@@ -40,7 +44,13 @@ public class StrategicObjectiveController {
 
         StrategicObjectiveReadDTO response = service.createStrategicObjective(dto, strategyId);
 
-        return ResponseEntity.ok().body(response);
+        URI uri = ServletUriComponentsBuilder
+            .fromCurrentRequest()
+            .path("/{id}")
+            .buildAndExpand(response.getId())
+            .toUri();
+
+        return ResponseEntity.created(uri).body(response);
 
     }
 

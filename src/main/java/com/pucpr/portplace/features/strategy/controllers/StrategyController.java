@@ -37,7 +37,7 @@ public class StrategyController {
     //CREATE
     @PostMapping
     ResponseEntity<StrategyReadDTO> createStrategy(
-        StrategyCreateDTO dto
+        @RequestBody StrategyCreateDTO dto
     ){
 
         StrategyReadDTO createdStrategy = strategyService.createStrategy(dto);

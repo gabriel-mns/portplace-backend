@@ -1,0 +1,40 @@
+@host = http://localhost:8080/api/v1
+
+### GET TODOS OS CENÁRIOS
+GET {{host}}/strategies/1/scenarios
+Accept: application/json
+
+### GET CENÁRIO
+GET {{host}}/strategies/1/scenarios/12
+Accept: application/json
+
+### CADASTRAR CENÁRIO
+POST {{host}}/strategies/1/scenarios
+Accept: application/json
+Content-Type: application/json
+
+{
+  "name": "Cenário 12",
+  "description": "Descrição do Cenário 12",
+  "budget": 200000.00,
+  "evaluationGroupId": 1
+}
+
+### EDITAR CENÁRIO
+PUT {{host}}/strategies/1/scenarios/7
+Accept: application/json
+Content-Type: application/json
+
+{
+  "name": "Cenário 7",
+  "description": "Descrição do Cenário 7",
+  "status": "AUTHORIZED"
+}
+
+### DESABILITAR CENÁRIO
+DELETE {{host}}/strategies/1/scenarios/1
+Accept: application/json
+
+### DELETAR CENÁRIO
+DELETE {{host}}/strategies/1/scenarios/8/hard-delete
+Accept: application/json

@@ -25,6 +25,7 @@ public class AllCriteriaComparedSpecification implements Specification<CriteriaG
         List<Criterion> criteriaList,
         List<CriteriaComparison> criteriaComparisonList
     ) {
+
         // 1. Creates a set of all unique pairs of compared criteria (ignoring disabled comparisons)
         Set<Set<Long>> comparedCriterionPairs = criteriaComparisonList.stream()
             .filter(criterionComparison -> !criterionComparison.isDisabled())

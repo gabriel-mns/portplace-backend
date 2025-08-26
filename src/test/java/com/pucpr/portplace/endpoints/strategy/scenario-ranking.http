@@ -1,0 +1,18 @@
+
+@host = http://localhost:8080/api/v1
+
+### GET TODOS OS CENÁRIOS
+GET {{host}}/strategies/1/scenarios
+
+### GET TODOS OS RANKINGS DE UM CENÁRIO
+GET {{host}}/strategies/1/scenarios/12/rankings
+
+### EDITAR RANKING DO CENÁRIO
+PUT {{host}}/strategies/1/scenarios/9/rankings/1
+Accept: application/json
+Content-Type: application/json
+
+{
+  "customPosition": "1",
+  "status": "MANUALLY_EXCLUDED"
+}

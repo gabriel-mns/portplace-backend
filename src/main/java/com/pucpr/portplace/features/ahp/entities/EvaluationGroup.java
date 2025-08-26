@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import com.pucpr.portplace.core.entities.AuditableEntity;
+import com.pucpr.portplace.features.strategy.entities.Scenario;
 import com.pucpr.portplace.features.strategy.entities.Strategy;
 
 import jakarta.persistence.Entity;
@@ -46,5 +47,7 @@ public class EvaluationGroup extends AuditableEntity {
     private CriteriaGroup criteriaGroup;
     @OneToMany(mappedBy = "evaluationGroup")
     private List<Evaluation> evaluations;
+    @OneToMany(mappedBy = "evaluationGroup")
+    private List<Scenario> scenarios; 
 
 }
