@@ -18,13 +18,13 @@ public interface EvaluationRepository extends JpaRepository<Evaluation, Long> {
 	@Query("""
 		SELECT e FROM Evaluation e
 		WHERE e.evaluationGroup.id = :evaluationGroupId
-		AND LOWER(e.name) LIKE LOWER(CONCAT('%', :name, '%'))
+		AND LOWER(e.project.name) LIKE LOWER(CONCAT('%', :projectName, '%'))
 		AND (:includeDisabled = true OR e.disabled = false)
 		"""
 	)
-	public Page<Evaluation> findByEvaluationGroupIdAndName(
+	public Page<Evaluation> findByEvaluationGroupIdAndProjectName(
 		long evaluationGroupId, 
-		String name,
+		String projectName,
 		boolean includeDisabled,
 		Pageable pageable
 	);
