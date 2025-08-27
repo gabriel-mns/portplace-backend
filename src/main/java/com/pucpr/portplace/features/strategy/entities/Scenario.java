@@ -1,6 +1,5 @@
 package com.pucpr.portplace.features.strategy.entities;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 

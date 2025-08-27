@@ -15,6 +15,7 @@ import com.pucpr.portplace.features.strategy.entities.ScenarioRanking;
 import com.pucpr.portplace.features.strategy.enums.ScenarioStatusEnum;
 import com.pucpr.portplace.features.strategy.mappers.ScenarioMapper;
 import com.pucpr.portplace.features.strategy.repositories.ScenarioRepository;
+import com.pucpr.portplace.features.strategy.services.validations.ScenarioValidationService;
 
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -27,6 +28,7 @@ public class ScenarioService {
     // private EvaluationGroupEntityService evaluationGroupEntityService;
     private ScenarioRepository repository;
     private ScenarioMapper mapper;
+    private ScenarioValidationService validationService;
 
     //CREATE
     public ScenarioReadDTO createScenario(
@@ -34,6 +36,8 @@ public class ScenarioService {
         long strategyId
     ) {
     
+        validationService.validateBeforeCreation(strategyId, dto.getEvaluationGroupId());
+
         //Gets the ranked projects from the evaluation group
         long egId = dto.getEvaluationGroupId();
         List<ScenarioRanking> rankings = rankingService.calculateRankings(egId, dto.getBudget());
@@ -58,7 +62,8 @@ public class ScenarioService {
         long scenarioId
     ) {
         
-        //TODO: check if exists
+        validationService.validateBeforeUpdate(scenarioId);
+        
         Scenario scenario = repository.findById(scenarioId).get();
 
         mapper.updateFromDTO(dto, scenario);
@@ -74,7 +79,8 @@ public class ScenarioService {
         long scenarioId
     ) {
         
-        //TODO: check if exists
+        validationService.validateBeforeDisable(scenarioId);
+
         Scenario scenario = repository.findById(scenarioId).get();
 
         scenario.setDisabled(true);
@@ -96,7 +102,7 @@ public class ScenarioService {
         long scenarioId
     ) {
 
-        //TODO: check if exists
+        validationService.validateBeforeGet(scenarioId);
 
         Scenario s = repository.findById(scenarioId).get();
 
@@ -111,6 +117,8 @@ public class ScenarioService {
         Pageable pageable,
         boolean includeDisabled
     ) {
+
+        validationService.validateBeforeGetAll(strategyId);
 
         Page<Scenario> scenarios = repository.findByFilters(
             strategyId, 

@@ -1,7 +1,5 @@
 package com.pucpr.portplace.features.strategy.dtos;
 
-import java.util.List;
-
 import com.pucpr.portplace.core.validation.constraints.enumValues.ValidEnum;
 import com.pucpr.portplace.features.strategy.enums.ScenarioStatusEnum;
 

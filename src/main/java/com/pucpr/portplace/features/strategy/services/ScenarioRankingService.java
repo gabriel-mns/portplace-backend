@@ -2,7 +2,6 @@ package com.pucpr.portplace.features.strategy.services;
 
 import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.LinkedList;
 import java.util.List;
 
 import org.springframework.data.domain.Page;
@@ -15,13 +14,10 @@ import com.pucpr.portplace.features.project.entities.Project;
 import com.pucpr.portplace.features.project.services.internal.ProjectEntityService;
 import com.pucpr.portplace.features.strategy.dtos.ScenarioRankingReadDTO;
 import com.pucpr.portplace.features.strategy.dtos.ScenarioRankingUpdateDTO;
-import com.pucpr.portplace.features.strategy.entities.Scenario;
 import com.pucpr.portplace.features.strategy.entities.ScenarioRanking;
 import com.pucpr.portplace.features.strategy.enums.ScenarioRankingStatusEnum;
 import com.pucpr.portplace.features.strategy.mappers.ScenarioRankingMapper;
 import com.pucpr.portplace.features.strategy.repositories.ScenarioRankingRepository;
-import com.pucpr.portplace.features.strategy.repositories.ScenarioRepository;
-import com.pucpr.portplace.features.strategy.services.internal.ScenarioEntityService;
 
 import lombok.AllArgsConstructor;
 
@@ -33,8 +29,6 @@ public class ScenarioRankingService {
     private ProjectEntityService projectEntityService;
     private ScenarioRankingMapper mapper;
     private ScenarioRankingRepository repository;
-    private ScenarioEntityService scenarioEntityService;
-
     public List<ScenarioRanking> calculateRankings(
         long evaluationGroupId,
         double budget
