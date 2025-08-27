@@ -18,11 +18,9 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.pucpr.portplace.features.strategy.dtos.ScenarioCreateDTO;
-import com.pucpr.portplace.features.strategy.dtos.ScenarioRankingReadDTO;
 import com.pucpr.portplace.features.strategy.dtos.ScenarioReadDTO;
 import com.pucpr.portplace.features.strategy.dtos.ScenarioUpdateDTO;
-import com.pucpr.portplace.features.strategy.entities.ScenarioRanking;
-import com.pucpr.portplace.features.strategy.services.ScenarioRankingService;
+import com.pucpr.portplace.features.strategy.enums.ScenarioStatusEnum;
 import com.pucpr.portplace.features.strategy.services.ScenarioService;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -36,8 +34,6 @@ import lombok.AllArgsConstructor;
 public class ScenarioController {
 
     private ScenarioService service;
-    private ScenarioRankingService rankingService;
-    
     //CREATE
     @PostMapping
     public ResponseEntity<ScenarioReadDTO> createScenario(
@@ -98,6 +94,7 @@ public class ScenarioController {
     public ResponseEntity<Page<ScenarioReadDTO>> getAllScenariosByStrategyId(
         @PathVariable long strategyId,
         @RequestParam(defaultValue = "") String name,
+        @RequestParam(required = false) ScenarioStatusEnum status,
         @RequestParam(defaultValue = "false") boolean includeDisabled,
         @RequestParam(defaultValue="0") int page,
         @RequestParam(defaultValue="10") int size,
@@ -108,7 +105,7 @@ public class ScenarioController {
         Sort.Direction direction = sortDir.equalsIgnoreCase("desc") ? Sort.Direction.DESC : Sort.Direction.ASC;
         PageRequest pageable = PageRequest.of(page, size, Sort.by(direction, sortBy));
 
-        Page<ScenarioReadDTO> response = service.getAllScenarios(strategyId, name, pageable, includeDisabled);
+        Page<ScenarioReadDTO> response = service.getAllScenarios(strategyId, name, status, pageable, includeDisabled);
 
         return ResponseEntity.ok().body(response);
 

@@ -12,6 +12,7 @@ import com.pucpr.portplace.features.strategy.dtos.ScenarioReadDTO;
 import com.pucpr.portplace.features.strategy.dtos.ScenarioUpdateDTO;
 import com.pucpr.portplace.features.strategy.entities.Scenario;
 import com.pucpr.portplace.features.strategy.entities.ScenarioRanking;
+import com.pucpr.portplace.features.strategy.enums.ScenarioStatusEnum;
 import com.pucpr.portplace.features.strategy.mappers.ScenarioMapper;
 import com.pucpr.portplace.features.strategy.repositories.ScenarioRepository;
 
@@ -106,17 +107,18 @@ public class ScenarioService {
     public Page<ScenarioReadDTO> getAllScenarios(
         long strategyId,
         String name,
+        ScenarioStatusEnum status,
         Pageable pageable,
         boolean includeDisabled
     ) {
 
-        Page<Scenario> scenarios;
-
-        if(includeDisabled) {
-            scenarios = repository.findByStrategyIdAndNameContainingIgnoreCase(strategyId, name, pageable);
-        } else {
-            scenarios = repository.findByDisabledFalseAndStrategyIdAndNameContainingIgnoreCase(strategyId, name, pageable);
-        }
+        Page<Scenario> scenarios = repository.findByFilters(
+            strategyId, 
+            name, 
+            status, 
+            includeDisabled, 
+            pageable
+        );
 
         return scenarios.map(mapper::toReadDTO);
     }
