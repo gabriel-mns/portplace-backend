@@ -18,6 +18,7 @@ import com.pucpr.portplace.features.strategy.entities.ScenarioRanking;
 import com.pucpr.portplace.features.strategy.enums.ScenarioRankingStatusEnum;
 import com.pucpr.portplace.features.strategy.mappers.ScenarioRankingMapper;
 import com.pucpr.portplace.features.strategy.repositories.ScenarioRankingRepository;
+import com.pucpr.portplace.features.strategy.services.validations.ScenarioRankingValidationService;
 
 import lombok.AllArgsConstructor;
 
@@ -29,11 +30,13 @@ public class ScenarioRankingService {
     private ProjectEntityService projectEntityService;
     private ScenarioRankingMapper mapper;
     private ScenarioRankingRepository repository;
+    private ScenarioRankingValidationService validationService;
+
     public List<ScenarioRanking> calculateRankings(
         long evaluationGroupId,
         double budget
     ) {
-        
+
         List<ProjectRankingReadDTO> ranking = ahpResultsService.getProjectRankingByEvaluationGroupId(evaluationGroupId);
         ranking.sort(Comparator.comparingDouble(ProjectRankingReadDTO::getPosition).reversed());
 
@@ -74,7 +77,7 @@ public class ScenarioRankingService {
         long rankingId
     ) {
         
-        //TODO: check if exists
+        validationService.validateBeforeUpdate(scenarioId, rankingId);
 
         // Scenario scenario = scenarioEntityService.getScenarioById(scenarioId);
         ScenarioRanking sr = repository.findById(rankingId).get();
@@ -115,7 +118,7 @@ public class ScenarioRankingService {
         Pageable pageable
     ) {
         
-        //TODO: check if exists
+        validationService.validateBeforeGetAll(scenarioId);
 
         Page<ScenarioRanking> rankings = repository.findByScenarioIdAndProjectNameContainingIgnoreCase(scenarioId, projectName, pageable);
 
