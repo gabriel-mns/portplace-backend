@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.mapstruct.AfterMapping;
 import org.mapstruct.BeanMapping;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 import org.mapstruct.NullValuePropertyMappingStrategy;
 import org.mapstruct.ReportingPolicy;
@@ -25,6 +26,7 @@ public interface StrategyMapper {
     
     StrategyReadDTO toReadDTO(Strategy strategy);
 
+    @Mapping(target = "status", constant = "ACTIVE")
     Strategy toEntity(StrategyCreateDTO dto);
 
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)

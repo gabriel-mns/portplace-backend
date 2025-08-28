@@ -14,8 +14,8 @@ Accept: application/json
 Content-Type: application/json
 
 {
-  "name": "Estratégia 2",
-  "description": "Descrição do Estratégia 2"
+  "name": "Estratégia 3",
+  "description": "Descrição do Estratégia 3"
 }
 
 ### EDITAR ESTRATÉGIA

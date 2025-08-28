@@ -21,6 +21,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import com.pucpr.portplace.features.strategy.dtos.StrategyCreateDTO;
 import com.pucpr.portplace.features.strategy.dtos.StrategyReadDTO;
 import com.pucpr.portplace.features.strategy.dtos.StrategyUpdateDTO;
+import com.pucpr.portplace.features.strategy.enums.StrategyStatusEnum;
 import com.pucpr.portplace.features.strategy.services.StrategyService;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -91,6 +92,7 @@ public class StrategyController {
     //READ
     @GetMapping
     ResponseEntity<Page<StrategyReadDTO>> getStrategies(
+        @RequestParam(required  = false) StrategyStatusEnum status,
         @RequestParam(defaultValue = "false") boolean includeDisabled,
         @RequestParam(defaultValue = "0") int page,
         @RequestParam(defaultValue = "10") int size,
@@ -101,7 +103,7 @@ public class StrategyController {
         Sort.Direction direction = sortDir.equalsIgnoreCase("desc") ? Sort.Direction.DESC : Sort.Direction.ASC;
         Pageable pageable = PageRequest.of(page, size, Sort.by(direction, sortBy));
 
-        Page<StrategyReadDTO> strategies = strategyService.getStrategies(includeDisabled, pageable);
+        Page<StrategyReadDTO> strategies = strategyService.getStrategies(status, includeDisabled, pageable);
 
         return ResponseEntity.ok(strategies);
 

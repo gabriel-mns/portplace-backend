@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.pucpr.portplace.features.ahp.dtos.EvaluationGroupReadDTO;
+import com.pucpr.portplace.features.strategy.enums.StrategyStatusEnum;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -20,6 +21,7 @@ public class StrategyReadDTO {
     private long id;
     private String name;
     private String description;
+    private StrategyStatusEnum status;
     private List<StrategicObjectiveReadDTO> strategicObjectives;
     private List<EvaluationGroupReadDTO> evaluationGroups;
 

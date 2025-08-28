@@ -6,6 +6,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import com.pucpr.portplace.core.entities.AuditableEntity;
 import com.pucpr.portplace.features.ahp.entities.EvaluationGroup;
+import com.pucpr.portplace.features.strategy.enums.StrategyStatusEnum;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
@@ -35,6 +36,7 @@ public class Strategy extends AuditableEntity {
     private long id;
     private String name;
     private String description;
+    private StrategyStatusEnum status;
 
     @OneToMany(mappedBy = "strategy")
     private List<EvaluationGroup> evaluationGroups;
