@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import com.pucpr.portplace.core.entities.AuditableEntity;
+import com.pucpr.portplace.features.ahp.enums.EvaluationGroupStatusEnum;
 import com.pucpr.portplace.features.strategy.entities.Scenario;
 import com.pucpr.portplace.features.strategy.entities.Strategy;
 
@@ -38,6 +39,7 @@ public class EvaluationGroup extends AuditableEntity {
     private Long id;
     private String name;
     private String description;
+    private EvaluationGroupStatusEnum status;
 
     // Relationships
     @ManyToOne

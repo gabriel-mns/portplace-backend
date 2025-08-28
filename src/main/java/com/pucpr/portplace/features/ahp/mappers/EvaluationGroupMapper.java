@@ -22,6 +22,7 @@ public interface EvaluationGroupMapper {
 
     @Mapping(target = "criteriaGroup.id", source = "criteriaGroupId")
     @Mapping(target = "strategy.id", source = "strategyId")
+    @Mapping(target = "status", constant = "ACTIVE")
     EvaluationGroup toEntity(EvaluationGroupCreateDTO evaluationGroupCreateDTO);
 
     @Mapping(target = "criteriaGroupId", source = "criteriaGroup.id")

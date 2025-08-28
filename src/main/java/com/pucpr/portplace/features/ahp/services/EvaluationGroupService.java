@@ -8,6 +8,7 @@ import com.pucpr.portplace.features.ahp.dtos.EvaluationGroupCreateDTO;
 import com.pucpr.portplace.features.ahp.dtos.EvaluationGroupReadDTO;
 import com.pucpr.portplace.features.ahp.dtos.EvaluationGroupUpdateDTO;
 import com.pucpr.portplace.features.ahp.entities.EvaluationGroup;
+import com.pucpr.portplace.features.ahp.enums.EvaluationGroupStatusEnum;
 import com.pucpr.portplace.features.ahp.mappers.EvaluationGroupMapper;
 import com.pucpr.portplace.features.ahp.repositories.EvaluationGroupRepository;
 import com.pucpr.portplace.features.ahp.services.validations.EvaluationGroupValidationService;
@@ -85,30 +86,15 @@ public class EvaluationGroupService {
 
     }
 
-    public Page<EvaluationGroupReadDTO> getAllEvaluationGroups(long strategyId, String name, boolean includeDisabled, Pageable pageable) {
+    public Page<EvaluationGroupReadDTO> getAllEvaluationGroups(
+        long strategyId, 
+        EvaluationGroupStatusEnum status, 
+        String name, 
+        boolean includeDisabled, 
+        Pageable pageable
+    ) {
 
-        Page<EvaluationGroup> evaluationGroups;
-
-        boolean containsName = name != null && !name.isEmpty();
-        
-        if(containsName) {
-            
-            evaluationGroups = egRepository.findByName(name, includeDisabled, pageable);
-            
-        } else {
-
-            if(includeDisabled) {
-    
-                evaluationGroups = egRepository.findAll(pageable);
-    
-            } else {
-    
-                evaluationGroups = egRepository.findByDisabledFalse(pageable);
-    
-            }
-
-        }
-
+        Page<EvaluationGroup> evaluationGroups = egRepository.findByFilters(status, name, includeDisabled, pageable);
 
         Page<EvaluationGroupReadDTO> egReadDTOs = evaluationGroups.map(egMapper::toReadDTO);
 

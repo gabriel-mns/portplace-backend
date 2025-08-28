@@ -8,6 +8,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import com.pucpr.portplace.features.ahp.dtos.EvaluationGroupCreateDTO;
 import com.pucpr.portplace.features.ahp.dtos.EvaluationGroupReadDTO;
 import com.pucpr.portplace.features.ahp.dtos.EvaluationGroupUpdateDTO;
+import com.pucpr.portplace.features.ahp.enums.EvaluationGroupStatusEnum;
 import com.pucpr.portplace.features.ahp.paths.StrategyPaths;
 import com.pucpr.portplace.features.ahp.services.EvaluationGroupService;
 
@@ -45,7 +46,8 @@ public class EvaluationGroupController {
     @GetMapping
     public ResponseEntity<Page<EvaluationGroupReadDTO>> getAllEvaluationGroups(
         @PathVariable long strategyId,
-        @RequestParam(required = false) String name,
+        @RequestParam(required = false) EvaluationGroupStatusEnum status,
+        @RequestParam(defaultValue = "", required = false) String name,
         @RequestParam(defaultValue = "false") boolean includeDisabled,
         @RequestParam(defaultValue = "0") int page,
         @RequestParam(defaultValue = "10") int size,
@@ -59,7 +61,7 @@ public class EvaluationGroupController {
             Sort.by(Sort.Direction.fromString(sortDir), sortBy)
         );
 
-        Page<EvaluationGroupReadDTO> egs = egService.getAllEvaluationGroups(strategyId, name, includeDisabled, pageable);
+        Page<EvaluationGroupReadDTO> egs = egService.getAllEvaluationGroups(strategyId, status, name, includeDisabled, pageable);
 
         return ResponseEntity.ok(egs);
     
