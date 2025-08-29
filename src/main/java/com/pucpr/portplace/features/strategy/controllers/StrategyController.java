@@ -1,6 +1,7 @@
 package com.pucpr.portplace.features.strategy.controllers;
 
 import java.net.URI;
+import java.util.List;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -92,7 +93,7 @@ public class StrategyController {
     //READ
     @GetMapping
     ResponseEntity<Page<StrategyReadDTO>> getStrategies(
-        @RequestParam(required  = false) StrategyStatusEnum status,
+        @RequestParam(required  = false) List<StrategyStatusEnum> status,
         @RequestParam(defaultValue = "false") boolean includeDisabled,
         @RequestParam(defaultValue = "0") int page,
         @RequestParam(defaultValue = "10") int size,

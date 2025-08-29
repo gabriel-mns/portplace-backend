@@ -1,5 +1,7 @@
 package com.pucpr.portplace.features.strategy.services;
 
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -64,6 +66,7 @@ public class StrategyService {
         Strategy disabledStrategy = strategyRepository.findById(strategyId).get();
 
         disabledStrategy.setDisabled(true);
+        disabledStrategy.setStatus(StrategyStatusEnum.INACTIVE);
 
         strategyRepository.save(disabledStrategy);
 
@@ -77,26 +80,16 @@ public class StrategyService {
 
     //READ
     public Page<StrategyReadDTO> getStrategies(
-        StrategyStatusEnum status,
+        List<StrategyStatusEnum> status,
         boolean includeDisabled,
         Pageable pageable
     ){
 
-        Page<Strategy> strategies;
-
-        if(includeDisabled){
-            if(status != null){
-                strategies = strategyRepository.findByStatus(status, pageable);
-            } else {
-                strategies = strategyRepository.findAll(pageable);
-            }
-        } else {
-            if(status != null){
-                strategies = strategyRepository.findByStatusAndDisabledFalse(status, pageable);
-            } else {
-                strategies = strategyRepository.findByDisabledFalse(pageable);
-            }
-        }
+        Page<Strategy> strategies = strategyRepository.findByFilters(
+            status,
+            includeDisabled,
+            pageable
+        );
 
         return strategies.map(strategyMapper::toReadDTO);
 
