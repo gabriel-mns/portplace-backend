@@ -18,7 +18,7 @@ public interface StrategyRepository extends JpaRepository<Strategy, Long> {
         SELECT s 
         FROM Strategy s 
         WHERE (:status IS NULL OR s.status IN :status) 
-        AND (:includeDisabled = true OR s.disabled = :includeDisabled)
+        AND (:includeDisabled = true OR s.disabled = false)
     """
     )
     Page<Strategy> findByFilters(
