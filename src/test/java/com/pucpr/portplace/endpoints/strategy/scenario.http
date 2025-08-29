@@ -1,7 +1,7 @@
 @host = http://localhost:8080/api/v1
 
 ### GET TODOS OS CENÁRIOS
-GET {{host}}/strategies/1/scenarios?status=AUTHORIZED
+GET {{host}}/strategies/1/scenarios?status=WAITING_AUTHORIZATION&name=Cenário 1
 Accept: application/json
 
 ### GET CENÁRIO

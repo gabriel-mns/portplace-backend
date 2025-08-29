@@ -84,6 +84,7 @@ public class ScenarioService {
         Scenario scenario = repository.findById(scenarioId).get();
 
         scenario.setDisabled(true);
+        scenario.setStatus(ScenarioStatusEnum.CANCELLED);
 
         scenario = repository.save(scenario);
 
@@ -113,9 +114,9 @@ public class ScenarioService {
     public Page<ScenarioReadDTO> getAllScenarios(
         long strategyId,
         String name,
-        ScenarioStatusEnum status,
-        Pageable pageable,
-        boolean includeDisabled
+        List<ScenarioStatusEnum> status,
+        boolean includeDisabled,
+        Pageable pageable
     ) {
 
         validationService.validateBeforeGetAll(strategyId);
@@ -124,8 +125,8 @@ public class ScenarioService {
             strategyId, 
             name, 
             status, 
-            includeDisabled, 
-            pageable
+            pageable, 
+            includeDisabled
         );
 
         return scenarios.map(mapper::toReadDTO);

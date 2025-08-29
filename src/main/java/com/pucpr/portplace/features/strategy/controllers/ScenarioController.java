@@ -1,6 +1,7 @@
 package com.pucpr.portplace.features.strategy.controllers;
 
 import java.net.URI;
+import java.util.List;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -94,7 +95,7 @@ public class ScenarioController {
     public ResponseEntity<Page<ScenarioReadDTO>> getAllScenariosByStrategyId(
         @PathVariable long strategyId,
         @RequestParam(defaultValue = "") String name,
-        @RequestParam(required = false) ScenarioStatusEnum status,
+        @RequestParam(required = false) List<ScenarioStatusEnum> status,
         @RequestParam(defaultValue = "false") boolean includeDisabled,
         @RequestParam(defaultValue="0") int page,
         @RequestParam(defaultValue="10") int size,
@@ -105,7 +106,13 @@ public class ScenarioController {
         Sort.Direction direction = sortDir.equalsIgnoreCase("desc") ? Sort.Direction.DESC : Sort.Direction.ASC;
         PageRequest pageable = PageRequest.of(page, size, Sort.by(direction, sortBy));
 
-        Page<ScenarioReadDTO> response = service.getAllScenarios(strategyId, name, status, pageable, includeDisabled);
+        Page<ScenarioReadDTO> response = service.getAllScenarios(
+            strategyId, 
+            name, 
+            status, 
+            includeDisabled,
+            pageable
+        );
 
         return ResponseEntity.ok().body(response);
 

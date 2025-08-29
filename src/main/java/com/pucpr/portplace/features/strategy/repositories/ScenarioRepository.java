@@ -1,5 +1,7 @@
 package com.pucpr.portplace.features.strategy.repositories;
 
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -24,15 +26,15 @@ public interface ScenarioRepository extends JpaRepository<Scenario, Long> {
         SELECT s FROM Scenario s
         WHERE s.strategy.id = :strategyId
           AND LOWER(s.name) LIKE LOWER(CONCAT('%', :name, '%'))
-          AND (:status IS NULL OR s.status = :status)
+          AND (:status IS NULL OR s.status IN :status)
           AND (:includeDisabled = TRUE OR s.disabled = FALSE)
     """)
     Page<Scenario> findByFilters(
         @Param("strategyId") Long strategyId,
         @Param("name") String name,
-        @Param("status") ScenarioStatusEnum status,
-        @Param("includeDisabled") boolean includeDisabled,
-        Pageable pageable
+        @Param("status") List<ScenarioStatusEnum> status,
+        @Param("includeDisabled") Pageable pageable,
+        boolean includeDisabled
     );
 
 }
