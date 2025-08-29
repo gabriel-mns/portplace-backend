@@ -3,6 +3,7 @@ package com.pucpr.portplace.features.ahp.dtos;
 import java.time.LocalDateTime;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.pucpr.portplace.features.ahp.enums.CriteriaGroupStatusEnum;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -20,6 +21,7 @@ public class CriteriaGroupListReadDTO {
     private long id;
     private String name;
     private String description;
+    private CriteriaGroupStatusEnum status;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime lastModifiedAt;
     private Long lastModifiedBy;

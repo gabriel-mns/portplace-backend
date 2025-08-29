@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import com.pucpr.portplace.core.entities.AuditableEntity;
+import com.pucpr.portplace.features.ahp.enums.CriteriaGroupStatusEnum;
 import com.pucpr.portplace.features.strategy.entities.Strategy;
 
 import jakarta.persistence.Entity;
@@ -36,6 +37,7 @@ public class CriteriaGroup extends AuditableEntity {
     private Long id;
     private String name;
     private String description;
+    private CriteriaGroupStatusEnum status;
     
     // Relationships
     //TODO: Create strategy objectives CRUD

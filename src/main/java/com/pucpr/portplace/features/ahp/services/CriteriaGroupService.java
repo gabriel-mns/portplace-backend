@@ -1,5 +1,7 @@
 package com.pucpr.portplace.features.ahp.services;
 
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -9,6 +11,7 @@ import com.pucpr.portplace.features.ahp.dtos.CriteriaGroupListReadDTO;
 import com.pucpr.portplace.features.ahp.dtos.CriteriaGroupReadDTO;
 import com.pucpr.portplace.features.ahp.dtos.CriteriaGroupUpdateDTO;
 import com.pucpr.portplace.features.ahp.entities.CriteriaGroup;
+import com.pucpr.portplace.features.ahp.enums.CriteriaGroupStatusEnum;
 import com.pucpr.portplace.features.ahp.mappers.CriteriaGroupMapper;
 import com.pucpr.portplace.features.ahp.repositories.CriteriaGroupRepository;
 import com.pucpr.portplace.features.ahp.services.validations.CriteriaGroupValidationService;
@@ -75,6 +78,8 @@ public class CriteriaGroupService {
         CriteriaGroup criteriaGroup = criteriaGroupRepository.findById(criteriaGroupId).get();
 
         criteriaGroup.setDisabled(true);
+        criteriaGroup.setStatus(CriteriaGroupStatusEnum.INACTIVE);
+
 
         criteriaGroupRepository.save(criteriaGroup);
 
@@ -101,30 +106,23 @@ public class CriteriaGroupService {
 
     }
 
-    public Page<CriteriaGroupListReadDTO> getCriteriaGroupsByStrategyId(long strategyId, boolean includeDisabled, String name, Pageable pageable) {
+    public Page<CriteriaGroupListReadDTO> getCriteriaGroupsByStrategyId(
+        long strategyId, 
+        List<CriteriaGroupStatusEnum> status, 
+        boolean includeDisabled, 
+        String name, 
+        Pageable pageable
+    ) {
 
         validationService.validateBeforeGetAll(strategyId);
 
-        Page<CriteriaGroup> criteriaGroups;
-        boolean containsName = name != null && !name.isEmpty();
-
-        if(includeDisabled){
-
-            if(containsName){
-                criteriaGroups = criteriaGroupRepository.findByStrategyIdAndNameContainingIgnoreCase(strategyId, name, pageable);
-            } else {
-                criteriaGroups = criteriaGroupRepository.findByStrategyId(strategyId, pageable);
-            }
-
-        } else {
-
-            if(containsName){
-                criteriaGroups = criteriaGroupRepository.findByStrategyIdAndNameContainingIgnoreCaseAndDisabledFalse(strategyId, name, pageable);
-            } else {
-                criteriaGroups = criteriaGroupRepository.findByStrategyIdAndDisabledFalse(strategyId, pageable);
-            }
-
-        }
+        Page<CriteriaGroup> criteriaGroups = criteriaGroupRepository.findByFilters(
+            strategyId,
+            status,
+            name,
+            includeDisabled,
+            pageable
+        );
 
         Page<CriteriaGroupListReadDTO> criteriaGroupsDTOs = criteriaGroups.map(criteriaGroupMapper::toCriteriaGroupListReadDTO);
 

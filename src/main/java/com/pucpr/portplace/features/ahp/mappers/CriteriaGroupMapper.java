@@ -8,6 +8,7 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 import org.mapstruct.Named;
+import org.mapstruct.NullValuePropertyMappingStrategy;
 import org.mapstruct.ReportingPolicy;
 
 import com.pucpr.portplace.features.ahp.dtos.CriteriaGroupCreateDTO;
@@ -19,6 +20,7 @@ import com.pucpr.portplace.features.ahp.entities.CriteriaGroup;
 @Mapper(
     componentModel = "spring", 
     uses = {CriterionMapper.class, CriteriaComparisonMapper.class},
+    nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE,
     unmappedSourcePolicy = ReportingPolicy.IGNORE,
     unmappedTargetPolicy = ReportingPolicy.IGNORE
 )
@@ -30,6 +32,7 @@ public interface CriteriaGroupMapper {
 
     public CriteriaGroup toCriteriaGroupEntity(CriteriaGroupCreateDTO criteriaGroupCreateDto);
 
+    @Mapping(target = "name", nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     public void updateFromDTO(CriteriaGroupUpdateDTO criteriaGroupUpdateDto, @MappingTarget CriteriaGroup criteriaGroup);
 
     @Mapping(target = "criteriaCount", source = "criteriaGroup", qualifiedByName = "mapCriteriaCount")
