@@ -1,5 +1,7 @@
 package com.pucpr.portplace.features.ahp.services;
 
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -62,7 +64,10 @@ public class EvaluationGroupService {
         validationService.validateBeforeDisable(strategyId, id);
 
         EvaluationGroup eg = egRepository.findById(id).get();
+
         eg.setDisabled(true);
+        eg.setStatus(EvaluationGroupStatusEnum.INACTIVE);
+
         egRepository.save(eg);
         
     }
@@ -88,7 +93,7 @@ public class EvaluationGroupService {
 
     public Page<EvaluationGroupReadDTO> getAllEvaluationGroups(
         long strategyId, 
-        EvaluationGroupStatusEnum status, 
+        List<EvaluationGroupStatusEnum> status, 
         String name, 
         boolean includeDisabled, 
         Pageable pageable

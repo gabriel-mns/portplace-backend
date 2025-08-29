@@ -3,17 +3,18 @@
 // COMPARAÇÃO DE CRITÉRIOS
 
 ### BUSCA DE TODAS OS EVALUATION GROUPS
-GET {{host}}/strategies/1/evaluation-groups?status=ACTIVE
+GET {{host}}/strategies/1/evaluation-groups?includeDisabled=false&status=INACTIVE,ACTIVE
+
 ### BUSCA POR ID DE UMA Evaluation Group
-GET {{host}}/strategies/1/evaluation-groups/2
+GET {{host}}/strategies/1/evaluation-groups/3
 
 ### CADASTRAR DE Evaluation Group
 POST {{host}}/strategies/1/evaluation-groups
 Content-Type: application/json
 
 {
-  "name": "Evaluation Group 2",
-  "description": "Descrição 2",
+  "name": "Evaluation Group 3",
+  "description": "Descrição 3",
   "criteriaGroupId": 1
   //"projectIds": [1, 3]
 }
