@@ -1,5 +1,7 @@
 package com.pucpr.portplace.features.strategy.services;
 
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -8,6 +10,7 @@ import com.pucpr.portplace.features.strategy.dtos.StrategicObjectiveCreateDTO;
 import com.pucpr.portplace.features.strategy.dtos.StrategicObjectiveReadDTO;
 import com.pucpr.portplace.features.strategy.dtos.StrategicObjectiveUpdateDTO;
 import com.pucpr.portplace.features.strategy.entities.StrategicObjective;
+import com.pucpr.portplace.features.strategy.enums.StrategicObjectiveStatusEnum;
 import com.pucpr.portplace.features.strategy.mappers.StrategicObjectiveMapper;
 import com.pucpr.portplace.features.strategy.repositories.StrategicObjectiveRepository;
 import com.pucpr.portplace.features.strategy.services.validations.StrategicObjectiveValidationService;
@@ -70,6 +73,7 @@ public class StrategicObjectiveService {
         StrategicObjective objective = repository.findById(strategicObjectiveId).get();
 
         objective.setDisabled(true);
+        objective.setStatus(StrategicObjectiveStatusEnum.CANCELLED);
 
         objective = repository.save(objective);
 
@@ -87,20 +91,21 @@ public class StrategicObjectiveService {
 
     public Page<StrategicObjectiveReadDTO> getStrategicObjectives(
         long strategyId,
-        String objectiveName,
+        List<StrategicObjectiveStatusEnum> status,
         boolean includeDisabled,
+        String objectiveName,
         Pageable pageable
     ){
 
-        validationService.validateBeforeGet(strategyId);
+        validationService.validateBeforeGetAll(strategyId);
 
-        Page<StrategicObjective> objectives;
-
-        if(includeDisabled){
-            objectives = repository.findByStrategyIdAndNameContainingIgnoreCase(strategyId, objectiveName, pageable);
-        }else{
-            objectives = repository.findByDisabledFalseAndStrategyIdAndNameContainingIgnoreCase(strategyId, objectiveName, pageable);
-        }
+        Page<StrategicObjective> objectives = repository.findByFilters(
+            strategyId,
+            status,
+            includeDisabled,
+            objectiveName,
+            pageable
+        );
 
         return objectives.map(mapper::toReadDTO);
 

@@ -1,6 +1,7 @@
 package com.pucpr.portplace.features.strategy.controllers;
 
 import java.net.URI;
+import java.util.List;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -18,6 +19,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import com.pucpr.portplace.features.strategy.dtos.StrategicObjectiveCreateDTO;
 import com.pucpr.portplace.features.strategy.dtos.StrategicObjectiveReadDTO;
 import com.pucpr.portplace.features.strategy.dtos.StrategicObjectiveUpdateDTO;
+import com.pucpr.portplace.features.strategy.enums.StrategicObjectiveStatusEnum;
 import com.pucpr.portplace.features.strategy.services.StrategicObjectiveService;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -94,6 +96,7 @@ public class StrategicObjectiveController {
     @GetMapping
     public ResponseEntity<Page<StrategicObjectiveReadDTO>> getObjectives(
         @PathVariable long strategyId,
+        @RequestParam(required = false) List<StrategicObjectiveStatusEnum> status,
         @RequestParam(defaultValue = "") String name,
         @RequestParam(defaultValue = "false") boolean includeDisabled,
         @RequestParam(defaultValue="0") int page,
@@ -102,11 +105,16 @@ public class StrategicObjectiveController {
         @RequestParam(defaultValue="asc") String sortDir
     ) {
         
-        
         Sort.Direction direction = sortDir.equalsIgnoreCase("desc") ? Sort.Direction.DESC : Sort.Direction.ASC;
         PageRequest pageable = PageRequest.of(page, size, Sort.by(direction, sortBy));
 
-        Page<StrategicObjectiveReadDTO> response = service.getStrategicObjectives(strategyId, name, includeDisabled, pageable);
+        Page<StrategicObjectiveReadDTO> response = service.getStrategicObjectives(
+            strategyId,
+            status,
+            includeDisabled,
+            name,
+            pageable
+        );
 
         return ResponseEntity.ok(response);
 
