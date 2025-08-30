@@ -46,7 +46,7 @@ public class ScenarioRankingController {
     @GetMapping
     public ResponseEntity<Page<ScenarioRankingReadDTO>> getAllRankingsByScenarioId(
         @PathVariable long scenarioId,
-        @RequestParam(defaultValue = "", required = false) String projectName,
+        @RequestParam(defaultValue = "", required = false) String searchQuery,
         @RequestParam(defaultValue="0") int page,
         @RequestParam(defaultValue="10") int size,
         @RequestParam(required = false) String sortBy,
@@ -65,7 +65,7 @@ public class ScenarioRankingController {
 
         Pageable pageable = PageRequest.of(page, size, sort);
 
-        Page<ScenarioRankingReadDTO> response = rankingService.getAllRankingsByScenarioId(scenarioId, projectName, pageable);
+        Page<ScenarioRankingReadDTO> response = rankingService.getAllRankingsByScenarioId(scenarioId, searchQuery, pageable);
 
         return ResponseEntity.ok().body(response);
 

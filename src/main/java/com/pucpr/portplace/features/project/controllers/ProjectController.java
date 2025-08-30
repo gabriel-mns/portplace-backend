@@ -97,7 +97,7 @@ public class ProjectController {
     @GetMapping
     public ResponseEntity<Page<ProjectReadDTO>> getAllProjects(
         @RequestParam(required = false) ProjectStatusEnum status,
-        @RequestParam(defaultValue = "") String projectName,
+        @RequestParam(defaultValue = "") String searchQuery,
         @RequestParam(defaultValue = "false") boolean includeDisabled,
         @RequestParam(defaultValue = "0") int page,
         @RequestParam(defaultValue = "10") int size,
@@ -108,7 +108,7 @@ public class ProjectController {
         Sort.Direction direction = sortDir.equalsIgnoreCase("desc") ? Sort.Direction.DESC : Sort.Direction.ASC;
         Pageable pageable = PageRequest.of(page, size, Sort.by(direction, sortBy));
 
-        return projectService.getAllProjects(status, projectName, pageable, includeDisabled);
+        return projectService.getAllProjects(status, searchQuery, pageable, includeDisabled);
 
     }
 
@@ -116,7 +116,7 @@ public class ProjectController {
     public ResponseEntity<Page<ProjectReadDTO>> getProjectsByManager(
         @PathVariable long projectManagerId,
         @RequestParam(required = false) ProjectStatusEnum status,
-        @RequestParam(defaultValue = "") String projectName,
+        @RequestParam(defaultValue = "") String searchQuery,
         @RequestParam(defaultValue = "false") boolean includeDisabled,
         @RequestParam(defaultValue = "0") int page,
         @RequestParam(defaultValue = "10") int size,
@@ -127,7 +127,7 @@ public class ProjectController {
         Sort.Direction direction = sortDir.equalsIgnoreCase("desc") ? Sort.Direction.DESC : Sort.Direction.ASC;
         Pageable pageable = PageRequest.of(page, size, Sort.by(direction, sortBy));
 
-        Page<ProjectReadDTO> projects = projectService.getAllProjectsByProjectManagerId(projectManagerId, status, projectName, includeDisabled, pageable);
+        Page<ProjectReadDTO> projects = projectService.getAllProjectsByProjectManagerId(projectManagerId, status, searchQuery, includeDisabled, pageable);
 
         return ResponseEntity.ok()
             .body(projects);

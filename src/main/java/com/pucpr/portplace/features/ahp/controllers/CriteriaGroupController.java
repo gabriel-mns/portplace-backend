@@ -104,7 +104,7 @@ public class CriteriaGroupController {
     public ResponseEntity<Page<CriteriaGroupListReadDTO>> getCriteriaGroupsByStrategyId(
         @PathVariable long strategyId,
         @RequestParam(required = false) List<CriteriaGroupStatusEnum> status,
-        @RequestParam(defaultValue = "") String name,
+        @RequestParam(defaultValue = "") String searchQuery,
         @RequestParam(defaultValue = "false") boolean includeDisabled,
         @RequestParam(defaultValue = "0") int page,
         @RequestParam(defaultValue = "10") int size,
@@ -119,7 +119,7 @@ public class CriteriaGroupController {
             strategyId,
             status,
             includeDisabled, 
-            name, 
+            searchQuery, 
             pageable
         );
 

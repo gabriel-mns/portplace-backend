@@ -48,7 +48,7 @@ public class EvaluationGroupController {
     public ResponseEntity<Page<EvaluationGroupReadDTO>> getAllEvaluationGroups(
         @PathVariable long strategyId,
         @RequestParam(required = false) List<EvaluationGroupStatusEnum> status,
-        @RequestParam(defaultValue = "", required = false) String name,
+        @RequestParam(defaultValue = "", required = false) String searchQuery,
         @RequestParam(defaultValue = "false") boolean includeDisabled,
         @RequestParam(defaultValue = "0") int page,
         @RequestParam(defaultValue = "10") int size,
@@ -65,7 +65,7 @@ public class EvaluationGroupController {
         Page<EvaluationGroupReadDTO> egs = egService.getAllEvaluationGroups(
             strategyId,
             status,
-            name,
+            searchQuery,
             includeDisabled,
             pageable
         );

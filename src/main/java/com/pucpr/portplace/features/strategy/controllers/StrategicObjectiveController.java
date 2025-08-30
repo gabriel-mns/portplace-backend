@@ -97,7 +97,7 @@ public class StrategicObjectiveController {
     public ResponseEntity<Page<StrategicObjectiveReadDTO>> getObjectives(
         @PathVariable long strategyId,
         @RequestParam(required = false) List<StrategicObjectiveStatusEnum> status,
-        @RequestParam(defaultValue = "") String name,
+        @RequestParam(defaultValue = "") String searchQuery,
         @RequestParam(defaultValue = "false") boolean includeDisabled,
         @RequestParam(defaultValue="0") int page,
         @RequestParam(defaultValue="10") int size,
@@ -112,7 +112,7 @@ public class StrategicObjectiveController {
             strategyId,
             status,
             includeDisabled,
-            name,
+            searchQuery,
             pageable
         );
 

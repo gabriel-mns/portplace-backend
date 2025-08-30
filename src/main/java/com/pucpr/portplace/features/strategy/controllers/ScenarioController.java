@@ -94,7 +94,7 @@ public class ScenarioController {
     @GetMapping
     public ResponseEntity<Page<ScenarioReadDTO>> getAllScenariosByStrategyId(
         @PathVariable long strategyId,
-        @RequestParam(defaultValue = "") String name,
+        @RequestParam(defaultValue = "") String searchQuery,
         @RequestParam(required = false) List<ScenarioStatusEnum> status,
         @RequestParam(defaultValue = "false") boolean includeDisabled,
         @RequestParam(defaultValue="0") int page,
@@ -108,7 +108,7 @@ public class ScenarioController {
 
         Page<ScenarioReadDTO> response = service.getAllScenarios(
             strategyId, 
-            name, 
+            searchQuery, 
             status, 
             includeDisabled,
             pageable
