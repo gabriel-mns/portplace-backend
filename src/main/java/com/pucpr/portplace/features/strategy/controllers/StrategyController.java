@@ -94,6 +94,7 @@ public class StrategyController {
     @GetMapping
     ResponseEntity<Page<StrategyReadDTO>> getStrategies(
         @RequestParam(required  = false) List<StrategyStatusEnum> status,
+        @RequestParam(defaultValue = "") String searchQuery,
         @RequestParam(defaultValue = "false") boolean includeDisabled,
         @RequestParam(defaultValue = "0") int page,
         @RequestParam(defaultValue = "10") int size,
@@ -104,7 +105,7 @@ public class StrategyController {
         Sort.Direction direction = sortDir.equalsIgnoreCase("desc") ? Sort.Direction.DESC : Sort.Direction.ASC;
         Pageable pageable = PageRequest.of(page, size, Sort.by(direction, sortBy));
 
-        Page<StrategyReadDTO> strategies = strategyService.getStrategies(status, includeDisabled, pageable);
+        Page<StrategyReadDTO> strategies = strategyService.getStrategies(status, searchQuery, includeDisabled, pageable);
 
         return ResponseEntity.ok(strategies);
 

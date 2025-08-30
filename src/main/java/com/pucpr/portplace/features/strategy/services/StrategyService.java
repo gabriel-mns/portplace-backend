@@ -81,12 +81,14 @@ public class StrategyService {
     //READ
     public Page<StrategyReadDTO> getStrategies(
         List<StrategyStatusEnum> status,
+        String searchQuery, 
         boolean includeDisabled,
         Pageable pageable
     ){
 
         Page<Strategy> strategies = strategyRepository.findByFilters(
             status,
+            searchQuery,
             includeDisabled,
             pageable
         );

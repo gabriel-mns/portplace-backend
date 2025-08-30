@@ -17,12 +17,14 @@ public interface StrategyRepository extends JpaRepository<Strategy, Long> {
     @Query("""
         SELECT s 
         FROM Strategy s 
-        WHERE (:status IS NULL OR s.status IN :status) 
+        WHERE (LOWER(s.name) LIKE LOWER(CONCAT('%', :strategyName, '%')))
+        AND (:status IS NULL OR s.status IN :status) 
         AND (:includeDisabled = true OR s.disabled = false)
     """
     )
     Page<Strategy> findByFilters(
         List<StrategyStatusEnum> status,
+        String strategyName,
         boolean includeDisabled,
         Pageable pageable
     );
