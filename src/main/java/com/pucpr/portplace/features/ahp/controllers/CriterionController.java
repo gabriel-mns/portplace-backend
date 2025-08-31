@@ -43,7 +43,7 @@ public class CriterionController {
     public ResponseEntity<Page<CriterionReadDTO>> getAllCriteria(
         @PathVariable long strategyId, 
         @PathVariable long criteriaGroupId,
-        @RequestParam(required = false) String searchQuery,
+        @RequestParam(defaultValue = "") String searchQuery,
         @RequestParam(defaultValue="false") boolean includeDisabled,
         @RequestParam(defaultValue="0") int page,
         @RequestParam(defaultValue="10") int size,
