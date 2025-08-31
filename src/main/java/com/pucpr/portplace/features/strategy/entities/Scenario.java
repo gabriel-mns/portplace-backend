@@ -12,6 +12,8 @@ import com.pucpr.portplace.features.strategy.enums.ScenarioStatusEnum;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -41,9 +43,10 @@ public class Scenario extends AuditableEntity{
     private String name;
     private String description;
     private float budget;
+    @Enumerated(EnumType.STRING)
     private ScenarioStatusEnum status;
 
-    //Relationships
+    // Relationships
     @OneToMany(mappedBy = "scenario", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     @Builder.Default
     private List<ScenarioRanking> scenarioRankings = new ArrayList<>();

@@ -41,7 +41,7 @@ public class Project extends AuditableEntity{
     private long id;
     private String name;
     private String description;
-    @Enumerated(EnumType.ORDINAL)
+    @Enumerated(EnumType.STRING)
     private ProjectStatusEnum status;
     private double earnedValue;
     private double plannedValue;

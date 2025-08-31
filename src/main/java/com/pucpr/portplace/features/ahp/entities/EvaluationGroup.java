@@ -11,6 +11,8 @@ import com.pucpr.portplace.features.strategy.entities.Strategy;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
@@ -39,6 +41,7 @@ public class EvaluationGroup extends AuditableEntity {
     private Long id;
     private String name;
     private String description;
+    @Enumerated(EnumType.STRING)
     private EvaluationGroupStatusEnum status;
 
     // Relationships

@@ -12,6 +12,8 @@ import com.pucpr.portplace.features.strategy.enums.StrategicObjectiveStatusEnum;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -41,6 +43,7 @@ public class StrategicObjective extends AuditableEntity{
     private Long id;
     private String name;
     private String description;
+    @Enumerated(EnumType.STRING)
     private StrategicObjectiveStatusEnum status;
 
     //Calculated Fields
@@ -57,7 +60,7 @@ public class StrategicObjective extends AuditableEntity{
          FROM strategic_objective_project p
          INNER JOIN projects pr ON pr.id = p.project_id
          WHERE p.strategic_objective_id = id
-           AND pr.status = 2)
+           AND pr.status = 'IN_PROGRESS')
         """)
     private int activeProjectsCount;
 

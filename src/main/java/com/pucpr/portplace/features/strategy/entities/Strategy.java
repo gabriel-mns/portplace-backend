@@ -11,6 +11,8 @@ import com.pucpr.portplace.features.strategy.enums.StrategyStatusEnum;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -38,6 +40,7 @@ public class Strategy extends AuditableEntity {
     private long id;
     private String name;
     private String description;
+    @Enumerated(EnumType.STRING)
     private StrategyStatusEnum status;
 
     @Formula("(SELECT COUNT(*) FROM strategic_objectives so WHERE so.strategy_id = id AND so.status = 1 AND so.disabled = false)")

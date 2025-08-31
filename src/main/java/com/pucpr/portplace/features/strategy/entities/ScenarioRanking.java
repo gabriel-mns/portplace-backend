@@ -8,6 +8,8 @@ import com.pucpr.portplace.features.strategy.enums.ScenarioRankingStatusEnum;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -35,6 +37,7 @@ public class ScenarioRanking extends AuditableEntity {
     // private int customPosition;
     private int calculatedPosition;
     private double totalScore;
+    @Enumerated(EnumType.STRING)
     private ScenarioRankingStatusEnum status;
 
     //Relationships
