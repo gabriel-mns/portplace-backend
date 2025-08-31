@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.data.mapping.PropertyReferenceException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -99,7 +100,7 @@ public class GlobalExceptionHandler {
 	public ResponseEntity<Object> handleNoHandlerFoundException(NoHandlerFoundException ex) {
 	var response = new ApiErrorResponse(
 					HttpStatus.NOT_FOUND.value(),
-					"Endpoint não encontrado",
+					"Endpoint not found",
 					ex.getHttpMethod(),
 					ex.getRequestURL().toString(),
 					LocalDateTime.now()
@@ -114,7 +115,7 @@ public class GlobalExceptionHandler {
 
 		var response = new ApiErrorResponse(
 				HttpStatus.METHOD_NOT_ALLOWED.value(),
-				"Método HTTP não suportado. Métodos permitidos: " + suportados,
+				"HTTP method not supported. Allowed methods: " + suportados,
 				request.getRequestURI(),
 				ex.getMethod(),
 				LocalDateTime.now()
@@ -176,11 +177,19 @@ public class GlobalExceptionHandler {
 		return ResponseEntity.badRequest().body(response);
     }
 
+    @ExceptionHandler(InvalidDataAccessApiUsageException.class)
+    public ResponseEntity<ApiErrorResponse> handleInvalidDataAccessApiUsageException(InvalidDataAccessApiUsageException ex, HttpServletRequest request) {
+        String message = "Invalid order parameter.";
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(new ApiErrorResponse(HttpStatus.BAD_REQUEST.value(), message, request.getRequestURI(), request.getMethod(), LocalDateTime.now()));
+    }
+
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ApiErrorResponse> handleGeneric(Exception ex, HttpServletRequest request) {
         ex.printStackTrace(); // Log para análise
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                .body(new ApiErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, "Erro interno no servidor", request.getMethod(), request.getRequestURI()));
+                .body(new ApiErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, "Internal server error", request.getMethod(), request.getRequestURI()));
     }
 
 }
