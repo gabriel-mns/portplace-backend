@@ -1,7 +1,7 @@
 @host = http://localhost:8080/api/v1
 
 ### GET TODOS OS OBJETIVOS
-GET {{host}}/strategies/2/strategic-objectives?status=CANCELLED
+GET {{host}}/strategies/2/strategic-objectives
 Accept: application/json
 
 ### GET OBJETIVO ESTRATÉGICO
@@ -19,13 +19,13 @@ Content-Type: application/json
 }
 
 ### EDITAR OBJETIVO ESTRATÉGICO
-PUT {{host}}/strategies/2/strategic-objectives/2
+PUT {{host}}/strategies/2/strategic-objectives/4
 Accept: application/json
 Content-Type: application/json
 
 {
-  "name": "Objetivo Estratégico 2 Editado",
-  "description": "Descrição do Objetivo Estratégico 1 Editado",
+  "name": "Objetivo Estratégico 4 Editado",
+  "description": "Descrição do Objetivo Estratégico 4 Editado",
   "status": "ACTIVE"
 }
 

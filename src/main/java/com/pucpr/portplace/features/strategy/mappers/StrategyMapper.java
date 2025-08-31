@@ -1,8 +1,5 @@
 package com.pucpr.portplace.features.strategy.mappers;
 
-import java.util.ArrayList;
-
-import org.mapstruct.AfterMapping;
 import org.mapstruct.BeanMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -24,6 +21,7 @@ import com.pucpr.portplace.features.strategy.entities.Strategy;
 )
 public interface StrategyMapper {
     
+    // @Mapping(target = "activeObjectivesCount", source = "strategy", qualifiedByName = "mapActiveObjectivesCount")
     StrategyReadDTO toReadDTO(Strategy strategy);
 
     @Mapping(target = "status", constant = "ACTIVE")
@@ -32,14 +30,14 @@ public interface StrategyMapper {
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     void updateFromDTO(StrategyUpdateDTO dto, @MappingTarget Strategy entity);
 
-    @AfterMapping
-    default void handleNullDeptList(Strategy source, @MappingTarget StrategyReadDTO target) {
-        if(source.getStrategicObjectives() == null){
-            target.setStrategicObjectives(new ArrayList<>());
-        }
-        if(source.getEvaluationGroups() == null){
-            target.setEvaluationGroups(new ArrayList<>());
-        }
-    }
+    // @AfterMapping
+    // default void handleNullDeptList(Strategy source, @MappingTarget StrategyReadDTO target) {
+    //     if(source.getStrategicObjectives() == null){
+    //         target.setStrategicObjectives(new ArrayList<>());
+    //     }
+    //     if(source.getEvaluationGroups() == null){
+    //         target.setEvaluationGroups(new ArrayList<>());
+    //     }
+    // }
 
 }

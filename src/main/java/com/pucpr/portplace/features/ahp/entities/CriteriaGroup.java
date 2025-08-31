@@ -40,8 +40,6 @@ public class CriteriaGroup extends AuditableEntity {
     private CriteriaGroupStatusEnum status;
     
     // Relationships
-    //TODO: Create strategy objectives CRUD
-    //List<StrategyObjective> strategyObjectives;
     @ManyToOne
     private Strategy strategy;
     @OneToMany(mappedBy = "criteriaGroup")

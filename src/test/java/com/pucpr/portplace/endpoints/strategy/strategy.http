@@ -1,7 +1,7 @@
 @host = http://localhost:8080/api/v1
 
 ### GET TODAS AS ESTRATÉGIAS
-GET {{host}}/strategies?status=ACTIVE&includeDisabled=true&searchQuery=estratégia 4
+GET {{host}}/strategies?sortBy=activeObjectivesCount&sortDir=desc&status=INACTIVE,ACTIVE
 Accept: application/json
 
 ### GET ESTRATÉGIA
