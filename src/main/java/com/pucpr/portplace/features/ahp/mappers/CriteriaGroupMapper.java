@@ -28,6 +28,7 @@ public interface CriteriaGroupMapper {
     @Mapping(source = "criteria", target = "criteriaList")
     public CriteriaGroupReadDTO toCriteriaGroupReadDTO(CriteriaGroup criteriaGroup);
 
+    @Mapping(target = "status", constant = "ACTIVE")
     public CriteriaGroup toCriteriaGroupEntity(CriteriaGroupCreateDTO criteriaGroupCreateDto);
 
     @Mapping(target = "name", nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
