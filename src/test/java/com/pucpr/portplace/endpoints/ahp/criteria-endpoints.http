@@ -25,7 +25,7 @@ Content-Type: application/json
   "name": "CRITERIO 5",
   "description": "CRITERIO 5",
   "strategicObjectives": [
-    3
+    3,4
   ]
 }
 
