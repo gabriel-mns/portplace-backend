@@ -43,7 +43,16 @@ public class Strategy extends AuditableEntity {
     @Enumerated(EnumType.STRING)
     private StrategyStatusEnum status;
 
-    @Formula("(SELECT COUNT(*) FROM strategic_objectives so WHERE so.strategy_id = id AND so.status = 1 AND so.disabled = false)")
+    @Formula("""
+        (
+        SELECT COUNT(*) 
+        FROM strategic_objectives so 
+        WHERE so.strategy_id = id 
+        AND so.status = 'ACTIVE' 
+        AND so.disabled = false
+        )
+    """
+    )
     private int activeObjectivesCount;
 
     @OneToMany(mappedBy = "strategy")

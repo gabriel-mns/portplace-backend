@@ -1,7 +1,7 @@
 @host = http://localhost:8080/api/v1
 
 ### GET TODAS AS ESTRATÉGIAS
-GET {{host}}/strategies?sortBy=activeObjectivesCount&sortDir=desc&status=INACTIVE,ACTIVE
+GET {{host}}/strategies
 Accept: application/json
 
 ### GET ESTRATÉGIA
@@ -14,23 +14,23 @@ Accept: application/json
 Content-Type: application/json
 
 {
-  "name": "Estratégia 4",
-  "description": "Descrição do Estratégia 4"
+  "name": "Estratégia 1",
+  "description": "Descrição do Estratégia 1"
 }
 
 ### EDITAR ESTRATÉGIA
-PUT {{host}}/strategies/3
+PUT {{host}}/strategies/1
 Accept: application/json
 Content-Type: application/json
 
 {
-  "name": "Estratégia 3 EDITADA",
-  "description": "Descrição do Estratégia 3 EDITADA",
+  "name": "Estratégia 1 EDITADA",
+  "description": "Descrição do Estratégia 1 EDITADA",
   "status": "INACTIVE"
 }
 
 ### DESABILITAR ESTRATÉGIA
-DELETE {{host}}/strategies/4
+DELETE {{host}}/strategies/1
 Accept: application/json
 
 ### DELETAR ESTRATÉGIA

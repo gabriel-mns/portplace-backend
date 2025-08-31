@@ -3,6 +3,7 @@ package com.pucpr.portplace.features.strategy.entities;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.hibernate.annotations.Formula;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import com.pucpr.portplace.core.entities.AuditableEntity;
@@ -56,6 +57,22 @@ public class Scenario extends AuditableEntity{
     private EvaluationGroup evaluationGroup;
     // @ManyToOne
     // private Portfolio portfolio;
+
+    // Calculated Fields
+    // Calculated Fields
+    @Formula("""
+        (
+            SELECT COUNT(DISTINCT sr.id)
+            FROM scenario_rankings sr
+            WHERE sr.scenario_id = id
+            AND sr.disabled = false
+            AND sr.status = 'INCLUDED'
+        )
+    """)
+    private int includedProjectsCount;
+
+
+    
 
     public void addScenarioRanking(ScenarioRanking ranking) {
         this.scenarioRankings.add(ranking);

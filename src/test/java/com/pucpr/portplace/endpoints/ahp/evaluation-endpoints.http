@@ -6,15 +6,15 @@
 GET {{host}}/strategies/1/evaluation-groups/1/evaluations
 
 ### BUSCAR AVALIAÇÃO POR ID
-GET {{host}}/strategies/1/evaluation-groups/1/evaluations/7
+GET {{host}}/strategies/1/evaluation-groups/1/evaluations/1
 
 ### CADASTRAR AVALIAÇÃO
 POST {{host}}/strategies/1/evaluation-groups/1/evaluations
 Content-Type: application/json
 
 {
-  "score": 0,
-  "projectId": 3,
+  "score": 100,
+  "projectId": 2,
   "criterionId": 3
 }
 

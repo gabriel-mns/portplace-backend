@@ -38,7 +38,7 @@ public class ScenarioRankingService {
     ) {
 
         List<ProjectRankingReadDTO> ranking = ahpResultsService.getProjectRankingByEvaluationGroupId(evaluationGroupId);
-        ranking.sort(Comparator.comparingDouble(ProjectRankingReadDTO::getPosition).reversed());
+        ranking.sort(Comparator.comparingDouble(ProjectRankingReadDTO::getPosition));
 
         List<ScenarioRanking> scenarioRankings = new ArrayList<>();
 

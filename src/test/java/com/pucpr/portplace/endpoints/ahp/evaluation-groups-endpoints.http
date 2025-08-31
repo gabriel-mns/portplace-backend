@@ -6,15 +6,15 @@
 GET {{host}}/strategies/1/evaluation-groups
 
 ### BUSCA POR ID DE UMA Evaluation Group
-GET {{host}}/strategies/1/evaluation-groups/3
+GET {{host}}/strategies/1/evaluation-groups/1
 
 ### CADASTRAR DE Evaluation Group
 POST {{host}}/strategies/1/evaluation-groups
 Content-Type: application/json
 
 {
-  "name": "Evaluation Group 3",
-  "description": "Descrição 3",
+  "name": "Evaluation Group 1",
+  "description": "Descrição 1",
   "criteriaGroupId": 1
   //"projectIds": [1, 3]
 }

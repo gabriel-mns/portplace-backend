@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.pucpr.portplace.features.ahp.dtos.EvaluationGroupReadDTO;
 import com.pucpr.portplace.features.strategy.enums.ScenarioStatusEnum;
 
 import lombok.AllArgsConstructor;
@@ -23,15 +24,17 @@ public class ScenarioReadDTO {
     private float budget;
     private ScenarioStatusEnum status;
 
+    // Relationships
+    private Long strategyId;
+    private EvaluationGroupReadDTO evaluationGroup;
+    private List<ScenarioRankingReadDTO> scenarioRankings;
+    private int includedProjectsCount;
+    
+    // Auditing Fields
     private boolean disabled;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime createdAt;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime lastModifiedAt;
-
-    private Long strategyId;
-    private Long evaluationGroupId;
-
-    private List<ScenarioRankingReadDTO> scenarioRankings;
 
 }
