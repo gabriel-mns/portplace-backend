@@ -61,6 +61,16 @@ public class CriteriaGroup extends AuditableEntity {
     """)
     private int relatedObjectivesCount;
 
+    @Formula("""
+        (
+            SELECT COUNT(DISTINCT eg.id)
+            FROM evaluation_groups eg
+            WHERE eg.criteria_group_id = id
+            AND eg.disabled = false
+        )
+    """)
+    private int relatedEvaluationGroupsCount;
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

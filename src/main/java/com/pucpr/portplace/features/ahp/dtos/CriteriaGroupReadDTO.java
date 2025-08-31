@@ -30,6 +30,7 @@ public class CriteriaGroupReadDTO {
     private List<CriterionReadDTO> criteriaList;
     private List<CriteriaComparisonReadDTO> criteriaComparisons;
     private int relatedObjectivesCount;
+    private int relatedEvaluationGroupsCount;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime lastModifiedAt;

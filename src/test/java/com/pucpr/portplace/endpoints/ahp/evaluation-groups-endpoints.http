@@ -3,7 +3,7 @@
 // COMPARAÇÃO DE CRITÉRIOS
 
 ### BUSCA DE TODAS OS EVALUATION GROUPS
-GET {{host}}/strategies/1/evaluation-groups?includeDisabled=false&status=INACTIVE,ACTIVE
+GET {{host}}/strategies/1/evaluation-groups
 
 ### BUSCA POR ID DE UMA Evaluation Group
 GET {{host}}/strategies/1/evaluation-groups/3

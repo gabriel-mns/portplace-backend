@@ -25,8 +25,9 @@ public class CriteriaGroupListReadDTO {
     
     // Relationships
     private int relatedObjectivesCount;
-    private int criteriaCount;
-    private int criteriaComparisonCount;
+    private int relatedEvaluationGroupsCount;
+    // private int criteriaCount;
+    // private int criteriaComparisonCount;
 
     // Audit fields
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")

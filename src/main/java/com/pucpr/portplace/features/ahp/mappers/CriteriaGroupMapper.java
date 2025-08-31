@@ -1,9 +1,7 @@
 package com.pucpr.portplace.features.ahp.mappers;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import org.mapstruct.AfterMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
@@ -35,8 +33,8 @@ public interface CriteriaGroupMapper {
     @Mapping(target = "name", nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     public void updateFromDTO(CriteriaGroupUpdateDTO criteriaGroupUpdateDto, @MappingTarget CriteriaGroup criteriaGroup);
 
-    @Mapping(target = "criteriaCount", source = "criteriaGroup", qualifiedByName = "mapCriteriaCount")
-    @Mapping(target = "criteriaComparisonCount", source = "criteriaGroup", qualifiedByName = "mapComparisonCount")
+    // @Mapping(target = "criteriaCount", source = "criteriaGroup", qualifiedByName = "mapCriteriaCount")
+    // @Mapping(target = "criteriaComparisonCount", source = "criteriaGroup", qualifiedByName = "mapComparisonCount")
     CriteriaGroupListReadDTO toCriteriaGroupListReadDTO(CriteriaGroup criteriaGroup);
 
     @Mapping(target = "criteriaCount", source = "criteriaGroup", qualifiedByName = "mapCriteriaCount")
@@ -59,24 +57,24 @@ public interface CriteriaGroupMapper {
             .count();
     }
     
-    @AfterMapping
-    default void handleNullDeptList(CriteriaGroup source, @MappingTarget CriteriaGroupReadDTO target) {
-        if (source.getCriteria() == null) {
-            target.setCriteriaList(new ArrayList<>());
-        }
-        if(source.getCriteriaComparisons() == null) {
-            target.setCriteriaComparisons(new ArrayList<>());
-        }
-    }
+    // @AfterMapping
+    // default void handleNullDeptList(CriteriaGroup source, @MappingTarget CriteriaGroupReadDTO target) {
+    //     if (source.getCriteria() == null) {
+    //         target.setCriteriaList(new ArrayList<>());
+    //     }
+    //     if(source.getCriteriaComparisons() == null) {
+    //         target.setCriteriaComparisons(new ArrayList<>());
+    //     }
+    // }
     
-    @AfterMapping
-    default void handleNullDeptList(CriteriaGroup source, @MappingTarget CriteriaGroupListReadDTO target) {
-        if (source.getCriteria() == null) {
-            target.setCriteriaCount(0);
-        }
-        if(source.getCriteriaComparisons() == null) {
-            target.setCriteriaComparisonCount(0);
-        }
-    }
+    // @AfterMapping
+    // default void handleNullDeptList(CriteriaGroup source, @MappingTarget CriteriaGroupListReadDTO target) {
+    //     if (source.getCriteria() == null) {
+    //         target.setCriteriaCount(0);
+    //     }
+    //     if(source.getCriteriaComparisons() == null) {
+    //         target.setCriteriaComparisonCount(0);
+    //     }
+    // }
 
 }
