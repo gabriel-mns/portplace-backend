@@ -54,7 +54,9 @@ public class CriteriaGroup extends AuditableEntity {
             SELECT COUNT(DISTINCT cso.strategic_objective_id)
             FROM criterion_strategic_objective cso
             JOIN criteria c ON c.id = cso.criterion_id
+            JOIN strategic_objectives so ON so.id = cso.strategic_objective_id
             WHERE c.criteria_group_id = id
+            AND so.disabled = false
         )
     """)
     private int relatedObjectivesCount;
