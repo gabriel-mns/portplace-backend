@@ -1,5 +1,6 @@
 package com.pucpr.portplace.features.strategy.entities;
 
+import org.hibernate.annotations.Formula;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import com.pucpr.portplace.core.entities.AuditableEntity;
@@ -39,6 +40,17 @@ public class ScenarioRanking extends AuditableEntity {
     private double totalScore;
     @Enumerated(EnumType.STRING)
     private ScenarioRankingStatusEnum status;
+
+    // Calculated fields
+    @Formula("""
+            CASE status
+                WHEN 'INCLUDED' THEN 1
+                WHEN 'MANUALLY_INCLUDED' THEN 2
+                WHEN 'MANUALLY_EXCLUDED' THEN 3
+                WHEN 'EXCLUDED' THEN 4
+            END
+            """)
+    private int statusOrder;
 
     //Relationships
     @ManyToOne

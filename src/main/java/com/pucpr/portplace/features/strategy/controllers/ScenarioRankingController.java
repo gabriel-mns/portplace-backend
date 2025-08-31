@@ -49,7 +49,7 @@ public class ScenarioRankingController {
         @RequestParam(defaultValue = "", required = false) String searchQuery,
         @RequestParam(defaultValue="0") int page,
         @RequestParam(defaultValue="10") int size,
-        @RequestParam(required = false) String sortBy,
+        @RequestParam(defaultValue = "statusOrder", required = false) String sortBy,
         @RequestParam(defaultValue="asc") String sortDir
     ){
 
