@@ -14,7 +14,7 @@ import com.pucpr.portplace.features.ahp.entities.EvaluationGroup;
 
 @Mapper(
     componentModel = "spring", 
-    uses = { EvaluationMapper.class },
+    uses = { EvaluationMapper.class, CriteriaGroupMapper.class },
     unmappedSourcePolicy = ReportingPolicy.IGNORE,
     unmappedTargetPolicy = ReportingPolicy.IGNORE
 )
@@ -25,7 +25,7 @@ public interface EvaluationGroupMapper {
     @Mapping(target = "status", constant = "ACTIVE")
     EvaluationGroup toEntity(EvaluationGroupCreateDTO evaluationGroupCreateDTO);
 
-    @Mapping(target = "criteriaGroupId", source = "criteriaGroup.id")
+    // @Mapping(target = "criteriaGroupId", source = "criteriaGroup.id")
     @Mapping(target = "evaluations", source = "evaluations")
     EvaluationGroupReadDTO toReadDTO(EvaluationGroup evaluationGroup);
 

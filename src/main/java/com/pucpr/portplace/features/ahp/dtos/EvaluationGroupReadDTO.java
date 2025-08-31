@@ -4,7 +4,6 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import com.pucpr.portplace.features.ahp.enums.EvaluationGroupStatusEnum;
 
 import lombok.AllArgsConstructor;
@@ -31,8 +30,7 @@ public class EvaluationGroupReadDTO {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime lastModifiedAt;
     
-    @JsonIdentityReference(alwaysAsId = true)
-    private long criteriaGroupId;
+    private CriteriaGroupReadDTO criteriaGroup;
     private List<EvaluationReadDTO> evaluations;
     // private UserReadDto lastUpdatedBy;
 
