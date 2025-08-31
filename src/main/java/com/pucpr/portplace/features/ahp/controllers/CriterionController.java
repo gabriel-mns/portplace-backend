@@ -43,7 +43,7 @@ public class CriterionController {
     public ResponseEntity<Page<CriterionReadDTO>> getAllCriteria(
         @PathVariable long strategyId, 
         @PathVariable long criteriaGroupId,
-        @RequestParam(required = false) String name,
+        @RequestParam(defaultValue = "") String searchQuery,
         @RequestParam(defaultValue="false") boolean includeDisabled,
         @RequestParam(defaultValue="0") int page,
         @RequestParam(defaultValue="10") int size,
@@ -54,7 +54,7 @@ public class CriterionController {
         Sort.Direction direction = sortDir.equalsIgnoreCase("desc") ? Sort.Direction.DESC : Sort.Direction.ASC;
         PageRequest pageable = PageRequest.of(page, size, Sort.by(direction, sortBy));
 
-        Page<CriterionReadDTO> criteria = criterionService.getCriteriaByCriteriaGroupId(criteriaGroupId, includeDisabled, name, pageable);
+        Page<CriterionReadDTO> criteria = criterionService.getCriteriaByCriteriaGroupId(criteriaGroupId, includeDisabled, searchQuery, pageable);
 
         return ResponseEntity.ok(criteria);
     
@@ -101,7 +101,11 @@ public class CriterionController {
         @RequestBody @Valid CriterionUpdateDTO criterionUpdateDTO
         ) {
 
-        CriterionReadDTO updatedCriterion = criterionService.updateCriterion(criterionId, criterionUpdateDTO);
+        CriterionReadDTO updatedCriterion = criterionService.updateCriterion(
+            criterionId, 
+            criteriaGroupId,
+            criterionUpdateDTO
+        );
 
         return ResponseEntity.ok().body(updatedCriterion);
     

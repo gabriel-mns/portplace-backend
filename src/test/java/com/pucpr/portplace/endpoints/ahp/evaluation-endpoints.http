@@ -3,19 +3,19 @@
 // COMPARAÇÃO DE CRITÉRIOS
 
 ### BUSCA DE TODAS AS AVALIAÇÕES
-GET {{host}}/strategies/1/evaluation-groups/1/evaluations?sortDir=desc
+GET {{host}}/strategies/1/evaluation-groups/1/evaluations
 
 ### BUSCAR AVALIAÇÃO POR ID
-GET {{host}}/strategies/1/evaluation-groups/1/evaluations/7
+GET {{host}}/strategies/1/evaluation-groups/1/evaluations/1
 
 ### CADASTRAR AVALIAÇÃO
 POST {{host}}/strategies/1/evaluation-groups/1/evaluations
 Content-Type: application/json
 
 {
-  "score": 500,
-  "projectId": 1,
-  "criterionId": 5
+  "score": 100,
+  "projectId": 2,
+  "criterionId": 3
 }
 
 ### EDITAR AVALIAÇÃO
@@ -31,4 +31,4 @@ Content-Type: application/json
 DELETE  {{host}}/strategies/1/evaluation-groups/1/evaluations/7
 
 ### DELETAR AVALIAÇÃO
-DELETE  {{host}}/strategies/1/evaluation-groups/1/evaluations/5/hard-delete
+DELETE  {{host}}/strategies/1/evaluation-groups/1/evaluations/3/hard-delete

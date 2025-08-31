@@ -1,11 +1,14 @@
 package com.pucpr.portplace.features.ahp.repositories;
 
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import com.pucpr.portplace.features.ahp.entities.EvaluationGroup;
+import com.pucpr.portplace.features.ahp.enums.EvaluationGroupStatusEnum;
 
 public interface EvaluationGroupRepository extends JpaRepository<EvaluationGroup, Long> {
 
@@ -20,7 +23,13 @@ public interface EvaluationGroupRepository extends JpaRepository<EvaluationGroup
         FROM EvaluationGroup eg
         WHERE LOWER(eg.name) LIKE LOWER(CONCAT('%', :name, '%'))
         AND (:includeDisabled = true OR eg.disabled = false)
+        AND (:status IS NULL OR eg.status IN :status)
     """)
-    Page<EvaluationGroup> findByName(String name, boolean includeDisabled, Pageable pageable);
+    Page<EvaluationGroup> findByFilters(
+        List<EvaluationGroupStatusEnum> status,
+        String name,
+        boolean includeDisabled,
+        Pageable pageable
+    );
 
 }

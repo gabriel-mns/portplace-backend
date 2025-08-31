@@ -8,6 +8,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import com.pucpr.portplace.features.ahp.dtos.EvaluationGroupCreateDTO;
 import com.pucpr.portplace.features.ahp.dtos.EvaluationGroupReadDTO;
 import com.pucpr.portplace.features.ahp.dtos.EvaluationGroupUpdateDTO;
+import com.pucpr.portplace.features.ahp.enums.EvaluationGroupStatusEnum;
 import com.pucpr.portplace.features.ahp.paths.StrategyPaths;
 import com.pucpr.portplace.features.ahp.services.EvaluationGroupService;
 
@@ -15,6 +16,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 
 import java.net.URI;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -45,7 +47,8 @@ public class EvaluationGroupController {
     @GetMapping
     public ResponseEntity<Page<EvaluationGroupReadDTO>> getAllEvaluationGroups(
         @PathVariable long strategyId,
-        @RequestParam(required = false) String name,
+        @RequestParam(required = false) List<EvaluationGroupStatusEnum> status,
+        @RequestParam(defaultValue = "", required = false) String searchQuery,
         @RequestParam(defaultValue = "false") boolean includeDisabled,
         @RequestParam(defaultValue = "0") int page,
         @RequestParam(defaultValue = "10") int size,
@@ -59,7 +62,13 @@ public class EvaluationGroupController {
             Sort.by(Sort.Direction.fromString(sortDir), sortBy)
         );
 
-        Page<EvaluationGroupReadDTO> egs = egService.getAllEvaluationGroups(strategyId, name, includeDisabled, pageable);
+        Page<EvaluationGroupReadDTO> egs = egService.getAllEvaluationGroups(
+            strategyId,
+            status,
+            searchQuery,
+            includeDisabled,
+            pageable
+        );
 
         return ResponseEntity.ok(egs);
     
@@ -111,10 +120,10 @@ public class EvaluationGroupController {
     @DeleteMapping("/{evaluationGroupId}")
     public ResponseEntity<Void> disableAHP(
         @PathVariable long strategyId, 
-        @PathVariable long EvalutionGroupId
+        @PathVariable long evaluationGroupId
         ) {
 
-        egService.disableEvaluationGroup(strategyId, EvalutionGroupId);
+        egService.disableEvaluationGroup(strategyId, evaluationGroupId);
 
         return ResponseEntity.noContent().build();
     

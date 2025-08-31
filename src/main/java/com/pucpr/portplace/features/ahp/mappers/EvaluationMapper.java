@@ -26,7 +26,6 @@ public interface EvaluationMapper {
     Evaluation toEntity(EvaluationCreateDTO dto);
 
     @Mapping(target = "evaluationGroupId", source = "evaluationGroup.id")
-    @Mapping(target = "projectId", source = "project.id")
     @Mapping(target = "criterionId", source = "criterion.id")
     EvaluationReadDTO toReadDTO(Evaluation evaluation);
 

@@ -20,6 +20,7 @@ import org.springframework.data.domain.Sort;
 import com.pucpr.portplace.features.project.dtos.ProjectCreateDTO;
 import com.pucpr.portplace.features.project.dtos.ProjectReadDTO;
 import com.pucpr.portplace.features.project.dtos.ProjectUpdateDTO;
+import com.pucpr.portplace.features.project.enums.ProjectStatusEnum;
 import com.pucpr.portplace.features.project.services.ProjectService;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -56,16 +57,10 @@ public class ProjectController {
         @PathVariable long projectId,
         @RequestBody @Valid ProjectUpdateDTO projectDTO
     ) {
+        
         ProjectReadDTO updatedProject = projectService.updateProject(projectDTO, projectId);
 
-        URI uri = ServletUriComponentsBuilder
-            .fromCurrentRequest()
-            .path("/{id}")
-            .buildAndExpand(updatedProject.getId())
-            .toUri();
-
         return ResponseEntity.ok()
-            .location(uri)
             .body(updatedProject);
     }
 
@@ -99,9 +94,10 @@ public class ProjectController {
 
     }
 
-    // TODO: Implement pagination, filtering and sorting
     @GetMapping
     public ResponseEntity<Page<ProjectReadDTO>> getAllProjects(
+        @RequestParam(required = false) ProjectStatusEnum status,
+        @RequestParam(defaultValue = "") String searchQuery,
         @RequestParam(defaultValue = "false") boolean includeDisabled,
         @RequestParam(defaultValue = "0") int page,
         @RequestParam(defaultValue = "10") int size,
@@ -112,13 +108,15 @@ public class ProjectController {
         Sort.Direction direction = sortDir.equalsIgnoreCase("desc") ? Sort.Direction.DESC : Sort.Direction.ASC;
         Pageable pageable = PageRequest.of(page, size, Sort.by(direction, sortBy));
 
-        return projectService.getAllProjects(pageable, includeDisabled);
+        return projectService.getAllProjects(status, searchQuery, pageable, includeDisabled);
 
     }
 
     @GetMapping("/manager/{projectManagerId}")
     public ResponseEntity<Page<ProjectReadDTO>> getProjectsByManager(
         @PathVariable long projectManagerId,
+        @RequestParam(required = false) ProjectStatusEnum status,
+        @RequestParam(defaultValue = "") String searchQuery,
         @RequestParam(defaultValue = "false") boolean includeDisabled,
         @RequestParam(defaultValue = "0") int page,
         @RequestParam(defaultValue = "10") int size,
@@ -129,7 +127,7 @@ public class ProjectController {
         Sort.Direction direction = sortDir.equalsIgnoreCase("desc") ? Sort.Direction.DESC : Sort.Direction.ASC;
         Pageable pageable = PageRequest.of(page, size, Sort.by(direction, sortBy));
 
-        Page<ProjectReadDTO> projects = projectService.getAllProjectsByProjectManagerId(projectManagerId, includeDisabled, pageable);
+        Page<ProjectReadDTO> projects = projectService.getAllProjectsByProjectManagerId(projectManagerId, status, searchQuery, includeDisabled, pageable);
 
         return ResponseEntity.ok()
             .body(projects);

@@ -5,11 +5,11 @@ POST {{host}}/projects
 Content-Type: application/json
 
 {
-  "name": "Projeto 12",
-  "description": "Projeto 12",
+  "name": "Projeto 2",
+  "description": "Projeto 2",
   "startDate": "2023-10-01",
   "endDate": "2023-12-31",
-  "status": "CANDIDATE",
+  "status": "IN_ANALYSIS",
   "projectManager": 1,
   "earnedValue": 152752.87,
   "plannedValue": 25781.90,
@@ -19,7 +19,7 @@ Content-Type: application/json
 }
 
 ### BUSCA DE PROJETOS
-GET  {{host}}/projects?sortBy=budget&sortDir=desc&includeDisabled=true
+GET  {{host}}/projects
 Accept: application/json
 Host: localhost:8080
 
@@ -42,7 +42,7 @@ Content-Type: application/json
 
 {
   "id": 1,
-  "name": "Teste de projeto 1",
+  "name": "Projeto 1 Alterado",
   "description": "Projeto 1 descrição alterada",
   "status": "IN_PROGRESS",
   "earnedValue": 152752.87,

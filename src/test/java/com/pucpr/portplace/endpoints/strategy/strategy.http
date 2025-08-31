@@ -1,0 +1,38 @@
+@host = http://localhost:8080/api/v1
+
+### GET TODAS AS ESTRATÉGIAS
+GET {{host}}/strategies
+Accept: application/json
+
+### GET ESTRATÉGIA
+GET {{host}}/strategies/1
+Accept: application/json
+
+### CADASTRAR ESTRATÉGIA
+POST {{host}}/strategies
+Accept: application/json
+Content-Type: application/json
+
+{
+  "name": "Estratégia 1",
+  "description": "Descrição do Estratégia 1"
+}
+
+### EDITAR ESTRATÉGIA
+PUT {{host}}/strategies/1
+Accept: application/json
+Content-Type: application/json
+
+{
+  "name": "Estratégia 1 EDITADA",
+  "description": "Descrição do Estratégia 1 EDITADA",
+  "status": "INACTIVE"
+}
+
+### DESABILITAR ESTRATÉGIA
+DELETE {{host}}/strategies/1
+Accept: application/json
+
+### DELETAR ESTRATÉGIA
+DELETE {{host}}/strategies/1/hard-delete
+Accept: application/json

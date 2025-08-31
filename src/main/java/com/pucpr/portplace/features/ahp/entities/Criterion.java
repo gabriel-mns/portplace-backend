@@ -5,6 +5,8 @@ import java.util.List;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import com.pucpr.portplace.core.entities.AuditableEntity;
+import com.pucpr.portplace.features.strategy.entities.StrategicObjective;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
@@ -12,6 +14,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
@@ -48,5 +52,12 @@ public class Criterion extends AuditableEntity {
     private List<CriteriaComparison> comparedInComparisons;
     @OneToMany(mappedBy = "referenceCriterion", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<CriteriaComparison> referenceInComparisons;
+    @ManyToMany
+    @JoinTable(
+        name = "criterion_strategic_objective",
+        joinColumns = @JoinColumn(name = "criterion_id"),
+        inverseJoinColumns = @JoinColumn(name = "strategic_objective_id")
+    )
+    private List<StrategicObjective> strategicObjectives;
 
 }

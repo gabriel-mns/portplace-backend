@@ -19,7 +19,10 @@ import com.pucpr.portplace.features.ahp.services.internal.AHPCalculationService;
 import com.pucpr.portplace.features.ahp.services.internal.CriteriaGroupEntityService;
 import com.pucpr.portplace.features.ahp.services.validations.CriterionValidationService;
 import com.pucpr.portplace.features.ahp.specs.AllCriteriaComparedSpecification;
+import com.pucpr.portplace.features.strategy.entities.StrategicObjective;
+import com.pucpr.portplace.features.strategy.services.internal.StrategicObjectiveEntityService;
 
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 
 @Service
@@ -30,6 +33,7 @@ public class CriterionService {
     private CriterionRepository criterionRepository;
     private AHPCalculationService ahpCalculationService;
     private CriterionMapper criterionMapper;
+    private StrategicObjectiveEntityService objectiveService;
 
     // VALIDATIONS
     private CriterionValidationService validationService;
@@ -54,13 +58,29 @@ public class CriterionService {
     }
 
     // UPDATE
-    public CriterionReadDTO updateCriterion(Long id, CriterionUpdateDTO criterionUpdateDTO) {
+    @Transactional
+    public CriterionReadDTO updateCriterion(
+        Long criterionId, 
+        Long criteriaGroupId,
+        CriterionUpdateDTO criterionUpdateDTO
+    ) {
 
-        validationService.validateBeforeUpdate(id);
+        validationService.validateBeforeUpdate(criterionId, criteriaGroupId, criterionUpdateDTO);
 
-        Criterion criterion = criterionRepository.findById(id).get();
+        Criterion criterion = criterionRepository.findById(criterionId).get();
 
         criterionMapper.updateFromDTO(criterionUpdateDTO, criterion);
+
+        if (criterionUpdateDTO.getStrategicObjectives() != null) {
+            // Limpa os relacionamentos atuais
+            criterion.getStrategicObjectives().clear();
+
+            // Busca os novos StrategicObjectives e adiciona
+            List<StrategicObjective> newObjectives = objectiveService
+                .findAllById(criterionUpdateDTO.getStrategicObjectives());
+
+            criterion.getStrategicObjectives().addAll(newObjectives);
+        }
 
         criterionRepository.save(criterion);
 

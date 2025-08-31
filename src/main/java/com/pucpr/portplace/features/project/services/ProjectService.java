@@ -9,6 +9,7 @@ import com.pucpr.portplace.features.project.dtos.ProjectCreateDTO;
 import com.pucpr.portplace.features.project.dtos.ProjectReadDTO;
 import com.pucpr.portplace.features.project.dtos.ProjectUpdateDTO;
 import com.pucpr.portplace.features.project.entities.Project;
+import com.pucpr.portplace.features.project.enums.ProjectStatusEnum;
 import com.pucpr.portplace.features.project.mappers.ProjectMapper;
 import com.pucpr.portplace.features.project.repositories.ProjectRepository;
 import com.pucpr.portplace.features.project.services.validations.ProjectValidationService;
@@ -72,13 +73,10 @@ public class ProjectService {
         project.setDisabled(true);
 
         projectRepository.save(project);
-        
-        // TODO: Treat the case when the project is not found
 
     }
 
     // READ
-    // TODO: Implement pagination, sorting and filtering methods
     public ProjectReadDTO getProjectById(long projectId) {
 
         validationService.validateBeforeGet(projectId);
@@ -87,26 +85,24 @@ public class ProjectService {
 
         ProjectReadDTO projectDTO = projectMapper.toReadDTO(project);
 
-        // TODO: Treat the case when the project is not found
-
         return projectDTO;
     
     }
 
     public ResponseEntity<Page<ProjectReadDTO>> getAllProjects(
+        ProjectStatusEnum status,
+        String projectName,
         Pageable pageable,
         boolean includeDisabled
     ) {
 
-        Page<Project> projects;
-
-        if(includeDisabled) {
-            // If includes, get all projects
-            projects = projectRepository.findAll(pageable);
-        } else {
-            // Else, get only not disabled (enabled) projects
-            projects = projectRepository.findByDisabled(pageable, false);
-        }
+        Page<Project> projects = projectRepository.findByFilters(
+            null,
+            projectName,
+            status,
+            includeDisabled,
+            pageable
+        );
 
         // List<ProjectReadDTO> projectsDTO = projectMapper.toReadDTO(projects);
         Page<ProjectReadDTO> projectsDTO = projects.map(projectMapper::toReadDTO);
@@ -117,19 +113,23 @@ public class ProjectService {
     
     }
 
-    public Page<ProjectReadDTO> getAllProjectsByProjectManagerId(long projectManagerId, boolean includeDisabled, Pageable pageable) {
+    public Page<ProjectReadDTO> getAllProjectsByProjectManagerId(
+        long projectManagerId,
+        ProjectStatusEnum status,
+        String projectName,
+        boolean includeDisabled, 
+        Pageable pageable
+    ) {
 
         validationService.validateBeforeGetByProjectManagerId(projectManagerId);
 
-        Page<Project> projects;
-
-        if(includeDisabled) {
-            // If includes, get all projects by project manager id
-            projects = projectRepository.findByProjectManagerId(projectManagerId, pageable);
-        } else {
-            // If includes, get only enabled projects by project manager id
-            projects = projectRepository.findByProjectManagerIdAndDisabled(projectManagerId, false, pageable);
-        }
+        Page<Project> projects = projectRepository.findByFilters(
+            projectManagerId,
+            projectName,
+            status,
+            includeDisabled,
+            pageable
+        );
 
         Page<ProjectReadDTO> projectsDTO = projects.map(projectMapper::toReadDTO);
 

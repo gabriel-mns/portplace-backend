@@ -4,7 +4,7 @@
 // GRUPO DE CRITÉRIOS
 
 ### BUSCA DE TODOS OS GRUPOS DE CRITÉRIOS
-GET {{host}}/strategies/1/criteria-groups?sortBy=lastModifiedAt&sortDir=desc
+GET {{host}}/strategies/1/criteria-groups
 
 ### BUSCA POR ID DE UM GRUPO DE CRITÉRIOS
 GET {{host}}/strategies/1/criteria-groups/1
@@ -14,21 +14,22 @@ POST {{host}}/strategies/1/criteria-groups
 Content-Type: application/json
 
 {
-  "name": "Grupo de critérios 3",
-  "description": "Grupo de critérios 3"
-}
-
-### EDIÇÃOD DE GRUPO DE CRITÉRIOS
-PUT {{host}}/strategies/1/criteria-groups/1
-Content-Type: application/json
-
-{
-  "name": "Grupo de critérios 1 atualizado",
+  "name": "Grupo de critérios 1",
   "description": "Grupo de critérios 1"
 }
 
+### EDIÇÃO DE GRUPO DE CRITÉRIOS
+PUT {{host}}/strategies/2/criteria-groups/4
+Content-Type: application/json
+
+{
+  "name": "Grupo de critérios 4 atualizado",
+  "description": "Grupo de critérios 4",
+  "status": "ACTIVE"
+}
+
 ### DESABILITAR GRUPO DE CRITÉRIOS
-DELETE {{host}}/strategies/1/criteria-groups/1
+DELETE {{host}}/strategies/1/criteria-groups/3
 
 ### DELETAR GRUPO DE CRITÉRIOS
 DELETE {{host}}/strategies/1/criteria-groups/1/hard-delete

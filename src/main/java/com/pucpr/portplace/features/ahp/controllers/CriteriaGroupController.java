@@ -1,6 +1,8 @@
 package com.pucpr.portplace.features.ahp.controllers;
 
 import java.net.URI;
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -21,6 +23,7 @@ import com.pucpr.portplace.features.ahp.dtos.CriteriaGroupCreateDTO;
 import com.pucpr.portplace.features.ahp.dtos.CriteriaGroupListReadDTO;
 import com.pucpr.portplace.features.ahp.dtos.CriteriaGroupReadDTO;
 import com.pucpr.portplace.features.ahp.dtos.CriteriaGroupUpdateDTO;
+import com.pucpr.portplace.features.ahp.enums.CriteriaGroupStatusEnum;
 import com.pucpr.portplace.features.ahp.services.CriteriaGroupService;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -100,7 +103,8 @@ public class CriteriaGroupController {
     @GetMapping
     public ResponseEntity<Page<CriteriaGroupListReadDTO>> getCriteriaGroupsByStrategyId(
         @PathVariable long strategyId,
-        @RequestParam(required = false) String name,
+        @RequestParam(required = false) List<CriteriaGroupStatusEnum> status,
+        @RequestParam(defaultValue = "") String searchQuery,
         @RequestParam(defaultValue = "false") boolean includeDisabled,
         @RequestParam(defaultValue = "0") int page,
         @RequestParam(defaultValue = "10") int size,
@@ -112,9 +116,10 @@ public class CriteriaGroupController {
         Pageable pageable = PageRequest.of(page, size, Sort.by(direction, sortBy));
 
         Page<CriteriaGroupListReadDTO> criteriaGroupListReadDto = criteriaGroupService.getCriteriaGroupsByStrategyId(
-            strategyId, 
+            strategyId,
+            status,
             includeDisabled, 
-            name, 
+            searchQuery, 
             pageable
         );
 

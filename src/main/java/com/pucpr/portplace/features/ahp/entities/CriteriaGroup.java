@@ -2,11 +2,17 @@ package com.pucpr.portplace.features.ahp.entities;
 
 import java.util.List;
 
+import org.hibernate.annotations.Formula;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import com.pucpr.portplace.core.entities.AuditableEntity;
+import com.pucpr.portplace.features.ahp.enums.CriteriaGroupStatusEnum;
+import com.pucpr.portplace.features.strategy.entities.Strategy;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -34,16 +40,39 @@ public class CriteriaGroup extends AuditableEntity {
     private Long id;
     private String name;
     private String description;
+    @Enumerated(EnumType.STRING)
+    private CriteriaGroupStatusEnum status;
     
     // Relationships
-    //TODO: Create strategy objectives CRUD
-    //List<StrategyObjective> strategyObjectives;
     @ManyToOne
     private Strategy strategy;
     @OneToMany(mappedBy = "criteriaGroup")
     private List<Criterion> criteria;
     @OneToMany(mappedBy = "criteriaGroup")
     private List<CriteriaComparison> criteriaComparisons;
+
+    // Calculated fields
+    @Formula("""
+        (
+            SELECT COUNT(DISTINCT cso.strategic_objective_id)
+            FROM criterion_strategic_objective cso
+            JOIN criteria c ON c.id = cso.criterion_id
+            JOIN strategic_objectives so ON so.id = cso.strategic_objective_id
+            WHERE c.criteria_group_id = id
+            AND so.disabled = false
+        )
+    """)
+    private int relatedObjectivesCount;
+
+    @Formula("""
+        (
+            SELECT COUNT(DISTINCT eg.id)
+            FROM evaluation_groups eg
+            WHERE eg.criteria_group_id = id
+            AND eg.disabled = false
+        )
+    """)
+    private int relatedEvaluationGroupsCount;
 
     @Override
     public boolean equals(Object o) {

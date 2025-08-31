@@ -8,10 +8,10 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 
 @Tag(name = "Hello World", description = "A controller to test if the API is alive")
 @RestController
-@RequestMapping("/strategies")
+@RequestMapping("/hello-world")
 public class HelloController {
 
-    @GetMapping("/hello-world")
+    @GetMapping
     public String helloWorld(){
 
         return "Hello World!";

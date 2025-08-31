@@ -15,7 +15,7 @@ import com.pucpr.portplace.features.ahp.entities.Evaluation;
 
 @Service
 public class AHPCalculationService {
-    
+
     public List<ProjectRankingReadDTO> calculateProjectRanking(
             List<Evaluation> evaluations,
             List<CriteriaComparison> criteriaComparisons

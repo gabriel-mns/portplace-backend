@@ -3,6 +3,7 @@ package com.pucpr.portplace.features.ahp.dtos;
 import java.time.LocalDateTime;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.pucpr.portplace.features.project.dtos.ProjectReadDTO;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -19,7 +20,7 @@ public class EvaluationReadDTO {
 
     private long id;
     private int score;
-    private long projectId;
+    private ProjectReadDTO project;
     private long criterionId;
     private long evaluationGroupId;
     

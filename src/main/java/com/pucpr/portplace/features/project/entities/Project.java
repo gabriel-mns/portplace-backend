@@ -1,10 +1,13 @@
 package com.pucpr.portplace.features.project.entities;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.pucpr.portplace.core.entities.AuditableEntity;
 import com.pucpr.portplace.features.project.enums.ProjectStatusEnum;
+import com.pucpr.portplace.features.strategy.entities.ScenarioRanking;
+import com.pucpr.portplace.features.strategy.entities.StrategicObjective;
 import com.pucpr.portplace.features.user.entities.User;
 
 import jakarta.persistence.Entity;
@@ -14,7 +17,9 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -36,7 +41,7 @@ public class Project extends AuditableEntity{
     private long id;
     private String name;
     private String description;
-    @Enumerated(EnumType.ORDINAL)
+    @Enumerated(EnumType.STRING)
     private ProjectStatusEnum status;
     private double earnedValue;
     private double plannedValue;
@@ -47,9 +52,15 @@ public class Project extends AuditableEntity{
     private LocalDate startDate;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private LocalDate endDate;
+
+    //Relationships
     @ManyToOne
     @JoinColumn(name = "project_manager_id")
     private User projectManager;
+    @ManyToMany(mappedBy = "projects")
+    private List<StrategicObjective> strategicObjectives;
+    @OneToMany(mappedBy = "project")
+    private List<ScenarioRanking> scenarioRankings;
 
     // TODO: Create attachments table and add a list of attachments to the project
     // private List<Attachment> attachments;

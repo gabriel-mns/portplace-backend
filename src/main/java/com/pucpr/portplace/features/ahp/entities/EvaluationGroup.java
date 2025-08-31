@@ -5,8 +5,14 @@ import java.util.List;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import com.pucpr.portplace.core.entities.AuditableEntity;
+import com.pucpr.portplace.features.ahp.enums.EvaluationGroupStatusEnum;
+import com.pucpr.portplace.features.strategy.entities.Scenario;
+import com.pucpr.portplace.features.strategy.entities.Strategy;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
@@ -33,19 +39,20 @@ public class EvaluationGroup extends AuditableEntity {
     @Id
     @GeneratedValue(strategy = jakarta.persistence.GenerationType.IDENTITY)
     private Long id;
-
     private String name;
-
     private String description;
+    @Enumerated(EnumType.STRING)
+    private EvaluationGroupStatusEnum status;
 
+    // Relationships
     @ManyToOne
     private Strategy strategy;
-
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "criteria_group_id")
     private CriteriaGroup criteriaGroup;
-    
     @OneToMany(mappedBy = "evaluationGroup")
     private List<Evaluation> evaluations;
+    @OneToMany(mappedBy = "evaluationGroup")
+    private List<Scenario> scenarios; 
 
 }
