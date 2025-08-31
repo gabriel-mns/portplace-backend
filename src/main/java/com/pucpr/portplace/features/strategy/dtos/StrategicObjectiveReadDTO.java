@@ -22,6 +22,10 @@ public class StrategicObjectiveReadDTO {
     private StrategicObjectiveStatusEnum status;
     private long strategyId;
 
+    private int criteriaCount;
+    private int activePortfolioCount;
+    private int activeProjectsCount;
+
     private boolean disabled;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime createdAt;

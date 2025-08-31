@@ -101,7 +101,11 @@ public class CriterionController {
         @RequestBody @Valid CriterionUpdateDTO criterionUpdateDTO
         ) {
 
-        CriterionReadDTO updatedCriterion = criterionService.updateCriterion(criterionId, criteriaGroupId, criterionUpdateDTO);
+        CriterionReadDTO updatedCriterion = criterionService.updateCriterion(
+            criterionId, 
+            criteriaGroupId,
+            criterionUpdateDTO
+        );
 
         return ResponseEntity.ok().body(updatedCriterion);
     

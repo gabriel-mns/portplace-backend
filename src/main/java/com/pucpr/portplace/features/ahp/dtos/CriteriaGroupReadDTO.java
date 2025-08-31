@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.pucpr.portplace.features.ahp.enums.CriteriaGroupStatusEnum;
+import com.pucpr.portplace.features.strategy.dtos.StrategyReadDTO;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -23,10 +24,12 @@ public class CriteriaGroupReadDTO {
     private String name;
     private String description;
     private CriteriaGroupStatusEnum status;
-    //TODO: Create strategy objectives CRUD
-    //List<StrategyObjective> strategyObjectives;
+
+    //Relationships
+    private StrategyReadDTO strategy;
     private List<CriterionReadDTO> criteriaList;
     private List<CriteriaComparisonReadDTO> criteriaComparisons;
+
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime lastModifiedAt;
     private Long lastModifiedBy;

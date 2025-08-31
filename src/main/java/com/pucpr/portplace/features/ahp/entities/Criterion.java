@@ -14,6 +14,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
@@ -51,7 +52,12 @@ public class Criterion extends AuditableEntity {
     private List<CriteriaComparison> comparedInComparisons;
     @OneToMany(mappedBy = "referenceCriterion", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<CriteriaComparison> referenceInComparisons;
-    @ManyToMany(mappedBy = "criteria")
+    @ManyToMany
+    @JoinTable(
+        name = "criterion_strategic_objective",
+        joinColumns = @JoinColumn(name = "criterion_id"),
+        inverseJoinColumns = @JoinColumn(name = "strategic_objective_id")
+    )
     private List<StrategicObjective> strategicObjectives;
 
 }

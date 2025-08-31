@@ -2,8 +2,10 @@ package com.pucpr.portplace.features.ahp.dtos;
 
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.pucpr.portplace.features.strategy.dtos.StrategicObjectiveReadDTO;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -31,5 +33,7 @@ public class CriterionReadDTO {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime lastModifiedAt;
     // private UserReadDto lastUpdatedBy; // Uncomment if needed
+
+    private List<StrategicObjectiveReadDTO> strategicObjectives;
 
 }

@@ -2,6 +2,7 @@ package com.pucpr.portplace.features.strategy.entities;
 
 import java.util.List;
 
+import org.hibernate.annotations.Formula;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import com.pucpr.portplace.core.entities.AuditableEntity;
@@ -42,6 +43,24 @@ public class StrategicObjective extends AuditableEntity{
     private String description;
     private StrategicObjectiveStatusEnum status;
 
+    //Calculated Fields
+    @Formula("""
+        (SELECT COUNT(c.criterion_id)
+         FROM criterion_strategic_objective c
+         WHERE c.strategic_objective_id = id)
+        """)
+    private int criteriaCount;
+    //TODO: calculate this field when portfolio is created
+    // private int activePortfolioCount;
+    @Formula("""
+        (SELECT COUNT(DISTINCT p.project_id)
+         FROM strategic_objective_project p
+         INNER JOIN projects pr ON pr.id = p.project_id
+         WHERE p.strategic_objective_id = id
+           AND pr.status = 2)
+        """)
+    private int activeProjectsCount;
+
     //Relationships
     @ManyToOne
     @JoinColumn(name = "strategy_id")
@@ -53,12 +72,12 @@ public class StrategicObjective extends AuditableEntity{
         inverseJoinColumns = @JoinColumn(name = "project_id")
     )
     private List<Project> projects;
-    @ManyToMany
-    @JoinTable(
-        name = "strategic_objective_criterion",
-        joinColumns = @JoinColumn(name = "strategic_objective_id"),
-        inverseJoinColumns = @JoinColumn(name = "criterion_id")
-    )
+    @ManyToMany(mappedBy = "strategicObjectives")
+    // @JoinTable(
+    //     name = "strategic_objective_criterion",
+    //     joinColumns = @JoinColumn(name = "strategic_objective_id"),
+    //     inverseJoinColumns = @JoinColumn(name = "criterion_id")
+    // )
     private List<Criterion> criteria;
     // private List<Portfolio> portfolios; TODO: Implement portfolio
 
