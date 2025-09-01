@@ -2,6 +2,7 @@ package com.pucpr.portplace.features.ahp.entities;
 
 import java.util.List;
 
+import org.hibernate.annotations.Formula;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import com.pucpr.portplace.core.entities.AuditableEntity;
@@ -43,7 +44,15 @@ public class Criterion extends AuditableEntity {
     private String description;
     @Transient
     private double weight;
-    
+
+    // Calculated Fields
+    @Formula("""
+            (SELECT COUNT(*) 
+            FROM criterion_strategic_objective cso 
+            WHERE cso.criterion_id = id)
+            """)
+    private int relatedStrategicObjectivesCount;
+
     // Relationships
     @ManyToOne
     @JoinColumn(name = "criteria_group_id")
