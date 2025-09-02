@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.pucpr.portplace.core.entities.AuditableEntity;
+import com.pucpr.portplace.features.portfolio.entities.Portfolio;
 import com.pucpr.portplace.features.project.enums.ProjectStatusEnum;
 import com.pucpr.portplace.features.strategy.entities.ScenarioRanking;
 import com.pucpr.portplace.features.strategy.entities.StrategicObjective;
@@ -61,6 +62,9 @@ public class Project extends AuditableEntity{
     private List<StrategicObjective> strategicObjectives;
     @OneToMany(mappedBy = "project")
     private List<ScenarioRanking> scenarioRankings;
+    @ManyToOne
+    @JoinColumn(name = "portfolio_id")
+    private Portfolio portfolio;
 
     // TODO: Create attachments table and add a list of attachments to the project
     // private List<Attachment> attachments;

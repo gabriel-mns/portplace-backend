@@ -1,5 +1,7 @@
 package com.pucpr.portplace.features.project.services;
 
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
@@ -90,7 +92,7 @@ public class ProjectService {
     }
 
     public ResponseEntity<Page<ProjectReadDTO>> getAllProjects(
-        ProjectStatusEnum status,
+        List<ProjectStatusEnum> status,
         String projectName,
         Pageable pageable,
         boolean includeDisabled
@@ -115,7 +117,7 @@ public class ProjectService {
 
     public Page<ProjectReadDTO> getAllProjectsByProjectManagerId(
         long projectManagerId,
-        ProjectStatusEnum status,
+        List<ProjectStatusEnum> status,
         String projectName,
         boolean includeDisabled, 
         Pageable pageable

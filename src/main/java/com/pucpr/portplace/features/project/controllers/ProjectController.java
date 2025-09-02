@@ -1,6 +1,8 @@
 package com.pucpr.portplace.features.project.controllers;
 
 import java.net.URI;
+import java.util.List;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -96,7 +98,7 @@ public class ProjectController {
 
     @GetMapping
     public ResponseEntity<Page<ProjectReadDTO>> getAllProjects(
-        @RequestParam(required = false) ProjectStatusEnum status,
+        @RequestParam(required = false) List<ProjectStatusEnum> status,
         @RequestParam(defaultValue = "") String searchQuery,
         @RequestParam(defaultValue = "false") boolean includeDisabled,
         @RequestParam(defaultValue = "0") int page,
@@ -115,7 +117,7 @@ public class ProjectController {
     @GetMapping("/manager/{projectManagerId}")
     public ResponseEntity<Page<ProjectReadDTO>> getProjectsByManager(
         @PathVariable long projectManagerId,
-        @RequestParam(required = false) ProjectStatusEnum status,
+        @RequestParam(required = false) List<ProjectStatusEnum> status,
         @RequestParam(defaultValue = "") String searchQuery,
         @RequestParam(defaultValue = "false") boolean includeDisabled,
         @RequestParam(defaultValue = "0") int page,
