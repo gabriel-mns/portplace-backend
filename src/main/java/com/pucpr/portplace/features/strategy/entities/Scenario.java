@@ -66,7 +66,7 @@ public class Scenario extends AuditableEntity{
             FROM scenario_rankings sr
             WHERE sr.scenario_id = id
             AND sr.disabled = false
-            AND sr.status = 'INCLUDED'
+            AND (sr.status = 'INCLUDED' OR sr.status = 'MANUALLY_INCLUDED')
         )
     """)
     private int includedProjectsCount;
