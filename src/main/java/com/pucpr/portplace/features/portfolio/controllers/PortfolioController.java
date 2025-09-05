@@ -26,6 +26,7 @@ import com.pucpr.portplace.features.portfolio.enums.PortfolioStatusEnum;
 import com.pucpr.portplace.features.portfolio.services.PortfolioService;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 
 @Tag(name = "Portfolio", description = "Related to the Portfolio operations")
@@ -39,7 +40,7 @@ public class PortfolioController {
     // CREATE
     @PostMapping
     public ResponseEntity<PortfolioReadDTO> createPortfolio(
-        @RequestBody PortfolioCreateDTO portfolio
+        @RequestBody @Valid PortfolioCreateDTO portfolio
     ) {
 
         PortfolioReadDTO createdPortfolio = portfolioService.createPortfolio(portfolio);
@@ -57,7 +58,7 @@ public class PortfolioController {
     @PutMapping("/{portfolioId}")
     public ResponseEntity<PortfolioReadDTO> updatePortfolio(
         @PathVariable long portfolioId,
-        @RequestBody PortfolioUpdateDTO portfolio
+        @RequestBody @Valid PortfolioUpdateDTO portfolio
     ) {
 
         PortfolioReadDTO updatedPortfolio = portfolioService.updatePortfolio(portfolioId, portfolio);

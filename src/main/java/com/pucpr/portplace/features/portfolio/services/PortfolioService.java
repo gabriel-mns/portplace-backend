@@ -13,6 +13,7 @@ import com.pucpr.portplace.features.portfolio.entities.Portfolio;
 import com.pucpr.portplace.features.portfolio.enums.PortfolioStatusEnum;
 import com.pucpr.portplace.features.portfolio.mappers.PortfolioMapper;
 import com.pucpr.portplace.features.portfolio.repositories.PortfolioRepository;
+import com.pucpr.portplace.features.portfolio.services.validation.PortfolioValidationService;
 
 import lombok.AllArgsConstructor;
 
@@ -20,6 +21,7 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class PortfolioService {
 
+    private PortfolioValidationService validationService;
     private PortfolioRepository repository;
     private PortfolioMapper mapper;
 
@@ -27,8 +29,7 @@ public class PortfolioService {
     public PortfolioReadDTO createPortfolio(
         PortfolioCreateDTO dto
     ){
-        
-        //TODO: validate
+
         Portfolio newPortfolio = mapper.toEntity(dto);
         repository.save(newPortfolio);
         return mapper.toReadDTO(newPortfolio);
@@ -41,7 +42,7 @@ public class PortfolioService {
         PortfolioUpdateDTO dto
     ){
 
-        // TODO: validate
+        validationService.validateBeforeUpdate(id);
 
         Portfolio existingPortfolio = repository.findById(id).get();
 
@@ -75,7 +76,7 @@ public class PortfolioService {
         Long id
     ) {
 
-        // TODO: validate
+        validationService.validateBeforeGet(id);
 
         Portfolio existingPortfolio = repository.findById(id).get();
 
@@ -88,8 +89,6 @@ public class PortfolioService {
         boolean includeDisabled,
         Pageable pageable
     ) {
-
-        // TODO: validate
 
         Page<Portfolio> portfolios = repository.findByFilters(
             status,
