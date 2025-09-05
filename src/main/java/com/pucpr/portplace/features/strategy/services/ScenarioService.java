@@ -6,12 +6,16 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import com.pucpr.portplace.features.project.entities.Project;
+import com.pucpr.portplace.features.project.mappers.ProjectMapper;
+import com.pucpr.portplace.features.strategy.dtos.ScenarioAuthorizationPreviewDTO;
 // import com.pucpr.portplace.features.ahp.services.internal.EvaluationGroupEntityService;
 import com.pucpr.portplace.features.strategy.dtos.ScenarioCreateDTO;
 import com.pucpr.portplace.features.strategy.dtos.ScenarioReadDTO;
 import com.pucpr.portplace.features.strategy.dtos.ScenarioUpdateDTO;
 import com.pucpr.portplace.features.strategy.entities.Scenario;
 import com.pucpr.portplace.features.strategy.entities.ScenarioRanking;
+import com.pucpr.portplace.features.strategy.enums.ScenarioRankingStatusEnum;
 import com.pucpr.portplace.features.strategy.enums.ScenarioStatusEnum;
 import com.pucpr.portplace.features.strategy.mappers.ScenarioMapper;
 import com.pucpr.portplace.features.strategy.repositories.ScenarioRepository;
@@ -28,8 +32,10 @@ public class ScenarioService {
     // private EvaluationGroupEntityService evaluationGroupEntityService;
     private ScenarioRepository repository;
     private ScenarioMapper mapper;
+    private ProjectMapper projectMapper;
     private ScenarioValidationService validationService;
 
+    //#region SCENARIO
     //CREATE
     public ScenarioReadDTO createScenario(
         @Valid ScenarioCreateDTO dto,
@@ -135,6 +141,41 @@ public class ScenarioService {
 
         return scenarios.map(mapper::toReadDTO);
     }
+
+
+    //#region SCENARIO AUTHORIZATION
+
+    public ScenarioAuthorizationPreviewDTO getAuthorizationPreview(
+        long scenarioId
+    ) {
+
+        validationService.validateBeforeGet(scenarioId);
+
+        Scenario scenario = repository.findById(scenarioId).get();
+        ScenarioAuthorizationPreviewDTO dto = mapper.toAuthorizationPreviewDTO(scenario);
+
+        // ALL PROJECTS WITH STATUS INCLUDED OR MANUALLY_INCLUDED
+        List<Project> includedProjects = scenario.getScenarioRankings().stream()
+            .filter(ranking -> ranking.getStatus() == ScenarioRankingStatusEnum.INCLUDED || ranking.getStatus() == ScenarioRankingStatusEnum.MANUALLY_INCLUDED)
+            .map(ranking -> ranking.getProject())
+            .toList();
+
+        // ALL PROJECTS CURRENTLY IN THE PORTFOLIO
+        List<Project> projectsInPortfolio = scenario.getPortfolio().getProjects();
+
+        // ALL PROJECTS CURRENTLY IN THE PORTFOLIO THAT WILL BE REMOVED (NOT IN INCLUDED IN SCENARIO)
+        List<Project> removedProjects = projectsInPortfolio.stream()
+            .filter(project -> !includedProjects.contains(project))
+            .toList();
+
+        dto.setIncludedProjects(projectMapper.toReadDTO(includedProjects));
+        dto.setRemovedProjects(projectMapper.toReadDTO(removedProjects));
+
+        return dto;
+
+    }
+
+    //#endregion SCENARIO AUTHORIZATION
 
 
 }

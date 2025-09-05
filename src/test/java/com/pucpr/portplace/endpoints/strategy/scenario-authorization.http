@@ -1,0 +1,12 @@
+@host = http://localhost:8080/api/v1
+
+
+### GET TODOS OS CENÁRIOS
+GET {{host}}/strategies/1/scenarios
+
+### GET CENÁRIO
+GET {{host}}/strategies/1/scenarios/3
+
+### GET AUTHORIZATION PREVIEW DO CENÁRIO
+GET {{host}}/strategies/1/scenarios/3/authorization-preview
+Accept: application/json

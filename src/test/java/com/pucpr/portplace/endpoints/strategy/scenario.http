@@ -5,7 +5,7 @@ GET {{host}}/strategies/1/scenarios
 Accept: application/json
 
 ### GET CENÁRIO
-GET {{host}}/strategies/1/scenarios/1
+GET {{host}}/strategies/1/scenarios/3
 Accept: application/json
 
 ### CADASTRAR CENÁRIO
@@ -14,10 +14,11 @@ Accept: application/json
 Content-Type: application/json
 
 {
-  "name": "Cenário 2",
-  "description": "Descrição do Cenário 2",
-  "budget": 200000.00,
-  "evaluationGroupId": 1
+  "name": "Cenário 3",
+  "description": "Descrição do Cenário 3",
+  "budget": 100.00,
+  "evaluationGroupId": 1,
+  "portfolioId": 1
 }
 
 ### EDITAR CENÁRIO

@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.pucpr.portplace.features.strategy.dtos.ScenarioAuthorizationPreviewDTO;
 import com.pucpr.portplace.features.strategy.dtos.ScenarioCreateDTO;
 import com.pucpr.portplace.features.strategy.dtos.ScenarioReadDTO;
 import com.pucpr.portplace.features.strategy.dtos.ScenarioUpdateDTO;
@@ -35,6 +36,8 @@ import lombok.AllArgsConstructor;
 public class ScenarioController {
 
     private ScenarioService service;
+
+    //#region SCENARIO
     //CREATE
     @PostMapping
     public ResponseEntity<ScenarioReadDTO> createScenario(
@@ -129,4 +132,15 @@ public class ScenarioController {
 
     }
 
+
+    //#region AUTHORIZATION
+    @GetMapping("/{scenarioId}/authorization-preview")
+    public ResponseEntity<ScenarioAuthorizationPreviewDTO> getAuthorizationPreview(
+        @PathVariable long scenarioId
+    ) {
+        //TODO: validate if scenario exists
+        ScenarioAuthorizationPreviewDTO preview = service.getAuthorizationPreview(scenarioId);
+        return ResponseEntity.ok().body(preview);
+    }
+    
 }
