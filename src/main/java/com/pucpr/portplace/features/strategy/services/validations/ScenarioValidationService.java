@@ -75,4 +75,10 @@ public class ScenarioValidationService {
     
     }
 
+    public void validateBeforeAuthorization(long scenarioId) {
+        
+        validateBeforeGet(scenarioId);
+
+    }
+
 }

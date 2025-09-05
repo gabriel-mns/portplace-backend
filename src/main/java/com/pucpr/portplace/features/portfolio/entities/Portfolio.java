@@ -8,6 +8,7 @@ import com.pucpr.portplace.features.project.entities.Project;
 import com.pucpr.portplace.features.strategy.entities.Strategy;
 import com.pucpr.portplace.features.user.entities.User;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -41,7 +42,7 @@ public class Portfolio extends AuditableEntity {
     private PortfolioStatusEnum status;
 
     // Relationships
-    @OneToMany(mappedBy = "portfolio")
+    @OneToMany(mappedBy = "portfolio", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Project> projects;
     @ManyToMany
     private List<User> owners;
@@ -55,5 +56,10 @@ public class Portfolio extends AuditableEntity {
     // Calculated Fields
     // private PortfolioHealthEnum scheduleHealth;
     // private PortfolioHealthEnum budgetHealth;
+
+    public void addProject(Project project) {
+        this.projects.add(project);
+        project.setPortfolio(this);
+    }
 
 }

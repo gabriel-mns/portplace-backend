@@ -138,9 +138,19 @@ public class ScenarioController {
     public ResponseEntity<ScenarioAuthorizationPreviewDTO> getAuthorizationPreview(
         @PathVariable long scenarioId
     ) {
-        //TODO: validate if scenario exists
         ScenarioAuthorizationPreviewDTO preview = service.getAuthorizationPreview(scenarioId);
         return ResponseEntity.ok().body(preview);
+    }
+
+    @PostMapping("/{scenarioId}/authorize")
+    public ResponseEntity<Void> authorizeScenario(
+        @PathVariable long scenarioId
+    ) {
+    
+        service.authorizeScenario(scenarioId);
+        
+        return ResponseEntity.noContent().build();
+        
     }
     
 }

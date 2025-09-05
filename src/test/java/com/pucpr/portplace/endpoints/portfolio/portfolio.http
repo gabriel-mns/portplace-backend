@@ -1,0 +1,37 @@
+@host = http://localhost:8080/api/v1
+
+### GET TODOS OS PORTFÓLIOS
+GET {{host}}/portfolios
+Accept: application/json
+
+### GET PORTFÓLIO
+GET {{host}}/portfolios/2 
+Accept: application/json
+
+### CADASTRAR PORTFÓLIO
+POST {{host}}/portfolios
+Accept: application/json
+Content-Type: application/json
+
+{
+  "name": "Portfólio 1",
+  "description": "Descrição do Portfólio 1"
+}
+
+### EDITAR PORTFÓLIO
+PUT {{host}}/portfolios/1
+Accept: application/json
+Content-Type: application/json
+
+{
+  "name": "Portfólio 1 Editado",
+  "description": "Descrição do Portfólio 1 Editado"
+}
+
+### DESABILITAR PORTFÓLIO
+DELETE {{host}}/portfolios/1
+Accept: application/json
+
+### DELETAR PORTFÓLIO
+DELETE {{host}}/portfolios/1/hard-delete
+Accept: application/json

@@ -5,7 +5,7 @@ GET {{host}}/strategies/1/scenarios
 Accept: application/json
 
 ### GET CENÁRIO
-GET {{host}}/strategies/1/scenarios/3
+GET {{host}}/strategies/1/scenarios/2
 Accept: application/json
 
 ### CADASTRAR CENÁRIO
