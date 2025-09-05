@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.pucpr.portplace.features.ahp.dtos.EvaluationGroupReadDTO;
+import com.pucpr.portplace.features.portfolio.dtos.PortfolioReadDTO;
 import com.pucpr.portplace.features.strategy.enums.ScenarioStatusEnum;
 
 import lombok.AllArgsConstructor;
@@ -27,6 +28,7 @@ public class ScenarioReadDTO {
     // Relationships
     private Long strategyId;
     private EvaluationGroupReadDTO evaluationGroup;
+    private PortfolioReadDTO portfolio;
     private List<ScenarioRankingReadDTO> scenarioRankings;
     private int includedProjectsCount;
     

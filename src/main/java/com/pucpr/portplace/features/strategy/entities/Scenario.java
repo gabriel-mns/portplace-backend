@@ -8,6 +8,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import com.pucpr.portplace.core.entities.AuditableEntity;
 import com.pucpr.portplace.features.ahp.entities.EvaluationGroup;
+import com.pucpr.portplace.features.portfolio.entities.Portfolio;
 import com.pucpr.portplace.features.strategy.enums.ScenarioStatusEnum;
 
 import jakarta.persistence.CascadeType;
@@ -43,7 +44,7 @@ public class Scenario extends AuditableEntity{
     private Long id;
     private String name;
     private String description;
-    private float budget;
+    private double budget;
     @Enumerated(EnumType.STRING)
     private ScenarioStatusEnum status;
 
@@ -55,10 +56,9 @@ public class Scenario extends AuditableEntity{
     private Strategy strategy;
     @ManyToOne
     private EvaluationGroup evaluationGroup;
-    // @ManyToOne
-    // private Portfolio portfolio;
+    @ManyToOne
+    private Portfolio portfolio;
 
-    // Calculated Fields
     // Calculated Fields
     @Formula("""
         (

@@ -31,6 +31,7 @@ public interface ScenarioMapper {
     @Mapping(target = "status", constant = "WAITING_AUTHORIZATION")
     @Mapping(target = "evaluationGroup.id", source = "dto.evaluationGroupId")
     @Mapping(target = "strategy.id", source = "dto.strategyId")
+    @Mapping(target = "portfolio.id", source = "dto.portfolioId")
     Scenario toEntity(ScenarioCreateDTO dto);
 
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)

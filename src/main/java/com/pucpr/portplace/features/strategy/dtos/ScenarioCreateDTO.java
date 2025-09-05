@@ -20,7 +20,8 @@ public class ScenarioCreateDTO {
     private Float budget;
     @NotNull
     private Long evaluationGroupId;
+    @NotNull
+    private Long portfolioId;
     private Long strategyId;
-    // private Long portfolioId;0
 
 }

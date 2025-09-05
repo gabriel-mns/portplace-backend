@@ -36,7 +36,11 @@ public class ScenarioService {
         long strategyId
     ) {
     
-        validationService.validateBeforeCreation(strategyId, dto.getEvaluationGroupId());
+        validationService.validateBeforeCreation(
+            strategyId, 
+            dto.getEvaluationGroupId(),
+            dto.getPortfolioId()
+        );
 
         //Gets the ranked projects from the evaluation group
         long egId = dto.getEvaluationGroupId();
