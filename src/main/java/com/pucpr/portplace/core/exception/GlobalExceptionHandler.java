@@ -179,7 +179,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(InvalidDataAccessApiUsageException.class)
     public ResponseEntity<ApiErrorResponse> handleInvalidDataAccessApiUsageException(InvalidDataAccessApiUsageException ex, HttpServletRequest request) {
-        String message = "Invalid order parameter.";
+        String message = ex.getMostSpecificCause().getMessage();
         return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST)
                 .body(new ApiErrorResponse(HttpStatus.BAD_REQUEST.value(), message, request.getRequestURI(), request.getMethod(), LocalDateTime.now()));
