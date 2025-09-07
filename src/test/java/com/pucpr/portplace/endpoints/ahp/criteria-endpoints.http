@@ -13,8 +13,8 @@ POST {{host}}/strategies/1/criteria-groups/1/criteria
 Content-Type: application/json
 
 {
-  "name": "CRITERIO 3",
-  "description": "CRITERIO 3"
+  "name": "CRITERIO 5",
+  "description": "CRITERIO 5"
 }
 
 ### EDIÇÃO DE GRUPO DE CRITÉRIOS

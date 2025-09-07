@@ -16,7 +16,7 @@ Content-Type: application/json
 {
   "name": "Cenário 1",
   "description": "Descrição do Cenário 1",
-  "budget": 100.00,
+  "budget": 456890.00,
   "evaluationGroupId": 1,
   "portfolioId": 1
 }
