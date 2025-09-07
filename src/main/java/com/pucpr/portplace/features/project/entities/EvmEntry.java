@@ -9,7 +9,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-import jakarta.persistence.Transient;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -32,14 +31,9 @@ public class EvmEntry extends AuditableEntity {
     private short month;
     private short year;
 
-    @Transient
-    public double getEarnedValue() {
-        return plannedValue * (percentComplete / 100.0);
-    }
-
     // Relationships
     @ManyToOne
     @JoinColumn(name = "project_id")
     private Project project;
-
+    
 }

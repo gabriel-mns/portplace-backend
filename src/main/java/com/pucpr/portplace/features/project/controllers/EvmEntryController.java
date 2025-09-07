@@ -57,11 +57,12 @@ public class EvmEntryController {
     // UPDATE
     @PutMapping("/{entryId}")
     public ResponseEntity<EvmEntryReadDTO> update(
+        @PathVariable long projectId,
         @PathVariable long entryId, 
-        @RequestBody @Valid EvmEntryUpdateDTO entry
+        @RequestBody @Valid EvmEntryUpdateDTO dto
     ) {
 
-        EvmEntryReadDTO updatedEntry = service.updateEvmEntry(entryId, entry);
+        EvmEntryReadDTO updatedEntry = service.updateEvmEntry(projectId, entryId, dto);
 
         return ResponseEntity.ok(updatedEntry);
 
@@ -81,10 +82,11 @@ public class EvmEntryController {
 
     @DeleteMapping("/{entryId}/hard-delete")
     public ResponseEntity<Void> deleteEntry(
+        @PathVariable long projectId,
         @PathVariable long entryId
     ) {
 
-        service.deleteEntry(entryId);
+        service.deleteEntry(projectId, entryId);
 
         return ResponseEntity.noContent().build();
 
@@ -108,12 +110,20 @@ public class EvmEntryController {
         @RequestParam(defaultValue = "false") boolean includeDisabled,
         @RequestParam(defaultValue = "0") int page,
         @RequestParam(defaultValue = "10") int size,
-        @RequestParam(defaultValue = "id") String sortBy,
+        @RequestParam(required = false) String sortBy,
         @RequestParam(defaultValue = "asc") String sortDir
     ) {
+        Sort sort;
 
-        Sort.Direction direction = sortDir.equalsIgnoreCase("desc") ? Sort.Direction.DESC : Sort.Direction.ASC;
-        Pageable pageable = PageRequest.of(page, size, Sort.by(direction, sortBy));
+        if(sortBy == null || sortBy.isEmpty()) {
+            sort = Sort.by(Sort.Order.desc("year"), Sort.Order.desc("month"));
+        } else {
+            Sort.Direction direction = sortDir.equalsIgnoreCase("desc") ? Sort.Direction.DESC : Sort.Direction.ASC;
+            sort = Sort.by(direction, sortBy);
+        }
+
+
+        Pageable pageable = PageRequest.of(page, size, sort);
 
         Page<EvmEntryReadDTO> entries = service.getEvmEntriesByProjectId(projectId, includeDisabled, pageable);
 

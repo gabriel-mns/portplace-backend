@@ -26,9 +26,10 @@ public class ProjectReadDTO {
     private String description;
     private ProjectStatusEnum status;
     private double earnedValue;
-    private double plannedValue;
-    private double actualCost;
-    private double budget;
+    private double totalPlannedValue;
+    private double totalActualCost;
+    private double percentComplete;
+    // private double budget;
     private double payback;
 
     // Relationships

@@ -60,7 +60,7 @@ public interface ScenarioMapper {
         return rankings.stream()
                 .filter(r -> r.getStatus() == ScenarioRankingStatusEnum.INCLUDED 
                           || r.getStatus() == ScenarioRankingStatusEnum.MANUALLY_INCLUDED)
-                .mapToDouble(r -> r.getProject().getBudget()) // supondo que exista getBudget()
+                .mapToDouble(r -> r.getProject().getTotalPlannedValue())
                 .sum();
     }
 

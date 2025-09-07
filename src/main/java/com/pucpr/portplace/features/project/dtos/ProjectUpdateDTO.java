@@ -6,7 +6,7 @@ import com.pucpr.portplace.core.validation.constraints.enumValues.ValidEnum;
 import com.pucpr.portplace.core.validation.constraints.dateRange.ValidDateRange;
 import com.pucpr.portplace.features.project.enums.ProjectStatusEnum;
 
-import jakarta.validation.constraints.Min;
+// import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -28,11 +28,11 @@ public class ProjectUpdateDTO {
     private String description;
     @ValidEnum(enumClass = ProjectStatusEnum.class)
     private String status;
-    private double earnedValue;
-    private double plannedValue;
-    private double actualCost;
-    @Min(0)
-    private double budget;
+    // private double earnedValue;
+    // private double plannedValue;
+    // private double actualCost;
+    // @Min(0)
+    // private double budget;
     private double payback;
     private LocalDate startDate;
     private LocalDate endDate;

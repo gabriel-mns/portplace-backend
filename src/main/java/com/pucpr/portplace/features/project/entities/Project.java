@@ -1,7 +1,9 @@
 package com.pucpr.portplace.features.project.entities;
 
 import java.time.LocalDate;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.pucpr.portplace.core.entities.AuditableEntity;
@@ -47,9 +49,12 @@ public class Project extends AuditableEntity{
     @Enumerated(EnumType.STRING)
     private ProjectStatusEnum status;
     private double earnedValue;
-    private double plannedValue;
-    private double actualCost;
-    private double budget;
+    private double totalPlannedValue;
+    private double totalActualCost;
+    private double percentComplete;
+    // private double plannedValue;
+    // private double actualCost;
+    // private double budget;
     private double payback;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private LocalDate startDate;
@@ -79,13 +84,79 @@ public class Project extends AuditableEntity{
         this.description = description;
         this.status = status;
         this.earnedValue = earnedValue;
-        this.plannedValue = plannedValue;
-        this.actualCost = actualCost;
-        this.budget = budget;
+        this.totalPlannedValue = plannedValue;
+        this.totalActualCost = actualCost;
+        // this.plannedValue = plannedValue;
+        // this.actualCost = actualCost;
+        // this.budget = budget;
         this.payback = payback;
         this.startDate = startDate;
         this.endDate = endDate;
         // this.projectManager = projectManager;
+    }
+
+    private void updatePercentComplete() {
+
+        // If there are no EVM entries, percent complete is 0
+        if (this.evmEntries == null || this.evmEntries.isEmpty()) {
+            this.percentComplete = 0;
+            return;
+        }
+
+        List<EvmEntry> orderedEvmEntries = this.evmEntries.stream()
+                .filter(ev -> !ev.isDisabled())
+                .sorted(Comparator.comparing(EvmEntry::getYear)
+                        .thenComparing(EvmEntry::getMonth)
+                        .reversed())
+                .collect(Collectors.toList());
+
+        // If there ARE EVM entries
+        if (!orderedEvmEntries.isEmpty()) {
+            // Get the most recent entry (first in the ordered list)
+            this.percentComplete = orderedEvmEntries.get(0).getPercentComplete();
+        } else {
+            this.percentComplete = 0;
+        }
+
+    }
+
+    private void updateEarnedValue() {
+        this.earnedValue = this.totalPlannedValue * (this.percentComplete / 100);
+    }
+
+    private void updateTotalActualCost() {
+
+        if (this.evmEntries == null || this.evmEntries.isEmpty()) {
+            this.totalActualCost = 0;
+            return;
+        }
+
+        this.totalActualCost = this.evmEntries.stream()
+                .filter(ev -> !ev.isDisabled())
+                .mapToDouble(EvmEntry::getActualCost)
+                .sum();
+
+    }
+
+    private void updateTotalPlannedValue() {
+
+        if (this.evmEntries == null || this.evmEntries.isEmpty()) {
+            this.totalPlannedValue = 0;
+            return;
+        }
+
+        this.totalPlannedValue = this.evmEntries.stream()
+                .filter(ev -> !ev.isDisabled())
+                .mapToDouble(EvmEntry::getPlannedValue)
+                .sum();
+
+    }
+
+    public void updateCalculatedValues() {
+        updatePercentComplete();
+        updateTotalActualCost();
+        updateTotalPlannedValue();
+        updateEarnedValue();
     }
 
 }

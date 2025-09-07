@@ -28,7 +28,6 @@ public interface ProjectMapper {
     Project toEntity(ProjectCreateDTO dto);
 
     // READ
-    // @Mapping(target = "projectManager", source = "projectManager.id")
     ProjectReadDTO toReadDTO(Project entity);
 
     List<ProjectReadDTO> toReadDTO(List<Project> entities);
@@ -36,4 +35,5 @@ public interface ProjectMapper {
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     @Mapping(target = "projectManager.id", source = "projectManager")
     void updateFromDTO(ProjectUpdateDTO dto, @MappingTarget Project entity);
+    
 }

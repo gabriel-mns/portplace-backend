@@ -19,7 +19,6 @@ public class EvmEntryReadDTO {
     private double plannedValue;
     private double actualCost;
     private double percentComplete;
-    private double earnedValue;
     private int month;
     private int year;
 

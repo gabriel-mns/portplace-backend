@@ -21,4 +21,8 @@ public class ProjectEntityService {
         return projectRepository.existsById(projectId);
     }
 
+    public void saveProjectEntity(Project project) {
+        projectRepository.save(project);
+    }
+
 }

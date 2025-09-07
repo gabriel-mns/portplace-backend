@@ -1,5 +1,7 @@
 package com.pucpr.portplace.features.project.repositories;
 
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -21,4 +23,6 @@ public interface EvmEntryRepository extends JpaRepository<EvmEntry, Long> {
         boolean includeDisabled,
         Pageable pageable
     );
+
+    List<EvmEntry> findByProjectId(Long projectId);
 }

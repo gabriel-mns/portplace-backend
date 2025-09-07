@@ -1,5 +1,7 @@
 package com.pucpr.portplace.features.project.dtos;
 
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -19,8 +21,11 @@ public class EvmEntryCreateDTO {
     @NotNull
     private Double percentComplete;
     @NotNull
+    @Max(12)
+    @Min(1)
     private Integer month;
     @NotNull
+    @Min(0)
     private Integer year;
 
     // Relationships

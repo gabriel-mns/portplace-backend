@@ -33,6 +33,7 @@ public class ProjectService {
         validationService.validateBeforeCreate(projectDTO);
 
         Project newProject = projectMapper.toEntity(projectDTO);
+        newProject.updateCalculatedValues();
 
         Project savedProject = projectRepository.save(newProject);
         

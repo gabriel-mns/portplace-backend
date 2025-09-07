@@ -17,20 +17,20 @@ POST {{host}}/projects/1/evm-entries
 Content-Type: application/json
 
 {
-    "plannedValue": 1000.0,
-    "actualCost": 800.0,
-    "percentComplete": 80.0,
-    "month": 9,
-    "year": 2025
+    "plannedValue": 0.0,
+    "actualCost": 0.0,
+    "percentComplete": 0.0,
+    "month": 12,
+    "year": 2024
 }
 
 ### ATUALIZAR EVM ENTRY
-PUT {{host}}/projects/1/evm-entries/1
+PUT {{host}}/projects/1/evm-entries/3
 Content-Type: application/json
 
 {
-    "percentComplete": 100.0
+    "percentComplete": 70.0
 }
 
 ### DESABILITAR EVM ENTRY
-DELETE {{host}}/projects/1/evm-entries/1
+DELETE {{host}}/projects/1/evm-entries/3
