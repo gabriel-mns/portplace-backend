@@ -7,6 +7,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.pucpr.portplace.features.portfolio.dtos.PortfolioCreateDTO;
+import com.pucpr.portplace.features.portfolio.dtos.PortfolioListReadDTO;
 import com.pucpr.portplace.features.portfolio.dtos.PortfolioReadDTO;
 import com.pucpr.portplace.features.portfolio.dtos.PortfolioUpdateDTO;
 import com.pucpr.portplace.features.portfolio.entities.Portfolio;
@@ -83,7 +84,7 @@ public class PortfolioService {
         return mapper.toReadDTO(existingPortfolio);
     }
 
-    public Page<PortfolioReadDTO> getPortfolios(
+    public Page<PortfolioListReadDTO> getPortfolios(
         List<PortfolioStatusEnum> status,
         String searchQuery,
         boolean includeDisabled,
@@ -97,7 +98,7 @@ public class PortfolioService {
             pageable
         );
 
-        return portfolios.map(mapper::toReadDTO);
+        return portfolios.map(mapper::toListReadDTO);
 
     }
 

@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.pucpr.portplace.features.portfolio.dtos.PortfolioCreateDTO;
+import com.pucpr.portplace.features.portfolio.dtos.PortfolioListReadDTO;
 import com.pucpr.portplace.features.portfolio.dtos.PortfolioReadDTO;
 import com.pucpr.portplace.features.portfolio.dtos.PortfolioUpdateDTO;
 import com.pucpr.portplace.features.portfolio.enums.PortfolioStatusEnum;
@@ -92,7 +93,7 @@ public class PortfolioController {
 
     // READ
     @GetMapping
-    public ResponseEntity<Page<PortfolioReadDTO>> getPortfolios(
+    public ResponseEntity<Page<PortfolioListReadDTO>> getPortfolios(
         @RequestParam(required = false) List<PortfolioStatusEnum> status,
         @RequestParam(defaultValue = "") String searchQuery,
         @RequestParam(defaultValue = "false") boolean includeDisabled,
@@ -106,7 +107,7 @@ public class PortfolioController {
         Sort.Direction direction = sortDir.equalsIgnoreCase("desc") ? Sort.Direction.DESC : Sort.Direction.ASC;
         Pageable pageable = PageRequest.of(page, size, Sort.by(direction, sortBy));
 
-        Page<PortfolioReadDTO> portfolios = portfolioService.getPortfolios(
+        Page<PortfolioListReadDTO> portfolios = portfolioService.getPortfolios(
             status,
             searchQuery,
             includeDisabled,

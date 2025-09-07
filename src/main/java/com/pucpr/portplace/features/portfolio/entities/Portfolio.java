@@ -2,6 +2,8 @@ package com.pucpr.portplace.features.portfolio.entities;
 
 import java.util.List;
 
+import org.hibernate.annotations.Formula;
+
 import com.pucpr.portplace.core.entities.AuditableEntity;
 import com.pucpr.portplace.features.portfolio.enums.PortfolioStatusEnum;
 import com.pucpr.portplace.features.project.entities.Project;
@@ -54,6 +56,33 @@ public class Portfolio extends AuditableEntity {
     // private CommunicationPlan communicationPlan;
 
     // Calculated Fields
+    @Formula("""
+        (
+            SELECT COUNT(*) 
+            FROM projects p 
+            WHERE p.portfolio_id = id 
+            AND p.status = 'IN_PROGRESS'
+            AND p.disabled = false
+            )""")
+    private int inProgressProjectsCount;
+    @Formula("""
+        (
+            SELECT COUNT(*) 
+            FROM projects p 
+            WHERE p.portfolio_id = id 
+            AND p.status = 'COMPLETED'
+            AND p.disabled = false
+            )""")
+    private int completedProjectsCount;
+    @Formula("""
+        (
+            SELECT COUNT(*) 
+            FROM projects p 
+            WHERE p.portfolio_id = id 
+            AND p.status = 'CANCELLED'
+            AND p.disabled = false
+            )""")
+    private int cancelledProjectsCount;
     // private PortfolioHealthEnum scheduleHealth;
     // private PortfolioHealthEnum budgetHealth;
 

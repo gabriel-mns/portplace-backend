@@ -5,6 +5,7 @@ import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 
 import com.pucpr.portplace.features.portfolio.dtos.PortfolioCreateDTO;
+import com.pucpr.portplace.features.portfolio.dtos.PortfolioListReadDTO;
 import com.pucpr.portplace.features.portfolio.dtos.PortfolioReadDTO;
 import com.pucpr.portplace.features.portfolio.dtos.PortfolioUpdateDTO;
 import com.pucpr.portplace.features.portfolio.entities.Portfolio;
@@ -24,6 +25,8 @@ public interface PortfolioMapper {
     Portfolio toEntity(PortfolioCreateDTO dto);
     
     PortfolioReadDTO toReadDTO(Portfolio portfolio);
+
+    PortfolioListReadDTO toListReadDTO(Portfolio portfolio);
 
     void updateFromDTO(PortfolioUpdateDTO dto, @MappingTarget Portfolio entity);
 

@@ -19,9 +19,9 @@ public class PortfolioListReadDTO {
     private PortfolioStatusEnum status;
 
     // Calculated Fields
-    private int inProgressProjects;
-    private int completedProjects;
-    private int cancelledProjects;
+    private int inProgressProjectsCount;
+    private int completedProjectsCount;
+    private int cancelledProjectsCount;
 
 
 }
