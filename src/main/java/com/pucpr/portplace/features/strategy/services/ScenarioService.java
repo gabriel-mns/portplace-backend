@@ -24,6 +24,7 @@ import com.pucpr.portplace.features.strategy.enums.ScenarioRankingStatusEnum;
 import com.pucpr.portplace.features.strategy.enums.ScenarioStatusEnum;
 import com.pucpr.portplace.features.strategy.mappers.ScenarioMapper;
 import com.pucpr.portplace.features.strategy.repositories.ScenarioRepository;
+import com.pucpr.portplace.features.strategy.services.internal.ScenarioRankingEntityService;
 import com.pucpr.portplace.features.strategy.services.validations.ScenarioValidationService;
 
 import jakarta.validation.Valid;
@@ -34,6 +35,7 @@ import lombok.AllArgsConstructor;
 public class ScenarioService {
     
     private ScenarioRankingService rankingService;
+    private ScenarioRankingEntityService scenarioRankingEntityService;
     private PortfolioEntityService portfolioService;
     
     private ScenarioRepository repository;
@@ -56,7 +58,7 @@ public class ScenarioService {
 
         //Gets the ranked projects from the evaluation group
         long egId = dto.getEvaluationGroupId();
-        List<ScenarioRanking> rankings = rankingService.calculateRankings(egId, dto.getBudget());
+        List<ScenarioRanking> rankings = rankingService.calculateRankingsOnCreation(egId, dto.getBudget());
         
         dto.setStrategyId(strategyId);
         
@@ -83,6 +85,8 @@ public class ScenarioService {
         Scenario scenario = repository.findById(scenarioId).get();
 
         mapper.updateFromDTO(dto, scenario);
+
+        scenarioRankingEntityService.recalculateCurrentPositions(scenario.getScenarioRankings());
 
         scenario = repository.save(scenario);
 

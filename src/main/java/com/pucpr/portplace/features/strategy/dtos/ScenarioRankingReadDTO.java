@@ -18,7 +18,7 @@ import lombok.Setter;
 public class ScenarioRankingReadDTO {
     
     private Long id;
-    // private int customPosition;
+    private int currentPosition;
     private int calculatedPosition;
     private int totalScore;
     private ScenarioRankingStatusEnum status;

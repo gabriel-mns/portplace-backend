@@ -5,13 +5,13 @@
 GET {{host}}/strategies/1/scenarios
 
 ### GET TODOS OS RANKINGS DE UM CENÁRIO
-GET {{host}}/strategies/1/scenarios/2/rankings
+GET {{host}}/strategies/1/scenarios/1/rankings
 
 ### EDITAR RANKING DO CENÁRIO
-PUT {{host}}/strategies/1/scenarios/3/rankings/5
+PUT {{host}}/strategies/1/scenarios/1/rankings/1
 Accept: application/json
 Content-Type: application/json
 
 {
-  "status": "MANUALLY_INCLUDED"
+  "status": "MANUALLY_EXCLUDED"
 }

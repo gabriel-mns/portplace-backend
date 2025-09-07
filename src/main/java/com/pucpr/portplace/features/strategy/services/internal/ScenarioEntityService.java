@@ -13,6 +13,12 @@ public class ScenarioEntityService {
     
     private ScenarioRepository repository;
 
+    public void save(Scenario scenario){
+
+        repository.save(scenario);
+
+    }
+
     public boolean existsById(long id){
 
         return repository.existsById(id);
