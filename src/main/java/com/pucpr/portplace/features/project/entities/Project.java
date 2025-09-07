@@ -11,9 +11,11 @@ import com.pucpr.portplace.features.strategy.entities.ScenarioRanking;
 import com.pucpr.portplace.features.strategy.entities.StrategicObjective;
 import com.pucpr.portplace.features.user.entities.User;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -65,11 +67,11 @@ public class Project extends AuditableEntity{
     @ManyToOne
     @JoinColumn(name = "portfolio_id")
     private Portfolio portfolio;
+    @OneToMany(mappedBy = "project", orphanRemoval = true, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private List<EvmEntry> evmEntries;
 
     // TODO: Create attachments table and add a list of attachments to the project
     // private List<Attachment> attachments;
-    // TODO: Uncomment when Portfolio is implemented
-    // private Portfolio portfolio;
 
     public Project(String name, String description, ProjectStatusEnum status, double earnedValue, double plannedValue,
             double actualCost, double budget, double payback, LocalDate startDate, LocalDate endDate, User projectManager) {

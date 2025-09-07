@@ -2,6 +2,7 @@ package com.pucpr.portplace.features.project.dtos;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.pucpr.portplace.features.project.enums.ProjectStatusEnum;
@@ -29,6 +30,12 @@ public class ProjectReadDTO {
     private double actualCost;
     private double budget;
     private double payback;
+
+    // Relationships
+    private List<EvmEntryReadDTO> evmEntries;
+
+
+    // Auditable fields
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private LocalDate startDate;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")

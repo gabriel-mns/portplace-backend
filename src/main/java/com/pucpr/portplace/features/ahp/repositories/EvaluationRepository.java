@@ -10,7 +10,6 @@ import com.pucpr.portplace.features.ahp.entities.Evaluation;
 
 public interface EvaluationRepository extends JpaRepository<Evaluation, Long> {
      
-	// TODO: Implement paginated methods
 	public Page<Evaluation> findByEvaluationGroupId(long evaluationGroupId, PageRequest pageable);
 
 	public Page<Evaluation> findByEvaluationGroupIdAndDisabledFalse(long evaluationGroupId, PageRequest pageable);
