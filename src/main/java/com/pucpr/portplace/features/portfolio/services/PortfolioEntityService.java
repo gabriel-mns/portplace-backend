@@ -20,5 +20,9 @@ public class PortfolioEntityService {
     public boolean existsById(Long candidate) {
         return repository.existsById(candidate);
     }
-    
+
+    public Portfolio getPortfolioById(Long portfolioId) {
+        return repository.findById(portfolioId).orElseThrow();
+    }
+
 }
