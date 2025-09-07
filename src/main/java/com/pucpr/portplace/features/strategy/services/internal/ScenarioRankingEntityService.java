@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.pucpr.portplace.features.strategy.entities.ScenarioRanking;
+import com.pucpr.portplace.features.strategy.enums.ScenarioRankingStatusEnum;
 import com.pucpr.portplace.features.strategy.repositories.ScenarioRankingRepository;
 
 import lombok.AllArgsConstructor;
@@ -31,10 +32,6 @@ public class ScenarioRankingEntityService {
 
     public void orderRankingByStatusOrder(List<ScenarioRanking> rankings) {
 
-        rankings.sort(Comparator.comparing(ScenarioRanking::getStatus));
-
-        rankings.sort(Comparator.comparing(ScenarioRanking::getCalculatedPosition));
-
         rankings.sort(
             Comparator.comparing(ScenarioRanking::getStatus)
                     .thenComparing(ScenarioRanking::getCalculatedPosition)
@@ -45,6 +42,33 @@ public class ScenarioRankingEntityService {
     public boolean existsById(long id){
 
         return repository.existsById(id);
+
+    }
+
+    private void orderRankingsByCalculatedPosition(List<ScenarioRanking> rankings) {
+
+        rankings.sort(Comparator.comparing(ScenarioRanking::getCalculatedPosition));
+
+    }
+
+    public void evaluateScenariosBasedOnBudget(List<ScenarioRanking> scenarioRankings, double budget) {
+
+        orderRankingsByCalculatedPosition(scenarioRankings);
+
+        double accumulatedCost = 0.0;
+
+        for (ScenarioRanking ranking : scenarioRankings) {
+
+            double possibleCost = accumulatedCost + ranking.getProject().getBudget();
+
+            if (possibleCost <= budget) {
+                ranking.setStatus(ScenarioRankingStatusEnum.INCLUDED);
+                accumulatedCost += ranking.getProject().getBudget();
+            } else {
+                ranking.setStatus(ScenarioRankingStatusEnum.EXCLUDED);
+            }
+
+        }
 
     }
 

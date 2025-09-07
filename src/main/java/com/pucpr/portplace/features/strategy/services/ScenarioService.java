@@ -86,6 +86,7 @@ public class ScenarioService {
 
         mapper.updateFromDTO(dto, scenario);
 
+        scenarioRankingEntityService.evaluateScenariosBasedOnBudget(scenario.getScenarioRankings(), scenario.getBudget());
         scenarioRankingEntityService.recalculateCurrentPositions(scenario.getScenarioRankings());
 
         scenario = repository.save(scenario);

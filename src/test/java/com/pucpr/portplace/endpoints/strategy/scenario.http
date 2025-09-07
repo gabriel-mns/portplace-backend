@@ -22,13 +22,14 @@ Content-Type: application/json
 }
 
 ### EDITAR CENÁRIO
-PUT {{host}}/strategies/1/scenarios/9
+PUT {{host}}/strategies/1/scenarios/1
 Accept: application/json
 Content-Type: application/json
 
 {
-  "name": "Cenário 9 Editado",
-  "status": "AUTHORIZED"
+  "name": "Cenário 1 Editado",
+  "status": "WAITING_AUTHORIZATION",
+  "budget": 160123.00
 }
 
 ### DESABILITAR CENÁRIO
