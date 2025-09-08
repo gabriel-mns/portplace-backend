@@ -4,6 +4,8 @@ import org.springframework.stereotype.Component;
 
 import com.pucpr.portplace.features.ahp.exceptions.CriteriaGroupNotFoundException;
 import com.pucpr.portplace.features.ahp.specs.CriteriaGroupExistsSpecification;
+import com.pucpr.portplace.features.strategy.exceptions.StrategyNotFoundException;
+import com.pucpr.portplace.features.strategy.specs.StrategyExistsSpecification;
 
 import lombok.AllArgsConstructor;
 
@@ -12,10 +14,16 @@ import lombok.AllArgsConstructor;
 public class CriteriaGroupValidationService {
 
     private CriteriaGroupExistsSpecification criteriaGroupExistsSpecification;
+    private StrategyExistsSpecification strategyExistsSpecification;
 
-    public void validateBeforeCreation(long strategyId) {
-        // TODO: After implementing the strategy service, check if the strategy exists
-        return;
+    public void validateBeforeCreation(
+        long strategyId
+    ) {
+        
+        if(!strategyExistsSpecification.isSatisfiedBy(strategyId)) {
+            throw new StrategyNotFoundException(strategyId);
+        }
+
     }
     
     public void validateBeforeUpdate(long strategyId, long criteriaGroupId) {

@@ -82,7 +82,9 @@ public class EvaluationGroupService {
 
     // READ
     public EvaluationGroupReadDTO getEvaluationGroupById(long strategyId, Long id) {
-        
+
+        validationService.validateBeforeGet(strategyId, id);
+
         EvaluationGroup eg = egRepository.findById(id).get();
 
         EvaluationGroupReadDTO egReadDto = egMapper.toReadDTO(eg);
@@ -98,6 +100,8 @@ public class EvaluationGroupService {
         boolean includeDisabled, 
         Pageable pageable
     ) {
+
+        validationService.validateBeforeGetAll(strategyId);
 
         Page<EvaluationGroup> evaluationGroups = egRepository.findByFilters(status, name, includeDisabled, pageable);
 

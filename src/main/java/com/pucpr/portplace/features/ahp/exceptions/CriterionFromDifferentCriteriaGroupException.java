@@ -1,4 +1,4 @@
-package com.pucpr.portplace.features.ahp.services.validations;
+package com.pucpr.portplace.features.ahp.exceptions;
 
 import org.springframework.http.HttpStatus;
 
