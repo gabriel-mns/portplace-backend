@@ -5,6 +5,7 @@ import java.util.List;
 import org.hibernate.annotations.Formula;
 
 import com.pucpr.portplace.core.entities.AuditableEntity;
+import com.pucpr.portplace.features.portfolio.enums.PortfolioHealthEnum;
 import com.pucpr.portplace.features.portfolio.enums.PortfolioStatusEnum;
 import com.pucpr.portplace.features.project.entities.Project;
 import com.pucpr.portplace.features.strategy.entities.Strategy;
@@ -85,6 +86,54 @@ public class Portfolio extends AuditableEntity {
     private int cancelledProjectsCount;
     // private PortfolioHealthEnum scheduleHealth;
     // private PortfolioHealthEnum budgetHealth;
+
+    public PortfolioHealthEnum getScheduleHealth() {
+
+        int lateProjects = 0;
+
+        for (Project project : projects) {
+
+            double scheduleHealth = project.getSchedulePerformanceIndex();
+
+            if (scheduleHealth < 1) {
+                lateProjects++;
+            }
+            
+        }
+
+        if (lateProjects > 2) {
+            return PortfolioHealthEnum.RED;
+        } else if (lateProjects > 0) {
+            return PortfolioHealthEnum.YELLOW;
+        } else {
+            return PortfolioHealthEnum.GREEN;
+        }
+
+    }
+
+    public PortfolioHealthEnum getBudgetHealth() {
+
+        int overBudgetProjects = 0;
+
+        for (Project project : projects) {
+
+            double costHealth = project.getCostPerformanceIndex();
+
+            if (costHealth < 1) {
+                overBudgetProjects++;
+            }
+            
+        }
+
+        if (overBudgetProjects > 2) {
+            return PortfolioHealthEnum.RED;
+        } else if (overBudgetProjects > 0) {
+            return PortfolioHealthEnum.YELLOW;
+        } else {
+            return PortfolioHealthEnum.GREEN;
+        }
+
+    }
 
     public void addProject(Project project) {
         this.projects.add(project);

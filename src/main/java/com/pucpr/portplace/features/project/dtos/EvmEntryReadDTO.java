@@ -18,7 +18,8 @@ public class EvmEntryReadDTO {
     private long id;
     private double plannedValue;
     private double actualCost;
-    private double percentComplete;
+    private double earnedValue;
+    // private double percentComplete;
     private int month;
     private int year;
 

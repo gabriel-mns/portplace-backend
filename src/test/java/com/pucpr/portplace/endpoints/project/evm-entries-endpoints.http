@@ -13,15 +13,15 @@ GET {{host}}/projects/1/evm-entries/1
 Accept: application/json
 
 ### CADASTRAR EVM ENTRY
-POST {{host}}/projects/1/evm-entries
+POST {{host}}/projects/2/evm-entries
 Content-Type: application/json
 
 {
-    "plannedValue": 0.0,
-    "actualCost": 0.0,
-    "percentComplete": 0.0,
-    "month": 12,
-    "year": 2024
+    "plannedValue": 10000.0,
+    "actualCost": 40.0,
+    "percentComplete": 70.0,
+    "month": 2,
+    "year": 2025
 }
 
 ### ATUALIZAR EVM ENTRY

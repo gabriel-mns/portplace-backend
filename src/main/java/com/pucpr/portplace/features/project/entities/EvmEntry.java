@@ -27,7 +27,8 @@ public class EvmEntry extends AuditableEntity {
     private Long id;
     private double plannedValue;
     private double actualCost;
-    private double percentComplete;
+    private double earnedValue;
+    // private double percentComplete;
     private short month;
     private short year;
 

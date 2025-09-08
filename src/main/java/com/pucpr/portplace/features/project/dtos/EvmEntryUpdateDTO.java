@@ -13,7 +13,8 @@ public class EvmEntryUpdateDTO {
 
     private Double plannedValue;
     private Double actualCost;
-    private Double percentComplete;
+    private Double earnedValue;
+    // private Double percentComplete;
     private Integer month;
     private Integer year;
 

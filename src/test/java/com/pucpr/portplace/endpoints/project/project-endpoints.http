@@ -5,18 +5,21 @@ POST {{host}}/projects
 Content-Type: application/json
 
 {
-  "name": "Projeto 5",
-  "description": "Projeto 5",
+  "name": "Projeto 1",
+  "description": "Projeto 1",
+  "status": "IN_ANALYSIS",
+
+  "earnedValue": 10.0,
+  "plannedValue": 123456.78,
+  "currentPlannedValue": 10.0,
+  "actualCost": 10.00,
+
   "startDate": "2023-10-01",
   "endDate": "2023-12-31",
-  "status": "IN_ANALYSIS",
   "projectManager": 1,
   "payback": 124521.13
 }
 
-# "earnedValue": 152752.87,
-# "plannedValue": 25781.90,
-# "actualCost": 25440.00,
 # "budget": 150000.00,
 
 ### BUSCA DE PROJETOS
@@ -47,6 +50,7 @@ Content-Type: application/json
   "description": "Projeto 1 descrição alterada",
   "status": "COMPLETED",
   "payback": "150000.0",
+  "budget": "150000.0",
   "startDate": "2020-10-01",
   "endDate": "2025-12-31",
   "projectManager": 1

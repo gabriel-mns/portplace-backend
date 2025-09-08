@@ -43,8 +43,8 @@ public class EvmEntryService {
         // Update project calculated values
         Project project = projectEntityService.getProjectEntityById(projectId);
         evmEntry.setProject(project);
-        project.getEvmEntries().add(evmEntry);
-        project.updateCalculatedValues();
+        // project.getEvmEntries().add(evmEntry);
+        // project.updateCalculatedValues();
         projectEntityService.saveProjectEntity(project);
         
         return mapper.toReadDTO(evmEntry);
@@ -69,7 +69,7 @@ public class EvmEntryService {
 
         // Update project calculated values
         Project project = projectEntityService.getProjectEntityById(projectId);
-        project.updateCalculatedValues();
+        // project.updateCalculatedValues();
         projectEntityService.saveProjectEntity(project);
         
         return mapper.toReadDTO(evmEntry);
@@ -90,7 +90,7 @@ public class EvmEntryService {
 
         // Update project calculated values
         Project project = evmEntry.getProject();
-        project.updateCalculatedValues();
+        // project.updateCalculatedValues();
         projectEntityService.saveProjectEntity(project);
     
     }
@@ -106,7 +106,7 @@ public class EvmEntryService {
         
         // Update project calculated values
         Project project = projectEntityService.getProjectEntityById(projectId);
-        project.updateCalculatedValues();
+        // project.updateCalculatedValues();
         projectEntityService.saveProjectEntity(project);
 
     }

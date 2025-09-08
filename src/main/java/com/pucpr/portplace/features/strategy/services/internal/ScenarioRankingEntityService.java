@@ -59,11 +59,11 @@ public class ScenarioRankingEntityService {
 
         for (ScenarioRanking ranking : scenarioRankings) {
 
-            double possibleCost = accumulatedCost + ranking.getProject().getTotalPlannedValue();
+            double possibleCost = accumulatedCost + ranking.getProject().getPlannedValue();
 
             if (possibleCost <= budget) {
                 ranking.setStatus(ScenarioRankingStatusEnum.INCLUDED);
-                accumulatedCost += ranking.getProject().getTotalPlannedValue();
+                accumulatedCost += ranking.getProject().getPlannedValue();
             } else {
                 ranking.setStatus(ScenarioRankingStatusEnum.EXCLUDED);
             }

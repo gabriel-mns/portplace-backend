@@ -19,7 +19,8 @@ public class EvmEntryCreateDTO {
     @NotNull
     private Double actualCost;
     @NotNull
-    private Double percentComplete;
+    private Double earnedValue;
+    // private Double percentComplete;
     @NotNull
     @Max(12)
     @Min(1)

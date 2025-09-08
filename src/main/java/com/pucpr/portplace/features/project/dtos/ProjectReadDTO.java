@@ -25,11 +25,15 @@ public class ProjectReadDTO {
     private String name;
     private String description;
     private ProjectStatusEnum status;
+    
+    // EVMS Fields
+    private double plannedValue;
+    private double currentPlannedValue;
     private double earnedValue;
-    private double totalPlannedValue;
-    private double totalActualCost;
+    private double actualCost;
     private double percentComplete;
-    // private double budget;
+    private double budget;
+    private double roi;
     private double payback;
 
     // Relationships
