@@ -34,6 +34,7 @@ public class CriterionReadDTO {
     private LocalDateTime lastModifiedAt;
     // private UserReadDto lastUpdatedBy; // Uncomment if needed
 
+    private int relatedStrategicObjectivesCount;
     private List<StrategicObjectiveReadDTO> strategicObjectives;
 
 }
