@@ -89,6 +89,8 @@ public class Portfolio extends AuditableEntity {
 
     public PortfolioHealthEnum getScheduleHealth() {
 
+        if (projects == null) return PortfolioHealthEnum.GREEN;
+
         int lateProjects = 0;
 
         for (Project project : projects) {
@@ -112,6 +114,8 @@ public class Portfolio extends AuditableEntity {
     }
 
     public PortfolioHealthEnum getBudgetHealth() {
+
+        if (projects == null) return PortfolioHealthEnum.GREEN;
 
         int overBudgetProjects = 0;
 
