@@ -11,7 +11,9 @@ import com.pucpr.portplace.features.strategy.exceptions.PortfolioAlreadyComplete
 import com.pucpr.portplace.features.strategy.exceptions.ScenarioAlreadyAuthorizedException;
 import com.pucpr.portplace.features.strategy.exceptions.ScenarioNotFoundException;
 import com.pucpr.portplace.features.strategy.exceptions.StrategyNotFoundException;
+import com.pucpr.portplace.features.strategy.exceptions.UncategorizedRankingsException;
 import com.pucpr.portplace.features.strategy.services.internal.ScenarioEntityService;
+import com.pucpr.portplace.features.strategy.specs.AllRankingsWereCategorizedSpecification;
 import com.pucpr.portplace.features.strategy.specs.PortfolioIsNotCompletedSpecification;
 import com.pucpr.portplace.features.strategy.specs.ScenarioExistsSpecification;
 import com.pucpr.portplace.features.strategy.specs.ScenarioIsNotAuthorizedSpecification;
@@ -29,6 +31,7 @@ public class ScenarioValidationService {
     private PortfolioExistsSpecification portfolioExistsSpecification;
     private ScenarioIsNotAuthorizedSpecification scenarioIsNotAuthorizedSpecification;
     private PortfolioIsNotCompletedSpecification portfolioIsNotCompletedSpecification;
+    private AllRankingsWereCategorizedSpecification allRankingsWereCategorizedSpecification;
 
     private ScenarioEntityService scenarioService;
 
@@ -107,6 +110,10 @@ public class ScenarioValidationService {
 
         if(!portfolioIsNotCompletedSpecification.isSatisfiedBy(p.getPortfolio().getId())){
             throw new PortfolioAlreadyCompletedException(p.getPortfolio().getId());
+        }
+
+        if(!allRankingsWereCategorizedSpecification.isSatisfiedBy(p.getScenarioRankings())){
+            throw new UncategorizedRankingsException(scenarioId);
         }
 
     }

@@ -13,9 +13,9 @@ POST {{host}}/strategies/1/evaluation-groups/1/evaluations
 Content-Type: application/json
 
 {
-  "score": 300,
-  "projectId": 5,
-  "criterionId": 5
+  "score": 500,
+  "projectId": 2,
+  "criterionId": 1
 }
 
 ### EDITAR AVALIAÇÃO

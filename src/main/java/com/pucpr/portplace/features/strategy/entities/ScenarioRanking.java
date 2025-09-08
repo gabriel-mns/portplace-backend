@@ -4,6 +4,7 @@ package com.pucpr.portplace.features.strategy.entities;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import com.pucpr.portplace.core.entities.AuditableEntity;
+import com.pucpr.portplace.features.portfolio.entities.PortfolioCategory;
 import com.pucpr.portplace.features.project.entities.Project;
 import com.pucpr.portplace.features.strategy.enums.ScenarioRankingStatusEnum;
 
@@ -44,8 +45,14 @@ public class ScenarioRanking extends AuditableEntity {
 
     //Relationships
     @ManyToOne
+    private PortfolioCategory portfolioCategory;
+    @ManyToOne
     private Scenario scenario;
     @ManyToOne
     private Project project;
+
+    public boolean isCategorized() {
+        return portfolioCategory != null;
+    }
 
 }

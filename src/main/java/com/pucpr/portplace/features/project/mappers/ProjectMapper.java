@@ -9,6 +9,7 @@ import org.mapstruct.MappingTarget;
 import org.mapstruct.NullValuePropertyMappingStrategy;
 import org.mapstruct.ReportingPolicy;
 
+import com.pucpr.portplace.features.portfolio.mappers.PortfolioCategoryMapper;
 import com.pucpr.portplace.features.project.dtos.ProjectCreateDTO;
 import com.pucpr.portplace.features.project.dtos.ProjectReadDTO;
 import com.pucpr.portplace.features.project.dtos.ProjectUpdateDTO;
@@ -17,7 +18,7 @@ import com.pucpr.portplace.features.user.mappers.UserMapper;
 
 @Mapper(
     componentModel = "spring", 
-    uses = UserMapper.class,
+    uses = {UserMapper.class, PortfolioCategoryMapper.class},
     unmappedTargetPolicy = ReportingPolicy.IGNORE
 )
 public interface ProjectMapper {

@@ -6,11 +6,13 @@ import java.util.List;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.pucpr.portplace.core.entities.AuditableEntity;
 import com.pucpr.portplace.features.portfolio.entities.Portfolio;
+import com.pucpr.portplace.features.portfolio.entities.PortfolioCategory;
 import com.pucpr.portplace.features.project.enums.ProjectStatusEnum;
 import com.pucpr.portplace.features.strategy.entities.ScenarioRanking;
 import com.pucpr.portplace.features.strategy.entities.StrategicObjective;
 import com.pucpr.portplace.features.user.entities.User;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -70,6 +72,9 @@ public class Project extends AuditableEntity{
     @ManyToOne
     @JoinColumn(name = "portfolio_id")
     private Portfolio portfolio;
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "portfolio_category_id")
+    private PortfolioCategory portfolioCategory;
 
     /*
      *

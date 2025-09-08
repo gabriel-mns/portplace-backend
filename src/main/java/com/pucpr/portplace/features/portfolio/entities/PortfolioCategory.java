@@ -1,6 +1,10 @@
 package com.pucpr.portplace.features.portfolio.entities;
 
+import java.util.List;
+
 import com.pucpr.portplace.core.entities.AuditableEntity;
+import com.pucpr.portplace.features.project.entities.Project;
+import com.pucpr.portplace.features.strategy.entities.ScenarioRanking;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -8,6 +12,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -32,5 +37,13 @@ public class PortfolioCategory extends AuditableEntity {
     @ManyToOne
     @JoinColumn(name = "portfolio_id", nullable = false)
     private Portfolio portfolio;
+    @OneToMany(mappedBy = "portfolioCategory")
+    private List<ScenarioRanking> scenarioRankings;
+    @OneToMany(mappedBy = "portfolioCategory")
+    private List<Project> projects;
+
+    public void addProject(Project project) {
+        this.projects.add(project);
+    }
 
 }

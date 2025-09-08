@@ -197,8 +197,12 @@ public class ScenarioService {
         // ALL PROJECTS WITH STATUS INCLUDED OR MANUALLY_INCLUDED
         List<Project> includedProjects = scenario.getScenarioRankings().stream()
             .filter(ranking -> ranking.getStatus() == ScenarioRankingStatusEnum.INCLUDED || ranking.getStatus() == ScenarioRankingStatusEnum.MANUALLY_INCLUDED)
-            .map(ranking -> ranking.getProject())
-            .peek(project -> project.setStatus(ProjectStatusEnum.IN_PROGRESS))
+            .map(ranking -> {
+                Project project = ranking.getProject();
+                project.setStatus(ProjectStatusEnum.IN_PROGRESS);
+                project.setPortfolioCategory(ranking.getPortfolioCategory());
+                return project;
+            })
             .collect(Collectors.toList());
 
 

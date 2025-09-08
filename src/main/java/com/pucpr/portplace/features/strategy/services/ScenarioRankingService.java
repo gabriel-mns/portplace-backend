@@ -82,7 +82,7 @@ public class ScenarioRankingService {
         long rankingId
     ) {
         
-        validationService.validateBeforeUpdate(scenarioId, rankingId);
+        validationService.validateBeforeUpdate(scenarioId, rankingId, dto);
     
         // UPDATE STATUS
         ScenarioRanking sr = repository.findById(rankingId).get();

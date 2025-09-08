@@ -3,6 +3,7 @@ package com.pucpr.portplace.features.strategy.dtos;
 import java.time.LocalDateTime;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.pucpr.portplace.features.portfolio.dtos.PortfolioCategoryReadDTO;
 import com.pucpr.portplace.features.project.dtos.ProjectReadDTO;
 import com.pucpr.portplace.features.strategy.enums.ScenarioRankingStatusEnum;
 
@@ -24,6 +25,7 @@ public class ScenarioRankingReadDTO {
     private ScenarioRankingStatusEnum status;
 
     private ProjectReadDTO project;
+    private PortfolioCategoryReadDTO portfolioCategory;
 
     private boolean disabled;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")

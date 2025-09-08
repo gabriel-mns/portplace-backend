@@ -2,9 +2,9 @@ package com.pucpr.portplace.features.project.dtos;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.pucpr.portplace.features.portfolio.dtos.PortfolioCategoryReadDTO;
 import com.pucpr.portplace.features.project.enums.ProjectStatusEnum;
 import com.pucpr.portplace.features.user.dtos.UserGetResponseDTO;
 
@@ -41,7 +41,8 @@ public class ProjectReadDTO {
     private double budget;
     
     // Relationships
-    private List<EvmEntryReadDTO> evmEntries;
+    // private List<EvmEntryReadDTO> evmEntries;
+    private PortfolioCategoryReadDTO portfolioCategory;
     private UserGetResponseDTO projectManager;
 
 
