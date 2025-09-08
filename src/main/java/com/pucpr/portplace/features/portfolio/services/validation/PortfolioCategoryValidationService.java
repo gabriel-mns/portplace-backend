@@ -2,6 +2,7 @@ package com.pucpr.portplace.features.portfolio.services.validation;
 
 import org.springframework.stereotype.Service;
 
+import com.pucpr.portplace.features.portfolio.exceptions.PortfolioCategoryNotFoundException;
 import com.pucpr.portplace.features.portfolio.exceptions.PortfolioNotFoundException;
 import com.pucpr.portplace.features.portfolio.specs.PortfolioCategoryExistsSpecification;
 import com.pucpr.portplace.features.portfolio.specs.PortfolioExistsSpecification;
@@ -30,7 +31,7 @@ public class PortfolioCategoryValidationService {
     ) {
 
         if (!categoryExistsSpec.isSatisfiedBy(categoryId)) {
-            throw new PortfolioNotFoundException(categoryId);
+            throw new PortfolioCategoryNotFoundException(categoryId);
         }
 
     }
