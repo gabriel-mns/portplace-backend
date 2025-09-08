@@ -22,6 +22,7 @@ import com.pucpr.portplace.features.user.mappers.UserMapper;
 public interface PortfolioMapper {
 
     @Mapping(target = "status", constant = "EMPTY")
+    @Mapping(target = "projects", ignore = true)
     Portfolio toEntity(PortfolioCreateDTO dto);
     
     PortfolioReadDTO toReadDTO(Portfolio portfolio);
