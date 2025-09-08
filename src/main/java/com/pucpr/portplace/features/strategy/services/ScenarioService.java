@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.pucpr.portplace.features.portfolio.entities.Portfolio;
 import com.pucpr.portplace.features.portfolio.enums.PortfolioStatusEnum;
-import com.pucpr.portplace.features.portfolio.services.PortfolioEntityService;
+import com.pucpr.portplace.features.portfolio.services.internal.PortfolioEntityService;
 import com.pucpr.portplace.features.project.entities.Project;
 import com.pucpr.portplace.features.project.enums.ProjectStatusEnum;
 import com.pucpr.portplace.features.project.mappers.ProjectMapper;

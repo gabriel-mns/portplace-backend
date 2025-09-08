@@ -1,4 +1,4 @@
-package com.pucpr.portplace.features.portfolio.services;
+package com.pucpr.portplace.features.portfolio.services.internal;
 
 import org.springframework.stereotype.Service;
 

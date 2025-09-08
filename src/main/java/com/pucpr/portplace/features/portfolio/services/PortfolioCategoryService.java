@@ -9,13 +9,14 @@ import com.pucpr.portplace.features.portfolio.dtos.PortfolioCategoryUpdateDTO;
 import com.pucpr.portplace.features.portfolio.entities.PortfolioCategory;
 import com.pucpr.portplace.features.portfolio.mappers.PortfolioCategoryMapper;
 import com.pucpr.portplace.features.portfolio.repositories.PortfolioCategoryRepository;
-
+import com.pucpr.portplace.features.portfolio.services.validation.PortfolioCategoryValidationService;
 import lombok.AllArgsConstructor;
 
 @Service
 @AllArgsConstructor
 public class PortfolioCategoryService {
 
+    private PortfolioCategoryValidationService validationService;
     private PortfolioCategoryRepository repository;
     private PortfolioCategoryMapper mapper;
 
@@ -24,8 +25,8 @@ public class PortfolioCategoryService {
         Long portfolioId,
         PortfolioCategoryCreateDTO dto
     ) {
-        
-        // TODO: validate if portfolio exists
+
+        validationService.validateBeforeCreate(portfolioId);
 
         dto.setPortfolioId(portfolioId);
         PortfolioCategory entity = mapper.toEntity(dto);
@@ -37,13 +38,13 @@ public class PortfolioCategoryService {
 
     // UPDATE
     public PortfolioCategoryReadDTO updateCategory(
-        Long id,
+        Long categoryId,
         PortfolioCategoryUpdateDTO dto
     ) {
-        
-        // TODO: validate if category exists
 
-        PortfolioCategory entity = repository.findById(id).get();
+        validationService.validateBeforeUpdate(categoryId);
+
+        PortfolioCategory entity = repository.findById(categoryId).get();
 
         mapper.updateFromDTO(dto, entity);
         repository.save(entity);
@@ -58,8 +59,6 @@ public class PortfolioCategoryService {
         Long categoryId
     ) {
 
-        // TODO: validate if category exists
-
         PortfolioCategory entity = repository.findById(categoryId).get();
 
         entity.setDisabled(true);
@@ -72,7 +71,7 @@ public class PortfolioCategoryService {
         Long categoryId
     ) {
 
-        // TODO: validate if category exists
+        validationService.validateBeforeDelete(categoryId);
 
         PortfolioCategory entity = repository.findById(categoryId).get();
 
@@ -85,7 +84,7 @@ public class PortfolioCategoryService {
         Long categoryId
     ) {
 
-        // TODO: validate if category exists
+        validationService.validateBeforeGet(categoryId);
 
         PortfolioCategory entity = repository.findById(categoryId).get();
 
@@ -100,7 +99,7 @@ public class PortfolioCategoryService {
         Pageable pageable
     ) {
 
-        // TODO: validate if portfolio exists
+        validationService.validateBeforeGetAll(portfolioId);
 
         Page<PortfolioCategory> entities = repository.findByFilters(portfolioId, searchQuery, includeDisabled, pageable);
 

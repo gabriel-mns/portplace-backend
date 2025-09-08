@@ -5,7 +5,7 @@ import org.springframework.stereotype.Component;
 import com.pucpr.portplace.core.validation.specs.Specification;
 import com.pucpr.portplace.features.portfolio.entities.Portfolio;
 import com.pucpr.portplace.features.portfolio.enums.PortfolioStatusEnum;
-import com.pucpr.portplace.features.portfolio.services.PortfolioEntityService;
+import com.pucpr.portplace.features.portfolio.services.internal.PortfolioEntityService;
 
 import lombok.AllArgsConstructor;
 
