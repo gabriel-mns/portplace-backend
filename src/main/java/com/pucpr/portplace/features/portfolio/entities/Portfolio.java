@@ -49,7 +49,7 @@ public class Portfolio extends AuditableEntity {
     private List<Project> projects;
     @ManyToMany
     private List<User> owners;
-    @ManyToMany
+    @OneToMany(mappedBy = "portfolio", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<PortfolioCategory> categories;
     @ManyToOne
     private Strategy strategy;

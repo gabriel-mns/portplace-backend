@@ -1,0 +1,40 @@
+@host = http://localhost:8080/api/v1
+
+### GET TODOS OS PORTFÓLIOS
+GET {{host}}/portfolios
+Accept: application/json
+
+### GET TODAS AS CATEGORIAS DE PORTFÓLIO
+GET {{host}}/portfolios/1/categories
+Accept: application/json
+
+### CADASTRAR NOVA CATEGORIA DE PORTFÓLIO
+POST {{host}}/portfolios/1/categories
+Content-Type: application/json
+
+{
+    "name": "Categoria 3",
+    "description": "Descrição da categoria 3"
+}
+
+
+### GET CATEGORIA DE PORTFÓLIO POR ID
+GET {{host}}/portfolios/1/categories/1
+Accept: application/json
+
+### ALTERAR CATEGORIA DE PORTFÓLIO
+PUT {{host}}/portfolios/1/categories/1
+Content-Type: application/json
+
+{
+    "name": "Categoria 1",
+    "description": "Descrição da categoria 1"
+}
+
+
+### DESABILITAR CATEGORIA DE PORTFÓLIO
+DELETE  {{host}}/portfolios/1/categories/1
+
+### DELETAR CATEGORIA DE PORTFÓLIO
+DELETE  {{host}}/portfolios/1/categories/1/hard-delete
+
