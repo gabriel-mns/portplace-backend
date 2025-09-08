@@ -98,6 +98,8 @@ public class ProjectController {
 
     @GetMapping
     public ResponseEntity<Page<ProjectReadDTO>> getAllProjects(
+        @RequestParam(required = false) Long projectManagerId,
+        @RequestParam(required = false) Long portfolioId,
         @RequestParam(required = false) List<ProjectStatusEnum> status,
         @RequestParam(defaultValue = "") String searchQuery,
         @RequestParam(defaultValue = "false") boolean includeDisabled,
@@ -110,30 +112,30 @@ public class ProjectController {
         Sort.Direction direction = sortDir.equalsIgnoreCase("desc") ? Sort.Direction.DESC : Sort.Direction.ASC;
         Pageable pageable = PageRequest.of(page, size, Sort.by(direction, sortBy));
 
-        return projectService.getAllProjects(status, searchQuery, pageable, includeDisabled);
+        return projectService.getAllProjects(projectManagerId, portfolioId, status, searchQuery, pageable, includeDisabled);
 
     }
 
-    @GetMapping("/manager/{projectManagerId}")
-    public ResponseEntity<Page<ProjectReadDTO>> getProjectsByManager(
-        @PathVariable long projectManagerId,
-        @RequestParam(required = false) List<ProjectStatusEnum> status,
-        @RequestParam(defaultValue = "") String searchQuery,
-        @RequestParam(defaultValue = "false") boolean includeDisabled,
-        @RequestParam(defaultValue = "0") int page,
-        @RequestParam(defaultValue = "10") int size,
-        @RequestParam(defaultValue = "id") String sortBy,
-        @RequestParam(defaultValue = "asc") String sortDir
-    ) {
+    // @GetMapping("/manager/{projectManagerId}")
+    // public ResponseEntity<Page<ProjectReadDTO>> getProjectsByManager(
+    //     @PathVariable long projectManagerId,
+    //     @RequestParam(required = false) List<ProjectStatusEnum> status,
+    //     @RequestParam(defaultValue = "") String searchQuery,
+    //     @RequestParam(defaultValue = "false") boolean includeDisabled,
+    //     @RequestParam(defaultValue = "0") int page,
+    //     @RequestParam(defaultValue = "10") int size,
+    //     @RequestParam(defaultValue = "id") String sortBy,
+    //     @RequestParam(defaultValue = "asc") String sortDir
+    // ) {
 
-        Sort.Direction direction = sortDir.equalsIgnoreCase("desc") ? Sort.Direction.DESC : Sort.Direction.ASC;
-        Pageable pageable = PageRequest.of(page, size, Sort.by(direction, sortBy));
+    //     Sort.Direction direction = sortDir.equalsIgnoreCase("desc") ? Sort.Direction.DESC : Sort.Direction.ASC;
+    //     Pageable pageable = PageRequest.of(page, size, Sort.by(direction, sortBy));
 
-        Page<ProjectReadDTO> projects = projectService.getAllProjectsByProjectManagerId(projectManagerId, status, searchQuery, includeDisabled, pageable);
+    //     Page<ProjectReadDTO> projects = projectService.getAllProjectsByProjectManagerId(projectManagerId, status, searchQuery, includeDisabled, pageable);
 
-        return ResponseEntity.ok()
-            .body(projects);
+    //     return ResponseEntity.ok()
+    //         .body(projects);
 
-    }
+    // }
 
 }

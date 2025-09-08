@@ -13,6 +13,7 @@ Content-Type: application/json
   "plannedValue": 123456.78,
   "currentPlannedValue": 10.0,
   "actualCost": 10.00,
+  "budget": 150000.00,  
 
   "startDate": "2023-10-01",
   "endDate": "2023-12-31",
@@ -20,7 +21,6 @@ Content-Type: application/json
   "payback": 124521.13
 }
 
-# "budget": 150000.00,
 
 ### BUSCA DE PROJETOS
 GET  {{host}}/projects

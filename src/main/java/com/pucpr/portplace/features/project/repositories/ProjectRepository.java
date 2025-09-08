@@ -17,12 +17,14 @@ public interface ProjectRepository extends JpaRepository<Project, Long> {
         SELECT p
         FROM Project p
         WHERE (:projectManagerId IS NULL OR p.projectManager.id = :projectManagerId)
-          AND (:includeDisabled = true OR p.disabled = false)
-          AND (:name IS NULL OR LOWER(p.name) LIKE LOWER(CONCAT('%', :name, '%')))
-          AND (:status IS NULL OR p.status IN :status)
+            AND (:portfolioId IS NULL OR p.portfolio.id = :portfolioId)
+            AND (:includeDisabled = true OR p.disabled = false)
+            AND (:name IS NULL OR LOWER(p.name) LIKE LOWER(CONCAT('%', :name, '%')))
+            AND (:status IS NULL OR p.status IN :status)
     """)
     Page<Project> findByFilters(
         @Param("projectManagerId") Long projectManagerId,
+        @Param("portfolioId") Long portfolioId,
         @Param("name") String name,
         @Param("status") List<ProjectStatusEnum> status,
         @Param("includeDisabled") boolean includeDisabled,

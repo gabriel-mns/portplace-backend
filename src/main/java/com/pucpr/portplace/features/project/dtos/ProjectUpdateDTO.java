@@ -28,12 +28,14 @@ public class ProjectUpdateDTO {
     private String description;
     @ValidEnum(enumClass = ProjectStatusEnum.class)
     private String status;
+
     private double earnedValue;
     private double currentPlannedValue;
     private double plannedValue;
     private double actualCost;
     private double budget;
     private double payback;
+    
     private LocalDate startDate;
     private LocalDate endDate;
     private long projectManager;

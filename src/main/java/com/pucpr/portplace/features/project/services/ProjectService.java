@@ -93,14 +93,19 @@ public class ProjectService {
     }
 
     public ResponseEntity<Page<ProjectReadDTO>> getAllProjects(
+        Long projectManagerId,
+        Long portfolioId,
         List<ProjectStatusEnum> status,
         String projectName,
         Pageable pageable,
         boolean includeDisabled
     ) {
 
+        validationService.validateBeforeGetAll(projectManagerId, portfolioId);
+
         Page<Project> projects = projectRepository.findByFilters(
-            null,
+            projectManagerId,
+            portfolioId,
             projectName,
             status,
             includeDisabled,
@@ -116,28 +121,28 @@ public class ProjectService {
     
     }
 
-    public Page<ProjectReadDTO> getAllProjectsByProjectManagerId(
-        long projectManagerId,
-        List<ProjectStatusEnum> status,
-        String projectName,
-        boolean includeDisabled, 
-        Pageable pageable
-    ) {
+    // public Page<ProjectReadDTO> getAllProjectsByProjectManagerId(
+    //     long projectManagerId,
+    //     List<ProjectStatusEnum> status,
+    //     String projectName,
+    //     boolean includeDisabled, 
+    //     Pageable pageable
+    // ) {
 
-        validationService.validateBeforeGetByProjectManagerId(projectManagerId);
+    //     validationService.validateBeforeGetByProjectManagerId(projectManagerId);
 
-        Page<Project> projects = projectRepository.findByFilters(
-            projectManagerId,
-            projectName,
-            status,
-            includeDisabled,
-            pageable
-        );
+    //     Page<Project> projects = projectRepository.findByFilters(
+    //         projectManagerId,
+    //         projectName,
+    //         status,
+    //         includeDisabled,
+    //         pageable
+    //     );
 
-        Page<ProjectReadDTO> projectsDTO = projects.map(projectMapper::toReadDTO);
+    //     Page<ProjectReadDTO> projectsDTO = projects.map(projectMapper::toReadDTO);
 
-        return projectsDTO;
+    //     return projectsDTO;
    
-    }
+    // }
     
 }

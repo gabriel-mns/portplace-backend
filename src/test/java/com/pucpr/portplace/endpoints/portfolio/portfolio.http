@@ -33,5 +33,5 @@ DELETE {{host}}/portfolios/1
 Accept: application/json
 
 ### DELETAR PORTFÓLIO
-DELETE {{host}}/portfolios/1/hard-delete
+DELETE {{host}}/portfolios/3/hard-delete
 Accept: application/json

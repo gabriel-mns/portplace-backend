@@ -25,6 +25,12 @@ public class ProjectReadDTO {
     private String name;
     private String description;
     private ProjectStatusEnum status;
+    private double payback;
+    private double roi;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    private LocalDate startDate;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    private LocalDate endDate;
     
     // EVMS Fields
     private double plannedValue;
@@ -33,19 +39,13 @@ public class ProjectReadDTO {
     private double actualCost;
     private double percentComplete;
     private double budget;
-    private double roi;
-    private double payback;
-
+    
     // Relationships
     private List<EvmEntryReadDTO> evmEntries;
+    private UserGetResponseDTO projectManager;
 
 
     // Auditable fields
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
-    private LocalDate startDate;
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
-    private LocalDate endDate;
-    private UserGetResponseDTO projectManager;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime createdAt;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")

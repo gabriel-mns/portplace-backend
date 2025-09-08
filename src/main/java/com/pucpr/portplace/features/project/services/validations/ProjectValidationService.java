@@ -2,6 +2,8 @@ package com.pucpr.portplace.features.project.services.validations;
 
 import org.springframework.stereotype.Service;
 
+import com.pucpr.portplace.features.portfolio.exceptions.PortfolioNotFoundException;
+import com.pucpr.portplace.features.portfolio.specs.PortfolioExistsSpecification;
 import com.pucpr.portplace.features.project.dtos.ProjectCreateDTO;
 import com.pucpr.portplace.features.project.dtos.ProjectUpdateDTO;
 import com.pucpr.portplace.features.project.exceptions.ProjectNotFoundException;
@@ -17,6 +19,7 @@ public class ProjectValidationService {
 
     private ProjectExistsSpecification projectExistsSpecification;
     private UserExistsSpecification userExistsSpecification;
+    private PortfolioExistsSpecification portfolioExistsSpecification;
 
     public void validateBeforeCreate(ProjectCreateDTO dto) {
 
@@ -62,12 +65,19 @@ public class ProjectValidationService {
 
     }
 
-    public void validateBeforeGetByProjectManagerId(long projectManagerId) {
+    public void validateBeforeGetAll(
+        Long projectManagerId,
+        Long portfolioId
+    ) {
 
-        if(!userExistsSpecification.isSatisfiedBy(projectManagerId)) {
+        if(projectManagerId != null &&!userExistsSpecification.isSatisfiedBy(projectManagerId)) {
             throw new UserNotFoundException(projectManagerId);
         }
 
+        if(portfolioId != null && !portfolioExistsSpecification.isSatisfiedBy(portfolioId)) {
+            throw new PortfolioNotFoundException(portfolioId);
+        }
+    
     }
 
 }

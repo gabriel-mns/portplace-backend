@@ -25,6 +25,7 @@ public class ProjectCreateDTO {
     private String description;
     @ValidEnum(enumClass = ProjectStatusEnum.class)
     private String status;
+    private double payback;
     
     // EVMS Fields
     private double earnedValue;
@@ -32,7 +33,7 @@ public class ProjectCreateDTO {
     private double currentPlannedValue;
     private double actualCost;
     private double budget;
-    private double payback;
+
     private LocalDate startDate;
     private LocalDate endDate;
     private long projectManager;
