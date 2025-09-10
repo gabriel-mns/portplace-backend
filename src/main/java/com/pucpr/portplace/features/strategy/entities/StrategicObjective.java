@@ -7,7 +7,6 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import com.pucpr.portplace.core.entities.AuditableEntity;
 import com.pucpr.portplace.features.ahp.entities.Criterion;
-import com.pucpr.portplace.features.project.entities.Project;
 import com.pucpr.portplace.features.strategy.enums.StrategicObjectiveStatusEnum;
 
 import jakarta.persistence.Entity;
@@ -18,7 +17,6 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
@@ -53,28 +51,26 @@ public class StrategicObjective extends AuditableEntity{
          WHERE c.strategic_objective_id = id)
         """)
     private int criteriaCount;
-    //TODO: calculate this field when portfolio is created
-    // private int activePortfolioCount;
-    @Formula("""
-        (SELECT COUNT(DISTINCT p.project_id)
-         FROM strategic_objective_project p
-         INNER JOIN projects pr ON pr.id = p.project_id
-         WHERE p.strategic_objective_id = id
-           AND pr.status = 'IN_PROGRESS')
-        """)
-    private int activeProjectsCount;
+    // //TODO: calculate this field when portfolio is created
+    // // private int activePortfolioCount;
+    // @Formula("""
+    //     (SELECT COUNT(DISTINCT p.project_id)
+    //      FROM strategic_objective_project p
+    //      INNER JOIN projects pr ON pr.id = p.project_id
+    //      WHERE p.strategic_objective_id = id
+    //        AND pr.status = 'IN_PROGRESS')
+    //     """)
+    // private int activeProjectsCount;
+
+    public int getActiveProjectsCount(){
+        return 0;
+    }
+
 
     //Relationships
     @ManyToOne
     @JoinColumn(name = "strategy_id")
     private Strategy strategy;
-    @ManyToMany
-    @JoinTable(
-        name = "strategic_objective_project",
-        joinColumns = @JoinColumn(name = "strategic_objective_id"),
-        inverseJoinColumns = @JoinColumn(name = "project_id")
-    )
-    private List<Project> projects;
     @ManyToMany(mappedBy = "strategicObjectives")
     // @JoinTable(
     //     name = "strategic_objective_criterion",

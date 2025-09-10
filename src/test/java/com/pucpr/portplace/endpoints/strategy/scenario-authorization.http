@@ -5,7 +5,7 @@
 GET {{host}}/strategies/1/scenarios
 
 ### GET CENÁRIO
-GET {{host}}/strategies/1/scenarios/1
+GET {{host}}/strategies/1/scenarios/1/rankings
 
 ### GET AUTHORIZATION PREVIEW DO CENÁRIO
 GET {{host}}/strategies/1/scenarios/1/authorization-preview

@@ -8,6 +8,7 @@ import com.pucpr.portplace.core.entities.AuditableEntity;
 import com.pucpr.portplace.features.portfolio.enums.PortfolioHealthEnum;
 import com.pucpr.portplace.features.portfolio.enums.PortfolioStatusEnum;
 import com.pucpr.portplace.features.project.entities.Project;
+import com.pucpr.portplace.features.strategy.entities.Scenario;
 import com.pucpr.portplace.features.strategy.entities.Strategy;
 import com.pucpr.portplace.features.user.entities.User;
 
@@ -21,6 +22,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -53,6 +55,8 @@ public class Portfolio extends AuditableEntity {
     private List<PortfolioCategory> categories;
     @ManyToOne
     private Strategy strategy;
+    @OneToOne(optional = true)
+    private Scenario scenario;
     // private List<Risk> risks;
     // private CommunicationPlan communicationPlan;
 

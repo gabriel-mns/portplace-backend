@@ -209,6 +209,8 @@ public class ScenarioService {
         // CHANGE THE PROJECTS OF THE PORTFOLIO TO THE INCLUDED PROJECTS
         portfolio.getProjects().clear();
         includedProjects.forEach(portfolio::addProject);
+        portfolio.setScenario(scenario);
+        scenario.setPortfolio(portfolio);
 
         portfolio.setBudget(scenario.getBudget());
         portfolio.setStatus(PortfolioStatusEnum.IN_PROGRESS);

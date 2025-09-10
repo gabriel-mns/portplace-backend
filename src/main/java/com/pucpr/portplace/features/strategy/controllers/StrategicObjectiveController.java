@@ -18,6 +18,8 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.pucpr.portplace.features.ahp.dtos.CriterionReadDTO;
 import com.pucpr.portplace.features.ahp.services.internal.CriterionEntityService;
+import com.pucpr.portplace.features.portfolio.dtos.PortfolioReadDTO;
+import com.pucpr.portplace.features.portfolio.services.internal.PortfolioEntityService;
 import com.pucpr.portplace.features.strategy.dtos.StrategicObjectiveCreateDTO;
 import com.pucpr.portplace.features.strategy.dtos.StrategicObjectiveReadDTO;
 import com.pucpr.portplace.features.strategy.dtos.StrategicObjectiveUpdateDTO;
@@ -39,6 +41,7 @@ public class StrategicObjectiveController {
     
     private StrategicObjectiveService service;
     private CriterionEntityService criterionService;
+    private PortfolioEntityService portfolioService;
 
     //CREATE
     @PostMapping
@@ -134,6 +137,12 @@ public class StrategicObjectiveController {
 
     }
 
+
+    // #region GET Relationships
+    /*
+     * Endpoints to get the relationships with Strategic Objectives
+     */
+
     @GetMapping("/{objectiveId}/criteria")
     public ResponseEntity<Page<CriterionReadDTO>> getObjectiveCriteria(
         @PathVariable long objectiveId,
@@ -152,6 +161,29 @@ public class StrategicObjectiveController {
             objectiveId,
             searchQuery,
             includeDisabled,
+            pageable
+        );
+
+        return ResponseEntity.ok(response);
+
+    }
+
+    @GetMapping("/{objectiveId}/portfolios")
+    public ResponseEntity<Page<PortfolioReadDTO>> getObjectivePortfolios(
+        @PathVariable long objectiveId,
+        @RequestParam(defaultValue = "") String searchQuery,
+        @RequestParam(defaultValue = "0") int page,
+        @RequestParam(defaultValue = "10") int size,
+        @RequestParam(defaultValue = "name") String sortBy,
+        @RequestParam(defaultValue = "asc") String sortDir
+    ) {
+
+        Sort.Direction direction = sortDir.equalsIgnoreCase("desc") ? Sort.Direction.DESC : Sort.Direction.ASC;
+        PageRequest pageable = PageRequest.of(page, size, Sort.by(direction, sortBy));
+
+        Page<PortfolioReadDTO> response = portfolioService.findByStrategicObjectiveId(
+            objectiveId,
+            searchQuery,
             pageable
         );
 
