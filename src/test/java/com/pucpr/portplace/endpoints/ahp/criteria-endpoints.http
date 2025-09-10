@@ -13,19 +13,19 @@ POST {{host}}/strategies/1/criteria-groups/1/criteria
 Content-Type: application/json
 
 {
-  "name": "CRITERIO 2",
-  "description": "CRITERIO 2"
+  "name": "CRITERIO 4",
+  "description": "CRITERIO 4"
 }
 
 ### EDIÇÃO DE GRUPO DE CRITÉRIOS
-PUT {{host}}/strategies/1/criteria-groups/1/criteria/1
+PUT {{host}}/strategies/1/criteria-groups/1/criteria/3
 Content-Type: application/json
 
 {
-  "name": "CRITERIO 1",
-  "description": "CRITERIO 1",
+  "name": "CRITERIO 3",
+  "description": "CRITERIO 3",
   "strategicObjectives": [
-    1,2,3
+    3
   ]
 }
 

@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.pucpr.portplace.features.ahp.dtos.CriterionReadDTO;
+import com.pucpr.portplace.features.ahp.services.internal.CriterionEntityService;
 import com.pucpr.portplace.features.strategy.dtos.StrategicObjectiveCreateDTO;
 import com.pucpr.portplace.features.strategy.dtos.StrategicObjectiveReadDTO;
 import com.pucpr.portplace.features.strategy.dtos.StrategicObjectiveUpdateDTO;
@@ -36,6 +38,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class StrategicObjectiveController {
     
     private StrategicObjectiveService service;
+    private CriterionEntityService criterionService;
 
     //CREATE
     @PostMapping
@@ -130,6 +133,30 @@ public class StrategicObjectiveController {
         return ResponseEntity.ok(response);
 
     }
-    
+
+    @GetMapping("/{objectiveId}/criteria")
+    public ResponseEntity<Page<CriterionReadDTO>> getObjectiveCriteria(
+        @PathVariable long objectiveId,
+        @RequestParam(defaultValue = "") String searchQuery,
+        @RequestParam(defaultValue = "false") boolean includeDisabled,
+        @RequestParam(defaultValue = "0") int page,
+        @RequestParam(defaultValue = "10") int size,
+        @RequestParam(defaultValue = "name") String sortBy,
+        @RequestParam(defaultValue = "asc") String sortDir
+    ) {
+
+        Sort.Direction direction = sortDir.equalsIgnoreCase("desc") ? Sort.Direction.DESC : Sort.Direction.ASC;
+        PageRequest pageable = PageRequest.of(page, size, Sort.by(direction, sortBy));
+
+        Page<CriterionReadDTO> response = criterionService.findByStrategicObjectiveId(
+            objectiveId,
+            searchQuery,
+            includeDisabled,
+            pageable
+        );
+
+        return ResponseEntity.ok(response);
+
+    }
 
 }

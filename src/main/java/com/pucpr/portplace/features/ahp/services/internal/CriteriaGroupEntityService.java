@@ -14,17 +14,6 @@ public class CriteriaGroupEntityService {
     private CriteriaGroupRepository criteriaGroupRepository;
     
     public CriteriaGroup getById(
-        long strategyId, 
-        long criteriaGroupId
-        ) {
-
-        CriteriaGroup criteriaGroup = criteriaGroupRepository.findById(criteriaGroupId).get();
-
-        return criteriaGroup;
-
-    }
-
-    public CriteriaGroup getById(
         long criteriaGroupId
         ) {
 

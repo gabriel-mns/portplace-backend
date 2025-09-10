@@ -48,7 +48,7 @@ public class CriterionService {
 
         Criterion newCriterion = criterionMapper.toEntity(criterionCreateDTO);
         newCriterion.setCriteriaGroup(
-            criteriaGroupEntityService.getById(strategyId, criteriaGroupId)
+            criteriaGroupEntityService.getById(criteriaGroupId)
         );
 
         criterionRepository.save(newCriterion);
@@ -118,12 +118,12 @@ public class CriterionService {
         CriterionReadDTO criterionDTO = criterionMapper.toReadDTO(criterion);
         
         // Weight calculation
-        CriteriaGroup criteriaGroup = criteriaGroupEntityService.getById(1, criteriaGroupId);
+        CriteriaGroup criteriaGroup = criteriaGroupEntityService.getById(criteriaGroupId);
         boolean allCriteriaCompared = allCriteriaComparedSpecification.isSatisfiedBy(
             criteriaGroup
         );
         List<CriteriaComparison> comparisons = criteriaGroupEntityService
-            .getById(1, criteriaGroupId)
+            .getById(criteriaGroupId)
             .getCriteriaComparisons();
 
         if (allCriteriaCompared) {
@@ -135,8 +135,8 @@ public class CriterionService {
 
     }
 
-    public Page<CriterionReadDTO> getCriteriaByCriteriaGroupId(
-        long criteriaGroupId, 
+    public Page<CriterionReadDTO> getCriteriaByFilters(
+        Long criteriaGroupId,
         boolean includeDisabled,
         String name,
         Pageable pageable
@@ -144,37 +144,44 @@ public class CriterionService {
 
         validationService.validateBeforeGetAll(criteriaGroupId);
 
-        CriteriaGroup criteriaGroup = criteriaGroupEntityService.getById(1, criteriaGroupId);
-        List<CriteriaComparison> criteriaComparisons = criteriaGroup.getCriteriaComparisons();
-        boolean allCriteriaCompared = allCriteriaComparedSpecification.isSatisfiedBy(
-            criteriaGroup
-            );
-        boolean includeWeight = !includeDisabled && allCriteriaCompared;
-        boolean containsName = name != null && !name.isEmpty();
-        Page<Criterion> criteria;
+        Page<Criterion> criteria = criterionRepository.findByCriteriaGroupId(
+            criteriaGroupId,
+            includeDisabled,
+            name,
+            pageable
+        );
 
-        if(includeDisabled) {
-            if(containsName){
-                criteria = criterionRepository.findByCriteriaGroupIdAndNameContainingIgnoreCase(criteriaGroupId, name, pageable);
-            } else {
-                criteria = criterionRepository.findByCriteriaGroupId(criteriaGroupId, pageable);
-            }
-
-        } else {
-            if(containsName){
-                criteria = criterionRepository.findByCriteriaGroupIdAndDisabledFalseAndNameContainingIgnoreCase(criteriaGroupId, name, pageable);
-            } else {
-                criteria = criterionRepository.findByCriteriaGroupIdAndDisabledFalse(criteriaGroupId, pageable);
-            }
-        }
-
+        
         List<CriterionReadDTO> dtos = criteria.getContent().stream()
             .map(criterionMapper::toReadDTO)
-            .peek(dto -> {
+            .peek(criterion -> {
+
+                // Get CriteriaGroup from that criterion
+                CriteriaGroup criteriaGroup = criteriaGroupEntityService.getById(criteriaGroupId);
+                // Get all active comparisons from that CriteriaGroup
+                List<CriteriaComparison> criteriaComparisons = criteriaGroup.getCriteriaComparisons()
+                                                                .stream()
+                                                                .filter(cc -> cc.isDisabled() == false)
+                                                                .toList();
+
+                // Check if all criteria are compared
+                boolean allCriteriaCompared = allCriteriaComparedSpecification.isSatisfiedBy(
+                    criteriaGroup
+                    );
+
+                // If the criterion it`s disabled, it does not count and does not receive weight
+                boolean includeWeight = 
+                    !criteriaGroup.isDisabled() && 
+                    !criterion.isDisabled() &&
+                    criteriaComparisons.size() > 0 &&
+                    allCriteriaCompared;
+
+                // If it`s possible to include weight
                 if (includeWeight) {
-                    double weight = ahpCalculationService.getCriterionWeight(dto.getId(), criteriaComparisons);
-                    dto.setWeight(weight);
+                    double weight = ahpCalculationService.getCriterionWeight(criterion.getId(), criteriaComparisons);
+                    criterion.setWeight(weight);
                 }
+
             })
             .toList();
 

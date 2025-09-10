@@ -41,8 +41,8 @@ public class CriterionController {
     //#region READ
     @GetMapping
     public ResponseEntity<Page<CriterionReadDTO>> getAllCriteria(
-        @PathVariable long strategyId, 
-        @PathVariable long criteriaGroupId,
+        @PathVariable Long strategyId, 
+        @PathVariable Long criteriaGroupId,
         @RequestParam(defaultValue = "") String searchQuery,
         @RequestParam(defaultValue="false") boolean includeDisabled,
         @RequestParam(defaultValue="0") int page,
@@ -54,7 +54,9 @@ public class CriterionController {
         Sort.Direction direction = sortDir.equalsIgnoreCase("desc") ? Sort.Direction.DESC : Sort.Direction.ASC;
         PageRequest pageable = PageRequest.of(page, size, Sort.by(direction, sortBy));
 
-        Page<CriterionReadDTO> criteria = criterionService.getCriteriaByCriteriaGroupId(criteriaGroupId, includeDisabled, searchQuery, pageable);
+        Page<CriterionReadDTO> criteria = criterionService.getCriteriaByFilters(
+            criteriaGroupId, includeDisabled, searchQuery, pageable
+        );
 
         return ResponseEntity.ok(criteria);
     

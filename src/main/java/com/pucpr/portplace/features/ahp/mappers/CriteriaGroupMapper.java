@@ -25,7 +25,6 @@ import com.pucpr.portplace.features.ahp.entities.CriteriaGroup;
 public interface CriteriaGroupMapper {
     
     @Mapping(source = "criteriaComparisons", target = "criteriaComparisons")
-    @Mapping(source = "criteria", target = "criteriaList")
     public CriteriaGroupReadDTO toCriteriaGroupReadDTO(CriteriaGroup criteriaGroup);
 
     @Mapping(target = "status", constant = "ACTIVE")

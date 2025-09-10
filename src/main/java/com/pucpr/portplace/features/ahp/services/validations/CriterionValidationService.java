@@ -106,7 +106,9 @@ public class CriterionValidationService {
 
     }
 
-    public void validateBeforeGetAll(Long criteriaGroupId) {
+    public void validateBeforeGetAll(
+        Long criteriaGroupId
+    ) {
 
         if(!criteriaGroupExistsSpecification.isSatisfiedBy(criteriaGroupId)) {
             throw new CriteriaGroupNotFoundException(criteriaGroupId);

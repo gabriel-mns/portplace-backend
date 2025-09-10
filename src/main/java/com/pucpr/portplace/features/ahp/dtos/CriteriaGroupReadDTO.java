@@ -27,7 +27,7 @@ public class CriteriaGroupReadDTO {
 
     //Relationships
     private StrategyReadDTO strategy;
-    private List<CriterionReadDTO> criteriaList;
+    private List<CriterionReadDTO> criteria;
     private List<CriteriaComparisonReadDTO> criteriaComparisons;
     private int relatedObjectivesCount;
     private int relatedEvaluationGroupsCount;
