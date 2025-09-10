@@ -31,4 +31,31 @@ public interface ProjectRepository extends JpaRepository<Project, Long> {
         Pageable pageable
     );
 
+
+
+    @Query("""
+        SELECT DISTINCT p FROM Project p
+        JOIN p.scenarioRankings sr
+        JOIN sr.scenario s
+        JOIN s.evaluationGroup eg
+        JOIN eg.criteriaGroup cg
+        JOIN cg.criteria c
+        JOIN c.strategicObjectives o
+        WHERE o.id = :objectiveId
+          AND sr.status NOT IN (com.pucpr.portplace.features.strategy.enums.ScenarioRankingStatusEnum.MANUALLY_EXCLUDED,
+                               com.pucpr.portplace.features.strategy.enums.ScenarioRankingStatusEnum.EXCLUDED)
+          AND p.disabled = false
+          AND s.disabled = false
+          AND eg.disabled = false
+          AND cg.disabled = false
+          AND c.disabled = false
+          AND o.disabled = false
+          AND (LOWER(p.name) LIKE LOWER(CONCAT('%', :searchQuery, '%')))
+    """)
+    Page<Project> findByObjectiveId(
+        @Param("objectiveId") Long objectiveId,
+        @Param("searchQuery") String searchQuery,
+        Pageable pageable
+    );
+
 }
