@@ -6,6 +6,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import com.pucpr.portplace.features.portfolio.dtos.PortfolioCancelationPatchDTO;
 import com.pucpr.portplace.features.portfolio.dtos.PortfolioCreateDTO;
 import com.pucpr.portplace.features.portfolio.dtos.PortfolioListReadDTO;
 import com.pucpr.portplace.features.portfolio.dtos.PortfolioReadDTO;
@@ -52,6 +53,24 @@ public class PortfolioService {
         repository.save(existingPortfolio);
 
         return mapper.toReadDTO(existingPortfolio);
+    }
+
+    public PortfolioReadDTO cancelPortfolio(
+        Long portfolioId,
+        PortfolioCancelationPatchDTO dto
+    ){
+
+        validationService.validateBeforeCancel(portfolioId);
+
+        Portfolio existingPortfolio = repository.findById(portfolioId).get();
+
+        existingPortfolio.setStatus(PortfolioStatusEnum.CANCELLED);
+        existingPortfolio.setCancellationReason(dto.getCancellationReason());
+
+        existingPortfolio = repository.save(existingPortfolio);
+
+        return mapper.toReadDTO(existingPortfolio);
+
     }
 
     // DELETE

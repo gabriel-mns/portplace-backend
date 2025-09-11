@@ -28,4 +28,12 @@ public class PortfolioValidationService {
 
     }
 
+    public void validateBeforeCancel(Long portfolioId) {
+        
+        if(!portfolioExistsSpecification.isSatisfiedBy(portfolioId)){
+            throw new PortfolioNotFoundException(portfolioId);
+        }
+        
+    }
+
 }

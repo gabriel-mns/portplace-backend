@@ -10,6 +10,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.pucpr.portplace.features.portfolio.dtos.PortfolioCancelationPatchDTO;
 import com.pucpr.portplace.features.portfolio.dtos.PortfolioCreateDTO;
 import com.pucpr.portplace.features.portfolio.dtos.PortfolioListReadDTO;
 import com.pucpr.portplace.features.portfolio.dtos.PortfolioReadDTO;
@@ -59,12 +61,24 @@ public class PortfolioController {
     @PutMapping("/{portfolioId}")
     public ResponseEntity<PortfolioReadDTO> updatePortfolio(
         @PathVariable long portfolioId,
-        @RequestBody @Valid PortfolioUpdateDTO portfolio
+        @RequestBody @Valid PortfolioUpdateDTO dto
     ) {
 
-        PortfolioReadDTO updatedPortfolio = portfolioService.updatePortfolio(portfolioId, portfolio);
+        PortfolioReadDTO updatedPortfolio = portfolioService.updatePortfolio(portfolioId, dto);
 
         return ResponseEntity.ok(updatedPortfolio);
+
+    }
+
+    @PatchMapping("/{portfolioId}/cancel")
+    public ResponseEntity<PortfolioReadDTO> cancelPortfolio(
+        @PathVariable long portfolioId,
+        @RequestBody @Valid PortfolioCancelationPatchDTO portfolio
+    ) {
+
+        PortfolioReadDTO p = portfolioService.cancelPortfolio(portfolioId, portfolio);
+
+        return ResponseEntity.ok(p);
 
     }
 

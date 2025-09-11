@@ -26,6 +26,7 @@ public class PortfolioReadDTO {
     private String description;
     private double budget;
     private PortfolioStatusEnum status;
+    private String cancellationReason;
 
     // Relationships
     private List<ProjectReadDTO> projects;
