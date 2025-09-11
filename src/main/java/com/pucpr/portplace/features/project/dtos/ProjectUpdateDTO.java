@@ -27,7 +27,6 @@ public class ProjectUpdateDTO {
     private String status;
 
     private double earnedValue;
-    private double currentPlannedValue;
     private double plannedValue;
     private double actualCost;
     private double budgetAtCompletion;
