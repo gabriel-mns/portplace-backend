@@ -30,8 +30,6 @@ public class ProjectService {
     // CREATE
     public ProjectReadDTO createProject(@Valid ProjectCreateDTO projectDTO) {
 
-        validationService.validateBeforeCreate(projectDTO);
-
         Project newProject = projectMapper.toEntity(projectDTO);
         // newProject.updateCalculatedValues();
 
@@ -93,7 +91,6 @@ public class ProjectService {
     }
 
     public ResponseEntity<Page<ProjectReadDTO>> getAllProjects(
-        Long projectManagerId,
         Long portfolioId,
         List<ProjectStatusEnum> status,
         String projectName,
@@ -101,10 +98,9 @@ public class ProjectService {
         boolean includeDisabled
     ) {
 
-        validationService.validateBeforeGetAll(projectManagerId, portfolioId);
+        validationService.validateBeforeGetAll(portfolioId);
 
         Page<Project> projects = projectRepository.findByFilters(
-            projectManagerId,
             portfolioId,
             projectName,
             status,
@@ -112,10 +108,7 @@ public class ProjectService {
             pageable
         );
 
-        // List<ProjectReadDTO> projectsDTO = projectMapper.toReadDTO(projects);
         Page<ProjectReadDTO> projectsDTO = projects.map(projectMapper::toReadDTO);
-
-        // TODO: Implement filtering
 
         return ResponseEntity.ok(projectsDTO);
     

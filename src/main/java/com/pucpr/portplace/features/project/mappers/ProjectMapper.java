@@ -24,7 +24,6 @@ import com.pucpr.portplace.features.user.mappers.UserMapper;
 public interface ProjectMapper {
     
     // Create
-    @Mapping(target = "projectManager.id", source = "projectManager")
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "budgetAtCompletion", source = "dto.budgetAtCompletion")
     Project toEntity(ProjectCreateDTO dto);
@@ -35,7 +34,6 @@ public interface ProjectMapper {
     List<ProjectReadDTO> toReadDTO(List<Project> entities);
 
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
-    @Mapping(target = "projectManager.id", source = "projectManager")
     void updateFromDTO(ProjectUpdateDTO dto, @MappingTarget Project entity);
     
 }

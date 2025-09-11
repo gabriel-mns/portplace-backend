@@ -11,7 +11,6 @@ import com.pucpr.portplace.features.project.enums.ProjectStatusEnum;
 import com.pucpr.portplace.features.strategy.entities.ScenarioRanking;
 import com.pucpr.portplace.features.user.entities.User;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -59,15 +58,12 @@ public class Project extends AuditableEntity{
     private LocalDate endDate;
 
     //#region Relationships
-    @ManyToOne
-    @JoinColumn(name = "project_manager_id")
-    private User projectManager;
     @OneToMany(mappedBy = "project")
     private List<ScenarioRanking> scenarioRankings;
     @ManyToOne
     @JoinColumn(name = "portfolio_id")
     private Portfolio portfolio;
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(optional = true)
     @JoinColumn(name = "portfolio_category_id")
     private PortfolioCategory portfolioCategory;
 
@@ -125,7 +121,6 @@ public class Project extends AuditableEntity{
         if (this.budgetAtCompletion == 0) return 0;
         return ((this.earnedValue - this.budgetAtCompletion) / this.budgetAtCompletion) * 100;
     }
-
 
 
 

@@ -8,7 +8,6 @@ import com.pucpr.portplace.features.project.enums.ProjectStatusEnum;
 
 // import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -31,11 +30,10 @@ public class ProjectUpdateDTO {
     private double currentPlannedValue;
     private double plannedValue;
     private double actualCost;
-    private double budget;
+    private double budgetAtCompletion;
     private double payback;
     
     private LocalDate startDate;
     private LocalDate endDate;
-    private long projectManager;
 
 }
