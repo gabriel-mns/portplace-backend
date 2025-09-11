@@ -92,19 +92,23 @@ public class Scenario extends AuditableEntity{
         ranking.setScenario(null);
     }
 
-    public List<Project> getIncludedProjects() {
+    public List<Project> getIncludedProjectsWithCategory() {
         
         return this.scenarioRankings.stream()
             .filter(ranking -> ranking.getStatus() == ScenarioRankingStatusEnum.INCLUDED ||
                                ranking.getStatus() == ScenarioRankingStatusEnum.MANUALLY_INCLUDED
                                )
-            .map(ScenarioRanking::getProject)
+            .map(ranking -> {
+                Project project = ranking.getProject();
+                project.setPortfolioCategory(ranking.getPortfolioCategory());
+                return project;
+            })
             .toList();
     }
 
     public List<Project> getNewIncludedProjects() {
         
-        List<Project> includedProjects = getIncludedProjects();
+        List<Project> includedProjects = getIncludedProjectsWithCategory();
 
         return includedProjects.stream()
             .filter(project -> !this.portfolio.getProjects().contains(project))
@@ -113,7 +117,7 @@ public class Scenario extends AuditableEntity{
 
     public List<Project> getRemovedProjects() {
 
-        List<Project> includedProjects = getIncludedProjects();
+        List<Project> includedProjects = getIncludedProjectsWithCategory();
 
         return this.portfolio.getProjects().stream()
             .filter(project -> !includedProjects.contains(project))

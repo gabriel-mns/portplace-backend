@@ -165,7 +165,7 @@ public class ScenarioService {
         ScenarioAuthorizationPreviewDTO dto = mapper.toAuthorizationPreviewDTO(scenario);
 
         // ALL PROJECTS WITH STATUS INCLUDED OR MANUALLY_INCLUDED
-        List<Project> includedProjects = scenario.getIncludedProjects();
+        List<Project> includedProjects = scenario.getIncludedProjectsWithCategory();
 
         // ALL PROJECTS CURRENTLY IN THE PORTFOLIO THAT WILL BE REMOVED (NOT IN INCLUDED IN SCENARIO)
         List<Project> removedProjects = scenario.getRemovedProjects();
