@@ -111,6 +111,10 @@ public class Project extends AuditableEntity{
         return this.budgetAtCompletion / this.getCostPerformanceIndex();
     }
 
+    public double getEstimateToComplete() {
+        return this.getEstimateAtCompletion() - this.actualCost;
+    }
+
     public double getPercentComplete() {
         // updateCalculatedValues();
         if (this.budgetAtCompletion == 0) return 0;
