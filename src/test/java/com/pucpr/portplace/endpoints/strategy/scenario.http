@@ -14,8 +14,8 @@ Accept: application/json
 Content-Type: application/json
 
 {
-  "name": "Cenário 1",
-  "description": "Descrição do Cenário 1",
+  "name": "Cenário 2",
+  "description": "Descrição do Cenário 2",
   "budget": 150000.00,
   "evaluationGroupId": 1,
   "portfolioId": 1

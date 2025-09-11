@@ -25,6 +25,7 @@ public interface PortfolioMapper {
     @Mapping(target = "projects", ignore = true)
     Portfolio toEntity(PortfolioCreateDTO dto);
     
+    @Mapping(target = "activeScenarioName", expression = "java(portfolio.getActiveScenario() != null ? portfolio.getActiveScenario().getName() : null)")
     PortfolioReadDTO toReadDTO(Portfolio portfolio);
 
     PortfolioListReadDTO toListReadDTO(Portfolio portfolio);

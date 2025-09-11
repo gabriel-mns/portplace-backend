@@ -1,5 +1,6 @@
 package com.pucpr.portplace.features.strategy.services;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -198,6 +199,7 @@ public class ScenarioService {
         addProjectsToPortfolio(projectsToBeIncluded, portfolio);
 
         scenario.setPortfolio(portfolio);
+        scenario.setAuthorizationDate(LocalDateTime.now());
         scenario.setStatus(ScenarioStatusEnum.AUTHORIZED);
         repository.save(scenario);
 

@@ -13,8 +13,8 @@ POST {{host}}/strategies/1/evaluation-groups
 Content-Type: application/json
 
 {
-  "name": "Evaluation Group 1",
-  "description": "Descrição 1",
+  "name": "Evaluation Group 2",
+  "description": "Descrição 2",
   "criteriaGroupId": 1
 }
 

@@ -1,5 +1,6 @@
 package com.pucpr.portplace.features.strategy.entities;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -49,6 +50,7 @@ public class Scenario extends AuditableEntity{
     private double budget;
     @Enumerated(EnumType.STRING)
     private ScenarioStatusEnum status;
+    private LocalDateTime authorizationDate;
 
     // Relationships
     @OneToMany(mappedBy = "scenario", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)

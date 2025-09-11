@@ -8,9 +8,9 @@ GET {{host}}/strategies/1/scenarios
 GET {{host}}/strategies/1/scenarios/1/rankings
 
 ### GET AUTHORIZATION PREVIEW DO CENÁRIO
-GET {{host}}/strategies/1/scenarios/1/authorization-preview
+GET {{host}}/strategies/1/scenarios/2/authorization-preview
 Accept: application/json
 
 ### AUTHORIZE SCENARIO
-POST {{host}}/strategies/1/scenarios/1/authorize
+POST {{host}}/strategies/1/scenarios/2/authorize
 Accept: application/json

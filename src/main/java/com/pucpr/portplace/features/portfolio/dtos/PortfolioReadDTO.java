@@ -31,6 +31,7 @@ public class PortfolioReadDTO {
     private List<ProjectReadDTO> projects;
     private StrategyReadDTO strategy;
     private List<UserGetResponseDTO> owners;
+    private String activeScenarioName;
     private boolean canBeDeleted;
     
     // Calculated Fields

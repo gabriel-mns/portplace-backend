@@ -1,6 +1,7 @@
 package com.pucpr.portplace.features.portfolio.entities;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 import org.hibernate.annotations.Formula;
@@ -145,6 +146,17 @@ public class Portfolio extends AuditableEntity {
 
     public boolean canBeDeleted() {
         return scenarios == null || scenarios.isEmpty();
+    }
+
+    public Scenario getActiveScenario() {
+        if (scenarios == null) return null;
+        
+        // get the most recent authorized scenario
+        return scenarios.stream()
+            .filter(s -> s.getAuthorizationDate() != null) // ignora os não autorizados
+            .max(Comparator.comparing(Scenario::getAuthorizationDate))
+            .orElse(null);
+                
     }
 
 }
