@@ -28,8 +28,8 @@ Accept: application/json
 Content-Type: application/json
 
 {
-  "name": "Objetivo Estratégico 3",
-  "description": "Descrição do Objetivo Estratégico 3"
+  "name": "Objetivo Estratégico 2",
+  "description": "Descrição do Objetivo Estratégico 2"
 }
 
 ### EDITAR OBJETIVO ESTRATÉGICO
