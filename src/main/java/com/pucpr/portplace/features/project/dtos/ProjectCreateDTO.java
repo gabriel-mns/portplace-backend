@@ -3,6 +3,7 @@ package com.pucpr.portplace.features.project.dtos;
 import java.time.LocalDate;
 
 import com.pucpr.portplace.core.validation.constraints.enumValues.ValidEnum;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.pucpr.portplace.core.validation.constraints.dateRange.ValidDateRange;
 import com.pucpr.portplace.features.project.enums.ProjectStatusEnum;
 
@@ -33,7 +34,9 @@ public class ProjectCreateDTO {
     private double actualCost;
     private double budgetAtCompletion;
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
     private LocalDate startDate;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
     private LocalDate endDate;
 
 }
