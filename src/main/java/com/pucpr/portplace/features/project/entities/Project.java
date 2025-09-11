@@ -50,9 +50,8 @@ public class Project extends AuditableEntity{
     //#region EVMS fields
     private double earnedValue;
     private double plannedValue;
-    private double currentPlannedValue;
     private double actualCost;
-    private double budget; //used to calculate ROI
+    private double budgetAtCompletion; //used to calculate ROI
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private LocalDate startDate;
@@ -80,16 +79,13 @@ public class Project extends AuditableEntity{
     // @OneToMany(mappedBy = "project", orphanRemoval = true, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     // private List<EvmEntry> evmEntries;
 
-    // TODO: Create attachments table and add a list of attachments to the project
-    // private List<Attachment> attachments;
-
-    public Project(String name, String description, ProjectStatusEnum status, double earnedValue, double plannedValue, double currentPlannedValue,
+    //#region  Methods
+    public Project(String name, String description, ProjectStatusEnum status, double earnedValue, double plannedValue,
             double actualCost, double budget, double payback, LocalDate startDate, LocalDate endDate, User projectManager) {
         this.name = name;
         this.description = description;
         this.status = status;
         this.earnedValue = earnedValue;
-        this.currentPlannedValue = currentPlannedValue;
         this.plannedValue = plannedValue;
         this.actualCost = actualCost;
         this.payback = payback;
@@ -98,7 +94,42 @@ public class Project extends AuditableEntity{
         // this.projectManager = projectManager;
     }
 
-    //#region Methods
+    public double getCostPerformanceIndex() {
+        // updateCalculatedValues();
+        if (this.actualCost == 0) return 1;
+        return this.earnedValue / this.actualCost;
+    }
+
+    public double getSchedulePerformanceIndex() {
+        // updateCalculatedValues();
+        if (this.plannedValue == 0) return 1;
+        return this.earnedValue / this.plannedValue;
+    }
+
+    public double getEstimateAtCompletion() {
+        if (this.getCostPerformanceIndex() == 0) return this.budgetAtCompletion;
+        return this.budgetAtCompletion / this.getCostPerformanceIndex();
+    }
+
+    public double getPercentComplete() {
+        // updateCalculatedValues();
+        if (this.budgetAtCompletion == 0) return 0;
+        return (this.earnedValue / this.budgetAtCompletion) * 100;
+    }
+
+    public double getRoi() {
+        if (this.budgetAtCompletion == 0) return 0;
+        return ((this.earnedValue - this.budgetAtCompletion) / this.budgetAtCompletion) * 100;
+    }
+
+
+
+
+    /*
+     * 
+     * WARNING: These methods were removed because they are not needed right now, but they can be useful in the future
+     * 
+     */
 
     // private void updateEarnedValue() {
         
@@ -162,28 +193,5 @@ public class Project extends AuditableEntity{
     //     updatePlannedValue();
     //     updateEarnedValue();
     // }
-
-    public double getCostPerformanceIndex() {
-        // updateCalculatedValues();
-        if (this.actualCost == 0) return 1;
-        return this.earnedValue / this.actualCost;
-    }
-
-    public double getSchedulePerformanceIndex() {
-        // updateCalculatedValues();
-        if (this.currentPlannedValue == 0) return 1;
-        return this.earnedValue / this.currentPlannedValue;
-    }
-
-    public double getPercentComplete() {
-        // updateCalculatedValues();
-        if (this.plannedValue == 0) return 0;
-        return (this.earnedValue / this.plannedValue) * 100;
-    }
-
-    public double getRoi() {
-        if (this.budget == 0) return 0;
-        return ((this.earnedValue - this.budget) / this.budget) * 100;
-    }
 
 }

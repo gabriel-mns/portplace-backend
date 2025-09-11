@@ -59,11 +59,11 @@ public class ScenarioRankingService {
             scenarioRanking.setCalculatedPosition(position.getPosition());
             scenarioRanking.setTotalScore(position.getTotalScore());
 
-            if(accumulatedCost + project.getPlannedValue() > budget) {
+            if(accumulatedCost + project.getEstimateAtCompletion() > budget) {
                 scenarioRanking.setStatus(ScenarioRankingStatusEnum.EXCLUDED);
             } else {
                 scenarioRanking.setStatus(ScenarioRankingStatusEnum.INCLUDED);
-                accumulatedCost += project.getPlannedValue();
+                accumulatedCost += project.getEstimateAtCompletion();
             }
 
             scenarioRanking.setProject(project);
