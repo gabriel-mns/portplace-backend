@@ -51,21 +51,46 @@ public class StrategicObjective extends AuditableEntity{
          WHERE c.strategic_objective_id = id)
         """)
     private int criteriaCount;
-    // //TODO: calculate this field when portfolio is created
-    // // private int activePortfolioCount;
-    // @Formula("""
-    //     (SELECT COUNT(DISTINCT p.project_id)
-    //      FROM strategic_objective_project p
-    //      INNER JOIN projects pr ON pr.id = p.project_id
-    //      WHERE p.strategic_objective_id = id
-    //        AND pr.status = 'IN_PROGRESS')
-    //     """)
-    // private int activeProjectsCount;
+    
+    @Formula("""
+        (SELECT COUNT(DISTINCT p.id)
+        FROM portfolios p
+            JOIN scenarios s ON s.id = p.scenario_id
+            JOIN evaluation_groups eg ON eg.id = s.evaluation_group_id
+            JOIN criteria_groups cg ON cg.id = eg.criteria_group_id
+            JOIN criteria c ON c.criteria_group_id = cg.id
+            JOIN criterion_strategic_objective cso ON cso.criterion_id = c.id
+            JOIN strategic_objectives so ON so.id = cso.strategic_objective_id
+        WHERE so.id = id
+            AND p.status = 'IN_PROGRESS'
+            AND p.disabled = false
+            AND s.disabled = false
+            AND eg.disabled = false
+            AND cg.disabled = false
+            AND c.disabled = false)
+    """)
+    private int activePortfolioCount;
 
-    public int getActiveProjectsCount(){
-        return 0;
-    }
 
+    @Formula("""
+        (SELECT COUNT(DISTINCT p.id)
+            FROM projects p
+                JOIN scenario_rankings sr ON sr.project_id = p.id
+                JOIN scenarios s ON s.id = sr.scenario_id
+                JOIN evaluation_groups eg ON eg.id = s.evaluation_group_id
+                JOIN criteria_groups cg ON cg.id = eg.criteria_group_id
+                JOIN criteria c ON c.criteria_group_id = cg.id
+                JOIN criterion_strategic_objective cso ON cso.criterion_id = c.id
+                JOIN strategic_objectives so ON so.id = cso.strategic_objective_id
+            WHERE so.id = id
+                AND p.status = 'IN_PROGRESS'
+                AND p.disabled = false
+                AND s.disabled = false
+                AND eg.disabled = false
+                AND cg.disabled = false
+                AND c.disabled = false)
+        """)
+    private int activeProjectsCount;
 
     //Relationships
     @ManyToOne
