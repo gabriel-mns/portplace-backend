@@ -9,12 +9,12 @@ GET {{host}}/strategies/1/criteria-groups/1/criteria-comparisons
 GET {{host}}/strategies/1/criteria-groups/1/criteria-comparisons/1
 
 ### CADASTRAR DE COMPARAÇÃO DE CRITÉRIOS
-POST {{host}}/strategies/1/criteria-groups/1/criteria-comparisons
+POST {{host}}/strategies/1/criteria-groups/2/criteria-comparisons
 Content-Type: application/json
 
 {
-  "comparedCriterionId": 1,
-  "referenceCriterionId": 2,
+  "comparedCriterionId": 3,
+  "referenceCriterionId": 4,
   "importanceScale": "LESS_IMPORTANT"
 }
 

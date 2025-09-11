@@ -15,6 +15,7 @@ import com.pucpr.portplace.features.ahp.enums.CriteriaGroupStatusEnum;
 import com.pucpr.portplace.features.ahp.mappers.CriteriaGroupMapper;
 import com.pucpr.portplace.features.ahp.repositories.CriteriaGroupRepository;
 import com.pucpr.portplace.features.ahp.services.validations.CriteriaGroupValidationService;
+import com.pucpr.portplace.features.ahp.specs.AllCriteriaComparedSpecification;
 import com.pucpr.portplace.features.strategy.repositories.StrategyRepository;
 
 import lombok.AllArgsConstructor;
@@ -29,6 +30,9 @@ public class CriteriaGroupService {
 
     private CriteriaGroupValidationService validationService;
     
+    private AllCriteriaComparedSpecification allCriteriaComparedSpecification;
+    
+
 
     // CREATE
     public CriteriaGroupReadDTO createCriteriaGroup(
@@ -127,6 +131,19 @@ public class CriteriaGroupService {
         Page<CriteriaGroupListReadDTO> criteriaGroupsDTOs = criteriaGroups.map(criteriaGroupMapper::toCriteriaGroupListReadDTO);
 
         return criteriaGroupsDTOs;
+
+    }
+
+    public boolean isCriteriaGroupReadyById(long strategyId, long criteriaGroupId) {
+        
+        validationService.validateBeforeGet(strategyId, criteriaGroupId);
+
+        CriteriaGroup criteriaGroup = criteriaGroupRepository.findById(criteriaGroupId).get();
+
+        boolean hasAtLeastTwoCriteria = criteriaGroup.getCriteria().size() >= 2;
+        boolean isReady = allCriteriaComparedSpecification.isSatisfiedBy(criteriaGroup);
+
+        return hasAtLeastTwoCriteria && isReady;
 
     }
 
