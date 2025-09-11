@@ -1,7 +1,6 @@
 package com.pucpr.portplace.features.portfolio.entities;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 
 import org.hibernate.annotations.Formula;
@@ -21,6 +20,7 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
@@ -51,14 +51,22 @@ public class Portfolio extends AuditableEntity {
     // Relationships
     @OneToMany(mappedBy = "portfolio", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Project> projects = new ArrayList<>();
+
     @ManyToMany
     private List<User> owners;
+
     @OneToMany(mappedBy = "portfolio", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<PortfolioCategory> categories;
+
     @ManyToOne
     private Strategy strategy;
+
     @OneToMany(mappedBy = "portfolio")
     private List<Scenario> scenarios = new ArrayList<>();
+
+    @ManyToOne
+    @JoinColumn(name = "active_scenario_id")
+    private Scenario activeScenario;
     // private List<Risk> risks;
     // private CommunicationPlan communicationPlan;
 
@@ -149,15 +157,11 @@ public class Portfolio extends AuditableEntity {
         return scenarios == null || scenarios.isEmpty();
     }
 
-    public Scenario getActiveScenario() {
-        if (scenarios == null) return null;
-        
-        // get the most recent authorized scenario
-        return scenarios.stream()
-            .filter(s -> s.getAuthorizationDate() != null) // ignora os não autorizados
-            .max(Comparator.comparing(Scenario::getAuthorizationDate))
-            .orElse(null);
-                
+    public String getActiveScenarioName() {
+        if (activeScenario != null) {
+            return activeScenario.getName();
+        }
+        return null;
     }
 
 }

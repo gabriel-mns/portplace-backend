@@ -5,7 +5,7 @@ GET {{host}}/portfolios
 Accept: application/json
 
 ### GET PORTFÓLIO
-GET {{host}}/portfolios/2
+GET {{host}}/portfolios/1
 Accept: application/json
 
 ### CADASTRAR PORTFÓLIO

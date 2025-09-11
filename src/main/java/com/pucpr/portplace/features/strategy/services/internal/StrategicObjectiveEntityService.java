@@ -4,7 +4,9 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.pucpr.portplace.features.strategy.dtos.StrategicObjectiveReadDTO;
 import com.pucpr.portplace.features.strategy.entities.StrategicObjective;
+import com.pucpr.portplace.features.strategy.mappers.StrategicObjectiveMapper;
 import com.pucpr.portplace.features.strategy.repositories.StrategicObjectiveRepository;
 
 import lombok.AllArgsConstructor;
@@ -14,6 +16,7 @@ import lombok.AllArgsConstructor;
 public class StrategicObjectiveEntityService {
     
     private StrategicObjectiveRepository repository;
+    private StrategicObjectiveMapper mapper;
 
     public boolean existsById(long id){
 
@@ -31,6 +34,13 @@ public class StrategicObjectiveEntityService {
         
         return repository.findAllById(strategicObjectives);
 
+    }
+
+    public List<StrategicObjectiveReadDTO> findObjectivesByProjectId(Long projectId) {
+
+        List<StrategicObjective> objectives = repository.findObjectivesByProjectId(projectId);
+
+        return objectives.stream().map(mapper::toReadDTO).toList();
     }
 
 }

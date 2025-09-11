@@ -192,6 +192,7 @@ public class ScenarioService {
         portfolio.setBudget(scenario.getBudget());
         portfolio.setStatus(PortfolioStatusEnum.IN_PROGRESS);
         portfolio.setStrategy(scenario.getStrategy());
+        portfolio.setActiveScenario(scenario);
         
         portfolio = portfolioService.save(portfolio);
         

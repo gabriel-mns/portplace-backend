@@ -6,6 +6,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import com.pucpr.portplace.features.strategy.entities.StrategicObjective;
 import com.pucpr.portplace.features.strategy.enums.StrategicObjectiveStatusEnum;
@@ -30,5 +31,21 @@ public interface StrategicObjectiveRepository extends JpaRepository<StrategicObj
         boolean includeDisabled,
         String name,
         Pageable pageable
+    );
+
+
+    @Query("""
+        SELECT DISTINCT o
+        FROM Project p
+            JOIN p.portfolio f
+            JOIN f.activeScenario s
+            JOIN s.evaluationGroup eg
+            JOIN eg.criteriaGroup cg
+            JOIN cg.criteria c
+            JOIN c.strategicObjectives o
+        WHERE p.id = :projectId
+    """)
+    List<StrategicObjective> findObjectivesByProjectId(
+        @Param("projectId") Long projectId
     );
 }

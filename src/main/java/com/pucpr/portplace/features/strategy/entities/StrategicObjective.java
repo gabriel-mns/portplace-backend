@@ -67,7 +67,13 @@ public class StrategicObjective extends AuditableEntity{
             AND s.disabled = false
             AND eg.disabled = false
             AND cg.disabled = false
-            AND c.disabled = false)
+            AND c.disabled = false
+            AND s.authorization_date = (
+                SELECT MAX(s2.authorization_date)
+                FROM scenarios s2
+                WHERE s2.portfolio_id = p.id
+            )
+        )
     """)
     private int activePortfolioCount;
 

@@ -2,10 +2,13 @@ package com.pucpr.portplace.features.project.dtos;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.pucpr.portplace.features.ahp.dtos.EvaluationReadDTO;
 import com.pucpr.portplace.features.portfolio.dtos.PortfolioCategoryReadDTO;
 import com.pucpr.portplace.features.project.enums.ProjectStatusEnum;
+import com.pucpr.portplace.features.strategy.dtos.StrategicObjectiveReadDTO;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -46,6 +49,13 @@ public class ProjectReadDTO {
     // private List<EvmEntryReadDTO> evmEntries;
     private PortfolioCategoryReadDTO portfolioCategory;
 
+    // Details Page
+    private String portfolioName;
+    private String strategyName;
+    private double scenarioRankingScore;
+    private int priorityInPortfolio;
+    private List<StrategicObjectiveReadDTO> strategicObjectives;
+    private List<EvaluationReadDTO> evaluations;
 
     // Auditable fields
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy HH:mm:ss")

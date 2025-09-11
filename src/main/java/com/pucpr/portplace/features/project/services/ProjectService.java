@@ -7,6 +7,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import com.pucpr.portplace.features.ahp.services.internal.EvaluationEntityService;
 import com.pucpr.portplace.features.project.dtos.ProjectCreateDTO;
 import com.pucpr.portplace.features.project.dtos.ProjectReadDTO;
 import com.pucpr.portplace.features.project.dtos.ProjectUpdateDTO;
@@ -15,6 +16,7 @@ import com.pucpr.portplace.features.project.enums.ProjectStatusEnum;
 import com.pucpr.portplace.features.project.mappers.ProjectMapper;
 import com.pucpr.portplace.features.project.repositories.ProjectRepository;
 import com.pucpr.portplace.features.project.services.validations.ProjectValidationService;
+import com.pucpr.portplace.features.strategy.services.internal.StrategicObjectiveEntityService;
 
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -26,6 +28,8 @@ public class ProjectService {
     private ProjectRepository projectRepository;
     private ProjectMapper projectMapper;
     private ProjectValidationService validationService;
+    private StrategicObjectiveEntityService strategicObjectiveService;
+    private EvaluationEntityService evaluationService;
 
     // CREATE
     public ProjectReadDTO createProject(@Valid ProjectCreateDTO projectDTO) {
@@ -85,6 +89,9 @@ public class ProjectService {
         Project project = projectRepository.findById(projectId).get();
 
         ProjectReadDTO projectDTO = projectMapper.toReadDTO(project);
+
+        projectDTO.setStrategicObjectives(strategicObjectiveService.findObjectivesByProjectId(projectId));
+        projectDTO.setEvaluations(evaluationService.findEvaluationsByProjectId(projectId));
 
         return projectDTO;
     

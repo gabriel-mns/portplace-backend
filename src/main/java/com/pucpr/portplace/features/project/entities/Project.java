@@ -122,7 +122,32 @@ public class Project extends AuditableEntity{
         return ((this.earnedValue - this.budgetAtCompletion) / this.budgetAtCompletion) * 100;
     }
 
+    public String getPortfolioName() {
+        return this.portfolio != null ? this.portfolio.getName() : null;
+    }
 
+    public String getStrategyName() {
+        return this.portfolio != null && this.portfolio.getStrategy() != null ? this.portfolio.getStrategy().getName() : null;
+    }
+
+    public double getScenarioRankingScore() {
+        if (this.portfolio == null) return 0;
+        return getScenarioRanking() != null ? getScenarioRanking().getTotalScore() : 0;
+    }
+
+    public int getPriorityInPortfolio() {
+        if (this.portfolio == null) return 0;
+        return getScenarioRanking() != null ? getScenarioRanking().getCurrentPosition() : 0;
+    }
+
+    public ScenarioRanking getScenarioRanking() {
+        if (this.portfolio == null) return null;
+        if(this.portfolio.getActiveScenario() == null) return null;
+        return this.portfolio.getActiveScenario().getScenarioRankings().stream()
+            .filter(sr -> sr.getProject().getId() == this.id)
+            .findFirst()
+            .orElse(null);
+    }
 
     /*
      * 
