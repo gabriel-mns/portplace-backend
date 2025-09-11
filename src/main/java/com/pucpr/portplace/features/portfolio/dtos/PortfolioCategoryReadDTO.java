@@ -19,6 +19,7 @@ public class PortfolioCategoryReadDTO {
     private String name;
     private String description;
     private long portfolioId; 
+    private boolean canBeDeleted;
 
     private boolean disabled;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy HH:mm:ss")

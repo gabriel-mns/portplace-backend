@@ -1,5 +1,6 @@
 package com.pucpr.portplace.features.portfolio.entities;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.pucpr.portplace.core.entities.AuditableEntity;
@@ -39,9 +40,13 @@ public class PortfolioCategory extends AuditableEntity {
     @JoinColumn(name = "portfolio_id", nullable = false)
     private Portfolio portfolio;
     @OneToMany(mappedBy = "portfolioCategory")
-    private List<ScenarioRanking> scenarioRankings;
+    private List<ScenarioRanking> scenarioRankings = new ArrayList<>();
     @OneToMany(mappedBy = "portfolioCategory", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Project> projects;
+    private List<Project> projects = new ArrayList<>();
+
+    public boolean getCanBeDeleted() {
+        return this.projects.isEmpty() && this.scenarioRankings.isEmpty();
+    }
 
     public void addProject(Project project) {
         this.projects.add(project);

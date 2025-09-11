@@ -13,13 +13,13 @@ POST {{host}}/portfolios/1/categories
 Content-Type: application/json
 
 {
-    "name": "Categoria 2",
-    "description": "Descrição da categoria 2"
+    "name": "Categoria 3",
+    "description": "Descrição da categoria 3"
 }
 
 
 ### GET CATEGORIA DE PORTFÓLIO POR ID
-GET {{host}}/portfolios/1/categories/1
+GET {{host}}/portfolios/1/categories/3
 Accept: application/json
 
 ### ALTERAR CATEGORIA DE PORTFÓLIO
