@@ -28,7 +28,7 @@ public interface PortfolioRepository extends JpaRepository<Portfolio, Long>{
 
     @Query("""
         SELECT DISTINCT p FROM Portfolio p
-        JOIN p.scenario s
+        JOIN p.scenarios s
         JOIN s.evaluationGroup eg
         JOIN eg.criteriaGroup cg
         JOIN cg.criteria c

@@ -13,8 +13,8 @@ POST {{host}}/strategies/1/criteria-groups/1/criteria-comparisons
 Content-Type: application/json
 
 {
-  "comparedCriterionId": 2,
-  "referenceCriterionId": 3,
+  "comparedCriterionId": 1,
+  "referenceCriterionId": 2,
   "importanceScale": "LESS_IMPORTANT"
 }
 

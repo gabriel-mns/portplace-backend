@@ -24,7 +24,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -59,7 +58,7 @@ public class Scenario extends AuditableEntity{
     private Strategy strategy;
     @ManyToOne
     private EvaluationGroup evaluationGroup;
-    @OneToOne
+    @ManyToOne
     private Portfolio portfolio;
 
     // Calculated Fields

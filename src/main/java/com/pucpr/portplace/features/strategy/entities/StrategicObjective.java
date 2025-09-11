@@ -55,7 +55,7 @@ public class StrategicObjective extends AuditableEntity{
     @Formula("""
         (SELECT COUNT(DISTINCT p.id)
         FROM portfolios p
-            JOIN scenarios s ON s.id = p.scenario_id
+            JOIN scenarios s ON s.portfolio_id = p.id
             JOIN evaluation_groups eg ON eg.id = s.evaluation_group_id
             JOIN criteria_groups cg ON cg.id = eg.criteria_group_id
             JOIN criteria c ON c.criteria_group_id = cg.id

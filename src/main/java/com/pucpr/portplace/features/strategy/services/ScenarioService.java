@@ -188,7 +188,6 @@ public class ScenarioService {
         List<Project> projectsToBeRemoved = scenario.getRemovedProjects();
         List<Project> projectsToBeIncluded = scenario.getNewIncludedProjects();
 
-        portfolio.setScenario(scenario);
         portfolio.setBudget(scenario.getBudget());
         portfolio.setStatus(PortfolioStatusEnum.IN_PROGRESS);
         portfolio.setStrategy(scenario.getStrategy());

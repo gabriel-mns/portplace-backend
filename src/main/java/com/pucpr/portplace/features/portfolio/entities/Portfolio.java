@@ -56,8 +56,8 @@ public class Portfolio extends AuditableEntity {
     private List<PortfolioCategory> categories;
     @ManyToOne
     private Strategy strategy;
-    @OneToOne(optional = true)
-    private Scenario scenario;
+    @OneToMany(mappedBy = "portfolio")
+    private List<Scenario> scenarios = new ArrayList<>();
     // private List<Risk> risks;
     // private CommunicationPlan communicationPlan;
 
