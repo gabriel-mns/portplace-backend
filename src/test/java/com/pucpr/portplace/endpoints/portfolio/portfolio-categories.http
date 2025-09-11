@@ -13,8 +13,8 @@ POST {{host}}/portfolios/1/categories
 Content-Type: application/json
 
 {
-    "name": "Categoria 2",
-    "description": "Descrição da categoria 2"
+    "name": "Categoria 3",
+    "description": "Descrição da categoria 3"
 }
 
 

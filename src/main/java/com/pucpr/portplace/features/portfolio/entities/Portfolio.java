@@ -1,5 +1,6 @@
 package com.pucpr.portplace.features.portfolio.entities;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.annotations.Formula;
@@ -48,7 +49,7 @@ public class Portfolio extends AuditableEntity {
 
     // Relationships
     @OneToMany(mappedBy = "portfolio", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Project> projects;
+    private List<Project> projects = new ArrayList<>();
     @ManyToMany
     private List<User> owners;
     @OneToMany(mappedBy = "portfolio", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -142,10 +143,5 @@ public class Portfolio extends AuditableEntity {
         }
 
     }
-
-    public void addProject(Project project) {
-        this.projects.add(project);
-        project.setPortfolio(this);
-    }
-
+    
 }

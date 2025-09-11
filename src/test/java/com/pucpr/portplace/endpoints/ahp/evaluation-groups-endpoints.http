@@ -16,7 +16,6 @@ Content-Type: application/json
   "name": "Evaluation Group 1",
   "description": "Descrição 1",
   "criteriaGroupId": 1
-  //"projectIds": [1, 3]
 }
 
 ### EDIÇÃO DE Evaluation Group

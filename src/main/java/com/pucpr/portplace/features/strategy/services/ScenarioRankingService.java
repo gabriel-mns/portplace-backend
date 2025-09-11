@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.pucpr.portplace.features.ahp.dtos.ProjectRankingReadDTO;
 import com.pucpr.portplace.features.ahp.services.AHPResultsService;
+import com.pucpr.portplace.features.portfolio.services.internal.PortfolioCategoryEntityService;
 import com.pucpr.portplace.features.project.entities.Project;
 import com.pucpr.portplace.features.project.services.internal.ProjectEntityService;
 import com.pucpr.portplace.features.strategy.dtos.ScenarioRankingReadDTO;
@@ -33,6 +34,7 @@ public class ScenarioRankingService {
     private ProjectEntityService projectEntityService;
     private ScenarioRankingEntityService rankingEntityService;
     private ScenarioEntityService scenarioEntityService;
+    private PortfolioCategoryEntityService portfolioCategoryEntityService;
     private ScenarioRankingValidationService validationService;
     private ScenarioRankingMapper mapper;
     private ScenarioRankingRepository repository;
@@ -87,6 +89,13 @@ public class ScenarioRankingService {
         // UPDATE STATUS
         ScenarioRanking sr = repository.findById(rankingId).get();
         mapper.updateFromDTO(dto, sr);
+        
+        if(dto.getPortfolioCategoryId() != null) {
+            sr.setPortfolioCategory(
+                portfolioCategoryEntityService.getPortfolioCategoryEntityById(dto.getPortfolioCategoryId())
+            );
+        }
+
         repository.save(sr);
         sr = repository.findById(rankingId).get(); 
         

@@ -8,6 +8,7 @@ import com.pucpr.portplace.features.portfolio.entities.PortfolioCategory;
 import com.pucpr.portplace.features.project.entities.Project;
 import com.pucpr.portplace.features.strategy.enums.ScenarioRankingStatusEnum;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
 import jakarta.persistence.EnumType;
@@ -44,7 +45,7 @@ public class ScenarioRanking extends AuditableEntity {
     
 
     //Relationships
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     private PortfolioCategory portfolioCategory;
     @ManyToOne
     private Scenario scenario;

@@ -8,11 +8,11 @@ GET {{host}}/strategies/1/scenarios
 GET {{host}}/strategies/1/scenarios/1/rankings
 
 ### EDITAR RANKING DO CENÁRIO
-PUT {{host}}/strategies/1/scenarios/1/rankings/3
+PUT {{host}}/strategies/1/scenarios/1/rankings/1
 Accept: application/json
 Content-Type: application/json
 
 {
-  "status": "INCLUDED",
-  "portfolioCategoryId": 1
+  "status": "MANUALLY_EXCLUDED",
+  "portfolioCategoryId": null
 }

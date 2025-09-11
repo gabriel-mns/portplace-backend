@@ -29,7 +29,7 @@ Content-Type: application/json
 {
   "name": "Cenário 1 Editado",
   "status": "WAITING_AUTHORIZATION",
-  "budget": 160123.00
+  "budget": 150000.00
 }
 
 ### DESABILITAR CENÁRIO

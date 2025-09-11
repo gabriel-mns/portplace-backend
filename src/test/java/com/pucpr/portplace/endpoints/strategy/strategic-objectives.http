@@ -8,7 +8,7 @@ GET {{host}}/strategies/1/strategic-objectives/1
 Accept: application/json
 
 ### GET CRITERIOS RELACIONADOS AO OBJETIVO ESTRATÉGICO
-GET {{host}}/strategies/1/strategic-objectives/3/criteria
+GET {{host}}/strategies/1/strategic-objectives/1/criteria
 Accept: application/json
 
 ### GET PORTFOLIOS RELACIONADOS AO OBJETIVO ESTRATÉGICO

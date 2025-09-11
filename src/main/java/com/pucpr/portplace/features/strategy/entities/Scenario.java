@@ -9,6 +9,8 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import com.pucpr.portplace.core.entities.AuditableEntity;
 import com.pucpr.portplace.features.ahp.entities.EvaluationGroup;
 import com.pucpr.portplace.features.portfolio.entities.Portfolio;
+import com.pucpr.portplace.features.project.entities.Project;
+import com.pucpr.portplace.features.strategy.enums.ScenarioRankingStatusEnum;
 import com.pucpr.portplace.features.strategy.enums.ScenarioStatusEnum;
 
 import jakarta.persistence.CascadeType;
@@ -73,8 +75,6 @@ public class Scenario extends AuditableEntity{
     private int includedProjectsCount;
 
 
-    
-
     public void addScenarioRanking(ScenarioRanking ranking) {
         this.scenarioRankings.add(ranking);
         ranking.setScenario(this);
@@ -89,6 +89,34 @@ public class Scenario extends AuditableEntity{
     public void removeScenarioRanking(ScenarioRanking ranking) {
         this.scenarioRankings.remove(ranking);
         ranking.setScenario(null);
+    }
+
+    public List<Project> getIncludedProjects() {
+        
+        return this.scenarioRankings.stream()
+            .filter(ranking -> ranking.getStatus() == ScenarioRankingStatusEnum.INCLUDED ||
+                               ranking.getStatus() == ScenarioRankingStatusEnum.MANUALLY_INCLUDED
+                               )
+            .map(ScenarioRanking::getProject)
+            .toList();
+    }
+
+    public List<Project> getNewIncludedProjects() {
+        
+        List<Project> includedProjects = getIncludedProjects();
+
+        return includedProjects.stream()
+            .filter(project -> !this.portfolio.getProjects().contains(project))
+            .toList();
+    }
+
+    public List<Project> getRemovedProjects() {
+
+        List<Project> includedProjects = getIncludedProjects();
+
+        return this.portfolio.getProjects().stream()
+            .filter(project -> !includedProjects.contains(project))
+            .toList();
     }
     
 }

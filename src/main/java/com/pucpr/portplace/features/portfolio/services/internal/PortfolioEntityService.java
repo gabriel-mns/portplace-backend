@@ -18,8 +18,8 @@ public class PortfolioEntityService {
     private PortfolioRepository repository;
     private PortfolioMapper portfolioMapper;
 
-    public void save(Portfolio portfolio) {
-        repository.save(portfolio);
+    public Portfolio save(Portfolio portfolio) {
+        return repository.save(portfolio);
     }
 
     public boolean existsById(Long candidate) {

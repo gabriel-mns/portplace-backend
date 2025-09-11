@@ -6,6 +6,7 @@ import com.pucpr.portplace.core.entities.AuditableEntity;
 import com.pucpr.portplace.features.project.entities.Project;
 import com.pucpr.portplace.features.strategy.entities.ScenarioRanking;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -29,7 +30,7 @@ public class PortfolioCategory extends AuditableEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
     private String name;
     private String description;
 
@@ -39,7 +40,7 @@ public class PortfolioCategory extends AuditableEntity {
     private Portfolio portfolio;
     @OneToMany(mappedBy = "portfolioCategory")
     private List<ScenarioRanking> scenarioRankings;
-    @OneToMany(mappedBy = "portfolioCategory")
+    @OneToMany(mappedBy = "portfolioCategory", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Project> projects;
 
     public void addProject(Project project) {

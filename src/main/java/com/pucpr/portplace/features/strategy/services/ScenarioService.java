@@ -1,8 +1,6 @@
 package com.pucpr.portplace.features.strategy.services;
 
 import java.util.List;
-import java.util.stream.Collectors;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -11,8 +9,8 @@ import com.pucpr.portplace.features.portfolio.entities.Portfolio;
 import com.pucpr.portplace.features.portfolio.enums.PortfolioStatusEnum;
 import com.pucpr.portplace.features.portfolio.services.internal.PortfolioEntityService;
 import com.pucpr.portplace.features.project.entities.Project;
-import com.pucpr.portplace.features.project.enums.ProjectStatusEnum;
 import com.pucpr.portplace.features.project.mappers.ProjectMapper;
+import com.pucpr.portplace.features.project.services.internal.ProjectEntityService;
 import com.pucpr.portplace.features.strategy.dtos.ScenarioAuthorizationPreviewDTO;
 // import com.pucpr.portplace.features.ahp.services.internal.EvaluationGroupEntityService;
 import com.pucpr.portplace.features.strategy.dtos.ScenarioCreateDTO;
@@ -20,7 +18,6 @@ import com.pucpr.portplace.features.strategy.dtos.ScenarioReadDTO;
 import com.pucpr.portplace.features.strategy.dtos.ScenarioUpdateDTO;
 import com.pucpr.portplace.features.strategy.entities.Scenario;
 import com.pucpr.portplace.features.strategy.entities.ScenarioRanking;
-import com.pucpr.portplace.features.strategy.enums.ScenarioRankingStatusEnum;
 import com.pucpr.portplace.features.strategy.enums.ScenarioStatusEnum;
 import com.pucpr.portplace.features.strategy.mappers.ScenarioMapper;
 import com.pucpr.portplace.features.strategy.repositories.ScenarioRepository;
@@ -37,7 +34,8 @@ public class ScenarioService {
     private ScenarioRankingService rankingService;
     private ScenarioRankingEntityService scenarioRankingEntityService;
     private PortfolioEntityService portfolioService;
-    
+    private ProjectEntityService projectService;
+
     private ScenarioRepository repository;
     private ScenarioMapper mapper;
     private ProjectMapper projectMapper;
@@ -166,18 +164,10 @@ public class ScenarioService {
         ScenarioAuthorizationPreviewDTO dto = mapper.toAuthorizationPreviewDTO(scenario);
 
         // ALL PROJECTS WITH STATUS INCLUDED OR MANUALLY_INCLUDED
-        List<Project> includedProjects = scenario.getScenarioRankings().stream()
-            .filter(ranking -> ranking.getStatus() == ScenarioRankingStatusEnum.INCLUDED || ranking.getStatus() == ScenarioRankingStatusEnum.MANUALLY_INCLUDED)
-            .map(ranking -> ranking.getProject())
-            .toList();
-
-        // ALL PROJECTS CURRENTLY IN THE PORTFOLIO
-        List<Project> projectsInPortfolio = scenario.getPortfolio().getProjects();
+        List<Project> includedProjects = scenario.getIncludedProjects();
 
         // ALL PROJECTS CURRENTLY IN THE PORTFOLIO THAT WILL BE REMOVED (NOT IN INCLUDED IN SCENARIO)
-        List<Project> removedProjects = projectsInPortfolio.stream()
-            .filter(project -> !includedProjects.contains(project))
-            .toList();
+        List<Project> removedProjects = scenario.getRemovedProjects();
 
         dto.setIncludedProjects(projectMapper.toReadDTO(includedProjects));
         dto.setRemovedProjects(projectMapper.toReadDTO(removedProjects));
@@ -186,41 +176,47 @@ public class ScenarioService {
 
     }
 
-    public void authorizeScenario(long scenarioId) {
+    public void authorizeScenario(
+        long scenarioId
+    ) {
         
         validationService.validateBeforeAuthorization(scenarioId);
 
         Scenario scenario = repository.findById(scenarioId).get();
+        Portfolio portfolio = portfolioService.getPortfolioById(scenario.getPortfolio().getId());
 
-        Portfolio portfolio = scenario.getPortfolio();
+        List<Project> projectsToBeRemoved = scenario.getRemovedProjects();
+        List<Project> projectsToBeIncluded = scenario.getNewIncludedProjects();
 
-        // ALL PROJECTS WITH STATUS INCLUDED OR MANUALLY_INCLUDED
-        List<Project> includedProjects = scenario.getScenarioRankings().stream()
-            .filter(ranking -> ranking.getStatus() == ScenarioRankingStatusEnum.INCLUDED || ranking.getStatus() == ScenarioRankingStatusEnum.MANUALLY_INCLUDED)
-            .map(ranking -> {
-                Project project = ranking.getProject();
-                project.setStatus(ProjectStatusEnum.IN_PROGRESS);
-                project.setPortfolioCategory(ranking.getPortfolioCategory());
-                return project;
-            })
-            .collect(Collectors.toList());
-
-
-        // CHANGE THE PROJECTS OF THE PORTFOLIO TO THE INCLUDED PROJECTS
-        portfolio.getProjects().clear();
-        includedProjects.forEach(portfolio::addProject);
         portfolio.setScenario(scenario);
-        scenario.setPortfolio(portfolio);
-
         portfolio.setBudget(scenario.getBudget());
         portfolio.setStatus(PortfolioStatusEnum.IN_PROGRESS);
         portfolio.setStrategy(scenario.getStrategy());
-        // TODO: calculate portfolio health
+        
+        portfolio = portfolioService.save(portfolio);
+        
+        removeProjects(projectsToBeRemoved);
+        addProjectsToPortfolio(projectsToBeIncluded, portfolio);
 
+        scenario.setPortfolio(portfolio);
         scenario.setStatus(ScenarioStatusEnum.AUTHORIZED);
-
-        portfolioService.save(portfolio);
         repository.save(scenario);
+
+    }
+
+    private void removeProjects(List<Project> projects) {
+        for (Project p : projects) {
+            p.setPortfolio(null);
+            projectService.save(p);
+        }
+
+    }
+
+    private void addProjectsToPortfolio(List<Project> projects, Portfolio portfolio) {
+        for (Project p : projects) {
+            p.setPortfolio(portfolio);
+            projectService.save(p);
+        }
 
     }
 

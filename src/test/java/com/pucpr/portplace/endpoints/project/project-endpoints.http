@@ -5,8 +5,8 @@ POST {{host}}/projects
 Content-Type: application/json
 
 {
-  "name": "Projeto 4",
-  "description": "Projeto 4",
+  "name": "Projeto 3",
+  "description": "Projeto 3",
   "status": "IN_ANALYSIS",
 
   "earnedValue": 10.0,
@@ -17,7 +17,6 @@ Content-Type: application/json
 
   "startDate": "2023-10-01",
   "endDate": "2023-12-31",
-  "projectManager": 1,
   "payback": 124521.13
 }
 
@@ -27,12 +26,6 @@ GET  {{host}}/projects
 Accept: application/json
 Host: localhost:8080
 
-### BUSCA DE PROJETOS POR GERENTE DE PROJETO
-GET  {{host}}/projects/manager/1?includeDisabled=true
-Accept: application/json
-Host: localhost:8080
-
-
 ### BUSCA DE PROJETO POR ID
 GET  {{host}}/projects/1
 Accept: application/json
@@ -40,20 +33,23 @@ Host: localhost:8080
 
 
 ### ALTERAR PROJETO
-PUT {{host}}/projects/1
+PUT {{host}}/projects/3
 Accept: application/json
 Content-Type: application/json
 
 {
-  "id": 1,
-  "name": "Projeto 1 Alterado",
-  "description": "Projeto 1 descrição alterada",
-  "status": "COMPLETED",
+  "name": "Projeto 3 Alterado",
+  "description": "Projeto 3 descrição alterada",
+  "status": "IN_ANALYSIS",
   "payback": "150000.0",
-  "budget": "150000.0",
+  
+  "budgetAtCompletion": "150000.0",
+  "earnedValue": "75000.0",
+  "plannedValue": "75000.0",
+  "actualCost": "70000.0",
+
   "startDate": "2020-10-01",
-  "endDate": "2025-12-31",
-  "projectManager": 1
+  "endDate": "2025-12-31"
 }
 
 ### DELETAR PROJETO

@@ -41,4 +41,8 @@ public class ProjectEntityService {
         return projects.map(projectMapper :: toReadDTO);
     }
 
+    public void save(Project project) {
+        projectRepository.save(project);
+    }
+
 }

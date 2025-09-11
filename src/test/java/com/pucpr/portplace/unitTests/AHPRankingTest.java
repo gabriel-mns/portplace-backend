@@ -207,15 +207,14 @@ public class AHPRankingTest {
         ProjectCreateDTO projectCreateDTO = new ProjectCreateDTO();
         projectCreateDTO.setName("Test Project " + index);
         projectCreateDTO.setDescription("This is a test project for Evaluation Group ranking." + index);
-        // projectCreateDTO.setEarnedValue(2000);
-        // projectCreateDTO.setPlannedValue(1500);
-        // projectCreateDTO.setActualCost(1000.0);
-        // projectCreateDTO.setBudget(1200.0);
+        projectCreateDTO.setEarnedValue(2000);
+        projectCreateDTO.setPlannedValue(1500);
+        projectCreateDTO.setActualCost(1000.0);
+        projectCreateDTO.setBudgetAtCompletion(1200.0);
         projectCreateDTO.setStartDate(LocalDate.now());
         projectCreateDTO.setEndDate(LocalDate.now().plusDays(30));
         projectCreateDTO.setPayback(30);
         projectCreateDTO.setStatus(ProjectStatusEnum.IN_PROGRESS.toString());
-        projectCreateDTO.setProjectManager(index);
         projectController.createProject(projectCreateDTO);
 
 
