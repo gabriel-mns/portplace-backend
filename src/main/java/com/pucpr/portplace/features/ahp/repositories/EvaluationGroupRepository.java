@@ -21,11 +21,13 @@ public interface EvaluationGroupRepository extends JpaRepository<EvaluationGroup
     @Query("""
         SELECT eg
         FROM EvaluationGroup eg
-        WHERE LOWER(eg.name) LIKE LOWER(CONCAT('%', :name, '%'))
+        WHERE eg.strategy.id = :strategyId
+        AND LOWER(eg.name) LIKE LOWER(CONCAT('%', :name, '%'))
         AND (:includeDisabled = true OR eg.disabled = false)
         AND (:status IS NULL OR eg.status IN :status)
     """)
     Page<EvaluationGroup> findByFilters(
+        Long strategyId,
         List<EvaluationGroupStatusEnum> status,
         String name,
         boolean includeDisabled,

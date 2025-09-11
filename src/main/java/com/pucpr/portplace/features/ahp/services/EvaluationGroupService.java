@@ -103,7 +103,7 @@ public class EvaluationGroupService {
 
         validationService.validateBeforeGetAll(strategyId);
 
-        Page<EvaluationGroup> evaluationGroups = egRepository.findByFilters(status, name, includeDisabled, pageable);
+        Page<EvaluationGroup> evaluationGroups = egRepository.findByFilters(strategyId, status, name, includeDisabled, pageable);
 
         Page<EvaluationGroupReadDTO> egReadDTOs = evaluationGroups.map(egMapper::toReadDTO);
 
