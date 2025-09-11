@@ -30,12 +30,10 @@ public class ProjectCreateDTO {
     // EVMS Fields
     private double earnedValue;
     private double plannedValue;
-    private double currentPlannedValue;
     private double actualCost;
-    private double budget;
+    private double budgetAtCompletion;
 
     private LocalDate startDate;
     private LocalDate endDate;
-    private long projectManager;
 
 }

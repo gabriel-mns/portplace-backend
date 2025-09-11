@@ -6,7 +6,6 @@ import java.time.LocalDateTime;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.pucpr.portplace.features.portfolio.dtos.PortfolioCategoryReadDTO;
 import com.pucpr.portplace.features.project.enums.ProjectStatusEnum;
-import com.pucpr.portplace.features.user.dtos.UserGetResponseDTO;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -34,16 +33,18 @@ public class ProjectReadDTO {
     
     // EVMS Fields
     private double plannedValue;
-    private double currentPlannedValue;
     private double earnedValue;
     private double actualCost;
+    private double budgetAtCompletion;
     private double percentComplete;
-    private double budget;
+    private double costPerformanceIndex;
+    private double schedulePerformanceIndex;
+    private double estimateAtCompletion;
+    private double estimateToComplete;
     
     // Relationships
     // private List<EvmEntryReadDTO> evmEntries;
     private PortfolioCategoryReadDTO portfolioCategory;
-    private UserGetResponseDTO projectManager;
 
 
     // Auditable fields

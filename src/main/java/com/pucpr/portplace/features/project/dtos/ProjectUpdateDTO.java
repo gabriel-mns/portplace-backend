@@ -21,8 +21,6 @@ import lombok.Setter;
 @ValidDateRange(startField = "startDate", endField = "endDate")
 public class ProjectUpdateDTO {
 
-    @NotNull
-    private long id;
     @NotBlank
     private String name;
     private String description;

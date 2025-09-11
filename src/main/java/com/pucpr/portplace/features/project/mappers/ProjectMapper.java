@@ -26,6 +26,7 @@ public interface ProjectMapper {
     // Create
     @Mapping(target = "projectManager.id", source = "projectManager")
     @Mapping(target = "id", ignore = true)
+    @Mapping(target = "budgetAtCompletion", source = "dto.budgetAtCompletion")
     Project toEntity(ProjectCreateDTO dto);
 
     // READ
