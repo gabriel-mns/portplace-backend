@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.pucpr.portplace.features.user.dtos.AuthenticationRequestDTO;
+import com.pucpr.portplace.features.user.dtos.AuthenticationResponseDTO;
 import com.pucpr.portplace.features.user.dtos.UserGetResponseDTO;
 import com.pucpr.portplace.features.user.dtos.UserRegisterDTO;
 import com.pucpr.portplace.features.user.dtos.UserUpdateRequestDTO;
@@ -43,7 +45,11 @@ public class UserController {
 
         return authService.register(request);
 
+    }
 
+    @PostMapping("/authenticate")
+    public ResponseEntity<AuthenticationResponseDTO> authenticate(@RequestBody AuthenticationRequestDTO request) {
+        return ResponseEntity.ok(authService.login(request));
     }
 
     @GetMapping

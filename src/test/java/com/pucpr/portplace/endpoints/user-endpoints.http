@@ -11,6 +11,15 @@ Content-Type: application/json
   "role": "PMO_ADM"
 }
 
+### LOGIN
+POST {{host}}/users/authenticate
+Content-Type: application/json
+
+{
+  "email": "gabrielgmns071204@gmail.com",
+  "password": "123456789"
+}
+
 
 ### BUSCA DE USUÁRIOS
 GET  {{host}}/users

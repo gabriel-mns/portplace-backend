@@ -40,7 +40,7 @@ Content-Type: application/json
 {
   "name": "Projeto 3 Alterado",
   "description": "Projeto 3 descrição alterada",
-  "status": "IN_ANALYSIS",
+  "status": "IN_PROGRESS",
   "payback": "150000.0",
   
   "budgetAtCompletion": "150000.0",
@@ -48,8 +48,8 @@ Content-Type: application/json
   "plannedValue": "75000.0",
   "actualCost": "70000.0",
 
-  "startDate": "2020-10-01",
-  "endDate": "2025-12-31"
+  "startDate": "01/01/2024",
+  "endDate": "31/12/2025"
 }
 
 ### DELETAR PROJETO

@@ -1,14 +1,21 @@
 package com.pucpr.portplace.features.user.services;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.pucpr.portplace.core.security.services.JwtService;
+import com.pucpr.portplace.features.user.dtos.AuthenticationRequestDTO;
+import com.pucpr.portplace.features.user.dtos.AuthenticationResponseDTO;
 import com.pucpr.portplace.features.user.dtos.UserGetResponseDTO;
 import com.pucpr.portplace.features.user.dtos.UserRegisterDTO;
 import com.pucpr.portplace.features.user.dtos.UserUpdateRequestDTO;
@@ -27,6 +34,8 @@ public class UserService {
 
     private UserRepository userRepository;
     private PasswordEncoder passwordEncoder;
+    private AuthenticationManager authenticationManager;
+    private JwtService jwtService;
 
     // CREATE
     public ResponseEntity<Void> register(@Valid UserRegisterDTO request){
@@ -48,6 +57,25 @@ public class UserService {
         userRepository.save(user).getId();
         
         return ResponseEntity.status(HttpStatus.CREATED).build();
+
+    }
+
+    public AuthenticationResponseDTO login(AuthenticationRequestDTO authenticationRequestDTO) {
+
+        UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
+            authenticationRequestDTO.getEmail(), authenticationRequestDTO.getPassword()
+        );
+
+        authenticationManager.authenticate(authToken);
+
+        User user = userRepository.findByEmail(authenticationRequestDTO.getEmail()).get();
+
+        String token = jwtService.generateToken(user, generateExtraClaims(user));
+
+        System.out.println("User "+ user.getEmail() +" logged in");
+        System.out.println("Authorities:"+ user.getAuthorities());
+
+        return new AuthenticationResponseDTO(token);
 
     }
 
@@ -99,4 +127,17 @@ public class UserService {
 
     }
 
+
+    // EXTRA
+    private Map<String, Object> generateExtraClaims(User user) {
+
+        Map<String, Object> extraClaims = new HashMap<>();
+        
+        extraClaims.put("email", user.getEmail());
+        extraClaims.put("name", user.getName());
+        extraClaims.put("role", user.getRole().name());
+        
+        return extraClaims;
+        
+    }
 }
