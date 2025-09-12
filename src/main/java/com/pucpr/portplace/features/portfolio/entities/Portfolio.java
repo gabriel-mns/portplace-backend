@@ -153,7 +153,7 @@ public class Portfolio extends AuditableEntity {
 
     }
 
-    public boolean canBeDeleted() {
+    public boolean getCanBeDeleted() {
         return scenarios == null || scenarios.isEmpty();
     }
 
