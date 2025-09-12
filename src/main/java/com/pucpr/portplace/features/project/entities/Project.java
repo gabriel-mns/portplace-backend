@@ -45,6 +45,7 @@ public class Project extends AuditableEntity{
     @Enumerated(EnumType.STRING)
     private ProjectStatusEnum status;
     private double payback;
+    private String cancellationReason;
     
     //#region EVMS fields
     private double earnedValue;

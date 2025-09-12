@@ -24,6 +24,14 @@ public class ProjectValidationService {
 
     }
 
+    public void validateBeforeCancel(long projectId) {
+
+        if(!projectExistsSpecification.isSatisfiedBy(projectId)) {
+            throw new ProjectNotFoundException(projectId);
+        }
+
+    }
+
     public void validateBeforeDelete(long projectId) {
 
         if(!projectExistsSpecification.isSatisfiedBy(projectId)) {

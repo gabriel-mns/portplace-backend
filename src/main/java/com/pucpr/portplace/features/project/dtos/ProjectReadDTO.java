@@ -33,7 +33,8 @@ public class ProjectReadDTO {
     private LocalDate startDate;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
     private LocalDate endDate;
-    
+    private String cancellationReason;
+
     // EVMS Fields
     private double plannedValue;
     private double earnedValue;

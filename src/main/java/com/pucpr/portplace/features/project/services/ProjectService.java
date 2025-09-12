@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.pucpr.portplace.features.ahp.services.internal.EvaluationEntityService;
+import com.pucpr.portplace.features.project.dtos.ProjectCancelationPatchDTO;
 import com.pucpr.portplace.features.project.dtos.ProjectCreateDTO;
 import com.pucpr.portplace.features.project.dtos.ProjectReadDTO;
 import com.pucpr.portplace.features.project.dtos.ProjectUpdateDTO;
@@ -139,6 +140,24 @@ public class ProjectService {
             .collect(Collectors.toList());
 
         return projectsDTO;
+
+    }
+
+    public ProjectReadDTO cancelProject(
+        long projectID, 
+        ProjectCancelationPatchDTO cancelationReasonDTO
+    ) {
+
+        validationService.validateBeforeCancel(projectID);
+
+        Project project = projectRepository.findById(projectID).get();
+
+        project.setStatus(ProjectStatusEnum.CANCELLED);
+        project.setCancellationReason(cancelationReasonDTO.getCancellationReason());
+
+        projectRepository.save(project);
+        
+        return projectMapper.toReadDTO(project);
 
     }
 

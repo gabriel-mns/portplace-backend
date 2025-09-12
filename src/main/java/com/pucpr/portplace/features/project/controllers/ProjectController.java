@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -19,6 +20,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 
+import com.pucpr.portplace.features.project.dtos.ProjectCancelationPatchDTO;
 import com.pucpr.portplace.features.project.dtos.ProjectCreateDTO;
 import com.pucpr.portplace.features.project.dtos.ProjectReadDTO;
 import com.pucpr.portplace.features.project.dtos.ProjectUpdateDTO;
@@ -64,6 +66,19 @@ public class ProjectController {
 
         return ResponseEntity.ok()
             .body(updatedProject);
+    }
+
+    
+    @PatchMapping("/{projectID}/cancel")
+    public ResponseEntity<ProjectReadDTO> cancelProject(
+        @PathVariable long projectID,
+        @RequestBody @Valid ProjectCancelationPatchDTO project
+    ) {
+
+        ProjectReadDTO p = projectService.cancelProject(projectID, project);
+
+        return ResponseEntity.ok(p);
+
     }
 
     // DELETE

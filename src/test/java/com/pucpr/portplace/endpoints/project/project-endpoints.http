@@ -5,8 +5,8 @@ POST {{host}}/projects
 Content-Type: application/json
 
 {
-  "name": "Projeto 3",
-  "description": "Projeto 3",
+  "name": "Projeto 4",
+  "description": "Projeto 4",
   "status": "IN_ANALYSIS",
 
   "earnedValue": 10.0,
@@ -15,8 +15,8 @@ Content-Type: application/json
   "actualCost": 10.00,
   "budget": 150000.00,  
 
-  "startDate": "2023-10-01",
-  "endDate": "2023-12-31",
+  "startDate": "01/01/2023",
+  "endDate": "31/12/2023",
   "payback": 124521.13
 }
 
@@ -27,10 +27,19 @@ Accept: application/json
 Host: localhost:8080
 
 ### BUSCA DE PROJETO POR ID
-GET  {{host}}/projects/2
+GET  {{host}}/projects/4
 Accept: application/json
 Host: localhost:8080
 
+
+### CANCELAR PROJETO
+PATCH {{host}}/projects/4/cancel
+Accept: application/json
+Content-Type: application/json
+
+{
+  "cancelationReason": "Mudança de escopo"
+}
 
 ### ALTERAR PROJETO
 PUT {{host}}/projects/3
