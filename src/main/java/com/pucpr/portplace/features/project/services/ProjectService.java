@@ -1,6 +1,7 @@
 package com.pucpr.portplace.features.project.services;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -119,6 +120,26 @@ public class ProjectService {
 
         return ResponseEntity.ok(projectsDTO);
     
+    }
+
+    public List<ProjectReadDTO> getAllProjectsUnpaged(
+        Long portfolioId,
+        List<ProjectStatusEnum> status
+    ) {
+
+        validationService.validateBeforeGetAll(portfolioId);
+
+        List<Project> projects = projectRepository.findByFilters(
+            portfolioId,
+            status
+        );
+
+        List<ProjectReadDTO> projectsDTO = projects.stream()
+            .map(projectMapper::toReadDTO)
+            .collect(Collectors.toList());
+
+        return projectsDTO;
+
     }
 
     // public Page<ProjectReadDTO> getAllProjectsByProjectManagerId(

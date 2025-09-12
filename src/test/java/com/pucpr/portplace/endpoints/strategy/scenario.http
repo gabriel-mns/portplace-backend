@@ -14,11 +14,11 @@ Accept: application/json
 Content-Type: application/json
 
 {
-  "name": "Cenário 2",
+  "name": "Cenário 2 para o portfolio 2",
   "description": "Descrição do Cenário 2",
   "budget": 150000.00,
   "evaluationGroupId": 1,
-  "portfolioId": 1
+  "portfolioId": 2
 }
 
 ### EDITAR CENÁRIO

@@ -8,7 +8,7 @@ GET {{host}}/strategies/1/scenarios
 GET {{host}}/strategies/1/scenarios/2/rankings
 
 ### EDITAR RANKING DO CENÁRIO
-PUT {{host}}/strategies/1/scenarios/1/rankings/4
+PUT {{host}}/strategies/1/scenarios/1/rankings/3
 Accept: application/json
 Content-Type: application/json
 

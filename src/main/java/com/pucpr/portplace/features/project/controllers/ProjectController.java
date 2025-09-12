@@ -114,5 +114,5 @@ public class ProjectController {
         return projectService.getAllProjects(portfolioId, status, searchQuery, pageable, includeDisabled);
 
     }
-    
+
 }

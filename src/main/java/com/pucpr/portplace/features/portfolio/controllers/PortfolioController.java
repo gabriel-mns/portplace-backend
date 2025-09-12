@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.pucpr.portplace.features.portfolio.dtos.PortfolioAnalyticsReadDTO;
 import com.pucpr.portplace.features.portfolio.dtos.PortfolioCancelationPatchDTO;
 import com.pucpr.portplace.features.portfolio.dtos.PortfolioCreateDTO;
 import com.pucpr.portplace.features.portfolio.dtos.PortfolioListReadDTO;
@@ -27,6 +28,7 @@ import com.pucpr.portplace.features.portfolio.dtos.PortfolioReadDTO;
 import com.pucpr.portplace.features.portfolio.dtos.PortfolioUpdateDTO;
 import com.pucpr.portplace.features.portfolio.enums.PortfolioStatusEnum;
 import com.pucpr.portplace.features.portfolio.services.PortfolioService;
+import com.pucpr.portplace.features.project.enums.ProjectStatusEnum;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -140,6 +142,17 @@ public class PortfolioController {
         PortfolioReadDTO portfolio = portfolioService.getPortfolio(portfolioId);
 
         return ResponseEntity.ok(portfolio);
+
+    }
+
+    
+    @GetMapping("/{portfolioId}/analytics")
+    public ResponseEntity<PortfolioAnalyticsReadDTO> getAllProjectsUnpaged(
+        @PathVariable Long portfolioId,
+        @RequestParam(required = false) List<ProjectStatusEnum> status
+    ) {
+
+        return portfolioService.getAnalytics(portfolioId, status);
 
     }
 

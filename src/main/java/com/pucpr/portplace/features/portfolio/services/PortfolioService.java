@@ -4,8 +4,10 @@ import java.util.List;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import com.pucpr.portplace.features.portfolio.dtos.PortfolioAnalyticsReadDTO;
 import com.pucpr.portplace.features.portfolio.dtos.PortfolioCancelationPatchDTO;
 import com.pucpr.portplace.features.portfolio.dtos.PortfolioCreateDTO;
 import com.pucpr.portplace.features.portfolio.dtos.PortfolioListReadDTO;
@@ -16,6 +18,9 @@ import com.pucpr.portplace.features.portfolio.enums.PortfolioStatusEnum;
 import com.pucpr.portplace.features.portfolio.mappers.PortfolioMapper;
 import com.pucpr.portplace.features.portfolio.repositories.PortfolioRepository;
 import com.pucpr.portplace.features.portfolio.services.validation.PortfolioValidationService;
+import com.pucpr.portplace.features.project.dtos.ProjectReadDTO;
+import com.pucpr.portplace.features.project.enums.ProjectStatusEnum;
+import com.pucpr.portplace.features.project.services.ProjectService;
 
 import lombok.AllArgsConstructor;
 
@@ -26,6 +31,8 @@ public class PortfolioService {
     private PortfolioValidationService validationService;
     private PortfolioRepository repository;
     private PortfolioMapper mapper;
+
+    private ProjectService projectService;
 
     // CREATE
     public PortfolioReadDTO createPortfolio(
@@ -118,6 +125,28 @@ public class PortfolioService {
         );
 
         return portfolios.map(mapper::toListReadDTO);
+
+    }
+
+    public ResponseEntity<PortfolioAnalyticsReadDTO> getAnalytics(
+        Long portfolioId, 
+        List<ProjectStatusEnum> status
+    ) {
+        
+        validationService.validateBeforeGet(portfolioId);
+        
+        List<ProjectReadDTO> projectsDTOs = projectService.getAllProjectsUnpaged(
+            portfolioId,
+            status
+            );
+            
+        PortfolioAnalyticsReadDTO analyticsDTO = new PortfolioAnalyticsReadDTO();
+
+        analyticsDTO.setPortfolio(getPortfolio(portfolioId));
+        analyticsDTO.setProjects(projectsDTOs);
+
+        return ResponseEntity.ok(analyticsDTO);
+
 
     }
 

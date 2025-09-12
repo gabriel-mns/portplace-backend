@@ -30,6 +30,17 @@ public interface ProjectRepository extends JpaRepository<Project, Long> {
     );
 
 
+    @Query("""
+        SELECT p
+        FROM Project p
+        WHERE (:portfolioId IS NULL OR p.portfolio.id = :portfolioId)
+            AND (:status IS NULL OR p.status IN :status)
+    """)
+    List<Project> findByFilters(
+        @Param("portfolioId") Long portfolioId,
+        @Param("status") List<ProjectStatusEnum> status
+    );
+
 
     @Query("""
         SELECT DISTINCT p FROM Project p
