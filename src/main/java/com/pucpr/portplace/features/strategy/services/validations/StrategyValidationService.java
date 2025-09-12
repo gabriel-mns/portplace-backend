@@ -37,5 +37,13 @@ public class StrategyValidationService {
 
     }
 
+    public void validateBeforeCancel(long strategyId) {
+
+        if(!strategyExistsSpecification.isSatisfiedBy(strategyId)){
+            throw new StrategyNotFoundException(strategyId);
+        }
+        
+    }
+
 
 }

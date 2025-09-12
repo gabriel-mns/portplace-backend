@@ -21,6 +21,7 @@ public class StrategyReadDTO {
     private String description;
     private StrategyStatusEnum status;
     private int activeObjectivesCount;
+    private String cancellationReason;
 
     // private List<StrategicObjectiveReadDTO> strategicObjectives;
     // private List<CriteriaGroupReadDTO> criteriaGroups;
