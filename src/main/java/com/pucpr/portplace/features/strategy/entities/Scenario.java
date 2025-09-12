@@ -51,6 +51,7 @@ public class Scenario extends AuditableEntity{
     @Enumerated(EnumType.STRING)
     private ScenarioStatusEnum status;
     private LocalDateTime authorizationDate;
+    private String cancellationReason;
 
     // Relationships
     @OneToMany(mappedBy = "scenario", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)

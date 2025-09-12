@@ -95,6 +95,24 @@ public class ScenarioService {
 
     }
 
+    public ScenarioReadDTO cancelScenario(
+        long scenarioId,
+        @Valid com.pucpr.portplace.features.strategy.dtos.ScenarioCancellationPatchDTO dto
+    ) {
+
+        validationService.validateBeforeCancellation(scenarioId);
+
+        Scenario scenario = repository.findById(scenarioId).get();
+
+        scenario.setStatus(ScenarioStatusEnum.CANCELLED);
+        scenario.setCancellationReason(dto.getCancellationReason());
+
+        scenario = repository.save(scenario);
+
+        return mapper.toReadDTO(scenario);
+
+    }
+
     //DELETE
     public void disableScenario(
         long scenarioId

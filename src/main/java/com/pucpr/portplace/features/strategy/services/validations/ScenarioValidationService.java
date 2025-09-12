@@ -118,4 +118,12 @@ public class ScenarioValidationService {
 
     }
 
+    public void validateBeforeCancellation(long scenarioId) {
+
+        if(!scenarioExistsSpecification.isSatisfiedBy(scenarioId)){
+            throw new ScenarioNotFoundException(scenarioId);
+        }
+
+    }
+
 }

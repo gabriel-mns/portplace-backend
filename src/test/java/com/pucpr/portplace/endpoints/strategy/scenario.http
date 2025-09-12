@@ -5,8 +5,17 @@ GET {{host}}/strategies/1/scenarios
 Accept: application/json
 
 ### GET CENÁRIO
-GET {{host}}/strategies/1/scenarios/6
+GET {{host}}/strategies/1/scenarios/5
 Accept: application/json
+
+### CANCELAR CENÁRIO
+PATCH {{host}}/strategies/1/scenarios/5/cancel
+Accept: application/json
+Content-Type: application/json
+
+{
+  "cancellationReason": "Motivo do cancelamento do cenário"
+}
 
 ### CADASTRAR CENÁRIO
 POST {{host}}/strategies/1/scenarios

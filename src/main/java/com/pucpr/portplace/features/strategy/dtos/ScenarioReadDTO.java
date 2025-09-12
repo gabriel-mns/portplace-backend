@@ -24,6 +24,7 @@ public class ScenarioReadDTO {
     private String description;
     private float budget;
     private ScenarioStatusEnum status;
+    private String cancellationReason;
 
     // Relationships
     private Long strategyId;
