@@ -10,6 +10,7 @@ import com.pucpr.portplace.features.portfolio.entities.Portfolio;
 import com.pucpr.portplace.features.portfolio.enums.PortfolioStatusEnum;
 import com.pucpr.portplace.features.portfolio.services.internal.PortfolioEntityService;
 import com.pucpr.portplace.features.project.entities.Project;
+import com.pucpr.portplace.features.project.enums.ProjectStatusEnum;
 import com.pucpr.portplace.features.project.mappers.ProjectMapper;
 import com.pucpr.portplace.features.project.services.internal.ProjectEntityService;
 import com.pucpr.portplace.features.strategy.dtos.ScenarioAuthorizationPreviewDTO;
@@ -217,6 +218,7 @@ public class ScenarioService {
     private void addProjectsToPortfolio(List<Project> projects, Portfolio portfolio) {
         for (Project p : projects) {
             p.setPortfolio(portfolio);
+            p.setStatus(ProjectStatusEnum.IN_PROGRESS);
             projectService.save(p);
         }
 
