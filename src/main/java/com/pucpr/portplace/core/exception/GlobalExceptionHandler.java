@@ -19,6 +19,7 @@ import org.springframework.web.servlet.NoHandlerFoundException;
 
 import com.fasterxml.jackson.databind.JsonMappingException.Reference;
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
+import com.pucpr.portplace.features.user.exceptions.UserAlreadyRegisteredException;
 
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -183,6 +184,20 @@ public class GlobalExceptionHandler {
         return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST)
                 .body(new ApiErrorResponse(HttpStatus.BAD_REQUEST.value(), message, request.getRequestURI(), request.getMethod(), LocalDateTime.now()));
+    }
+
+    @ExceptionHandler(UserAlreadyRegisteredException.class)
+    public ResponseEntity<ApiErrorResponse> handleUserAlreadyRegistered(UserAlreadyRegisteredException ex, HttpServletRequest request) {
+
+        var response = new ApiErrorResponse(
+                HttpStatus.CONFLICT.value(),
+                ex.getMessage(),
+                request.getRequestURI(),
+                request.getMethod(),
+                LocalDateTime.now()
+        );
+
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(response);
     }
 
     @ExceptionHandler(Exception.class)

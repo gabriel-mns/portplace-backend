@@ -5,10 +5,10 @@ POST {{host}}/users/register
 Content-Type: application/json
 
 {
-  "name": "Gabriel Martins Nunes da Silva",
-  "email": "gabrielgmns071204@gmail.com",
-  "password": "123456789",
-  "role": "PMO_ADM"
+  "name": "Charles Darwin",
+  "email": "darwin@mail.com",
+  "password": "12345",
+  "role": "READER"
 }
 
 ### LOGIN
@@ -22,7 +22,7 @@ Content-Type: application/json
 
 
 ### BUSCA DE USUÁRIOS
-GET  {{host}}/users
+GET  {{host}}/users?page=0&size=1
 Host: localhost:8080
 
 ### BUSCA DE USUÁRIO POR ID
@@ -36,7 +36,8 @@ Content-Type: application/json
 
 {
   "name": "Gabriel Martins Nunes da Silva",
-  "password": "123456789"
+  "password": "12345",
+  "status": "INACTIVE"
 }
 
 ### DELETAR USUÁRIO

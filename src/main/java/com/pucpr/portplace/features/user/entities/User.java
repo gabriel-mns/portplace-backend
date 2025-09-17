@@ -8,7 +8,9 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import com.pucpr.portplace.core.entities.AuditableEntity;
 import com.pucpr.portplace.features.user.enums.RoleEnum;
+import com.pucpr.portplace.features.user.enums.UserStatusEnum;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -30,7 +32,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-public class User implements UserDetails {
+public class User extends AuditableEntity implements UserDetails {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
