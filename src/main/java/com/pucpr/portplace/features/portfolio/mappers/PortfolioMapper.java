@@ -4,10 +4,10 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 
-import com.pucpr.portplace.features.portfolio.dtos.PortfolioCreateDTO;
-import com.pucpr.portplace.features.portfolio.dtos.PortfolioListReadDTO;
-import com.pucpr.portplace.features.portfolio.dtos.PortfolioReadDTO;
-import com.pucpr.portplace.features.portfolio.dtos.PortfolioUpdateDTO;
+import com.pucpr.portplace.features.portfolio.dtos.portfolio.PortfolioCreateDTO;
+import com.pucpr.portplace.features.portfolio.dtos.portfolio.PortfolioListReadDTO;
+import com.pucpr.portplace.features.portfolio.dtos.portfolio.PortfolioReadDTO;
+import com.pucpr.portplace.features.portfolio.dtos.portfolio.PortfolioUpdateDTO;
 import com.pucpr.portplace.features.portfolio.entities.Portfolio;
 import com.pucpr.portplace.features.project.mappers.ProjectMapper;
 import com.pucpr.portplace.features.strategy.mappers.StrategyMapper;

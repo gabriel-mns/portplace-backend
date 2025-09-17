@@ -6,7 +6,7 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.pucpr.portplace.features.ahp.dtos.EvaluationReadDTO;
-import com.pucpr.portplace.features.portfolio.dtos.PortfolioCategoryReadDTO;
+import com.pucpr.portplace.features.portfolio.dtos.portfolioCategory.PortfolioCategoryReadDTO;
 import com.pucpr.portplace.features.project.enums.ProjectStatusEnum;
 import com.pucpr.portplace.features.strategy.dtos.StrategicObjectiveReadDTO;
 

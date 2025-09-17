@@ -3,7 +3,7 @@ package com.pucpr.portplace.features.strategy.dtos;
 import java.time.LocalDateTime;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.pucpr.portplace.features.portfolio.dtos.PortfolioCategoryReadDTO;
+import com.pucpr.portplace.features.portfolio.dtos.portfolioCategory.PortfolioCategoryReadDTO;
 import com.pucpr.portplace.features.project.dtos.ProjectReadDTO;
 import com.pucpr.portplace.features.strategy.enums.ScenarioRankingStatusEnum;
 

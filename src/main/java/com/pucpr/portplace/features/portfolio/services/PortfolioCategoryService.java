@@ -3,9 +3,10 @@ package com.pucpr.portplace.features.portfolio.services;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import com.pucpr.portplace.features.portfolio.dtos.PortfolioCategoryCreateDTO;
-import com.pucpr.portplace.features.portfolio.dtos.PortfolioCategoryReadDTO;
-import com.pucpr.portplace.features.portfolio.dtos.PortfolioCategoryUpdateDTO;
+
+import com.pucpr.portplace.features.portfolio.dtos.portfolioCategory.PortfolioCategoryCreateDTO;
+import com.pucpr.portplace.features.portfolio.dtos.portfolioCategory.PortfolioCategoryReadDTO;
+import com.pucpr.portplace.features.portfolio.dtos.portfolioCategory.PortfolioCategoryUpdateDTO;
 import com.pucpr.portplace.features.portfolio.entities.PortfolioCategory;
 import com.pucpr.portplace.features.portfolio.mappers.PortfolioCategoryMapper;
 import com.pucpr.portplace.features.portfolio.repositories.PortfolioCategoryRepository;

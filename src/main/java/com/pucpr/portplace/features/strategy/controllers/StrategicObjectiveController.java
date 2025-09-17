@@ -18,7 +18,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.pucpr.portplace.features.ahp.dtos.CriterionReadDTO;
 import com.pucpr.portplace.features.ahp.services.internal.CriterionEntityService;
-import com.pucpr.portplace.features.portfolio.dtos.PortfolioReadDTO;
+import com.pucpr.portplace.features.portfolio.dtos.portfolio.PortfolioReadDTO;
 import com.pucpr.portplace.features.portfolio.services.internal.PortfolioEntityService;
 import com.pucpr.portplace.features.project.dtos.ProjectReadDTO;
 import com.pucpr.portplace.features.project.services.internal.ProjectEntityService;

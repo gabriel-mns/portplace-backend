@@ -20,12 +20,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.pucpr.portplace.features.portfolio.dtos.PortfolioAnalyticsReadDTO;
-import com.pucpr.portplace.features.portfolio.dtos.PortfolioCancelationPatchDTO;
-import com.pucpr.portplace.features.portfolio.dtos.PortfolioCreateDTO;
-import com.pucpr.portplace.features.portfolio.dtos.PortfolioListReadDTO;
-import com.pucpr.portplace.features.portfolio.dtos.PortfolioReadDTO;
-import com.pucpr.portplace.features.portfolio.dtos.PortfolioUpdateDTO;
+import com.pucpr.portplace.features.portfolio.dtos.portfolio.PortfolioAnalyticsReadDTO;
+import com.pucpr.portplace.features.portfolio.dtos.portfolio.PortfolioCancelationPatchDTO;
+import com.pucpr.portplace.features.portfolio.dtos.portfolio.PortfolioCreateDTO;
+import com.pucpr.portplace.features.portfolio.dtos.portfolio.PortfolioListReadDTO;
+import com.pucpr.portplace.features.portfolio.dtos.portfolio.PortfolioReadDTO;
+import com.pucpr.portplace.features.portfolio.dtos.portfolio.PortfolioUpdateDTO;
 import com.pucpr.portplace.features.portfolio.enums.PortfolioStatusEnum;
 import com.pucpr.portplace.features.portfolio.services.PortfolioService;
 import com.pucpr.portplace.features.project.enums.ProjectStatusEnum;

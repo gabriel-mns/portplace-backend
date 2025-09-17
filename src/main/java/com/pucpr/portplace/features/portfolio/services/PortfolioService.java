@@ -7,12 +7,12 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import com.pucpr.portplace.features.portfolio.dtos.PortfolioAnalyticsReadDTO;
-import com.pucpr.portplace.features.portfolio.dtos.PortfolioCancelationPatchDTO;
-import com.pucpr.portplace.features.portfolio.dtos.PortfolioCreateDTO;
-import com.pucpr.portplace.features.portfolio.dtos.PortfolioListReadDTO;
-import com.pucpr.portplace.features.portfolio.dtos.PortfolioReadDTO;
-import com.pucpr.portplace.features.portfolio.dtos.PortfolioUpdateDTO;
+import com.pucpr.portplace.features.portfolio.dtos.portfolio.PortfolioAnalyticsReadDTO;
+import com.pucpr.portplace.features.portfolio.dtos.portfolio.PortfolioCancelationPatchDTO;
+import com.pucpr.portplace.features.portfolio.dtos.portfolio.PortfolioCreateDTO;
+import com.pucpr.portplace.features.portfolio.dtos.portfolio.PortfolioListReadDTO;
+import com.pucpr.portplace.features.portfolio.dtos.portfolio.PortfolioReadDTO;
+import com.pucpr.portplace.features.portfolio.dtos.portfolio.PortfolioUpdateDTO;
 import com.pucpr.portplace.features.portfolio.entities.Portfolio;
 import com.pucpr.portplace.features.portfolio.enums.PortfolioStatusEnum;
 import com.pucpr.portplace.features.portfolio.mappers.PortfolioMapper;

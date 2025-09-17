@@ -18,9 +18,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.pucpr.portplace.features.portfolio.dtos.PortfolioCategoryCreateDTO;
-import com.pucpr.portplace.features.portfolio.dtos.PortfolioCategoryReadDTO;
-import com.pucpr.portplace.features.portfolio.dtos.PortfolioCategoryUpdateDTO;
+import com.pucpr.portplace.features.portfolio.dtos.portfolioCategory.PortfolioCategoryCreateDTO;
+import com.pucpr.portplace.features.portfolio.dtos.portfolioCategory.PortfolioCategoryReadDTO;
+import com.pucpr.portplace.features.portfolio.dtos.portfolioCategory.PortfolioCategoryUpdateDTO;
 import com.pucpr.portplace.features.portfolio.services.PortfolioCategoryService;
 
 import io.swagger.v3.oas.annotations.tags.Tag;

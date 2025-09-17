@@ -4,7 +4,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
-import com.pucpr.portplace.features.portfolio.dtos.PortfolioReadDTO;
+import com.pucpr.portplace.features.portfolio.dtos.portfolio.PortfolioReadDTO;
 import com.pucpr.portplace.features.portfolio.entities.Portfolio;
 import com.pucpr.portplace.features.portfolio.mappers.PortfolioMapper;
 import com.pucpr.portplace.features.portfolio.repositories.PortfolioRepository;

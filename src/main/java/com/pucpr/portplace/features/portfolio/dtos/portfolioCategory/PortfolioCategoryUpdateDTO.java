@@ -1,4 +1,4 @@
-package com.pucpr.portplace.features.portfolio.dtos;
+package com.pucpr.portplace.features.portfolio.dtos.portfolioCategory;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
@@ -10,11 +10,10 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-public class PortfolioCategoryCreateDTO {
+public class PortfolioCategoryUpdateDTO {
 
     @NotBlank
     private String name;
     private String description;
-    private Long portfolioId;
 
 }

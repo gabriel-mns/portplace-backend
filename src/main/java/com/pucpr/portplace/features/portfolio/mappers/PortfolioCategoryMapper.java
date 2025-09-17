@@ -5,9 +5,9 @@ import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 import org.mapstruct.NullValuePropertyMappingStrategy;
 
-import com.pucpr.portplace.features.portfolio.dtos.PortfolioCategoryCreateDTO;
-import com.pucpr.portplace.features.portfolio.dtos.PortfolioCategoryReadDTO;
-import com.pucpr.portplace.features.portfolio.dtos.PortfolioCategoryUpdateDTO;
+import com.pucpr.portplace.features.portfolio.dtos.portfolioCategory.PortfolioCategoryCreateDTO;
+import com.pucpr.portplace.features.portfolio.dtos.portfolioCategory.PortfolioCategoryReadDTO;
+import com.pucpr.portplace.features.portfolio.dtos.portfolioCategory.PortfolioCategoryUpdateDTO;
 import com.pucpr.portplace.features.portfolio.entities.PortfolioCategory;
 
 @Mapper(

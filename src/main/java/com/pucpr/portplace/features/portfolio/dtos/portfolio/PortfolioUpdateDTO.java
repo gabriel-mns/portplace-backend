@@ -1,4 +1,4 @@
-package com.pucpr.portplace.features.portfolio.dtos;
+package com.pucpr.portplace.features.portfolio.dtos.portfolio;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;

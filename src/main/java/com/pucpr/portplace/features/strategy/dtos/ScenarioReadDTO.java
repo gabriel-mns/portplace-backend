@@ -5,7 +5,7 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.pucpr.portplace.features.ahp.dtos.EvaluationGroupReadDTO;
-import com.pucpr.portplace.features.portfolio.dtos.PortfolioReadDTO;
+import com.pucpr.portplace.features.portfolio.dtos.portfolio.PortfolioReadDTO;
 import com.pucpr.portplace.features.strategy.enums.ScenarioStatusEnum;
 
 import lombok.AllArgsConstructor;
