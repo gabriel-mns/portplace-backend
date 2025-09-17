@@ -45,12 +45,15 @@ public class User implements UserDetails {
     private String password;
     @Enumerated(EnumType.ORDINAL)
     private RoleEnum role;
+    @Enumerated(EnumType.STRING)
+    private UserStatusEnum status;
 
     public User(String name, String email, String password, RoleEnum role) {
         this.name = name;
         this.email = email;
         this.password = password;
         this.role = role;
+        this.status = UserStatusEnum.ACTIVE;
     }
 
     public void setUsername(String username) {

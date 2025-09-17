@@ -1,5 +1,8 @@
 package com.pucpr.portplace.features.user.dtos;
 
+import com.pucpr.portplace.core.validation.constraints.enumValues.ValidEnum;
+import com.pucpr.portplace.features.user.enums.UserStatusEnum;
+
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -28,5 +31,8 @@ public class UserUpdateRequestDTO {
     @NotNull(message = "password is mandatory")
     @Size(min = 5, message = "password must have at least 5 characters")
     private String password;
+
+    @ValidEnum(enumClass = UserStatusEnum.class)
+    private String status;
 
 }
