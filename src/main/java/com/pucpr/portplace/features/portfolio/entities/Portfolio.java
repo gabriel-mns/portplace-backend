@@ -51,24 +51,20 @@ public class Portfolio extends AuditableEntity {
     // Relationships
     @OneToMany(mappedBy = "portfolio", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Project> projects = new ArrayList<>();
-
     @ManyToMany
     private List<User> owners;
-
     @OneToMany(mappedBy = "portfolio", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<PortfolioCategory> categories;
-
     @ManyToOne
     private Strategy strategy;
-
     @OneToMany(mappedBy = "portfolio")
     private List<Scenario> scenarios = new ArrayList<>();
-
     @ManyToOne
     @JoinColumn(name = "active_scenario_id")
     private Scenario activeScenario;
+    @OneToMany(mappedBy = "portfolio", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Stakeholder> stakeholders = new ArrayList<>();
     // private List<Risk> risks;
-    // private CommunicationPlan communicationPlan;
 
     // Calculated Fields
     @Formula("""
