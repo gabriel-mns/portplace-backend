@@ -9,6 +9,7 @@ import com.pucpr.portplace.features.portfolio.dtos.stakeholder.StakeholderReadDT
 import com.pucpr.portplace.features.portfolio.dtos.stakeholder.StakeholderUpdateDTO;
 import com.pucpr.portplace.features.portfolio.mappers.StakeholderMapper;
 import com.pucpr.portplace.features.portfolio.repositories.StakeholderRepository;
+import com.pucpr.portplace.features.portfolio.services.validation.StakeholderValidationService;
 
 import lombok.AllArgsConstructor;
 
@@ -18,6 +19,7 @@ public class StakeholderService {
     
     private StakeholderRepository repository;
     private StakeholderMapper mapper;
+    private StakeholderValidationService validationService;
 
     //CREATE
     public StakeholderReadDTO createStakeholder(
@@ -25,7 +27,7 @@ public class StakeholderService {
         StakeholderCreateDTO stakeholderCreateDTO
     ) {
 
-        //TODO: validate if portfolio exists
+        validationService.validateBeforeCreate(portfolioId);
 
         stakeholderCreateDTO.setPortfolioId(portfolioId);
 
@@ -43,7 +45,7 @@ public class StakeholderService {
         StakeholderUpdateDTO dto
     ) {
         
-        //TODO: validate if stakeholder exists
+        validationService.validateBeforeUpdate(stakeholderId);
 
         var stakeholder = repository.findById(stakeholderId).get();
 
@@ -60,7 +62,7 @@ public class StakeholderService {
         Long stakeholderId
     ) {
 
-        //TODO: validate if stakeholder exists
+        validationService.validateBeforeDelete(stakeholderId);
 
         var stakeholder = repository.findById(stakeholderId).get();
 
@@ -83,7 +85,7 @@ public class StakeholderService {
         Long stakeholderId
     ) {
 
-        //TODO: validate if stakeholder exists
+        validationService.validateBeforeGet(stakeholderId);
 
         var stakeholder = repository.findById(stakeholderId).get();
 
@@ -98,7 +100,7 @@ public class StakeholderService {
         Pageable pageable
     ) {
 
-        //TODO: validate if portfolio exists
+        validationService.validateBeforeGetAll(portfolioId);
         
         var stakeholders = repository.findByFilters(
             portfolioId,
