@@ -1,9 +1,12 @@
 package com.pucpr.portplace.features.portfolio.services;
 
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import com.pucpr.portplace.features.portfolio.dtos.event.EventReadDTO;
 import com.pucpr.portplace.features.portfolio.dtos.stakeholder.StakeholderCreateDTO;
 import com.pucpr.portplace.features.portfolio.dtos.stakeholder.StakeholderReadDTO;
 import com.pucpr.portplace.features.portfolio.dtos.stakeholder.StakeholderUpdateDTO;
@@ -20,6 +23,7 @@ public class StakeholderService {
     private StakeholderRepository repository;
     private StakeholderMapper mapper;
     private StakeholderValidationService validationService;
+    private EventService service;
 
     //CREATE
     public StakeholderReadDTO createStakeholder(
@@ -111,6 +115,41 @@ public class StakeholderService {
 
         return stakeholders.map(mapper::toReadDTO);
 
+    }
+
+    public Page<EventReadDTO> getStakeholderEvents(
+        Long stakeholderId,
+        String searchQuery,
+        boolean includeDisabled,
+        Pageable pageable
+    ) {
+
+        validationService.validateBeforeGet(stakeholderId);
+
+        return service.getEvents(
+            null,
+            stakeholderId,
+            searchQuery,
+            includeDisabled,
+            pageable
+        );
+
+    }
+
+    public List<StakeholderReadDTO> getStakeholdersAvailableForEvent(
+        Long portfolioId, 
+        Long eventId, 
+        String searchQuery,
+        boolean includeDisabled
+    ) {
+
+        validationService.validateBeforeGet(portfolioId);
+
+        var stakeholders = repository.findAvailableForEvent(portfolioId, eventId, searchQuery, includeDisabled);
+
+        return stakeholders.stream()
+            .map(mapper::toReadDTO)
+            .toList();
     }
 
 }

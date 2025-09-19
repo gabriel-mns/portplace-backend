@@ -18,6 +18,10 @@ Accept: application/json
 GET {{host}}/portfolios/1/events/1
 Accept: application/json
 
+### GET EVENTOS DE UM STAKEHOLDER DE UM PORTFÓLIO
+GET {{host}}/portfolios/1/stakeholders/1/events
+Accept: application/json
+
 ### CADASTRAR EVENTO EM UM PORTFÓLIO
 POST {{host}}/portfolios/1/events
 Accept: application/json

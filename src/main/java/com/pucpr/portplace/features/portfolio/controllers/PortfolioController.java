@@ -119,7 +119,6 @@ public class PortfolioController {
         @RequestParam(defaultValue = "asc") String sortDir
     ) {
 
-        
         Sort.Direction direction = sortDir.equalsIgnoreCase("desc") ? Sort.Direction.DESC : Sort.Direction.ASC;
         Pageable pageable = PageRequest.of(page, size, Sort.by(direction, sortBy));
 

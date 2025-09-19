@@ -12,8 +12,20 @@ Accept: application/json
 GET {{host}}/portfolios/1/stakeholders?includeDisabled=true
 Accept: application/json
 
+### GET TODOS OS STAKEHOLDERS DISPONÍVEIS PARA EVENTO
+GET {{host}}/portfolios/1/stakeholders/available-for-event/2
+Accept: application/json
+
 ### GET STAKEHOLDER DE UM PORTFÓLIO
 GET {{host}}/portfolios/1/stakeholders/1
+Accept: application/json
+
+### GET EVENTOS DE UM STAKEHOLDER DE UM PORTFÓLIO
+GET {{host}}/portfolios/1/stakeholders/1/events
+Accept: application/json
+
+### GET EVENTOS DE UM STAKEHOLDER
+GET {{host}}/portfolios/1/stakeholders/2/events
 Accept: application/json
 
 ### CADASTRAR STAKEHOLDER EM UM PORTFÓLIO
@@ -22,16 +34,16 @@ Accept: application/json
 Content-Type: application/json
 
 {
-  "name": "Stakeholder 2"
+  "name": "Stakeholder 4"
 }
 
 ### EDITAR STAKEHOLDER DE UM PORTFÓLIO
-PUT {{host}}/portfolios/1/stakeholders/2
+PUT {{host}}/portfolios/1/stakeholders/1
 Accept: application/json
 Content-Type: application/json
 
 {
-    "name": "Portfólio 2 Editado",
+    "name": "Stakeholder 1 Editado",
     "powerLevel": "LOW",
     "powerLevelJustification": "Justificativa do nível de poder",
     "interestLevel": "MEDIUM",

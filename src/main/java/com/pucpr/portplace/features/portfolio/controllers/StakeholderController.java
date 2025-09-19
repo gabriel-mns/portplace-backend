@@ -1,6 +1,8 @@
 package com.pucpr.portplace.features.portfolio.controllers;
 
 import java.net.URI;
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -17,10 +19,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.pucpr.portplace.features.portfolio.dtos.event.EventReadDTO;
 import com.pucpr.portplace.features.portfolio.dtos.stakeholder.StakeholderCreateDTO;
 import com.pucpr.portplace.features.portfolio.dtos.stakeholder.StakeholderReadDTO;
 import com.pucpr.portplace.features.portfolio.dtos.stakeholder.StakeholderUpdateDTO;
 import com.pucpr.portplace.features.portfolio.services.StakeholderService;
+import com.pucpr.portplace.features.portfolio.services.internal.EventEntityService;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -33,6 +37,7 @@ import lombok.AllArgsConstructor;
 public class StakeholderController {
 
     private StakeholderService service;
+    private EventEntityService eventEntityService;
 
     // CREATE
     @PostMapping
@@ -42,13 +47,11 @@ public class StakeholderController {
     ) {
 
         StakeholderReadDTO createdStakeholder = service.createStakeholder(portfolioId, stakeholderCreateDTO);
-
         
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
             .path("/{id}")
             .buildAndExpand(createdStakeholder.getId())
             .toUri();
-
 
         return ResponseEntity.created(uri).body(createdStakeholder);
 
@@ -117,8 +120,7 @@ public class StakeholderController {
         return ResponseEntity.ok(stakeholders);
 
     }
-
-    // READ
+    
     @GetMapping("/{stakeholderId}")
     private ResponseEntity<StakeholderReadDTO> getStakeholderById(
         @PathVariable Long stakeholderId
@@ -127,6 +129,52 @@ public class StakeholderController {
         StakeholderReadDTO stakeholder = service.getStakeholderById(stakeholderId);
     
         return ResponseEntity.ok(stakeholder);
+
+    }
+
+    
+    @GetMapping("/available-for-event/{eventId}")
+    private ResponseEntity<List<StakeholderReadDTO>> getStakeholdersAvailableForEvent(
+        @PathVariable Long portfolioId,
+        @PathVariable Long eventId,
+        @RequestParam(defaultValue = "") String searchQuery,
+        @RequestParam(defaultValue = "false") boolean includeDisabled
+    ) {
+
+        List<StakeholderReadDTO> stakeholders = service.getStakeholdersAvailableForEvent(
+            portfolioId,
+            eventId,
+            searchQuery,
+            includeDisabled
+        );
+
+        return ResponseEntity.ok(stakeholders);
+
+    }
+
+    
+    @GetMapping("/{stakeholderId}/events")
+    private ResponseEntity<Page<EventReadDTO>> getEventsByStakeholder(
+        @PathVariable Long stakeholderId,
+        @RequestParam(defaultValue = "") String searchQuery,
+        @RequestParam(defaultValue = "false") boolean includeDisabled,
+        @RequestParam(defaultValue = "0") int page,
+        @RequestParam(defaultValue = "10") int size,
+        @RequestParam(defaultValue = "id") String sortBy,
+        @RequestParam(defaultValue = "asc") String sortDir
+    ) {
+
+        Sort.Direction direction = sortDir.equalsIgnoreCase("desc") ? Sort.Direction.DESC : Sort.Direction.ASC;
+        Pageable pageable = PageRequest.of(page, size, Sort.by(direction, sortBy));
+
+        Page<EventReadDTO> events = eventEntityService.findByStakeholderId(
+            stakeholderId,
+            searchQuery,
+            includeDisabled,
+            pageable
+        );
+
+        return ResponseEntity.ok(events);
 
     }
     
