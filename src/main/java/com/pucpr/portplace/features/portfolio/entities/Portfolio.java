@@ -65,6 +65,8 @@ public class Portfolio extends AuditableEntity {
     private Scenario activeScenario;
     @OneToMany(mappedBy = "portfolio", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Stakeholder> stakeholders = new ArrayList<>();
+    @OneToMany(mappedBy = "portfolio", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Event> events = new ArrayList<>();
     // private List<Risk> risks;
 
     // Calculated Fields

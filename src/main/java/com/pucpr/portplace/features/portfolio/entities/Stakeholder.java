@@ -1,5 +1,7 @@
 package com.pucpr.portplace.features.portfolio.entities;
 
+import java.util.List;
+
 import com.pucpr.portplace.core.entities.AuditableEntity;
 import com.pucpr.portplace.features.portfolio.enums.PortfolioScaleEnum;
 
@@ -8,6 +10,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -40,6 +43,7 @@ public class Stakeholder extends AuditableEntity{
     @ManyToOne
     @JoinColumn(name = "portfolio_id", nullable = false)
     private Portfolio portfolio;
-    // private List<Event> events;
+    @ManyToMany
+    private List<EventParticipant> participantIn;
 
 }

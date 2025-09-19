@@ -1,0 +1,53 @@
+@host = http://localhost:8080/api/v1
+
+@host = http://localhost:8080/api/v1
+
+### GET TODOS OS PORTFÓLIOS
+GET {{host}}/portfolios
+Accept: application/json
+
+### GET PORTFÓLIO
+GET {{host}}/portfolios/1
+Accept: application/json
+
+### GET EVENTOS DE UM PORTFÓLIO
+GET {{host}}/portfolios/1/events?includeDisabled=true
+Accept: application/json
+
+### GET EVENTO DE UM PORTFÓLIO
+GET {{host}}/portfolios/1/events/1
+Accept: application/json
+
+### CADASTRAR EVENTO EM UM PORTFÓLIO
+POST {{host}}/portfolios/1/events
+Accept: application/json
+Content-Type: application/json
+
+{
+  "name": "Evento 2",
+  "description": "Descrição do evento"
+}
+
+### EDITAR EVENTO DE UM PORTFÓLIO
+PUT {{host}}/portfolios/1/events/1
+Accept: application/json
+Content-Type: application/json
+
+{
+    "infosAndDocs": "Novas informações e documentos do evento",
+    "discussionTopic": "Novos tópicos de discussão do evento",
+    "reason": "Nova razão do evento",
+    "periodicity": "WEEKLY",
+    "communicationMethods": [
+        "EMAIL",
+        "ONLINE_MEETING"
+    ] 
+}
+
+### DESABILITAR STAKEHOLDER
+DELETE {{host}}/portfolios/1/events/1
+Accept: application/json
+
+### DELETAR STAKEHOLDER
+DELETE {{host}}/portfolios/1/events/2/hard-delete
+Accept: application/json
