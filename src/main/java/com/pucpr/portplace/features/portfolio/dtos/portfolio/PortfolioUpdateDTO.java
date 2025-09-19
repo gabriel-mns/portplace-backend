@@ -15,5 +15,6 @@ public class PortfolioUpdateDTO {
     @NotBlank
     private String name;
     private String description;
+    private String communicationStorageDescription;
 
 }

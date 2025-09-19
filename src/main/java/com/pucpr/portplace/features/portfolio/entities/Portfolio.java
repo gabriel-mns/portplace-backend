@@ -47,6 +47,7 @@ public class Portfolio extends AuditableEntity {
     @Enumerated(EnumType.STRING)
     private PortfolioStatusEnum status;
     private String cancellationReason;
+    private String communicationStorageDescription;
 
     // Relationships
     @OneToMany(mappedBy = "portfolio", cascade = CascadeType.ALL, orphanRemoval = true)

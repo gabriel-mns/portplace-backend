@@ -1,8 +1,10 @@
 package com.pucpr.portplace.features.portfolio.mappers;
 
+import org.mapstruct.BeanMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
+import org.mapstruct.NullValuePropertyMappingStrategy;
 
 import com.pucpr.portplace.features.portfolio.dtos.portfolio.PortfolioCreateDTO;
 import com.pucpr.portplace.features.portfolio.dtos.portfolio.PortfolioListReadDTO;
@@ -18,7 +20,7 @@ import com.pucpr.portplace.features.user.mappers.UserMapper;
     uses = {ProjectMapper.class, UserMapper.class, PortfolioCategoryMapper.class, StrategyMapper.class},
     unmappedTargetPolicy = org.mapstruct.ReportingPolicy.IGNORE,
     unmappedSourcePolicy = org.mapstruct.ReportingPolicy.IGNORE
-    )
+)
 public interface PortfolioMapper {
 
     @Mapping(target = "status", constant = "EMPTY")
@@ -30,6 +32,7 @@ public interface PortfolioMapper {
 
     PortfolioListReadDTO toListReadDTO(Portfolio portfolio);
 
+    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     void updateFromDTO(PortfolioUpdateDTO dto, @MappingTarget Portfolio entity);
 
 }

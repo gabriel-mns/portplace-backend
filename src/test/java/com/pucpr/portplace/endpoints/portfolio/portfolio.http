@@ -5,7 +5,7 @@ GET {{host}}/portfolios
 Accept: application/json
 
 ### GET PORTFÓLIO
-GET {{host}}/portfolios/3
+GET {{host}}/portfolios/1
 Accept: application/json
 
 ### GET PORTFÓLIO ANALYTICS
@@ -29,7 +29,8 @@ Content-Type: application/json
 
 {
   "name": "Portfólio 1 Editado",
-  "description": "Descrição do Portfólio 1 Editado"
+  "description": "Descrição do Portfólio 1 Editado",
+  "communicationStorageDescription": ""
 }
 
 ### CANCELAR PORTFÓLIO
