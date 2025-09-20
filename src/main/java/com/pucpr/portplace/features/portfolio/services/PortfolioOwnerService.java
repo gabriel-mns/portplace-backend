@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import com.pucpr.portplace.features.portfolio.dtos.manager.PortfolioOwnersCreateDTO;
 import com.pucpr.portplace.features.portfolio.entities.Portfolio;
 import com.pucpr.portplace.features.portfolio.services.internal.PortfolioEntityService;
+import com.pucpr.portplace.features.portfolio.services.validation.PortfolioOwnerValidationService;
 import com.pucpr.portplace.features.user.dtos.UserGetResponseDTO;
 import com.pucpr.portplace.features.user.entities.User;
 import com.pucpr.portplace.features.user.services.internal.UserEntityService;
@@ -19,15 +20,14 @@ public class PortfolioOwnerService {
     
     private PortfolioEntityService portfolioService;
     private UserEntityService userService;
+    private PortfolioOwnerValidationService validationService;
 
     public void updatePortfolioOwners(
         Long portfolioId, 
         PortfolioOwnersCreateDTO dto
     ) {
 
-        //TODO: validate if portfolio exists
-        //TODO: validate if users exists
-        //TODO: validate if users are PMO_ADMIN
+        validationService.validateBeforeCreate(dto.getOwnersIds(), portfolioId);
 
         Portfolio portfolio = portfolioService.getPortfolioById(portfolioId);
 
@@ -59,7 +59,7 @@ public class PortfolioOwnerService {
         Pageable pageable
     ) {
         
-        //TODO: Validate if portfolio exists
+        validationService.validateBeforeGet(portfolioId);
 
         Page<UserGetResponseDTO> response = userService.getUsersByPortfolioId(portfolioId, searchQuery, includeDisabled, pageable); 
 

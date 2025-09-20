@@ -14,7 +14,7 @@ Accept: application/json
 Content-Type: application/json
 
 {
-    "ownersIds": [1]
+    "ownersIds": [1,1]
 }
 
 ### GET TODOS OS DONOS DE PORTFÓLIO
