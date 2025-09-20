@@ -12,6 +12,7 @@ import com.pucpr.portplace.features.portfolio.entities.Portfolio;
 import com.pucpr.portplace.features.portfolio.mappers.EventMapper;
 import com.pucpr.portplace.features.portfolio.repositories.EventRepository;
 import com.pucpr.portplace.features.portfolio.services.internal.PortfolioEntityService;
+import com.pucpr.portplace.features.portfolio.services.validation.EventValidationService;
 
 import lombok.AllArgsConstructor;
 
@@ -22,6 +23,7 @@ public class EventService {
     private EventRepository repository;
     private PortfolioEntityService portfolioService;
     private EventMapper mapper;
+    private EventValidationService validationService;
 
     //CREATE
     public EventReadDTO createEvent(
@@ -29,7 +31,7 @@ public class EventService {
         EventCreateDTO dto
     ) {
 
-        //TODO: validate if portfolio exists
+        validationService.validateBeforeCreate(portfolioId);
 
         Event event = mapper.toEntity(dto);
         Portfolio portfolio = portfolioService.getPortfolioById(portfolioId);
@@ -47,7 +49,7 @@ public class EventService {
         EventUpdateDTO dto
     ) {
 
-        //TODO: validate if event exists
+        validationService.validateBeforeUpdate(eventId);
 
         Event event = repository.findById(eventId).get();
 
@@ -64,7 +66,7 @@ public class EventService {
         Long eventId
     ) {
 
-        //TODO: validate if event exists
+        validationService.validateBeforeDisable(eventId);
 
         Event event = repository.findById(eventId).get();
         event.setDisabled(true);
@@ -93,7 +95,7 @@ public class EventService {
 
         if( participantId != null ) {
 
-            //TODO: validate if event exists
+            validationService.validateBeforeGetByStakeholder(participantId);
             events = repository.findByParticipant(
                 participantId,
                 searchQuery,
@@ -104,8 +106,8 @@ public class EventService {
             return events.map(mapper::toReadDTO);
 
         } else {
-            
-            //TODO: validate if event exists
+
+            validationService.validateBeforeGetAll(portfolioId);
             events = repository.findByFilters(
                 portfolioId,
                 searchQuery,
@@ -124,7 +126,7 @@ public class EventService {
         Long eventId
     ) {
 
-        //TODO: validate if event exists
+        validationService.validateBeforeGet(eventId);
 
         Event event = repository.findById(eventId).get();
 
