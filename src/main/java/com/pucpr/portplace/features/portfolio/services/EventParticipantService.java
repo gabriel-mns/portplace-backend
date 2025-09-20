@@ -12,6 +12,7 @@ import com.pucpr.portplace.features.portfolio.entities.Stakeholder;
 import com.pucpr.portplace.features.portfolio.mappers.EventParticipantMapper;
 import com.pucpr.portplace.features.portfolio.repositories.EventParticipantRepository;
 import com.pucpr.portplace.features.portfolio.services.internal.StakeholderEntityService;
+import com.pucpr.portplace.features.portfolio.services.validation.EventParticipantValidationService;
 
 import lombok.AllArgsConstructor;
 
@@ -22,16 +23,17 @@ public class EventParticipantService {
     private EventParticipantRepository repository;
     private EventParticipantMapper mapper;
     private StakeholderEntityService stakeholderService;
+    private EventParticipantValidationService validationService;
 
     //CREATE
     public EventParticipantReadDTO addParticipant(
         Long eventId,
         EventParticipantCreateDTO dto
     ) {
-        
-        //TODO: validate if event exists
 
         dto.setEventId(eventId);
+        
+        validationService.validateBeforeCreate(dto);
 
         EventParticipant entity = mapper.toEntity(dto);
 
@@ -47,8 +49,7 @@ public class EventParticipantService {
         EventParticipantUpdateDTO dto
     ) {
         
-        //TODO: validate if participant exists
-        //TODO: Validate if new stakeholder is not already a participant
+        validationService.validateBeforeUpdate(participantId, dto);
 
         EventParticipant participant = repository.findById(participantId).get();
 
@@ -69,7 +70,8 @@ public class EventParticipantService {
         Long participantId
     ) {
         
-        //TODO: validate if participant exists
+        validationService.validateBeforeDisable(participantId);
+        
         EventParticipant participant = repository.findById(participantId).get();
 
         participant.setDisabled(true);
@@ -89,6 +91,8 @@ public class EventParticipantService {
     public EventParticipantReadDTO getParticipantById(
         Long participantId
     ) {
+
+        validationService.validateBeforeGet(participantId);
 
         EventParticipant participant = repository.findById(participantId).get();
 

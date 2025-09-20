@@ -9,7 +9,7 @@ GET {{host}}/portfolios/1/events/1/participants
 Accept: application/json
 
 ### GET PARTICIPANTE DE UM PORTFÓLIO
-GET {{host}}/portfolios/1/events/1/participants/1
+GET {{host}}/portfolios/1/events/1/participants/5
 Accept: application/json
 
 ### GET STAKEHOLDERS DE UM PORTFÓLIO
@@ -27,12 +27,12 @@ Content-Type: application/json
 }
 
 ### EDITAR PARTICIPANTE DE UM EVENTO
-PUT {{host}}/portfolios/1/events/1/participants/4
+PUT {{host}}/portfolios/1/events/1/participants/5
 Accept: application/json
 Content-Type: application/json
 
 {
-  "stakeholderId": 3,
+  "stakeholderId": 2,
   "responsible": false
 }
 

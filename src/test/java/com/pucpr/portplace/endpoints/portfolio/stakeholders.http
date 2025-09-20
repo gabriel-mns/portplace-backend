@@ -13,7 +13,7 @@ GET {{host}}/portfolios/1/stakeholders?includeDisabled=true
 Accept: application/json
 
 ### GET TODOS OS STAKEHOLDERS DISPONÍVEIS PARA EVENTO
-GET {{host}}/portfolios/1/stakeholders/available-for-event/2
+GET {{host}}/portfolios/1/stakeholders/available-for-event/1
 Accept: application/json
 
 ### GET STAKEHOLDER DE UM PORTFÓLIO

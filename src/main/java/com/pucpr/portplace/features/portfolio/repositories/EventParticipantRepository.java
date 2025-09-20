@@ -24,5 +24,7 @@ public interface EventParticipantRepository extends JpaRepository<EventParticipa
         boolean includeDisabled, 
         Pageable pageable
     );
+
+    boolean existsByEventIdAndStakeholderId(Long eventId, Long stakeholderId);
     
 }
