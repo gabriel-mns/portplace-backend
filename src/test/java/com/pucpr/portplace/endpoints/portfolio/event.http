@@ -11,7 +11,7 @@ GET {{host}}/portfolios/1
 Accept: application/json
 
 ### GET EVENTOS DE UM PORTFÓLIO
-GET {{host}}/portfolios/1/events?includeDisabled=true
+GET {{host}}/portfolios/1/events?sortBy=participantsCount&sortDir=asc
 Accept: application/json
 
 ### GET EVENTO DE UM PORTFÓLIO
@@ -44,7 +44,7 @@ Content-Type: application/json
     "periodicity": "WEEKLY",
     "communicationMethods": [
         "EMAIL",
-        "ONLINE_MEETING"
+        "ON_SITE_MEETING"
     ] 
 }
 
