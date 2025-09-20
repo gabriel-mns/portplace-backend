@@ -1,0 +1,22 @@
+@host = http://localhost:8080/api/v1
+
+### GET TODOS OS PORTFÓLIOS
+GET {{host}}/portfolios
+Accept: application/json
+
+### GET TODOS OS USUARIOS
+GET {{host}}/users
+Accept: application/json
+
+### NOVOS DONOS DE PORTFÓLIO
+POST {{host}}/portfolios/1/owners
+Accept: application/json
+Content-Type: application/json
+
+{
+    "ownersIds": [1]
+}
+
+### GET TODOS OS DONOS DE PORTFÓLIO
+GET {{host}}/portfolios/1/owners
+Accept: application/json

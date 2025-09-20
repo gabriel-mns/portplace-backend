@@ -21,6 +21,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
@@ -53,6 +54,11 @@ public class Portfolio extends AuditableEntity {
     @OneToMany(mappedBy = "portfolio", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Project> projects = new ArrayList<>();
     @ManyToMany
+        @JoinTable(
+        name = "portfolio_owners",
+        joinColumns = @JoinColumn(name = "portfolio_id"),
+        inverseJoinColumns = @JoinColumn(name = "user_id")
+    )
     private List<User> owners;
     @OneToMany(mappedBy = "portfolio", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<PortfolioCategory> categories;

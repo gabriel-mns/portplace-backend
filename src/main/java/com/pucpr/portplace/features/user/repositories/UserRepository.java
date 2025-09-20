@@ -32,4 +32,18 @@ public interface UserRepository extends JpaRepository<User, Long> {
         Pageable pageable
     );
 
+    @Query("""
+        SELECT u FROM User u
+            JOIN u.portfolios p
+        WHERE p.id = :portfolioId
+            AND (:includeDisabled = true OR u.disabled = false)        
+            AND (LOWER(u.name) LIKE LOWER(CONCAT('%', :searchQuery, '%')))
+    """)
+    Page<User> findByPortfolioIdAndFilters(
+        Long portfolioId, 
+        String searchQuery, 
+        boolean includeDisabled, 
+        Pageable pageable
+    );
+
 }

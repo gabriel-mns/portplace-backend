@@ -5,10 +5,10 @@ POST {{host}}/users/register
 Content-Type: application/json
 
 {
-  "name": "Gabriel Martins",
-  "email": "gabrielgmns071204@gmail.com",
+  "name": "Felipe Silva",
+  "email": "felipesilva@gmail.com",
   "password": "12345",
-  "role": "PMO_ADM"
+  "role": "PROJECT_MANAGER"
 }
 
 ### LOGIN

@@ -18,8 +18,8 @@ Accept: application/json
 Content-Type: application/json
 
 {
-  "name": "Portfólio 3",
-  "description": "Descrição do Portfólio 3"
+  "name": "Portfólio 2",
+  "description": "Descrição do Portfólio 2"
 }
 
 ### EDITAR PORTFÓLIO

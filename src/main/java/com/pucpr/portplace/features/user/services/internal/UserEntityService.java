@@ -2,8 +2,11 @@ package com.pucpr.portplace.features.user.services.internal;
 
 import java.util.Optional;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import com.pucpr.portplace.features.user.dtos.UserGetResponseDTO;
 import com.pucpr.portplace.features.user.entities.User;
 import com.pucpr.portplace.features.user.exceptions.UserNotFoundException;
 import com.pucpr.portplace.features.user.repositories.UserRepository;
@@ -31,6 +34,19 @@ public class UserEntityService {
         
         return userRepository.existsById(userId);
         
+    }
+
+    public Page<UserGetResponseDTO> getUsersByPortfolioId(
+        Long portfolioId, 
+        String searchQuery, 
+        boolean includeDisabled, 
+        Pageable pageable
+    ) {
+        
+        Page<User> owners = userRepository.findByPortfolioIdAndFilters(portfolioId, searchQuery, includeDisabled, pageable);
+        
+        return owners.map(UserGetResponseDTO::map);
+
     }
 
 
