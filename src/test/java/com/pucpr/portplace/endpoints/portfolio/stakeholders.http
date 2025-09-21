@@ -34,7 +34,7 @@ Accept: application/json
 Content-Type: application/json
 
 {
-  "name": "Stakeholder 4"
+  "name": "Stakeholder 2"
 }
 
 ### EDITAR STAKEHOLDER DE UM PORTFÓLIO

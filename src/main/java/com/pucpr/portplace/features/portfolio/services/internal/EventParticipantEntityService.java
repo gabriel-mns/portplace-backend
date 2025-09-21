@@ -23,7 +23,7 @@ public class EventParticipantEntityService {
 
     public boolean existsByEventIdAndStakeholderId(Long eventId, Long stakeholderId) {
         
-        return repository.existsByEventIdAndStakeholderId(eventId, stakeholderId);
+        return repository.existsByEventIdAndStakeholderIdAndDisabledFalse(eventId, stakeholderId);
 
     }
 
