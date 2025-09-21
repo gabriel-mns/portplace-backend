@@ -18,6 +18,8 @@ import com.pucpr.portplace.features.portfolio.entities.Stakeholder;
 public interface StakeholderMapper {
     
     @Mapping(target = "portfolio.id", source = "portfolioId")
+    @Mapping(target = "powerLevel", constant = "LOW")
+    @Mapping(target = "interestLevel", constant = "LOW")
     Stakeholder toEntity(StakeholderCreateDTO stakeholderCreateDTO);
     
     @Mapping(target = "portfolioId", source = "portfolio.id")

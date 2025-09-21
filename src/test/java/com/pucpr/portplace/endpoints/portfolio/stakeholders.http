@@ -9,7 +9,7 @@ GET {{host}}/portfolios/1
 Accept: application/json
 
 ### GET TODOS OS STAKEHOLDERS DE UM PORTFÓLIO
-GET {{host}}/portfolios/1/stakeholders?includeDisabled=true
+GET {{host}}/portfolios/1/stakeholders
 Accept: application/json
 
 ### GET TODOS OS STAKEHOLDERS DISPONÍVEIS PARA EVENTO
@@ -34,7 +34,7 @@ Accept: application/json
 Content-Type: application/json
 
 {
-  "name": "Stakeholder 2"
+  "name": "Stakeholder 3"
 }
 
 ### EDITAR STAKEHOLDER DE UM PORTFÓLIO
