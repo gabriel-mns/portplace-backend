@@ -1,7 +1,5 @@
 @host = http://localhost:8080/api/v1
 
-@host = http://localhost:8080/api/v1
-
 ### GET TODOS OS PORTFÓLIOS
 GET {{host}}/portfolios
 Accept: application/json
