@@ -10,6 +10,7 @@ import com.pucpr.portplace.features.portfolio.dtos.risk.RiskUpdateDTO;
 import com.pucpr.portplace.features.portfolio.entities.Risk;
 import com.pucpr.portplace.features.portfolio.mappers.RiskMapper;
 import com.pucpr.portplace.features.portfolio.repositories.RiskRepository;
+import com.pucpr.portplace.features.portfolio.services.validation.RiskValidationService;
 
 import lombok.AllArgsConstructor;
 
@@ -19,6 +20,7 @@ public class RiskService {
     
     private RiskRepository repository;
     private RiskMapper mapper;
+    private RiskValidationService validationService;
 
     // CREATE
     public RiskReadDTO createRisk(
@@ -26,7 +28,7 @@ public class RiskService {
         RiskCreateDTO dto
     ) {
 
-        //TODO: validate if portfolio exists
+        validationService.validateBeforeCreate(portfolioId);
 
         dto.setPortfolioId(portfolioId);
 
@@ -44,7 +46,8 @@ public class RiskService {
         RiskUpdateDTO dto
     ) {
 
-        //TODO: validate if risk exists
+        validationService.validateBeforeUpdate(riskId);
+
         Risk existingRisk = repository.findById(riskId).get();
 
         mapper.updateFromDTO(dto, existingRisk);
@@ -61,7 +64,8 @@ public class RiskService {
         Long riskId
     ) {
 
-        //TODO: validate if risk exists
+        validationService.validateBeforeDisable(riskId);
+        
         Risk existingRisk = repository.findById(riskId).get();
 
         existingRisk.setDisabled(true);
@@ -81,6 +85,8 @@ public class RiskService {
         Long riskId
     ) {
 
+        validationService.validateBeforeGet(riskId);
+
         Risk existingRisk = repository.findById(riskId).get();
 
         return mapper.toReadDTO(existingRisk);
@@ -92,6 +98,8 @@ public class RiskService {
         boolean includeDisabled,
         Pageable pageable
     ) {
+
+        validationService.validateBeforeGetAll(portfolioId);
 
         Page<Risk> risks = repository.findByFilters(
             portfolioId, 
