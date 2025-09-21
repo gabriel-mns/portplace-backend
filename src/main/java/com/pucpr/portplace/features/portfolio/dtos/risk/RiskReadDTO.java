@@ -1,8 +1,10 @@
 package com.pucpr.portplace.features.portfolio.dtos.risk;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.pucpr.portplace.features.portfolio.dtos.risk.occurence.RiskOccurrenceReadDTO;
 import com.pucpr.portplace.features.portfolio.enums.RiskScaleEnum;
 
 import lombok.AllArgsConstructor;
@@ -31,6 +33,7 @@ public class RiskReadDTO {
 
     // Relationships
     private Long portfolioId;
+    private List<RiskOccurrenceReadDTO> occurrences;
 
     // Auditing Fields
     private boolean disabled;

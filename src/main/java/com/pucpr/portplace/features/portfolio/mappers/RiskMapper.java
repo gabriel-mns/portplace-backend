@@ -11,7 +11,7 @@ import com.pucpr.portplace.features.portfolio.entities.Risk;
 
 @Mapper(
     componentModel = "spring",
-    uses = {StakeholderMapper.class},
+    uses = {StakeholderMapper.class, RiskOccurrenceMapper.class},
     unmappedTargetPolicy = org.mapstruct.ReportingPolicy.IGNORE,
     unmappedSourcePolicy = org.mapstruct.ReportingPolicy.IGNORE
 )

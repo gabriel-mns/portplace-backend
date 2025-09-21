@@ -1,5 +1,7 @@
 package com.pucpr.portplace.features.portfolio.entities;
 
+import java.util.List;
+
 import org.hibernate.annotations.Formula;
 
 import com.pucpr.portplace.core.entities.AuditableEntity;
@@ -13,6 +15,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -66,6 +69,7 @@ public class Risk extends AuditableEntity {
     @ManyToOne
     @JoinColumn(name = "portfolio_id")
     private Portfolio portfolio;
-    // private List<Occurrences> occurrences;
+    @OneToMany(mappedBy = "risk")
+    private List<RiskOccurrence> occurrences;
 
 }
