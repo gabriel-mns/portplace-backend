@@ -46,4 +46,17 @@ public interface UserRepository extends JpaRepository<User, Long> {
         Pageable pageable
     );
 
+    @Query("""
+        SELECT u FROM User u
+        WHERE u.id NOT IN (
+            SELECT u2.id FROM User u2
+            JOIN u2.portfolios p2
+            WHERE p2.id = :portfolioId
+        )
+        AND u.disabled = false
+        AND u.status = 'ACTIVE'
+        AND (u.role = RoleEnum.PMO OR u.role = RoleEnum.PMO_ADM)
+    """)
+    List<User> findUsersNotOwningPortfolio(Long portfolioId);
+
 }

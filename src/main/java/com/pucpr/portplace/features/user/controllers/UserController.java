@@ -77,6 +77,18 @@ public class UserController {
         return ResponseEntity.ok(users);
     }
 
+    @GetMapping("/available-to-own-portfolio/{portfolioId}")
+    public ResponseEntity<List<UserGetResponseDTO>> getAvailableUsersForPortfolioOwners(
+        @PathVariable Long portfolioId,
+        @RequestParam(defaultValue = "false") boolean includeDisabled
+    ) {
+
+        List<UserGetResponseDTO> availableUsers = authService.getAvailableUsersForPortfolioOwners(portfolioId);
+
+        return ResponseEntity.ok(availableUsers);
+
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<UserGetResponseDTO> getUserDetails(@PathVariable Long id) {
         return ResponseEntity.ok(authService.getUserById(id));

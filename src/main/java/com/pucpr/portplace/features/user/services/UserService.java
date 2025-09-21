@@ -156,4 +156,16 @@ public class UserService {
         return extraClaims;
         
     }
+
+    public List<UserGetResponseDTO> getAvailableUsersForPortfolioOwners(
+        Long portfolioId
+    ) {
+
+        List<User> availableUsers = userRepository.findUsersNotOwningPortfolio(portfolioId);
+
+        return availableUsers.stream()
+            .map(mapper::toGetResponseDTO)
+            .toList();
+
+    }
 }

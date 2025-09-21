@@ -8,13 +8,17 @@ Accept: application/json
 GET {{host}}/users
 Accept: application/json
 
+### GET TODOS OS USUARIOS DISPONIVEIS PARA SEREM DONOS DE PORTFÓLIO
+GET {{host}}/users/available-to-own-portfolio/2
+Accept: application/json
+
 ### NOVOS DONOS DE PORTFÓLIO
 POST {{host}}/portfolios/1/owners
 Accept: application/json
 Content-Type: application/json
 
 {
-    "ownersIds": [1,1]
+    "ownersIds": [1,2,3,4]
 }
 
 ### GET TODOS OS DONOS DE PORTFÓLIO
