@@ -28,7 +28,7 @@ Accept: application/json
 Content-Type: application/json
 
 {
-  "name": "Evento 2",
+  "name": "Evento 1",
   "description": "Descrição do evento"
 }
 
@@ -43,8 +43,7 @@ Content-Type: application/json
     "reason": "Nova razão do evento",
     "periodicity": "WEEKLY",
     "communicationMethods": [
-        "EMAIL",
-        "ON_SITE_MEETING"
+        "ONLINE_MEETING"
     ] 
 }
 

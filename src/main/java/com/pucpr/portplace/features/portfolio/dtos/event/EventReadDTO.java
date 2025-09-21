@@ -37,5 +37,6 @@ public class EventReadDTO {
     private LocalDateTime createdAt;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy HH:mm:ss")
     private LocalDateTime lastModifiedAt;
-
+    private String createdBy;
+    private String lastModifiedBy;
 }

@@ -22,7 +22,7 @@ Accept: application/json
 Content-Type: application/json
 
 {
-  "stakeholderId": 2,
+  "stakeholderId": 1,
   "responsible": true
 }
 
