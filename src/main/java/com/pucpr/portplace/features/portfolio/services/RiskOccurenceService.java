@@ -13,6 +13,7 @@ import com.pucpr.portplace.features.portfolio.entities.RiskOccurrence;
 import com.pucpr.portplace.features.portfolio.enums.RiskOccurrenceStatusEnum;
 import com.pucpr.portplace.features.portfolio.mappers.RiskOccurrenceMapper;
 import com.pucpr.portplace.features.portfolio.repositories.RiskOccurrenceRepository;
+import com.pucpr.portplace.features.portfolio.services.validation.RiskOccurrenceValidationService;
 
 import lombok.AllArgsConstructor;
 
@@ -22,6 +23,7 @@ public class RiskOccurenceService {
     
     private RiskOccurrenceRepository repository;
     private RiskOccurrenceMapper mapper;
+    private RiskOccurrenceValidationService validationService;
 
     //CREATE
     public RiskOccurrenceReadDTO create(
@@ -29,7 +31,7 @@ public class RiskOccurenceService {
         RiskOccurenceCreateDTO dto
     ) {
 
-        //TODO: validate if risk exists
+        validationService.validateBeforeCreate(riskId);
         
         dto.setRiskId(riskId);
 
@@ -43,7 +45,9 @@ public class RiskOccurenceService {
         Long occurrenceId,
         RiskOccurrenceUpdateDTO dto
     ) {
-        //TODO: validate if occurrence exists
+
+        validationService.validateBeforeUpdate(occurrenceId);
+
         RiskOccurrence occurrence = repository.findById(occurrenceId).get();
         
         mapper.updateFromDTO(dto, occurrence);
@@ -55,6 +59,8 @@ public class RiskOccurenceService {
     public void disable(
         Long occurrenceId
     ){
+
+        validationService.validateBeforeDisable(occurrenceId);
 
         RiskOccurrence occurrence = repository.findById(occurrenceId).get();
         occurrence.setDisabled(true);
@@ -73,6 +79,8 @@ public class RiskOccurenceService {
         Long occurrenceId
     ){
 
+        validationService.validateBeforeGet(occurrenceId);
+
         RiskOccurrence occurrence = repository.findById(occurrenceId).get();
 
         return mapper.toReadDTO(occurrence);
@@ -86,6 +94,8 @@ public class RiskOccurenceService {
         String searchQuery,
         Pageable pageable
     ){
+
+        validationService.validateBeforeGetAll(riskId);
 
         Page<RiskOccurrence> occurrences = repository.findByFilters(
             riskId,
