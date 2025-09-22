@@ -13,6 +13,7 @@ import com.pucpr.portplace.features.resource.entities.Position;
 import com.pucpr.portplace.features.resource.enums.PositionStatusEnum;
 import com.pucpr.portplace.features.resource.mappers.PositionMapper;
 import com.pucpr.portplace.features.resource.repositories.PositionRepository;
+import com.pucpr.portplace.features.resource.services.validation.PositionValidationService;
 
 import lombok.AllArgsConstructor;
 
@@ -22,6 +23,7 @@ public class PositionService {
     
     private final PositionRepository repository;
     private final PositionMapper mapper;
+    private final PositionValidationService validationService;
 
     //CREATE
     public PositionReadDTO createPosition(
@@ -41,7 +43,7 @@ public class PositionService {
         PositionUpdateDTO dto
     ) {
         
-        //TODO: validate if position exists
+        validationService.validateBeforeUpdate(positionId);
 
         Position existingPosition = repository.findById(positionId).get();
 
@@ -57,7 +59,7 @@ public class PositionService {
         Long positionId
     ) {
        
-        //TODO: validate if position exists
+        validationService.validateBeforeDelete(positionId);
         
         Position existingPosition = repository.findById(positionId).get();
 
@@ -79,7 +81,7 @@ public class PositionService {
         Long positionId
     ) {
 
-        //TODO: validate if position exists
+        validationService.validateBeforeGet(positionId);
 
         Position position = repository.findById(positionId).get();
 
