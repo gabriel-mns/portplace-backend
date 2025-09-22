@@ -1,0 +1,36 @@
+@host = http://localhost:8080/api/v1
+
+### GET ALL POSITIONS
+GET {{host}}/positions?includeDisabled=true&includeDisabled=true
+Accept: application/json
+
+### GET UMA POSITION
+GET {{host}}/positions/3
+Accept: application/json
+
+### NOVA POSITION
+POST {{host}}/positions
+Content-Type: application/json
+Accept: application/json
+
+{
+  "name": "Dev. Java Sênior"
+}
+
+### ATUALIZAR POSITION
+PUT {{host}}/positions/2
+Content-Type: application/json
+Accept: application/json
+
+{
+  "name": "Líder de Projetos",
+  "status": "INACTIVE"
+}
+
+### DESABILITAR POSITION
+DELETE {{host}}/positions/3
+Accept: application/json
+
+### DELETAR POSITION
+DELETE {{host}}/positions/3/hard-delete
+Accept: application/json
