@@ -17,6 +17,8 @@ import lombok.Setter;
 @Setter
 public class EventUpdateDTO {
     
+    private String name;
+    private String description;
     private String infosAndDocs;
     private String discussionTopic;
     private String reason;
