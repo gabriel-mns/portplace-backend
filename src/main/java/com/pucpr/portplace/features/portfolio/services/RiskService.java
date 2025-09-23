@@ -1,5 +1,7 @@
 package com.pucpr.portplace.features.portfolio.services;
 
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -109,6 +111,16 @@ public class RiskService {
         );
 
         return risks.map(mapper::toReadDTO);
+
+    }
+
+    public List<RiskReadDTO> getAllRisksUnpaged(Long portfolioId) {
+
+        validationService.validateBeforeGetAll(portfolioId);
+
+        List<Risk> risks = repository.findByPortfolioId(portfolioId);
+
+        return risks.stream().map(mapper::toReadDTO).toList();
 
     }
 }

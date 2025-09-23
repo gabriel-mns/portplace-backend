@@ -1,5 +1,7 @@
 package com.pucpr.portplace.features.portfolio.repositories;
 
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -23,5 +25,7 @@ public interface RiskRepository extends JpaRepository<Risk, Long> {
         boolean includeDisabled, 
         Pageable pageable
     );
+
+    List<Risk> findByPortfolioId(Long portfolioId);
     
 }

@@ -13,6 +13,7 @@ import com.pucpr.portplace.features.portfolio.dtos.portfolio.PortfolioCreateDTO;
 import com.pucpr.portplace.features.portfolio.dtos.portfolio.PortfolioListReadDTO;
 import com.pucpr.portplace.features.portfolio.dtos.portfolio.PortfolioReadDTO;
 import com.pucpr.portplace.features.portfolio.dtos.portfolio.PortfolioUpdateDTO;
+import com.pucpr.portplace.features.portfolio.dtos.risk.RiskReadDTO;
 import com.pucpr.portplace.features.portfolio.entities.Portfolio;
 import com.pucpr.portplace.features.portfolio.enums.PortfolioStatusEnum;
 import com.pucpr.portplace.features.portfolio.mappers.PortfolioMapper;
@@ -33,6 +34,7 @@ public class PortfolioService {
     private PortfolioMapper mapper;
 
     private ProjectService projectService;
+    private RiskService riskService;
 
     // CREATE
     public PortfolioReadDTO createPortfolio(
@@ -130,20 +132,25 @@ public class PortfolioService {
 
     public ResponseEntity<PortfolioAnalyticsReadDTO> getAnalytics(
         Long portfolioId, 
-        List<ProjectStatusEnum> status
+        List<ProjectStatusEnum> projectStatus
     ) {
         
         validationService.validateBeforeGet(portfolioId);
         
         List<ProjectReadDTO> projectsDTOs = projectService.getAllProjectsUnpaged(
             portfolioId,
-            status
+            projectStatus
             );
+
+        List<RiskReadDTO> risksDTOs = riskService.getAllRisksUnpaged(
+            portfolioId
+        );
             
         PortfolioAnalyticsReadDTO analyticsDTO = new PortfolioAnalyticsReadDTO();
 
         analyticsDTO.setPortfolio(getPortfolio(portfolioId));
         analyticsDTO.setProjects(projectsDTOs);
+        analyticsDTO.setRisks(risksDTOs);
 
         return ResponseEntity.ok(analyticsDTO);
 
