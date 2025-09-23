@@ -9,7 +9,7 @@ GET {{host}}/portfolios/1
 Accept: application/json
 
 ### GET PORTFÓLIO ANALYTICS
-GET {{host}}/portfolios/2/analytics
+GET {{host}}/portfolios/1/analytics
 Accept: application/json
 
 ### CADASTRAR PORTFÓLIO
