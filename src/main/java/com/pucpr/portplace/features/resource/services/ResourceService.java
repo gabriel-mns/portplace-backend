@@ -13,6 +13,7 @@ import com.pucpr.portplace.features.resource.entities.Resource;
 import com.pucpr.portplace.features.resource.enums.ResourceStatusEnum;
 import com.pucpr.portplace.features.resource.mappers.ResourceMapper;
 import com.pucpr.portplace.features.resource.repositories.ResourceRepository;
+import com.pucpr.portplace.features.resource.services.validation.ResourceValidationService;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -26,11 +27,14 @@ public class ResourceService {
     
     private ResourceRepository repository;
     private ResourceMapper mapper;
+    private ResourceValidationService validationService;
 
     //CREATE
     public ResourceReadDTO create(
         ResourceCreateDTO dto
     ) {
+
+        validationService.validateBeforeCreate(dto.getPositionId());
 
         Resource entity = mapper.toEntity(dto);
         
@@ -46,7 +50,7 @@ public class ResourceService {
         ResourceUpdateDTO dto
     ) {
 
-        //TODO: validate if resource exists
+        validationService.validateBeforeUpdate(resourceId, dto.getPositionId());
 
         dto.setId(resourceId);
 
@@ -65,7 +69,7 @@ public class ResourceService {
         long resourceId
     ) {
 
-        //TODO: validate if resource exists
+        validationService.validateBeforeDisable(resourceId);
 
         Resource entity = repository.findById(resourceId).get();
 
@@ -88,7 +92,7 @@ public class ResourceService {
         long resourceId
     ) {
 
-        //TODO: validate if resource exists
+        validationService.validateBeforeGet(resourceId);
 
         Resource entity = repository.findById(resourceId).get();
 
