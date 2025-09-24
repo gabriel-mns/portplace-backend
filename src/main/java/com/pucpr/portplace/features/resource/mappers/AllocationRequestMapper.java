@@ -1,0 +1,29 @@
+package com.pucpr.portplace.features.resource.mappers;
+
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.MappingTarget;
+
+import com.pucpr.portplace.features.resource.dtos.AllocationRequestCreateDTO;
+import com.pucpr.portplace.features.resource.dtos.AllocationRequestReadDTO;
+import com.pucpr.portplace.features.resource.dtos.AllocationRequestUpdateDTO;
+import com.pucpr.portplace.features.resource.entities.AllocationRequest;
+import com.pucpr.portplace.features.resource.entities.Position;
+
+@Mapper(
+    componentModel = "spring",
+    uses = {Position.class},
+    unmappedTargetPolicy = org.mapstruct.ReportingPolicy.IGNORE,
+    unmappedSourcePolicy = org.mapstruct.ReportingPolicy.IGNORE
+)
+public interface AllocationRequestMapper {
+    
+    @Mapping(target = "status", constant = "IN_ANALYSIS")
+    @Mapping(source = "positionId", target = "position.id")
+    AllocationRequest toEntity(AllocationRequestCreateDTO dto);
+
+    AllocationRequestReadDTO toReadDTO(AllocationRequest entity);
+
+    void updateFromDTO(AllocationRequestUpdateDTO dto, @MappingTarget AllocationRequest entity);
+
+}

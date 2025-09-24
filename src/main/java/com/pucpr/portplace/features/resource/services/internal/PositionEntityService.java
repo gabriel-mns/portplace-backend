@@ -21,4 +21,8 @@ public class PositionEntityService {
         positionRepository.save(position);
     }
 
+    public Position findById(Long id) {
+        return positionRepository.findById(id).get();
+    }
+
 }

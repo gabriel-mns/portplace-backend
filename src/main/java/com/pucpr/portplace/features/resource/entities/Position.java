@@ -1,5 +1,7 @@
 package com.pucpr.portplace.features.resource.entities;
 
+import java.util.List;
+
 import com.pucpr.portplace.core.entities.AuditableEntity;
 import com.pucpr.portplace.features.resource.enums.ResourceStatusEnum;
 
@@ -9,6 +11,7 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -32,5 +35,9 @@ public class Position extends AuditableEntity {
 
     //Calculated Fields
     // private int resourcesCount;
+
+    //Relationships
+    @OneToMany(mappedBy = "position")
+    private List<AllocationRequest> allocationRequests;
 
 }
