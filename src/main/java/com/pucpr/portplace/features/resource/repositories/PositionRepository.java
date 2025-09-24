@@ -8,7 +8,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import com.pucpr.portplace.features.resource.entities.Position;
-import com.pucpr.portplace.features.resource.enums.PositionStatusEnum;
+import com.pucpr.portplace.features.resource.enums.ResourceStatusEnum;
 
 public interface PositionRepository extends JpaRepository<Position, Long> {
 
@@ -19,7 +19,7 @@ public interface PositionRepository extends JpaRepository<Position, Long> {
             AND (:status IS NULL OR p.status IN :status)
         """)
     Page<Position> findByFilters(
-        List<PositionStatusEnum> status, 
+        List<ResourceStatusEnum> status, 
         String searchQuery, 
         boolean includeDisabled,
         Pageable pageable

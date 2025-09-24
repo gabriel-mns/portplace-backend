@@ -19,91 +19,91 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.pucpr.portplace.features.resource.dtos.PositionCreateDTO;
-import com.pucpr.portplace.features.resource.dtos.PositionReadDTO;
-import com.pucpr.portplace.features.resource.dtos.PositionUpdateDTO;
+import com.pucpr.portplace.features.resource.dtos.ResourceCreateDTO;
+import com.pucpr.portplace.features.resource.dtos.ResourceReadDTO;
+import com.pucpr.portplace.features.resource.dtos.ResourceUpdateDTO;
 import com.pucpr.portplace.features.resource.enums.ResourceStatusEnum;
-import com.pucpr.portplace.features.resource.services.PositionService;
+import com.pucpr.portplace.features.resource.services.ResourceService;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 
-@Tag(name = "Positions", description = "Related to the Position operations")
+@Tag(name = "Resources", description = "Related to the Resource operations")
 @AllArgsConstructor
 @RestController
-@RequestMapping("/positions")
-public class PositionController {
+@RequestMapping("/resources")
+public class ResourceController {
     
-    private final PositionService positionService;
+    private ResourceService resourceService;
 
     //CREATE
     @PostMapping
-    public ResponseEntity<PositionReadDTO> createPosition(
-        @RequestBody @Valid PositionCreateDTO positionCreateDTO
+    public ResponseEntity<ResourceReadDTO> create(
+        @RequestBody @Valid ResourceCreateDTO dto
     ) {
 
-        PositionReadDTO newPosition = positionService.createPosition(positionCreateDTO);
+        ResourceReadDTO createdResource = resourceService.create(dto);
 
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
             .path("/{id}")
-            .buildAndExpand(newPosition.getId())
+            .buildAndExpand(createdResource.getId())
             .toUri();
 
-        return ResponseEntity.created(uri).body(newPosition);
+        return ResponseEntity.created(uri).body(createdResource);
 
     }
 
     //UPDATE
-    @PutMapping("/{positionId}")
-    public ResponseEntity<PositionReadDTO> updatePosition(
-        @PathVariable Long positionId,
-        @RequestBody @Valid PositionUpdateDTO dto
+    @PutMapping("/{resourceId}")
+    public ResponseEntity<ResourceReadDTO> update(
+        @PathVariable Long resourceId,
+        @RequestBody @Valid ResourceUpdateDTO dto
     ) {
+        
+        ResourceReadDTO updatedResource = resourceService.update(resourceId, dto);
 
-        PositionReadDTO updatedPosition = positionService.updatePosition(positionId, dto);
-
-        return ResponseEntity.ok().body(updatedPosition);
+        return ResponseEntity.ok().body(updatedResource);
 
     }
 
     //DELETE
-    @DeleteMapping("/{positionId}")
-    public ResponseEntity<Void> disablePosition(
-        @PathVariable Long positionId
+    @DeleteMapping("/{resourceId}")
+    public ResponseEntity<Void> disable(
+        @PathVariable Long resourceId
     ) {
 
-        positionService.disablePosition(positionId);
+        resourceService.disable(resourceId);
 
         return ResponseEntity.noContent().build();
 
     }
 
-    @DeleteMapping("/{positionId}/hard-delete")
-    public ResponseEntity<Void> deletePosition(
-        @PathVariable Long positionId
+    @DeleteMapping("/{resourceId}/hard-delete")
+    public ResponseEntity<Void> delete(
+        @PathVariable Long resourceId
     ) {
 
-        positionService.deletePosition(positionId);
+        resourceService.delete(resourceId);
 
         return ResponseEntity.noContent().build();
 
     }
 
     //READ
-    @GetMapping("/{positionId}")
-    public ResponseEntity<PositionReadDTO> getPositionById(
-        @PathVariable Long positionId
+    @GetMapping("/{resourceId}")
+    public ResponseEntity<ResourceReadDTO> getById(
+        @PathVariable Long resourceId
     ) {
 
-        PositionReadDTO position = positionService.getPositionById(positionId);
+        ResourceReadDTO resource = resourceService.getById(resourceId);
 
-        return ResponseEntity.ok().body(position);
+        return ResponseEntity.ok().body(resource);
 
     }
 
     @GetMapping
-    public ResponseEntity<Page<PositionReadDTO>> getAllPositions(
+    public ResponseEntity<Page<ResourceReadDTO>> getAll(
         @RequestParam(defaultValue = "") String searchQuery,
         @RequestParam(required = false) List<ResourceStatusEnum> status,
         @RequestParam(defaultValue = "false") boolean includeDisabled,
@@ -116,14 +116,14 @@ public class PositionController {
         Sort.Direction direction = sortDir.equalsIgnoreCase("desc") ? Sort.Direction.DESC : Sort.Direction.ASC;
         Pageable pageable = PageRequest.of(page, size, Sort.by(direction, sortBy));
 
-        Page<PositionReadDTO> positions = positionService.getAllPositions(
+        Page<ResourceReadDTO> resources = resourceService.getAll(
             status,
             searchQuery,
             includeDisabled,
             pageable
         );
 
-        return ResponseEntity.ok().body(positions);
+        return ResponseEntity.ok().body(resources);
 
     }
 

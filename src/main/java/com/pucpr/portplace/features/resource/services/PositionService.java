@@ -10,7 +10,7 @@ import com.pucpr.portplace.features.resource.dtos.PositionCreateDTO;
 import com.pucpr.portplace.features.resource.dtos.PositionReadDTO;
 import com.pucpr.portplace.features.resource.dtos.PositionUpdateDTO;
 import com.pucpr.portplace.features.resource.entities.Position;
-import com.pucpr.portplace.features.resource.enums.PositionStatusEnum;
+import com.pucpr.portplace.features.resource.enums.ResourceStatusEnum;
 import com.pucpr.portplace.features.resource.mappers.PositionMapper;
 import com.pucpr.portplace.features.resource.repositories.PositionRepository;
 import com.pucpr.portplace.features.resource.services.validation.PositionValidationService;
@@ -63,7 +63,7 @@ public class PositionService {
         
         Position existingPosition = repository.findById(positionId).get();
 
-        existingPosition.setStatus(PositionStatusEnum.INACTIVE);
+        existingPosition.setStatus(ResourceStatusEnum.INACTIVE);
         existingPosition.setDisabled(true);
 
         repository.save(existingPosition);
@@ -90,7 +90,7 @@ public class PositionService {
     }
 
     public Page<PositionReadDTO> getAllPositions(
-        List<PositionStatusEnum> status,
+        List<ResourceStatusEnum> status,
         String searchQuery,
         boolean includeDisabled,
         Pageable pageable

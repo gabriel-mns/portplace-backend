@@ -9,6 +9,7 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -16,21 +17,28 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name = "positions")
+@Table(name = "resources")
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
-public class Position extends AuditableEntity {
+public class Resource extends AuditableEntity{
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
+    private String description;
+    private int dailyHours;
     @Enumerated(EnumType.STRING)
     private ResourceStatusEnum status;
 
-    //Calculated Fields
-    // private int resourcesCount;
+    //calculated fields
+    // private int relatedProjectsCount;
+    // private int avaliableHours;
+
+    //Realtionships
+    @ManyToOne
+    private Position position;
 
 }

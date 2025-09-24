@@ -3,7 +3,7 @@ package com.pucpr.portplace.features.resource.dtos;
 import java.time.LocalDateTime;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.pucpr.portplace.features.resource.enums.PositionStatusEnum;
+import com.pucpr.portplace.features.resource.enums.ResourceStatusEnum;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -18,7 +18,7 @@ public class PositionReadDTO {
     
     private Long id;
     private String name;
-    private PositionStatusEnum status;
+    private ResourceStatusEnum status;
 
     //Calculated Fields
     private int resourcesCount;

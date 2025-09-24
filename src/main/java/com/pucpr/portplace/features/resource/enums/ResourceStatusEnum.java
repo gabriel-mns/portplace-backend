@@ -1,6 +1,6 @@
 package com.pucpr.portplace.features.resource.enums;
 
-public enum PositionStatusEnum {
+public enum ResourceStatusEnum {
     ACTIVE,
     INACTIVE
 }
