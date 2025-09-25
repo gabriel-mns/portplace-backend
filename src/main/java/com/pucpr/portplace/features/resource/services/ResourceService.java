@@ -9,10 +9,12 @@ import org.springframework.stereotype.Service;
 import com.pucpr.portplace.features.resource.dtos.resource.ResourceCreateDTO;
 import com.pucpr.portplace.features.resource.dtos.resource.ResourceReadDTO;
 import com.pucpr.portplace.features.resource.dtos.resource.ResourceUpdateDTO;
+import com.pucpr.portplace.features.resource.entities.Position;
 import com.pucpr.portplace.features.resource.entities.Resource;
 import com.pucpr.portplace.features.resource.enums.ResourceStatusEnum;
 import com.pucpr.portplace.features.resource.mappers.ResourceMapper;
 import com.pucpr.portplace.features.resource.repositories.ResourceRepository;
+import com.pucpr.portplace.features.resource.services.internal.PositionEntityService;
 import com.pucpr.portplace.features.resource.services.validation.ResourceValidationService;
 
 import lombok.AllArgsConstructor;
@@ -28,6 +30,7 @@ public class ResourceService {
     private ResourceRepository repository;
     private ResourceMapper mapper;
     private ResourceValidationService validationService;
+    private PositionEntityService positionEntityService;
 
     //CREATE
     public ResourceReadDTO create(
@@ -52,11 +55,12 @@ public class ResourceService {
 
         validationService.validateBeforeUpdate(resourceId, dto.getPositionId());
 
-        dto.setId(resourceId);
-
-        Resource entity = repository.findById(dto.getId()).get();
+        Resource entity = repository.findById(resourceId).get();
 
         mapper.updateFromDTO(dto, entity);
+
+        Position position = positionEntityService.findById(dto.getPositionId());
+        entity.setPosition(position);
 
         entity = repository.save(entity);
 
