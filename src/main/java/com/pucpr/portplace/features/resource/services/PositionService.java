@@ -6,9 +6,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import com.pucpr.portplace.features.resource.dtos.PositionCreateDTO;
-import com.pucpr.portplace.features.resource.dtos.PositionReadDTO;
-import com.pucpr.portplace.features.resource.dtos.PositionUpdateDTO;
+import com.pucpr.portplace.features.resource.dtos.position.PositionCreateDTO;
+import com.pucpr.portplace.features.resource.dtos.position.PositionReadDTO;
+import com.pucpr.portplace.features.resource.dtos.position.PositionUpdateDTO;
 import com.pucpr.portplace.features.resource.entities.Position;
 import com.pucpr.portplace.features.resource.enums.ResourceStatusEnum;
 import com.pucpr.portplace.features.resource.mappers.PositionMapper;

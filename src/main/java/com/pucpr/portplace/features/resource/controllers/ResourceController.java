@@ -19,9 +19,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.pucpr.portplace.features.resource.dtos.ResourceCreateDTO;
-import com.pucpr.portplace.features.resource.dtos.ResourceReadDTO;
-import com.pucpr.portplace.features.resource.dtos.ResourceUpdateDTO;
+import com.pucpr.portplace.features.resource.dtos.resource.ResourceCreateDTO;
+import com.pucpr.portplace.features.resource.dtos.resource.ResourceReadDTO;
+import com.pucpr.portplace.features.resource.dtos.resource.ResourceUpdateDTO;
 import com.pucpr.portplace.features.resource.enums.ResourceStatusEnum;
 import com.pucpr.portplace.features.resource.services.ResourceService;
 

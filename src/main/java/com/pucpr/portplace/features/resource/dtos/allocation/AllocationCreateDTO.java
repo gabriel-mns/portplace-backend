@@ -1,12 +1,13 @@
-package com.pucpr.portplace.features.resource.dtos;
+package com.pucpr.portplace.features.resource.dtos.allocation;
 
 import java.time.LocalDate;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.pucpr.portplace.core.validation.constraints.dateRange.ValidDateRange;
-import com.pucpr.portplace.core.validation.constraints.enumValues.ValidEnum;
-import com.pucpr.portplace.features.resource.enums.PriorityEnum;
 
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,17 +18,20 @@ import lombok.Setter;
 @Getter
 @Setter
 @ValidDateRange(startField = "startDate", endField = "endDate")
-public class AllocationRequestCreateDTO {
+public class AllocationCreateDTO {
     
+    @NotNull
     @JsonFormat(pattern = "dd/MM/yyyy")
     private LocalDate startDate;
+    @NotNull
     @JsonFormat(pattern = "dd/MM/yyyy")
     private LocalDate endDate;
+    @Min(0)
+    @Max(24)
     private int dailyHours;
-    @ValidEnum(enumClass = PriorityEnum.class)
-    private String priority;
 
-    //Relationships
-    private Long positionId;
+    @NotNull
+    private Long resourceId;
+    private Long allocationRequestId;
 
 }

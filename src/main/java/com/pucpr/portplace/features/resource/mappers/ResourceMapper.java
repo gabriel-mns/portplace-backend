@@ -4,9 +4,9 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 
-import com.pucpr.portplace.features.resource.dtos.ResourceCreateDTO;
-import com.pucpr.portplace.features.resource.dtos.ResourceReadDTO;
-import com.pucpr.portplace.features.resource.dtos.ResourceUpdateDTO;
+import com.pucpr.portplace.features.resource.dtos.resource.ResourceCreateDTO;
+import com.pucpr.portplace.features.resource.dtos.resource.ResourceReadDTO;
+import com.pucpr.portplace.features.resource.dtos.resource.ResourceUpdateDTO;
 import com.pucpr.portplace.features.resource.entities.Resource;
 
 @Mapper(

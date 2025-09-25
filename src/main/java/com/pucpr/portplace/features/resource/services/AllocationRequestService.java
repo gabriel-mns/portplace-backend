@@ -6,9 +6,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import com.pucpr.portplace.features.resource.dtos.AllocationRequestCreateDTO;
-import com.pucpr.portplace.features.resource.dtos.AllocationRequestReadDTO;
-import com.pucpr.portplace.features.resource.dtos.AllocationRequestUpdateDTO;
+import com.pucpr.portplace.features.resource.dtos.request.AllocationRequestCreateDTO;
+import com.pucpr.portplace.features.resource.dtos.request.AllocationRequestReadDTO;
+import com.pucpr.portplace.features.resource.dtos.request.AllocationRequestUpdateDTO;
 import com.pucpr.portplace.features.resource.entities.AllocationRequest;
 import com.pucpr.portplace.features.resource.entities.Position;
 import com.pucpr.portplace.features.resource.enums.AllocationRequestStatusEnum;

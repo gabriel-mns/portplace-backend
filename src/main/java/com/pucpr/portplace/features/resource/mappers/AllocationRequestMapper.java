@@ -4,9 +4,10 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 
-import com.pucpr.portplace.features.resource.dtos.AllocationRequestCreateDTO;
-import com.pucpr.portplace.features.resource.dtos.AllocationRequestReadDTO;
-import com.pucpr.portplace.features.resource.dtos.AllocationRequestUpdateDTO;
+import com.pucpr.portplace.features.project.mappers.ProjectMapper;
+import com.pucpr.portplace.features.resource.dtos.request.AllocationRequestCreateDTO;
+import com.pucpr.portplace.features.resource.dtos.request.AllocationRequestReadDTO;
+import com.pucpr.portplace.features.resource.dtos.request.AllocationRequestUpdateDTO;
 import com.pucpr.portplace.features.resource.entities.AllocationRequest;
 import com.pucpr.portplace.features.resource.entities.Position;
 

@@ -5,9 +5,9 @@ import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 
 import com.pucpr.portplace.features.portfolio.mappers.StakeholderMapper;
-import com.pucpr.portplace.features.resource.dtos.PositionCreateDTO;
-import com.pucpr.portplace.features.resource.dtos.PositionReadDTO;
-import com.pucpr.portplace.features.resource.dtos.PositionUpdateDTO;
+import com.pucpr.portplace.features.resource.dtos.position.PositionCreateDTO;
+import com.pucpr.portplace.features.resource.dtos.position.PositionReadDTO;
+import com.pucpr.portplace.features.resource.dtos.position.PositionUpdateDTO;
 import com.pucpr.portplace.features.resource.entities.Position;
 
 @Mapper(

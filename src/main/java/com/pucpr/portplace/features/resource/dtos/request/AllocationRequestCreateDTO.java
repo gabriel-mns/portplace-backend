@@ -1,4 +1,4 @@
-package com.pucpr.portplace.features.resource.dtos;
+package com.pucpr.portplace.features.resource.dtos.request;
 
 import java.time.LocalDate;
 
@@ -17,7 +17,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @ValidDateRange(startField = "startDate", endField = "endDate")
-public class AllocationRequestUpdateDTO {
+public class AllocationRequestCreateDTO {
     
     @JsonFormat(pattern = "dd/MM/yyyy")
     private LocalDate startDate;
@@ -29,5 +29,6 @@ public class AllocationRequestUpdateDTO {
 
     //Relationships
     private Long positionId;
+    private Long projectId;
 
 }

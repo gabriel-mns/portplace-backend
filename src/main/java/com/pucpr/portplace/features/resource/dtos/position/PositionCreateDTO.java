@@ -1,4 +1,4 @@
-package com.pucpr.portplace.features.resource.dtos;
+package com.pucpr.portplace.features.resource.dtos.position;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;

@@ -1,4 +1,4 @@
-package com.pucpr.portplace.features.resource.dtos;
+package com.pucpr.portplace.features.resource.dtos.position;
 
 import com.pucpr.portplace.core.validation.constraints.enumValues.ValidEnum;
 import com.pucpr.portplace.features.resource.enums.ResourceStatusEnum;

@@ -1,8 +1,11 @@
-package com.pucpr.portplace.features.resource.dtos;
+package com.pucpr.portplace.features.resource.dtos.request;
 
 import java.time.LocalDate;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.pucpr.portplace.features.project.dtos.ProjectReadDTO;
+import com.pucpr.portplace.features.resource.dtos.allocation.AllocationReadDTO;
+import com.pucpr.portplace.features.resource.dtos.position.PositionReadDTO;
 import com.pucpr.portplace.features.resource.enums.AllocationRequestStatusEnum;
 import com.pucpr.portplace.features.resource.enums.PriorityEnum;
 
@@ -28,6 +31,8 @@ public class AllocationRequestReadDTO {
 
     //Relationships
     private PositionReadDTO position;
+    private AllocationReadDTO allocation;
+    private ProjectReadDTO project;
 
     //Auditable Fields
     @JsonFormat(pattern = "dd/MM/yyyy")

@@ -19,9 +19,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.pucpr.portplace.features.resource.dtos.AllocationRequestCreateDTO;
-import com.pucpr.portplace.features.resource.dtos.AllocationRequestReadDTO;
-import com.pucpr.portplace.features.resource.dtos.AllocationRequestUpdateDTO;
+import com.pucpr.portplace.features.resource.dtos.request.AllocationRequestCreateDTO;
+import com.pucpr.portplace.features.resource.dtos.request.AllocationRequestReadDTO;
+import com.pucpr.portplace.features.resource.dtos.request.AllocationRequestUpdateDTO;
 import com.pucpr.portplace.features.resource.enums.AllocationRequestStatusEnum;
 import com.pucpr.portplace.features.resource.services.AllocationRequestService;
 import io.swagger.v3.oas.annotations.tags.Tag;

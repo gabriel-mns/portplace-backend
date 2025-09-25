@@ -1,4 +1,7 @@
-package com.pucpr.portplace.features.resource.dtos;
+package com.pucpr.portplace.features.resource.dtos.resource;
+
+import com.pucpr.portplace.core.validation.constraints.enumValues.ValidEnum;
+import com.pucpr.portplace.features.resource.enums.ResourceStatusEnum;
 
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
@@ -13,7 +16,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-public class ResourceCreateDTO {
+public class ResourceUpdateDTO {
     
     @NotBlank
     private String name;
@@ -22,7 +25,8 @@ public class ResourceCreateDTO {
     @Min(0)
     @Max(24)
     private Integer dailyHours;
-    @NotNull
     private Long positionId;
+    @ValidEnum(enumClass = ResourceStatusEnum.class)
+    private String status;
 
 }

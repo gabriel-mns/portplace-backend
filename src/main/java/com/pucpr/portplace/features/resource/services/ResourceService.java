@@ -6,9 +6,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import com.pucpr.portplace.features.resource.dtos.ResourceCreateDTO;
-import com.pucpr.portplace.features.resource.dtos.ResourceReadDTO;
-import com.pucpr.portplace.features.resource.dtos.ResourceUpdateDTO;
+import com.pucpr.portplace.features.resource.dtos.resource.ResourceCreateDTO;
+import com.pucpr.portplace.features.resource.dtos.resource.ResourceReadDTO;
+import com.pucpr.portplace.features.resource.dtos.resource.ResourceUpdateDTO;
 import com.pucpr.portplace.features.resource.entities.Resource;
 import com.pucpr.portplace.features.resource.enums.ResourceStatusEnum;
 import com.pucpr.portplace.features.resource.mappers.ResourceMapper;
