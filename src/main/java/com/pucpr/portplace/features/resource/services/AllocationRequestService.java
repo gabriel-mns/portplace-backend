@@ -15,6 +15,7 @@ import com.pucpr.portplace.features.resource.enums.AllocationRequestStatusEnum;
 import com.pucpr.portplace.features.resource.mappers.AllocationRequestMapper;
 import com.pucpr.portplace.features.resource.repositories.AllocationRequestRepository;
 import com.pucpr.portplace.features.resource.services.internal.PositionEntityService;
+import com.pucpr.portplace.features.resource.services.validation.AllocationRequestValidationService;
 
 import lombok.AllArgsConstructor;
 
@@ -25,13 +26,14 @@ public class AllocationRequestService {
     private final PositionEntityService positionEntityService;
     private final AllocationRequestRepository repository;
     private final AllocationRequestMapper mapper;
+    private final AllocationRequestValidationService validationService;
 
     //CREATE
     public AllocationRequestReadDTO create(
         AllocationRequestCreateDTO dto
     ) {
 
-        //TODO: validate if the position exists
+        validationService.validateBeforeCreate(dto.getPositionId());
 
         AllocationRequest entity = mapper.toEntity(dto);
 
@@ -47,8 +49,7 @@ public class AllocationRequestService {
         AllocationRequestUpdateDTO dto
     ) {
 
-        //TODO: validate if the allocationRequest exists
-        //TODO: validate if the new position exists
+        validationService.validateBeforeUpdate(allocationRequestId, dto.getPositionId());
 
         AllocationRequest entity = repository.findById(allocationRequestId).get();
 
@@ -69,7 +70,7 @@ public class AllocationRequestService {
         Long allocationRequestId
     ) {
 
-        //TODO: validate if the allocationRequest exists
+        validationService.validateBeforeDisable(allocationRequestId);
 
         AllocationRequest entity = repository.findById(allocationRequestId).get();
 
@@ -91,6 +92,8 @@ public class AllocationRequestService {
     public AllocationRequestReadDTO findById(
         Long allocationRequestId
     ) {
+
+        validationService.validateBeforeGet(allocationRequestId);
 
         AllocationRequest entity = repository.findById(allocationRequestId).get();
 
