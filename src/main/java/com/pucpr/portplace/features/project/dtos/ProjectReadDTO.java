@@ -2,10 +2,13 @@ package com.pucpr.portplace.features.project.dtos;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.pucpr.portplace.features.ahp.dtos.EvaluationReadDTO;
+import com.pucpr.portplace.features.portfolio.dtos.portfolioCategory.PortfolioCategoryReadDTO;
 import com.pucpr.portplace.features.project.enums.ProjectStatusEnum;
-import com.pucpr.portplace.features.user.dtos.UserGetResponseDTO;
+import com.pucpr.portplace.features.strategy.dtos.StrategicObjectiveReadDTO;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -24,19 +27,41 @@ public class ProjectReadDTO {
     private String name;
     private String description;
     private ProjectStatusEnum status;
-    private double earnedValue;
-    private double plannedValue;
-    private double actualCost;
-    private double budget;
     private double payback;
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    private double roi;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
     private LocalDate startDate;
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
     private LocalDate endDate;
-    private UserGetResponseDTO projectManager;
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
+    private String cancellationReason;
+
+    // EVMS Fields
+    private double plannedValue;
+    private double earnedValue;
+    private double actualCost;
+    private double budgetAtCompletion;
+    private double percentComplete;
+    private double costPerformanceIndex;
+    private double schedulePerformanceIndex;
+    private double estimateAtCompletion;
+    private double estimateToComplete;
+    
+    // Relationships
+    // private List<EvmEntryReadDTO> evmEntries;
+    private PortfolioCategoryReadDTO portfolioCategory;
+
+    // Details Page
+    private String portfolioName;
+    private String strategyName;
+    private double scenarioRankingScore;
+    private int priorityInPortfolio;
+    private List<StrategicObjectiveReadDTO> strategicObjectives;
+    private List<EvaluationReadDTO> evaluations;
+
+    // Auditable fields
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy HH:mm:ss")
     private LocalDateTime createdAt;
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy HH:mm:ss")
     private LocalDateTime lastModifiedAt;
     // private UserGetResponseDTO createdBy;
     // private UserGetResponseDTO lastModifiedBy;

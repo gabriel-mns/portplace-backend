@@ -10,6 +10,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.pucpr.portplace.features.strategy.dtos.StrategyCancellationPatchDTO;
 import com.pucpr.portplace.features.strategy.dtos.StrategyCreateDTO;
 import com.pucpr.portplace.features.strategy.dtos.StrategyReadDTO;
 import com.pucpr.portplace.features.strategy.dtos.StrategyUpdateDTO;
@@ -62,6 +64,18 @@ public class StrategyController {
     ){
         
         StrategyReadDTO updatedStrategy = strategyService.updateStrategy(dto, strategyId);
+
+        return ResponseEntity.ok().body(updatedStrategy);
+
+    }
+
+    @PatchMapping("/{strategyId}/cancel")
+    ResponseEntity<StrategyReadDTO> cancelStrategy(
+        @RequestBody StrategyCancellationPatchDTO dto,
+        @PathVariable long strategyId
+    ){
+        
+        StrategyReadDTO updatedStrategy = strategyService.cancelStrategy(dto, strategyId);
 
         return ResponseEntity.ok().body(updatedStrategy);
 

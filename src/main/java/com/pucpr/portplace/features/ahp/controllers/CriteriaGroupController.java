@@ -22,6 +22,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import com.pucpr.portplace.features.ahp.dtos.CriteriaGroupCreateDTO;
 import com.pucpr.portplace.features.ahp.dtos.CriteriaGroupListReadDTO;
 import com.pucpr.portplace.features.ahp.dtos.CriteriaGroupReadDTO;
+import com.pucpr.portplace.features.ahp.dtos.CriteriaGroupReadyReadDTO;
 import com.pucpr.portplace.features.ahp.dtos.CriteriaGroupUpdateDTO;
 import com.pucpr.portplace.features.ahp.enums.CriteriaGroupStatusEnum;
 import com.pucpr.portplace.features.ahp.services.CriteriaGroupService;
@@ -137,6 +138,20 @@ public class CriteriaGroupController {
 
         return ResponseEntity.ok().body(criteriaGroupReadDto);
     
+    }
+
+    @GetMapping("/{criteriaGroupId}/ready")
+    public ResponseEntity<CriteriaGroupReadyReadDTO> isCriteriaGroupReadyById(
+        @PathVariable long strategyId, 
+        @PathVariable long criteriaGroupId
+    ) {
+
+        boolean isReady = criteriaGroupService.isCriteriaGroupReadyById(strategyId, criteriaGroupId);
+
+        CriteriaGroupReadyReadDTO dto = new CriteriaGroupReadyReadDTO(isReady);
+
+        return ResponseEntity.ok().body(dto);
+
     }
 
 }

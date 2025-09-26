@@ -21,15 +21,16 @@ public class StrategyReadDTO {
     private String description;
     private StrategyStatusEnum status;
     private int activeObjectivesCount;
+    private String cancellationReason;
 
     // private List<StrategicObjectiveReadDTO> strategicObjectives;
     // private List<CriteriaGroupReadDTO> criteriaGroups;
     // private List<EvaluationGroupReadDTO> evaluationGroups;
 
     private boolean disabled;
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy HH:mm:ss")
     private LocalDateTime createdAt;
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy HH:mm:ss")
     private LocalDateTime lastModifiedAt;
 
     //TODO: List evaluationGroups and objectives DTOs

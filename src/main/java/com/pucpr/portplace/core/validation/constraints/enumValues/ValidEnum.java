@@ -12,7 +12,10 @@ import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
 
 @Documented
-@Constraint(validatedBy = ValidEnumValidator.class)
+@Constraint(validatedBy = {
+    ValidEnumValidator.class,
+    ValidEnumListValidator.class
+})
 @Target({ ElementType.FIELD, ElementType.PARAMETER })
 @Retention(RetentionPolicy.RUNTIME)
 public @interface ValidEnum {

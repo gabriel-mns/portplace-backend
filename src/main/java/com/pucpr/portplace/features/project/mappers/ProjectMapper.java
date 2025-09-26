@@ -9,6 +9,8 @@ import org.mapstruct.MappingTarget;
 import org.mapstruct.NullValuePropertyMappingStrategy;
 import org.mapstruct.ReportingPolicy;
 
+import com.pucpr.portplace.features.portfolio.mappers.PortfolioCategoryMapper;
+import com.pucpr.portplace.features.portfolio.mappers.PortfolioMapper;
 import com.pucpr.portplace.features.project.dtos.ProjectCreateDTO;
 import com.pucpr.portplace.features.project.dtos.ProjectReadDTO;
 import com.pucpr.portplace.features.project.dtos.ProjectUpdateDTO;
@@ -17,23 +19,24 @@ import com.pucpr.portplace.features.user.mappers.UserMapper;
 
 @Mapper(
     componentModel = "spring", 
-    uses = UserMapper.class,
+    uses = {UserMapper.class, PortfolioCategoryMapper.class, PortfolioMapper.class},
     unmappedTargetPolicy = ReportingPolicy.IGNORE
 )
 public interface ProjectMapper {
     
     // Create
-    @Mapping(target = "projectManager.id", source = "projectManager")
     @Mapping(target = "id", ignore = true)
+    @Mapping(target = "budgetAtCompletion", source = "dto.budgetAtCompletion")
     Project toEntity(ProjectCreateDTO dto);
 
     // READ
-    // @Mapping(target = "projectManager", source = "projectManager.id")
+    @Mapping(target = "strategicObjectives", ignore = true)
+    @Mapping(target = "evaluations", ignore = true)
     ProjectReadDTO toReadDTO(Project entity);
 
     List<ProjectReadDTO> toReadDTO(List<Project> entities);
 
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
-    @Mapping(target = "projectManager.id", source = "projectManager")
     void updateFromDTO(ProjectUpdateDTO dto, @MappingTarget Project entity);
+    
 }

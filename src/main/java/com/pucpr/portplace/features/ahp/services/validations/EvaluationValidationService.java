@@ -7,6 +7,7 @@ import com.pucpr.portplace.features.ahp.dtos.EvaluationUpdateDTO;
 import com.pucpr.portplace.features.ahp.entities.EvaluationGroup;
 import com.pucpr.portplace.features.ahp.entities.Criterion;
 import com.pucpr.portplace.features.ahp.exceptions.EvaluationGroupNotFoundException;
+import com.pucpr.portplace.features.ahp.exceptions.CriterionFromDifferentCriteriaGroupException;
 import com.pucpr.portplace.features.ahp.exceptions.CriterionNotFoundException;
 import com.pucpr.portplace.features.ahp.exceptions.EvaluationFromDifferentEvaluationGroupException;
 import com.pucpr.portplace.features.ahp.exceptions.EvaluationNotFoundException;

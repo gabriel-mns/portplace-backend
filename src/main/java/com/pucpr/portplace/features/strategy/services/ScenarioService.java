@@ -1,11 +1,19 @@
 package com.pucpr.portplace.features.strategy.services;
 
+import java.time.LocalDateTime;
 import java.util.List;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import com.pucpr.portplace.features.portfolio.entities.Portfolio;
+import com.pucpr.portplace.features.portfolio.enums.PortfolioStatusEnum;
+import com.pucpr.portplace.features.portfolio.services.internal.PortfolioEntityService;
+import com.pucpr.portplace.features.project.entities.Project;
+import com.pucpr.portplace.features.project.enums.ProjectStatusEnum;
+import com.pucpr.portplace.features.project.mappers.ProjectMapper;
+import com.pucpr.portplace.features.project.services.internal.ProjectEntityService;
+import com.pucpr.portplace.features.strategy.dtos.ScenarioAuthorizationPreviewDTO;
 // import com.pucpr.portplace.features.ahp.services.internal.EvaluationGroupEntityService;
 import com.pucpr.portplace.features.strategy.dtos.ScenarioCreateDTO;
 import com.pucpr.portplace.features.strategy.dtos.ScenarioReadDTO;
@@ -15,6 +23,7 @@ import com.pucpr.portplace.features.strategy.entities.ScenarioRanking;
 import com.pucpr.portplace.features.strategy.enums.ScenarioStatusEnum;
 import com.pucpr.portplace.features.strategy.mappers.ScenarioMapper;
 import com.pucpr.portplace.features.strategy.repositories.ScenarioRepository;
+import com.pucpr.portplace.features.strategy.services.internal.ScenarioRankingEntityService;
 import com.pucpr.portplace.features.strategy.services.validations.ScenarioValidationService;
 
 import jakarta.validation.Valid;
@@ -25,22 +34,31 @@ import lombok.AllArgsConstructor;
 public class ScenarioService {
     
     private ScenarioRankingService rankingService;
-    // private EvaluationGroupEntityService evaluationGroupEntityService;
+    private ScenarioRankingEntityService scenarioRankingEntityService;
+    private PortfolioEntityService portfolioService;
+    private ProjectEntityService projectService;
+
     private ScenarioRepository repository;
     private ScenarioMapper mapper;
+    private ProjectMapper projectMapper;
     private ScenarioValidationService validationService;
 
+    //#region SCENARIO
     //CREATE
     public ScenarioReadDTO createScenario(
         @Valid ScenarioCreateDTO dto,
         long strategyId
     ) {
     
-        validationService.validateBeforeCreation(strategyId, dto.getEvaluationGroupId());
+        validationService.validateBeforeCreation(
+            strategyId, 
+            dto.getEvaluationGroupId(),
+            dto.getPortfolioId()
+        );
 
         //Gets the ranked projects from the evaluation group
         long egId = dto.getEvaluationGroupId();
-        List<ScenarioRanking> rankings = rankingService.calculateRankings(egId, dto.getBudget());
+        List<ScenarioRanking> rankings = rankingService.calculateRankingsOnCreation(egId, dto.getBudget());
         
         dto.setStrategyId(strategyId);
         
@@ -67,6 +85,27 @@ public class ScenarioService {
         Scenario scenario = repository.findById(scenarioId).get();
 
         mapper.updateFromDTO(dto, scenario);
+
+        scenarioRankingEntityService.evaluateScenariosBasedOnBudget(scenario.getScenarioRankings(), scenario.getBudget());
+        scenarioRankingEntityService.recalculateCurrentPositions(scenario.getScenarioRankings());
+
+        scenario = repository.save(scenario);
+
+        return mapper.toReadDTO(scenario);
+
+    }
+
+    public ScenarioReadDTO cancelScenario(
+        long scenarioId,
+        @Valid com.pucpr.portplace.features.strategy.dtos.ScenarioCancellationPatchDTO dto
+    ) {
+
+        validationService.validateBeforeCancellation(scenarioId);
+
+        Scenario scenario = repository.findById(scenarioId).get();
+
+        scenario.setStatus(ScenarioStatusEnum.CANCELLED);
+        scenario.setCancellationReason(dto.getCancellationReason());
 
         scenario = repository.save(scenario);
 
@@ -131,6 +170,79 @@ public class ScenarioService {
 
         return scenarios.map(mapper::toReadDTO);
     }
+
+
+    //#region SCENARIO AUTHORIZATION
+
+    public ScenarioAuthorizationPreviewDTO getAuthorizationPreview(
+        long scenarioId
+    ) {
+
+        validationService.validateBeforeAuthorization(scenarioId);
+
+        Scenario scenario = repository.findById(scenarioId).get();
+        ScenarioAuthorizationPreviewDTO dto = mapper.toAuthorizationPreviewDTO(scenario);
+
+        // ALL PROJECTS WITH STATUS INCLUDED OR MANUALLY_INCLUDED
+        List<Project> includedProjects = scenario.getIncludedProjectsWithCategory();
+
+        // ALL PROJECTS CURRENTLY IN THE PORTFOLIO THAT WILL BE REMOVED (NOT IN INCLUDED IN SCENARIO)
+        List<Project> removedProjects = scenario.getRemovedProjects();
+
+        dto.setIncludedProjects(projectMapper.toReadDTO(includedProjects));
+        dto.setRemovedProjects(projectMapper.toReadDTO(removedProjects));
+
+        return dto;
+
+    }
+
+    public void authorizeScenario(
+        long scenarioId
+    ) {
+        
+        validationService.validateBeforeAuthorization(scenarioId);
+
+        Scenario scenario = repository.findById(scenarioId).get();
+        Portfolio portfolio = portfolioService.getPortfolioById(scenario.getPortfolio().getId());
+
+        List<Project> projectsToBeRemoved = scenario.getRemovedProjects();
+        List<Project> projectsToBeIncluded = scenario.getNewIncludedProjects();
+
+        portfolio.setBudget(scenario.getBudget());
+        portfolio.setStatus(PortfolioStatusEnum.IN_PROGRESS);
+        portfolio.setStrategy(scenario.getStrategy());
+        portfolio.setActiveScenario(scenario);
+        
+        portfolio = portfolioService.save(portfolio);
+        
+        removeProjects(projectsToBeRemoved);
+        addProjectsToPortfolio(projectsToBeIncluded, portfolio);
+
+        scenario.setPortfolio(portfolio);
+        scenario.setAuthorizationDate(LocalDateTime.now());
+        scenario.setStatus(ScenarioStatusEnum.AUTHORIZED);
+        repository.save(scenario);
+
+    }
+
+    private void removeProjects(List<Project> projects) {
+        for (Project p : projects) {
+            p.setPortfolio(null);
+            projectService.save(p);
+        }
+
+    }
+
+    private void addProjectsToPortfolio(List<Project> projects, Portfolio portfolio) {
+        for (Project p : projects) {
+            p.setPortfolio(portfolio);
+            p.setStatus(ProjectStatusEnum.IN_PROGRESS);
+            projectService.save(p);
+        }
+
+    }
+
+    //#endregion SCENARIO AUTHORIZATION
 
 
 }

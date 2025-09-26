@@ -14,6 +14,8 @@ import com.pucpr.portplace.features.ahp.specs.CriteriaComparisonExistsSpecificat
 import com.pucpr.portplace.features.ahp.specs.CriteriaFromSameGroupSpecification;
 import com.pucpr.portplace.features.ahp.specs.CriteriaGroupExistsSpecification;
 import com.pucpr.portplace.features.ahp.specs.CriterionExistsSpecification;
+import com.pucpr.portplace.features.strategy.exceptions.StrategyNotFoundException;
+import com.pucpr.portplace.features.strategy.specs.StrategyExistsSpecification;
 
 import lombok.AllArgsConstructor;
 
@@ -28,6 +30,7 @@ public class CriteriaComparisonValidationService {
     private CriterionExistsSpecification criterionExistsSpecification;
     private ComparedCriteriaAreDifferentSpecification comparedCriteriaAreDifferentSpecification;
     private CriteriaFromSameGroupSpecification criteriaFromSameGroupSpecification;
+    private StrategyExistsSpecification strategyExistsSpecification;
 
     public void validateBeforeCreation(
         long strategyId, 
@@ -36,7 +39,9 @@ public class CriteriaComparisonValidationService {
         long referenceCriterionId
         ) {
         
-        // TODO: After implementing the StrategyService, check if the strategyId is valid
+        if(!strategyExistsSpecification.isSatisfiedBy(strategyId)) {
+            throw new StrategyNotFoundException(strategyId);
+        }
 
         if(!criteriaGroupExistsSpecification.isSatisfiedBy(criteriaGroupId)) {
             throw new CriteriaGroupNotFoundException(criteriaGroupId);

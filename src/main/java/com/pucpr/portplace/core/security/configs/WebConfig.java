@@ -36,6 +36,7 @@ public class WebConfig implements WebMvcConfigurer {
         ));
         config.setAllowedMethods(Arrays.asList(
                 HttpMethod.GET.name(),
+                HttpMethod.PATCH.name(),
                 HttpMethod.POST.name(),
                 HttpMethod.PUT.name(),
                 HttpMethod.DELETE.name(),

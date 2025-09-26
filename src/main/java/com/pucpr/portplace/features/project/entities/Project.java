@@ -5,9 +5,10 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.pucpr.portplace.core.entities.AuditableEntity;
+import com.pucpr.portplace.features.portfolio.entities.Portfolio;
+import com.pucpr.portplace.features.portfolio.entities.PortfolioCategory;
 import com.pucpr.portplace.features.project.enums.ProjectStatusEnum;
 import com.pucpr.portplace.features.strategy.entities.ScenarioRanking;
-import com.pucpr.portplace.features.strategy.entities.StrategicObjective;
 import com.pucpr.portplace.features.user.entities.User;
 
 import jakarta.persistence.Entity;
@@ -17,7 +18,6 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
@@ -36,6 +36,7 @@ import lombok.Setter;
 @Setter
 public class Project extends AuditableEntity{
     
+    //#region General fields
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
@@ -43,30 +44,39 @@ public class Project extends AuditableEntity{
     private String description;
     @Enumerated(EnumType.STRING)
     private ProjectStatusEnum status;
+    private double payback;
+    private String cancellationReason;
+    
+    //#region EVMS fields
     private double earnedValue;
     private double plannedValue;
     private double actualCost;
-    private double budget;
-    private double payback;
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    private double budgetAtCompletion; //used to calculate ROI
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
     private LocalDate startDate;
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
     private LocalDate endDate;
 
-    //Relationships
-    @ManyToOne
-    @JoinColumn(name = "project_manager_id")
-    private User projectManager;
-    @ManyToMany(mappedBy = "projects")
-    private List<StrategicObjective> strategicObjectives;
+    //#region Relationships
     @OneToMany(mappedBy = "project")
     private List<ScenarioRanking> scenarioRankings;
+    @ManyToOne
+    @JoinColumn(name = "portfolio_id")
+    private Portfolio portfolio;
+    @ManyToOne(optional = true)
+    @JoinColumn(name = "portfolio_category_id")
+    private PortfolioCategory portfolioCategory;
 
-    // TODO: Create attachments table and add a list of attachments to the project
-    // private List<Attachment> attachments;
-    // TODO: Uncomment when Portfolio is implemented
-    // private Portfolio portfolio;
+    /*
+     *
+     * WARNING: This was removed because it`s not needed right now, but it can be useful in the future
+     * 
+     */
+    // @OneToMany(mappedBy = "project", orphanRemoval = true, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    // private List<EvmEntry> evmEntries;
 
+    //#region  Methods
     public Project(String name, String description, ProjectStatusEnum status, double earnedValue, double plannedValue,
             double actualCost, double budget, double payback, LocalDate startDate, LocalDate endDate, User projectManager) {
         this.name = name;
@@ -75,11 +85,138 @@ public class Project extends AuditableEntity{
         this.earnedValue = earnedValue;
         this.plannedValue = plannedValue;
         this.actualCost = actualCost;
-        this.budget = budget;
         this.payback = payback;
         this.startDate = startDate;
         this.endDate = endDate;
         // this.projectManager = projectManager;
     }
+
+    public double getCostPerformanceIndex() {
+        // updateCalculatedValues();
+        if (this.actualCost == 0) return 1;
+        return this.earnedValue / this.actualCost;
+    }
+
+    public double getSchedulePerformanceIndex() {
+        // updateCalculatedValues();
+        if (this.plannedValue == 0) return 1;
+        return this.earnedValue / this.plannedValue;
+    }
+
+    public double getEstimateAtCompletion() {
+        if (this.getCostPerformanceIndex() == 0) return this.budgetAtCompletion;
+        return this.budgetAtCompletion / this.getCostPerformanceIndex();
+    }
+
+    public double getEstimateToComplete() {
+        return this.getEstimateAtCompletion() - this.actualCost;
+    }
+
+    public double getPercentComplete() {
+        // updateCalculatedValues();
+        if (this.budgetAtCompletion == 0) return 0;
+        return (this.earnedValue / this.budgetAtCompletion) * 100;
+    }
+
+    public double getRoi() {
+        if (this.budgetAtCompletion == 0) return 0;
+        return ((this.earnedValue - this.budgetAtCompletion) / this.budgetAtCompletion) * 100;
+    }
+
+    public String getPortfolioName() {
+        return this.portfolio != null ? this.portfolio.getName() : null;
+    }
+
+    public String getStrategyName() {
+        return this.portfolio != null && this.portfolio.getStrategy() != null ? this.portfolio.getStrategy().getName() : null;
+    }
+
+    public double getScenarioRankingScore() {
+        if (this.portfolio == null) return 0;
+        return getScenarioRanking() != null ? getScenarioRanking().getTotalScore() : 0;
+    }
+
+    public int getPriorityInPortfolio() {
+        if (this.portfolio == null) return 0;
+        return getScenarioRanking() != null ? getScenarioRanking().getCurrentPosition() : 0;
+    }
+
+    public ScenarioRanking getScenarioRanking() {
+        if (this.portfolio == null) return null;
+        if(this.portfolio.getActiveScenario() == null) return null;
+        return this.portfolio.getActiveScenario().getScenarioRankings().stream()
+            .filter(sr -> sr.getProject().getId() == this.id)
+            .findFirst()
+            .orElse(null);
+    }
+
+    /*
+     * 
+     * WARNING: These methods were removed because they are not needed right now, but they can be useful in the future
+     * 
+     */
+
+    // private void updateEarnedValue() {
+        
+    //     List<EvmEntry> entries = this.evmEntries;
+
+    //     if (entries == null || entries.isEmpty()) {
+    //         this.totalEarnedValue = 0;
+    //         return;
+    //     }
+
+    //     this.totalEarnedValue = entries.stream()
+    //             .filter(ev -> !ev.isDisabled())
+    //             .mapToDouble(EvmEntry::getPlannedValue)
+    //             .sum();
+
+    // }
+
+    // private void updateActualCost() {
+
+    //     if (this.evmEntries == null || this.evmEntries.isEmpty()) {
+    //         this.totalActualCost = 0;
+    //         return;
+    //     }
+
+    //     this.totalActualCost = this.evmEntries.stream()
+    //             .filter(ev -> !ev.isDisabled())
+    //             .mapToDouble(EvmEntry::getActualCost)
+    //             .sum();
+
+    // }
+
+    // private void updatePlannedValue() {
+
+    //     if (this.evmEntries == null || this.evmEntries.isEmpty()) {
+    //         this.totalPlannedValue = 0;
+    //         this.currentPlannedValue = 0;
+    //         return;
+    //     }
+
+    //     int currentMonth = LocalDate.now().getMonthValue();
+    //     int currentYear = LocalDate.now().getYear();
+
+    //     this.totalPlannedValue = this.evmEntries.stream()
+    //             .filter(ev -> !ev.isDisabled())
+    //             .mapToDouble(EvmEntry::getPlannedValue)
+    //             .sum();
+
+    //     this.currentPlannedValue = this.evmEntries.stream()
+    //         .filter(ev -> !ev.isDisabled())
+    //         .filter(ev -> 
+    //             (ev.getYear() < currentYear) ||
+    //             (ev.getYear() == currentYear && ev.getMonth() <= currentMonth)
+    //         )
+    //         .mapToDouble(EvmEntry::getPlannedValue)
+    //         .sum();
+
+    // }
+
+    // public void updateCalculatedValues() {
+    //     updateActualCost();
+    //     updatePlannedValue();
+    //     updateEarnedValue();
+    // }
 
 }

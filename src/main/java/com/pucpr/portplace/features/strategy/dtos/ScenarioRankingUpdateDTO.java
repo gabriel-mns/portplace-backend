@@ -17,5 +17,6 @@ public class ScenarioRankingUpdateDTO {
     // private int customPosition;
     @ValidEnum(enumClass = ScenarioRankingStatusEnum.class)
     private String status;
+    private Long portfolioCategoryId;
 
 }

@@ -1,12 +1,21 @@
 @host = http://localhost:8080/api/v1
 
 ### GET TODOS OS CENÁRIOS
-GET {{host}}/strategies/1/scenarios
+GET {{host}}/strategies/1/scenarios?sortBy=cancellationReason
 Accept: application/json
 
 ### GET CENÁRIO
-GET {{host}}/strategies/1/scenarios/1
+GET {{host}}/strategies/1/scenarios/5
 Accept: application/json
+
+### CANCELAR CENÁRIO
+PATCH {{host}}/strategies/1/scenarios/5/cancel
+Accept: application/json
+Content-Type: application/json
+
+{
+  "cancellationReason": "Motivo do cancelamento do cenário"
+}
 
 ### CADASTRAR CENÁRIO
 POST {{host}}/strategies/1/scenarios
@@ -14,20 +23,22 @@ Accept: application/json
 Content-Type: application/json
 
 {
-  "name": "Cenário 2",
+  "name": "Cenário 2 para o portfolio 2",
   "description": "Descrição do Cenário 2",
-  "budget": 200000.00,
-  "evaluationGroupId": 1
+  "budget": 150000.00,
+  "evaluationGroupId": 1,
+  "portfolioId": 2
 }
 
 ### EDITAR CENÁRIO
-PUT {{host}}/strategies/1/scenarios/9
+PUT {{host}}/strategies/1/scenarios/1
 Accept: application/json
 Content-Type: application/json
 
 {
-  "name": "Cenário 9 Editado",
-  "status": "AUTHORIZED"
+  "name": "Cenário 1 Editado",
+  "status": "WAITING_AUTHORIZATION",
+  "budget": 150000.00
 }
 
 ### DESABILITAR CENÁRIO

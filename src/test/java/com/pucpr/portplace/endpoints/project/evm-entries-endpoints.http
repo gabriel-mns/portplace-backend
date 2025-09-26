@@ -1,0 +1,36 @@
+@host = http://localhost:8080/api/v1
+
+### BUSCA DE PROJETOS
+GET  {{host}}/projects
+Accept: application/json
+
+### BUSCA DE EVM ENTRIES POR ID DO PROJETO
+GET {{host}}/projects/1/evm-entries
+Accept: application/json
+
+### BUSCA DE EVM ENTRY POR ID
+GET {{host}}/projects/1/evm-entries/1
+Accept: application/json
+
+### CADASTRAR EVM ENTRY
+POST {{host}}/projects/2/evm-entries
+Content-Type: application/json
+
+{
+    "plannedValue": 10000.0,
+    "actualCost": 40.0,
+    "percentComplete": 70.0,
+    "month": 2,
+    "year": 2025
+}
+
+### ATUALIZAR EVM ENTRY
+PUT {{host}}/projects/1/evm-entries/3
+Content-Type: application/json
+
+{
+    "percentComplete": 70.0
+}
+
+### DESABILITAR EVM ENTRY
+DELETE {{host}}/projects/1/evm-entries/3

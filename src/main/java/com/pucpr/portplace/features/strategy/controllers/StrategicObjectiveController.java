@@ -16,6 +16,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.pucpr.portplace.features.ahp.dtos.CriterionReadDTO;
+import com.pucpr.portplace.features.ahp.services.internal.CriterionEntityService;
+import com.pucpr.portplace.features.portfolio.dtos.portfolio.PortfolioReadDTO;
+import com.pucpr.portplace.features.portfolio.services.internal.PortfolioEntityService;
+import com.pucpr.portplace.features.project.dtos.ProjectReadDTO;
+import com.pucpr.portplace.features.project.services.internal.ProjectEntityService;
 import com.pucpr.portplace.features.strategy.dtos.StrategicObjectiveCreateDTO;
 import com.pucpr.portplace.features.strategy.dtos.StrategicObjectiveReadDTO;
 import com.pucpr.portplace.features.strategy.dtos.StrategicObjectiveUpdateDTO;
@@ -36,6 +42,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class StrategicObjectiveController {
     
     private StrategicObjectiveService service;
+    private CriterionEntityService criterionService;
+    private PortfolioEntityService portfolioService;
+    private ProjectEntityService projectService;
 
     //CREATE
     @PostMapping
@@ -130,6 +139,82 @@ public class StrategicObjectiveController {
         return ResponseEntity.ok(response);
 
     }
-    
+
+
+    // #region GET Relationships
+    /*
+     * Endpoints to get the relationships with Strategic Objectives
+     */
+
+    @GetMapping("/{objectiveId}/criteria")
+    public ResponseEntity<Page<CriterionReadDTO>> getObjectiveCriteria(
+        @PathVariable long objectiveId,
+        @RequestParam(defaultValue = "") String searchQuery,
+        @RequestParam(defaultValue = "false") boolean includeDisabled,
+        @RequestParam(defaultValue = "0") int page,
+        @RequestParam(defaultValue = "10") int size,
+        @RequestParam(defaultValue = "name") String sortBy,
+        @RequestParam(defaultValue = "asc") String sortDir
+    ) {
+
+        Sort.Direction direction = sortDir.equalsIgnoreCase("desc") ? Sort.Direction.DESC : Sort.Direction.ASC;
+        PageRequest pageable = PageRequest.of(page, size, Sort.by(direction, sortBy));
+
+        Page<CriterionReadDTO> response = criterionService.findByStrategicObjectiveId(
+            objectiveId,
+            searchQuery,
+            includeDisabled,
+            pageable
+        );
+
+        return ResponseEntity.ok(response);
+
+    }
+
+    @GetMapping("/{objectiveId}/portfolios")
+    public ResponseEntity<Page<PortfolioReadDTO>> getObjectivePortfolios(
+        @PathVariable long objectiveId,
+        @RequestParam(defaultValue = "") String searchQuery,
+        @RequestParam(defaultValue = "0") int page,
+        @RequestParam(defaultValue = "10") int size,
+        @RequestParam(defaultValue = "name") String sortBy,
+        @RequestParam(defaultValue = "asc") String sortDir
+    ) {
+
+        Sort.Direction direction = sortDir.equalsIgnoreCase("desc") ? Sort.Direction.DESC : Sort.Direction.ASC;
+        PageRequest pageable = PageRequest.of(page, size, Sort.by(direction, sortBy));
+
+        Page<PortfolioReadDTO> response = portfolioService.findByStrategicObjectiveId(
+            objectiveId,
+            searchQuery,
+            pageable
+        );
+
+        return ResponseEntity.ok(response);
+
+    }
+
+    @GetMapping("/{objectiveId}/projects")
+    public ResponseEntity<Page<ProjectReadDTO>> getObjectiveProjects(
+        @PathVariable long objectiveId,
+        @RequestParam(defaultValue = "") String searchQuery,
+        @RequestParam(defaultValue = "0") int page,
+        @RequestParam(defaultValue = "10") int size,
+        @RequestParam(defaultValue = "name") String sortBy,
+        @RequestParam(defaultValue = "asc") String sortDir
+    ) {
+
+        Sort.Direction direction = sortDir.equalsIgnoreCase("desc") ? Sort.Direction.DESC : Sort.Direction.ASC;
+        PageRequest pageable = PageRequest.of(page, size, Sort.by(direction, sortBy));
+
+        Page<ProjectReadDTO> response = projectService.findByStrategicObjectiveId(
+            objectiveId,
+            searchQuery,
+            pageable
+        );
+
+        return ResponseEntity.ok(response);
+
+    }
 
 }

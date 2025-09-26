@@ -1,9 +1,12 @@
 package com.pucpr.portplace.features.project.controllers;
 
 import java.net.URI;
+import java.util.List;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -17,6 +20,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 
+import com.pucpr.portplace.features.project.dtos.ProjectCancelationPatchDTO;
 import com.pucpr.portplace.features.project.dtos.ProjectCreateDTO;
 import com.pucpr.portplace.features.project.dtos.ProjectReadDTO;
 import com.pucpr.portplace.features.project.dtos.ProjectUpdateDTO;
@@ -64,6 +68,19 @@ public class ProjectController {
             .body(updatedProject);
     }
 
+    
+    @PatchMapping("/{projectID}/cancel")
+    public ResponseEntity<ProjectReadDTO> cancelProject(
+        @PathVariable long projectID,
+        @RequestBody @Valid ProjectCancelationPatchDTO project
+    ) {
+
+        ProjectReadDTO p = projectService.cancelProject(projectID, project);
+
+        return ResponseEntity.ok(p);
+
+    }
+
     // DELETE
     @DeleteMapping("/{projectId}")
     public ResponseEntity<Void> disableProject(@PathVariable long projectId) {
@@ -96,7 +113,8 @@ public class ProjectController {
 
     @GetMapping
     public ResponseEntity<Page<ProjectReadDTO>> getAllProjects(
-        @RequestParam(required = false) ProjectStatusEnum status,
+        @RequestParam(required = false) Long portfolioId,
+        @RequestParam(required = false) List<ProjectStatusEnum> status,
         @RequestParam(defaultValue = "") String searchQuery,
         @RequestParam(defaultValue = "false") boolean includeDisabled,
         @RequestParam(defaultValue = "0") int page,
@@ -108,29 +126,7 @@ public class ProjectController {
         Sort.Direction direction = sortDir.equalsIgnoreCase("desc") ? Sort.Direction.DESC : Sort.Direction.ASC;
         Pageable pageable = PageRequest.of(page, size, Sort.by(direction, sortBy));
 
-        return projectService.getAllProjects(status, searchQuery, pageable, includeDisabled);
-
-    }
-
-    @GetMapping("/manager/{projectManagerId}")
-    public ResponseEntity<Page<ProjectReadDTO>> getProjectsByManager(
-        @PathVariable long projectManagerId,
-        @RequestParam(required = false) ProjectStatusEnum status,
-        @RequestParam(defaultValue = "") String searchQuery,
-        @RequestParam(defaultValue = "false") boolean includeDisabled,
-        @RequestParam(defaultValue = "0") int page,
-        @RequestParam(defaultValue = "10") int size,
-        @RequestParam(defaultValue = "id") String sortBy,
-        @RequestParam(defaultValue = "asc") String sortDir
-    ) {
-
-        Sort.Direction direction = sortDir.equalsIgnoreCase("desc") ? Sort.Direction.DESC : Sort.Direction.ASC;
-        Pageable pageable = PageRequest.of(page, size, Sort.by(direction, sortBy));
-
-        Page<ProjectReadDTO> projects = projectService.getAllProjectsByProjectManagerId(projectManagerId, status, searchQuery, includeDisabled, pageable);
-
-        return ResponseEntity.ok()
-            .body(projects);
+        return projectService.getAllProjects(portfolioId, status, searchQuery, pageable, includeDisabled);
 
     }
 

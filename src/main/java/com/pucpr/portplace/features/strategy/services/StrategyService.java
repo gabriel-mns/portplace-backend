@@ -5,6 +5,8 @@ import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
+import com.pucpr.portplace.features.strategy.dtos.StrategyCancellationPatchDTO;
 import com.pucpr.portplace.features.strategy.dtos.StrategyCreateDTO;
 import com.pucpr.portplace.features.strategy.dtos.StrategyReadDTO;
 import com.pucpr.portplace.features.strategy.dtos.StrategyUpdateDTO;
@@ -107,6 +109,20 @@ public class StrategyService {
 
         return strategyMapper.toReadDTO(strategy);
         
+    }
+
+    public StrategyReadDTO cancelStrategy(StrategyCancellationPatchDTO dto, long strategyId) {
+
+        validationService.validateBeforeCancel(strategyId);
+
+        Strategy strategy = strategyRepository.findById(strategyId).get();
+
+        strategy.setStatus(StrategyStatusEnum.INACTIVE);
+        strategy.setCancellationReason(dto.getCancellationReason());
+
+        strategy = strategyRepository.save(strategy);
+
+        return strategyMapper.toReadDTO(strategy);
     }
 
 }

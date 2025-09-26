@@ -14,8 +14,17 @@ Accept: application/json
 Content-Type: application/json
 
 {
-  "name": "Estratégia 1",
-  "description": "Descrição do Estratégia 1"
+  "name": "Estratégia 2",
+  "description": "Descrição do Estratégia 2"
+}
+
+### CANCELAR ESTRATÉGIA
+PATCH {{host}}/strategies/2/cancel
+Accept: application/json
+Content-Type: application/json
+
+{
+  "cancellationReason": "Motivo do cancelamento"
 }
 
 ### EDITAR ESTRATÉGIA

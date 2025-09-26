@@ -8,7 +8,6 @@ public class StrategicObjectiveFromDifferentStrategyException extends BusinessEx
 
     public StrategicObjectiveFromDifferentStrategyException(long strategicObjectiveId, long strategyId) {
         super("Strategic Objective does not belong to the same Strategy. Strategic Objective ID: " + strategicObjectiveId + ". Strategy ID: " + strategyId , HttpStatus.UNPROCESSABLE_ENTITY);
-        //TODO Auto-generated constructor stub
     }
     
 }

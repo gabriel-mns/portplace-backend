@@ -1,0 +1,39 @@
+@host = http://localhost:8080/api/v1
+
+### GET RISCOS DE UM PORTFÓLIO
+GET {{host}}/portfolios/1/risks
+Accept: application/json
+
+### GET OCORRENCIAS DE UM RISCO
+GET {{host}}/portfolios/1/risks/1/occurrences?includeDisabled=true
+Accept: application/json
+
+### NOVA OCORRENCIA DE UM RISCO
+POST {{host}}/portfolios/1/risks/1/occurrences
+Accept: application/json
+Content-Type: application/json
+
+{
+    "description": "Ocorrência de risco 4",
+    "dateOfOccurrence": "21/09/2025 14:30",
+    "solvedAt": "20/09/2025 14:30"
+}
+
+### ATUALIZAR OCORRENCIA DE UM RISCO
+PUT {{host}}/portfolios/1/risks/1/occurrences/2
+Accept: application/json
+Content-Type: application/json
+
+{
+    "description": "Ocorrência de risco 2 - Atualizada",
+    "dateOfOccurrence": "21/09/2025 14:30",
+    "solvedAt": "21/09/2025 14:29"
+}
+
+### DESABILITAR OCORRENCIA DE UM RISCO
+DELETE {{host}}/portfolios/1/risks/1/occurrences/1
+Accept: application/json
+
+### DELETAR OCORRENCIA DE UM RISCO
+DELETE {{host}}/portfolios/1/risks/1/occurrences/1/hard-delete
+Accept: application/json

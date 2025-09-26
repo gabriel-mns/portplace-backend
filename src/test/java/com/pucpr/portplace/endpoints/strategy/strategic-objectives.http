@@ -1,10 +1,25 @@
 @host = http://localhost:8080/api/v1
 
 ### GET TODOS OS OBJETIVOS
-GET {{host}}/strategies/1/strategic-objectives?status=IDLE
+GET {{host}}/strategies/1/strategic-objectives
 
 ### GET OBJETIVO ESTRATÉGICO
-GET {{host}}/strategies/1/strategic-objectives/3
+GET {{host}}/strategies/1/strategic-objectives/1
+Accept: application/json
+
+### GET CRITERIOS RELACIONADOS AO OBJETIVO ESTRATÉGICO
+GET {{host}}/strategies/1/strategic-objectives/1/criteria
+Accept: application/json
+
+### GET PORTFOLIOS RELACIONADOS AO OBJETIVO ESTRATÉGICO
+GET {{host}}/strategies/1/strategic-objectives/1/portfolios
+
+### GET PORTFOLIOS RELACIONADOS AO OBJETIVO ESTRATÉGICO
+GET {{host}}/strategies/1/strategic-objectives/1/projects
+Accept: application/json
+
+### GET PROJETOS RELACIONADOS AO OBJETIVO ESTRATÉGICO
+GET {{host}}/strategies/1/strategic-objectives/1/projects
 Accept: application/json
 
 ### CADASTRAR OBJETIVO ESTRATÉGICO
@@ -13,8 +28,8 @@ Accept: application/json
 Content-Type: application/json
 
 {
-  "name": "Objetivo Estratégico 3",
-  "description": "Descrição do Objetivo Estratégico 3"
+  "name": "Objetivo Estratégico 2",
+  "description": "Descrição do Objetivo Estratégico 2"
 }
 
 ### EDITAR OBJETIVO ESTRATÉGICO

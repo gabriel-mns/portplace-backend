@@ -42,6 +42,7 @@ public class Strategy extends AuditableEntity {
     private String description;
     @Enumerated(EnumType.STRING)
     private StrategyStatusEnum status;
+    private String cancellationReason;
 
     @Formula("""
         (

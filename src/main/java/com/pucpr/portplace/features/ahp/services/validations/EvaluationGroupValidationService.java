@@ -7,6 +7,8 @@ import com.pucpr.portplace.features.ahp.dtos.EvaluationGroupUpdateDTO;
 import com.pucpr.portplace.features.ahp.exceptions.EvaluationGroupNotFoundException;
 import com.pucpr.portplace.features.ahp.exceptions.CriteriaGroupNotFoundException;
 import com.pucpr.portplace.features.ahp.specs.EvaluationGroupExistsSpecification;
+import com.pucpr.portplace.features.strategy.exceptions.StrategyNotFoundException;
+import com.pucpr.portplace.features.strategy.specs.StrategyExistsSpecification;
 import com.pucpr.portplace.features.ahp.specs.CriteriaGroupExistsSpecification;
 
 import lombok.AllArgsConstructor;
@@ -17,10 +19,14 @@ public class EvaluationGroupValidationService {
 
     private CriteriaGroupExistsSpecification criteriaGroupExistsSpecification;
     private EvaluationGroupExistsSpecification egExistsSpecification;
+    private StrategyExistsSpecification strategyExistsSpecification;
 
     public void validateBeforeCreation(long strategyId, EvaluationGroupCreateDTO dto) {
         
-        // TODO: After implementing Strategy, validate if the strategyId exists
+        if(!strategyExistsSpecification.isSatisfiedBy(strategyId)) {
+            throw new StrategyNotFoundException(strategyId);
+        }
+        
         long criteriaGroupId = dto.getCriteriaGroupId();
 
         if(!criteriaGroupExistsSpecification.isSatisfiedBy(criteriaGroupId)) {
@@ -31,7 +37,9 @@ public class EvaluationGroupValidationService {
 
     public void validateBeforeUpdate(long strategyId, Long evaluationGroupId, EvaluationGroupUpdateDTO dto) {
 
-        // TODO: After implementing Strategy, validate if the strategyId exists
+        if(!strategyExistsSpecification.isSatisfiedBy(strategyId)) {
+            throw new StrategyNotFoundException(strategyId);
+        }
 
         if(!egExistsSpecification.isSatisfiedBy(evaluationGroupId)) {
             throw new EvaluationGroupNotFoundException(evaluationGroupId);
@@ -47,7 +55,9 @@ public class EvaluationGroupValidationService {
 
     public void validateBeforeDisable(long strategyId, Long evaluationGroupId) {
         
-        // TODO: After implementing Strategy, validate if the strategyId exists
+        if(!strategyExistsSpecification.isSatisfiedBy(strategyId)) {
+            throw new StrategyNotFoundException(strategyId);
+        }
 
         if(!egExistsSpecification.isSatisfiedBy(evaluationGroupId)) {
             throw new EvaluationGroupNotFoundException(evaluationGroupId);
@@ -56,10 +66,33 @@ public class EvaluationGroupValidationService {
     }
 
     public void validateBeforeDelete(long strategyId, Long evaluationGroupId) {
-        // TODO: After implementing Strategy, validate if the strategyId exists
+
+        if(!strategyExistsSpecification.isSatisfiedBy(strategyId)) {
+            throw new StrategyNotFoundException(strategyId);
+        }
 
         if(!egExistsSpecification.isSatisfiedBy(evaluationGroupId)) {
             throw new EvaluationGroupNotFoundException(evaluationGroupId);
+        }
+        
+    }
+
+    public void validateBeforeGet(long strategyId, Long evaluationGroupId) {
+
+        if(!strategyExistsSpecification.isSatisfiedBy(strategyId)) {
+            throw new StrategyNotFoundException(strategyId);
+        }
+
+        if(!egExistsSpecification.isSatisfiedBy(evaluationGroupId)) {
+            throw new EvaluationGroupNotFoundException(evaluationGroupId);
+        }
+        
+    }
+
+    public void validateBeforeGetAll(long strategyId) {
+
+        if(!strategyExistsSpecification.isSatisfiedBy(strategyId)) {
+            throw new StrategyNotFoundException(strategyId);
         }
         
     }

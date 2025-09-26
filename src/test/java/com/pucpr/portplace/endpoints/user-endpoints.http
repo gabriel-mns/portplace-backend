@@ -5,15 +5,24 @@ POST {{host}}/users/register
 Content-Type: application/json
 
 {
-  "name": "Gabriel Martins Nunes da Silva",
+  "name": "Felipe Silva",
+  "email": "felipesilva@gmail.com",
+  "password": "12345",
+  "role": "PROJECT_MANAGER"
+}
+
+### LOGIN
+POST {{host}}/users/authenticate
+Content-Type: application/json
+
+{
   "email": "gabrielgmns071204@gmail.com",
-  "password": "123456789",
-  "role": "PMO_ADM"
+  "password": "123s45"
 }
 
 
 ### BUSCA DE USUÁRIOS
-GET  {{host}}/users
+GET  {{host}}/users?page=0&size=1
 Host: localhost:8080
 
 ### BUSCA DE USUÁRIO POR ID
@@ -27,7 +36,8 @@ Content-Type: application/json
 
 {
   "name": "Gabriel Martins Nunes da Silva",
-  "password": "123456789"
+  "password": "12345",
+  "status": "INACTIVE"
 }
 
 ### DELETAR USUÁRIO

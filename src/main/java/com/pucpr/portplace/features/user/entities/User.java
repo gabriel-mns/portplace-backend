@@ -8,8 +8,10 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import com.pucpr.portplace.features.project.entities.Project;
+import com.pucpr.portplace.core.entities.AuditableEntity;
+import com.pucpr.portplace.features.portfolio.entities.Portfolio;
 import com.pucpr.portplace.features.user.enums.RoleEnum;
+import com.pucpr.portplace.features.user.enums.UserStatusEnum;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -18,7 +20,7 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
@@ -32,7 +34,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-public class User implements UserDetails {
+public class User extends AuditableEntity implements UserDetails {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -47,14 +49,19 @@ public class User implements UserDetails {
     private String password;
     @Enumerated(EnumType.ORDINAL)
     private RoleEnum role;
-    @OneToMany(mappedBy = "projectManager")
-    private List<Project> projects;
+    @Enumerated(EnumType.STRING)
+    private UserStatusEnum status;
+
+    //Relationships
+    @ManyToMany(mappedBy = "owners")
+    private List<Portfolio> portfolios;
 
     public User(String name, String email, String password, RoleEnum role) {
         this.name = name;
         this.email = email;
         this.password = password;
         this.role = role;
+        this.status = UserStatusEnum.ACTIVE;
     }
 
     public void setUsername(String username) {

@@ -10,14 +10,18 @@ import org.springframework.stereotype.Service;
 
 import com.pucpr.portplace.features.ahp.dtos.ProjectRankingReadDTO;
 import com.pucpr.portplace.features.ahp.services.AHPResultsService;
+import com.pucpr.portplace.features.portfolio.services.internal.PortfolioCategoryEntityService;
 import com.pucpr.portplace.features.project.entities.Project;
 import com.pucpr.portplace.features.project.services.internal.ProjectEntityService;
 import com.pucpr.portplace.features.strategy.dtos.ScenarioRankingReadDTO;
 import com.pucpr.portplace.features.strategy.dtos.ScenarioRankingUpdateDTO;
+import com.pucpr.portplace.features.strategy.entities.Scenario;
 import com.pucpr.portplace.features.strategy.entities.ScenarioRanking;
 import com.pucpr.portplace.features.strategy.enums.ScenarioRankingStatusEnum;
 import com.pucpr.portplace.features.strategy.mappers.ScenarioRankingMapper;
 import com.pucpr.portplace.features.strategy.repositories.ScenarioRankingRepository;
+import com.pucpr.portplace.features.strategy.services.internal.ScenarioEntityService;
+import com.pucpr.portplace.features.strategy.services.internal.ScenarioRankingEntityService;
 import com.pucpr.portplace.features.strategy.services.validations.ScenarioRankingValidationService;
 
 import lombok.AllArgsConstructor;
@@ -28,11 +32,14 @@ public class ScenarioRankingService {
     
     private AHPResultsService ahpResultsService;
     private ProjectEntityService projectEntityService;
+    private ScenarioRankingEntityService rankingEntityService;
+    private ScenarioEntityService scenarioEntityService;
+    private PortfolioCategoryEntityService portfolioCategoryEntityService;
+    private ScenarioRankingValidationService validationService;
     private ScenarioRankingMapper mapper;
     private ScenarioRankingRepository repository;
-    private ScenarioRankingValidationService validationService;
 
-    public List<ScenarioRanking> calculateRankings(
+    public List<ScenarioRanking> calculateRankingsOnCreation(
         long evaluationGroupId,
         double budget
     ) {
@@ -49,16 +56,16 @@ public class ScenarioRankingService {
             Project project = projectEntityService.getProjectEntityById(position.getProjectId());
             
             ScenarioRanking scenarioRanking = new ScenarioRanking();
-            
-            // scenarioRanking.setCustomPosition(position.getPosition());
+
+            scenarioRanking.setCurrentPosition(position.getPosition());
             scenarioRanking.setCalculatedPosition(position.getPosition());
             scenarioRanking.setTotalScore(position.getTotalScore());
 
-            if(accumulatedCost + project.getBudget() > budget) {
+            if(accumulatedCost + project.getEstimateAtCompletion() > budget) {
                 scenarioRanking.setStatus(ScenarioRankingStatusEnum.EXCLUDED);
             } else {
                 scenarioRanking.setStatus(ScenarioRankingStatusEnum.INCLUDED);
-                accumulatedCost += project.getBudget();
+                accumulatedCost += project.getEstimateAtCompletion();
             }
 
             scenarioRanking.setProject(project);
@@ -77,16 +84,25 @@ public class ScenarioRankingService {
         long rankingId
     ) {
         
-        validationService.validateBeforeUpdate(scenarioId, rankingId);
-
-        // Scenario scenario = scenarioEntityService.getScenarioById(scenarioId);
+        validationService.validateBeforeUpdate(scenarioId, rankingId, dto);
+    
+        // UPDATE STATUS
         ScenarioRanking sr = repository.findById(rankingId).get();
-
-        // reorderLinked(scenario.getScenarioRankings(),sr.getCustomPosition(), dto.getCustomPosition());
-
         mapper.updateFromDTO(dto, sr);
         
-        sr = repository.save(sr);
+        if(dto.getPortfolioCategoryId() != null) {
+            sr.setPortfolioCategory(
+                portfolioCategoryEntityService.getPortfolioCategoryEntityById(dto.getPortfolioCategoryId())
+            );
+        }
+
+        repository.save(sr);
+        sr = repository.findById(rankingId).get(); 
+        
+        // UPDATE OTHER RANKINGS CURRENT POSITIONS
+        Scenario scenario = sr.getScenario();
+        rankingEntityService.recalculateCurrentPositions(scenario.getScenarioRankings());
+        scenarioEntityService.save(scenario);
 
         return mapper.toReadDTO(sr);
 

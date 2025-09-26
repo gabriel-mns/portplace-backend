@@ -9,6 +9,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -18,6 +19,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.pucpr.portplace.features.strategy.dtos.ScenarioAuthorizationPreviewDTO;
+import com.pucpr.portplace.features.strategy.dtos.ScenarioCancellationPatchDTO;
 import com.pucpr.portplace.features.strategy.dtos.ScenarioCreateDTO;
 import com.pucpr.portplace.features.strategy.dtos.ScenarioReadDTO;
 import com.pucpr.portplace.features.strategy.dtos.ScenarioUpdateDTO;
@@ -35,6 +38,8 @@ import lombok.AllArgsConstructor;
 public class ScenarioController {
 
     private ScenarioService service;
+
+    //#region SCENARIO
     //CREATE
     @PostMapping
     public ResponseEntity<ScenarioReadDTO> createScenario(
@@ -62,6 +67,18 @@ public class ScenarioController {
     ){
 
         ScenarioReadDTO response = service.updateScenario(dto, scenarioId);
+
+        return ResponseEntity.ok().body(response);
+
+    }
+
+    @PatchMapping("/{scenarioId}/cancel")
+    public ResponseEntity<ScenarioReadDTO> cancelScenario(
+        @PathVariable long scenarioId,
+        @RequestBody @Valid ScenarioCancellationPatchDTO dto
+    ){
+
+        ScenarioReadDTO response = service.cancelScenario(scenarioId, dto);
 
         return ResponseEntity.ok().body(response);
 
@@ -129,4 +146,25 @@ public class ScenarioController {
 
     }
 
+
+    //#region AUTHORIZATION
+    @GetMapping("/{scenarioId}/authorization-preview")
+    public ResponseEntity<ScenarioAuthorizationPreviewDTO> getAuthorizationPreview(
+        @PathVariable long scenarioId
+    ) {
+        ScenarioAuthorizationPreviewDTO preview = service.getAuthorizationPreview(scenarioId);
+        return ResponseEntity.ok().body(preview);
+    }
+
+    @PostMapping("/{scenarioId}/authorize")
+    public ResponseEntity<Void> authorizeScenario(
+        @PathVariable long scenarioId
+    ) {
+    
+        service.authorizeScenario(scenarioId);
+        
+        return ResponseEntity.noContent().build();
+        
+    }
+    
 }
