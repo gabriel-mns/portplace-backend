@@ -33,7 +33,7 @@ public class AllocationRequestService {
         AllocationRequestCreateDTO dto
     ) {
 
-        validationService.validateBeforeCreate(dto.getPositionId());
+        validationService.validateBeforeCreate(dto);
 
         AllocationRequest entity = mapper.toEntity(dto);
 

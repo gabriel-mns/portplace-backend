@@ -7,6 +7,7 @@ import com.pucpr.portplace.core.validation.constraints.dateRange.ValidDateRange;
 import com.pucpr.portplace.core.validation.constraints.enumValues.ValidEnum;
 import com.pucpr.portplace.features.resource.enums.PriorityEnum;
 
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -28,7 +29,9 @@ public class AllocationRequestCreateDTO {
     private String priority;
 
     //Relationships
+    @NotNull
     private Long positionId;
+    @NotNull
     private Long projectId;
 
 }

@@ -3,6 +3,7 @@ package com.pucpr.portplace.features.resource.entities;
 import java.time.LocalDate;
 
 import com.pucpr.portplace.core.entities.AuditableEntity;
+import com.pucpr.portplace.features.project.entities.Project;
 import com.pucpr.portplace.features.resource.enums.AllocationRequestStatusEnum;
 import com.pucpr.portplace.features.resource.enums.PriorityEnum;
 
@@ -39,5 +40,8 @@ public class AllocationRequest extends AuditableEntity{
     @ManyToOne
     @JoinColumn(name = "position_id")
     private Position position;
+    @ManyToOne
+    @JoinColumn(name = "project_id")
+    private Project project;
     
 }
