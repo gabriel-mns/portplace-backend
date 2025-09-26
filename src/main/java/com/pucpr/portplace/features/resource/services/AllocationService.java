@@ -14,6 +14,7 @@ import com.pucpr.portplace.features.resource.mappers.AllocationMapper;
 import com.pucpr.portplace.features.resource.repositories.AllocationRepository;
 import com.pucpr.portplace.features.resource.services.internal.AllocationRequestEntityService;
 import com.pucpr.portplace.features.resource.services.internal.ResourceEntityService;
+import com.pucpr.portplace.features.resource.services.validation.AllocationValidationService;
 
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
@@ -26,6 +27,7 @@ public class AllocationService {
     private AllocationMapper mapper;
     private ResourceEntityService resourceService;
     private AllocationRequestEntityService allocationRequestService;
+    private AllocationValidationService validationService;
 
     //CREATE
     @Transactional
@@ -33,9 +35,7 @@ public class AllocationService {
         AllocationCreateDTO dto
     ) {
 
-        //TODO: validate if request exists
-        //TODO: validate if resource exists
-        //TODO: validate if request is not already committed
+        validationService.validateBeforeCreate(dto);
 
         Allocation newAllocation = mapper.toEntity(dto);
         
@@ -64,6 +64,8 @@ public class AllocationService {
         //TODO: validate if allocation exists
         //TODO: validate if resource exists
 
+        validationService.validateBeforeUpdate(allocationId, dto);
+
         Allocation allocation = allocationRepository.findById(allocationId).get();
 
         mapper.updateFromDTO(dto, allocation);
@@ -82,8 +84,7 @@ public class AllocationService {
         Long allocationId
     ) {
 
-        //TODO: validate if allocation exists
-        
+        validationService.validateBeforeDelete(allocationId);
         
         Allocation allocation = allocationRepository.findById(allocationId).get();
 
@@ -113,7 +114,7 @@ public class AllocationService {
         Long allocationId
     ) {
 
-        //TODO: validate if allocation exists
+        validationService.validateBeforeGet(allocationId);
 
         Allocation allocation = allocationRepository.findById(allocationId).get();
 

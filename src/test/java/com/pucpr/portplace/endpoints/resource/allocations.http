@@ -5,11 +5,11 @@ GET {{host}}/allocations
 Accept: application/json
 
 ### GET ALOCAÇÃO DE RECURSO
-GET {{host}}/allocations/1
+GET {{host}}/allocations/2
 Accept: application/json
 
 ### GET TODOS AS SOLICITAÇÕES DE RECURSOS
-GET {{host}}/allocation-requests?status=ALLOCATED
+GET {{host}}/allocation-requests
 Accept: application/json
 
 ### NOVA ALOCAÇÃO DE RECURSO
@@ -37,8 +37,4 @@ Content-Type: application/json
 
 ### DELETAR ALOCAÇÃO DE RECURSO
 DELETE {{host}}/allocations/1
-Content-Type: application/json
-
-### DELETAR ALOCAÇÃO DE RECURSO
-DELETE {{host}}/allocations/1/hard-delete
 Content-Type: application/json
