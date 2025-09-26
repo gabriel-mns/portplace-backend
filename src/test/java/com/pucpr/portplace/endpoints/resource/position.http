@@ -5,7 +5,7 @@ GET {{host}}/positions?includeDisabled=true&includeDisabled=true
 Accept: application/json
 
 ### GET UMA POSITION
-GET {{host}}/positions/3
+GET {{host}}/positions/2
 Accept: application/json
 
 ### NOVA POSITION
@@ -14,7 +14,7 @@ Content-Type: application/json
 Accept: application/json
 
 {
-  "name": "Dev. Java Pleno"
+  "name": "Dev. Backend Sênior"
 }
 
 ### ATUALIZAR POSITION

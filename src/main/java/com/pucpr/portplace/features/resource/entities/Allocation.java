@@ -1,18 +1,17 @@
 package com.pucpr.portplace.features.resource.entities;
 
-import java.util.List;
+import java.time.LocalDate;
 
 import com.pucpr.portplace.core.entities.AuditableEntity;
-import com.pucpr.portplace.features.resource.enums.ResourceStatusEnum;
+import com.pucpr.portplace.features.resource.enums.PriorityEnum;
 
 import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -20,30 +19,27 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name = "resources")
+@Table(name = "allocations")
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
-public class Resource extends AuditableEntity{
+public class Allocation extends AuditableEntity{
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String name;
-    private String description;
+    private LocalDate startDate;
+    private LocalDate endDate;
     private int dailyHours;
-    @Enumerated(EnumType.STRING)
-    private ResourceStatusEnum status;
+    private PriorityEnum priority;
 
-    //calculated fields
-    // private int relatedProjectsCount;
-    // private int avaliableHours;
-
-    //Realtionships
+    //Relationships
+    @OneToOne
+    @JoinColumn(name = "allocation_request_id")
+    private AllocationRequest allocationRequest;
     @ManyToOne
-    private Position position;
-    @OneToMany(mappedBy = "resource")
-    private List<Allocation> allocation;
-
+    @JoinColumn(name = "resource_id")
+    private Resource resource;
+    
 }

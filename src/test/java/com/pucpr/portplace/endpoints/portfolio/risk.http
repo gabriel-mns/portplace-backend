@@ -14,7 +14,7 @@ Accept: application/json
 Content-Type: application/json
 
 {
-  "name": "Risco 2",
+  "name": "Risco 1",
   "description": "Descrição do risco"
 }
 

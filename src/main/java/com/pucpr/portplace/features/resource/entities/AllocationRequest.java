@@ -13,6 +13,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -40,6 +41,8 @@ public class AllocationRequest extends AuditableEntity{
     @ManyToOne
     @JoinColumn(name = "position_id")
     private Position position;
+    @OneToOne(mappedBy = "allocationRequest")
+    private Allocation allocation;
     @ManyToOne
     @JoinColumn(name = "project_id")
     private Project project;

@@ -21,4 +21,8 @@ public class ResourceEntityService {
         resourceRepository.save(entity);
     }
 
+    public Resource getById(Long id) {
+        return resourceRepository.findById(id).get();
+    }
+
 }
