@@ -5,7 +5,7 @@ GET {{host}}/portfolios
 Accept: application/json
 
 ### GET RISCOS DE UM PORTFÓLIO
-GET {{host}}/portfolios/1/risks?sortBy=severity&sortDir=asc&includeDisabled=true
+GET {{host}}/portfolios/1/risks
 Accept: application/json
 
 ### NOVO RISCO DE UM PORTFÓLIO
@@ -26,10 +26,10 @@ Content-Type: application/json
 {
   "name": "Risco 2",
   "description": "Descrição do risco",
-  "probability": "LOW",
-  "probabilityDescription": "é LOW",
-  "impact": "LOW",
-  "impactDescription": "é LOW",
+  "probability": "HIGH",
+  "probabilityDescription": "é HIGH",
+  "impact": "HIGH",
+  "impactDescription": "é HIGH",
   "preventionPlan": "Plano de prevenção",
   "contingencyPlan": "Plano de contingência"
 }
