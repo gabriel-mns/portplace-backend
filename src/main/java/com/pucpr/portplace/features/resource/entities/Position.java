@@ -2,6 +2,8 @@ package com.pucpr.portplace.features.resource.entities;
 
 import java.util.List;
 
+import org.hibernate.annotations.Formula;
+
 import com.pucpr.portplace.core.entities.AuditableEntity;
 import com.pucpr.portplace.features.resource.enums.ResourceStatusEnum;
 
@@ -34,7 +36,16 @@ public class Position extends AuditableEntity {
     private ResourceStatusEnum status;
 
     //Calculated Fields
-    // private int resourcesCount;
+    @Formula("""
+        (
+            SELECT COUNT(r.id) 
+            FROM resources r 
+            WHERE r.position_id = id 
+            AND r.disabled = false
+            AND r.status = 'ACTIVE'
+        )
+    """)
+    private int resourcesCount;
 
     //Relationships
     @OneToMany(mappedBy = "position")
