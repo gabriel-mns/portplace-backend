@@ -1,6 +1,7 @@
 package com.pucpr.portplace.features.resource.dtos.request;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.pucpr.portplace.features.project.dtos.ProjectReadDTO;
@@ -35,10 +36,10 @@ public class AllocationRequestReadDTO {
     private ProjectReadDTO project;
 
     //Auditable Fields
-    @JsonFormat(pattern = "dd/MM/yyyy")
-    private LocalDate createdAt;
-    @JsonFormat(pattern = "dd/MM/yyyy")
-    private LocalDate lastModifiedAt;
+    @JsonFormat(pattern = "dd/MM/yyyy HH:mm:ss")
+    private LocalDateTime createdAt;
+    @JsonFormat(pattern = "dd/MM/yyyy HH:mm:ss")
+    private LocalDateTime lastModifiedAt;
     private String createdBy;
     private String lastModifiedBy;
     private boolean disabled;
