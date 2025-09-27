@@ -4,6 +4,10 @@
 GET {{host}}/positions?includeDisabled=true&includeDisabled=true
 Accept: application/json
 
+### GET ALL POSITIONS
+GET {{host}}/positions/unpaged?status=ACTIVE
+Accept: application/json
+
 ### GET UMA POSITION
 GET {{host}}/positions/2
 Accept: application/json

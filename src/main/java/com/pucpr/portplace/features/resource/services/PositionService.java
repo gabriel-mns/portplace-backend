@@ -107,4 +107,20 @@ public class PositionService {
         
     }
 
+    public List<PositionReadDTO> getAllPositionsUnpaged(
+        List<ResourceStatusEnum> status,
+        String searchQuery,
+        boolean includeDisabled
+    ) {
+        
+        List<Position> positions = repository.findByFiltersUnpaged(
+            status,
+            searchQuery,
+            includeDisabled
+        );
+
+        return positions.stream().map(mapper::toReadDTO).toList();
+        
+    }
+
 }

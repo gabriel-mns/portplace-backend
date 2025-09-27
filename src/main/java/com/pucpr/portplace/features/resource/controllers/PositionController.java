@@ -127,4 +127,21 @@ public class PositionController {
 
     }
 
+    @GetMapping("/unpaged")
+    public ResponseEntity<List<PositionReadDTO>> getAllPositionsUnpaged(
+        @RequestParam(defaultValue = "") String searchQuery,
+        @RequestParam(required = false) List<ResourceStatusEnum> status,
+        @RequestParam(defaultValue = "false") boolean includeDisabled
+    ) {
+
+        List<PositionReadDTO> positions = positionService.getAllPositionsUnpaged(
+            status,
+            searchQuery,
+            includeDisabled
+        );
+
+        return ResponseEntity.ok().body(positions);
+
+    }
+
 }
