@@ -27,5 +27,21 @@ public interface ResourceRepository extends JpaRepository<Resource, Long> {
         Pageable pageable
     );
 
+    @Query(
+        """
+        SELECT r FROM Resource r
+        WHERE (:includeDisabled = true OR r.disabled = false)
+            AND (LOWER(r.name) LIKE LOWER(CONCAT('%', :searchQuery, '%')))
+            AND (:status IS NULL OR r.status IN :status)
+            AND (:positionId IS NULL OR r.position.id = :positionId)
+        """
+    )
+    List<Resource> findByFiltersUnpaged(
+        Long positionId,
+        List<ResourceStatusEnum> status, 
+        String searchQuery,
+        boolean includeDisabled
+    );
+
 
 }

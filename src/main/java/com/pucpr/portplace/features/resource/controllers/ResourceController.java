@@ -127,4 +127,23 @@ public class ResourceController {
 
     }
 
+    @GetMapping("/unpaged")
+    public ResponseEntity<List<ResourceReadDTO>> getAllUnpaged(
+        @RequestParam(required = false) Long positionId,
+        @RequestParam(defaultValue = "") String searchQuery,
+        @RequestParam(required = false) List<ResourceStatusEnum> status,
+        @RequestParam(defaultValue = "false") boolean includeDisabled
+    ) {
+
+        List<ResourceReadDTO> resources = resourceService.getAllEntities(
+            positionId,
+            status,
+            searchQuery,
+            includeDisabled  
+        );
+
+        return ResponseEntity.ok().body(resources);
+
+    }
+
 }

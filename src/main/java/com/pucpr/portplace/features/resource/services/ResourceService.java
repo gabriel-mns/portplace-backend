@@ -120,4 +120,21 @@ public class ResourceService {
         return resources.map(mapper::toReadDTO);
 
     }
+
+    public List<ResourceReadDTO> getAllEntities(
+        Long positionId,
+        List<ResourceStatusEnum> status,
+        String searchQuery,
+        boolean includeDisabled
+    ) {
+
+        return repository.findByFiltersUnpaged(
+            positionId,
+            status,
+            searchQuery,
+            includeDisabled
+        ).stream().map(mapper::toReadDTO).toList();
+
+    }
+
 }
