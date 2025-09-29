@@ -1,7 +1,7 @@
 @host = http://localhost:8080/api/v1
 
 ### GET TODOS RECURSOS
-GET {{host}}/resources?startDate=2026-01-01&endDate=2026-01-01&status=ACTIVE,INACTIVE
+GET {{host}}/resources?startDate=2026-01-01&endDate=2026-01-01&status=ACTIVE,INACTIVE&sortBy=availableHours&sortDir=DESC
 Accept: application/json
 
 ### GET TODOS RECURSOS NAO PAGINADOS

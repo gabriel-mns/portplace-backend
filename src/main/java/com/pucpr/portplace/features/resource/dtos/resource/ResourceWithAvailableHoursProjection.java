@@ -7,5 +7,11 @@ public interface ResourceWithAvailableHoursProjection {
     Integer getDailyHours();
     String getStatus();
     Integer getAvailableHours();
+    Integer getRelatedProjectsCount();
     Long getPositionId();
+    String getCreatedBy();
+    String getLastModifiedBy();
+    String getCreatedAt();
+    String getLastModifiedAt();
+    Boolean getDisabled();
 }

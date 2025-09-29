@@ -22,7 +22,7 @@ public class ResourceReadDTO {
     private String status;
     
     //Calculated Fields
-    // private int relatedProjectsCount;
+    private int relatedProjectsCount;
     private int availableHours;
     
     //Relationships

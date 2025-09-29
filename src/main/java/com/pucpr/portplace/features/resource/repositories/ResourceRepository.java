@@ -52,6 +52,12 @@ public interface ResourceRepository extends JpaRepository<Resource, Long> {
             r.description,
             r.daily_hours,
             r.status,
+            r.position_id,
+            r.created_by,
+            r.last_modified_by,
+            TO_CHAR(r.created_at, 'DD/MM/YYYY HH24:MI:SS') AS created_at,
+            TO_CHAR(r.last_modified_at, 'DD/MM/YYYY HH24:MI:SS') AS last_modified_at,
+            r.disabled,
             (
                 (r.daily_hours * (
                     SELECT COUNT(*) 
@@ -69,7 +75,14 @@ public interface ResourceRepository extends JpaRepository<Resource, Long> {
                     WHERE a.resource_id = r.id
                 ), 0)
             ) AS available_hours,
-            r.position_id
+            (
+                SELECT COUNT(DISTINCT ar.project_id)
+                FROM allocations a
+                    JOIN allocation_requests ar ON a.allocation_request_id = ar.id
+                WHERE a.resource_id = r.id
+                    AND a.start_date <= :endDate
+                    AND a.end_date >= :startDate
+            ) AS related_projects_count
         FROM resources r
         WHERE (:includeDisabled = true OR r.disabled = false)
         AND (LOWER(r.name) LIKE LOWER(CONCAT('%', :searchQuery, '%')))
@@ -99,6 +112,12 @@ public interface ResourceRepository extends JpaRepository<Resource, Long> {
             r.description,
             r.daily_hours,
             r.status,
+            r.position_id,
+            r.created_by,
+            r.last_modified_by,
+            TO_CHAR(r.created_at, 'DD/MM/YYYY HH24:MI:SS') AS created_at,
+            TO_CHAR(r.last_modified_at, 'DD/MM/YYYY HH24:MI:SS') AS last_modified_at,
+            r.disabled,
             (
                 (r.daily_hours * (
                     SELECT COUNT(*) 
@@ -116,7 +135,14 @@ public interface ResourceRepository extends JpaRepository<Resource, Long> {
                     WHERE a.resource_id = r.id
                 ), 0)
             ) AS available_hours,
-            r.position_id
+            (
+                SELECT COUNT(DISTINCT ar.project_id)
+                FROM allocations a
+                    JOIN allocation_requests ar ON a.allocation_request_id = ar.id
+                WHERE a.resource_id = r.id
+                    AND a.start_date <= :endDate
+                    AND a.end_date >= :startDate
+            ) AS related_projects_count
         FROM resources r
         WHERE (:includeDisabled = true OR r.disabled = false)
         AND (LOWER(r.name) LIKE LOWER(CONCAT('%', :searchQuery, '%')))
@@ -146,6 +172,12 @@ public interface ResourceRepository extends JpaRepository<Resource, Long> {
             r.description,
             r.daily_hours,
             r.status,
+            r.position_id,
+            r.created_by,
+            r.last_modified_by,
+            TO_CHAR(r.created_at, 'DD/MM/YYYY HH24:MI:SS') AS created_at,
+            TO_CHAR(r.last_modified_at, 'DD/MM/YYYY HH24:MI:SS') AS last_modified_at,
+            r.disabled,
             (
                 (r.daily_hours * (
                     SELECT COUNT(*) 
@@ -163,7 +195,14 @@ public interface ResourceRepository extends JpaRepository<Resource, Long> {
                     WHERE a.resource_id = r.id
                 ), 0)
             ) AS available_hours,
-            r.position_id
+            (
+                SELECT COUNT(DISTINCT ar.project_id)
+                FROM allocations a
+                    JOIN allocation_requests ar ON a.allocation_request_id = ar.id
+                WHERE a.resource_id = r.id
+                    AND a.start_date <= :endDate
+                    AND a.end_date >= :startDate
+            ) AS related_projects_count
         FROM resources r
         WHERE (:includeDisabled = true OR r.disabled = false)
         AND (LOWER(r.name) LIKE LOWER(CONCAT('%', :searchQuery, '%')))

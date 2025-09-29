@@ -180,7 +180,7 @@ public class ResourceService {
         }
 
 
-        return resources.map(r -> {
+         return resources.map(r -> {
             ResourceReadDTO dto = new ResourceReadDTO();
             dto.setId(r.getId());
             dto.setName(r.getName());
@@ -188,8 +188,18 @@ public class ResourceService {
             dto.setDailyHours(r.getDailyHours());
             dto.setStatus(r.getStatus());
             dto.setAvailableHours(r.getAvailableHours());
+            dto.setCreatedBy(r.getCreatedBy());
+            dto.setLastModifiedBy(r.getLastModifiedBy());
+            dto.setCreatedAt(r.getCreatedAt());
+            dto.setLastModifiedAt(r.getLastModifiedAt());
 
-            PositionReadDTO positionDto = positionService.getPositionById(r.getPositionId());
+            dto.setDisabled(r.getDisabled());
+            dto.setRelatedProjectsCount(r.getRelatedProjectsCount());
+
+            PositionReadDTO positionDto = null;
+            if (r.getPositionId() != null) {
+                positionDto = positionService.getPositionById(r.getPositionId());
+            }
             dto.setPosition(positionDto);
 
             return dto;

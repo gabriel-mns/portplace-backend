@@ -37,8 +37,8 @@ public class Resource extends AuditableEntity{
     private ResourceStatusEnum status;
 
     //calculated fields
-    // private int relatedProjectsCount;
-    // private int avaliableHours;
+    
+    private int relatedProjectsCount;
 
     //Realtionships
     @ManyToOne
