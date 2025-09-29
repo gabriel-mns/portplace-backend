@@ -1,5 +1,6 @@
 package com.pucpr.portplace.features.resource.services;
 
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -156,26 +157,53 @@ public class AllocationService {
 
         Map<LocalDate, List<AllocationInfoDTO>> map = new HashMap<>();
 
+        // Initialize map with all dates in range
+        LocalDate current = start;
+        while (!current.isAfter(end)) {
+            map.putIfAbsent(current, new ArrayList<>());
+            current = current.plusDays(1);
+        }
+
+        // Foreach allocation
         for (Allocation a : allocations) {
-            LocalDate current = a.getStartDate();
-            while (!current.isAfter(a.getEndDate())) {
-                if (!current.isBefore(start) && !current.isAfter(end)) {
-                    map.computeIfAbsent(current, k -> new ArrayList<>())
+
+            // Start from allocation start date
+            LocalDate allocCurrent = a.getStartDate();
+
+            // And then, while it's before the end date
+            while (!allocCurrent.isAfter(a.getEndDate())) {
+
+                // If current date is within the requested range and is a business day
+                if (!allocCurrent.isBefore(start) && !allocCurrent.isAfter(end) && isBusinessDay(allocCurrent)) {
+
+                    // Add to map
+                    // If the date doesn't exist, create a new key-value where the value is a list
+                    // Then add the allocation info to the list
+                    map.computeIfAbsent(allocCurrent, k -> new ArrayList<>())
                         .add(new AllocationInfoDTO(
                                 projectMapper.toReadDTO(a.getAllocationRequest().getProject()),
                                 resourceMapper.toReadDTO(a.getResource()),
                                 a.getDailyHours()
                         ));
+
                 }
-                current = current.plusDays(1);
+
+                // Go to next day
+                allocCurrent = allocCurrent.plusDays(1);
+            
             }
         }
 
-        // Transformar em lista ordenada
+        // Transform in a sorted list
         return map.entrySet().stream()
                 .sorted(Map.Entry.comparingByKey())
                 .map(e -> new DailyAllocationDTO(e.getKey(), e.getValue()))
                 .toList();
+    }
+
+    private boolean isBusinessDay(LocalDate date) {
+        DayOfWeek dow = date.getDayOfWeek();
+        return dow != DayOfWeek.SATURDAY && dow != DayOfWeek.SUNDAY;
     }
 
 }
