@@ -1,10 +1,14 @@
 package com.pucpr.portplace.features.resource.controllers;
 
 import java.net.URI;
+import java.time.LocalDate;
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,6 +24,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import com.pucpr.portplace.features.resource.dtos.allocation.AllocationCreateDTO;
 import com.pucpr.portplace.features.resource.dtos.allocation.AllocationReadDTO;
 import com.pucpr.portplace.features.resource.dtos.allocation.AllocationUpdateDTO;
+import com.pucpr.portplace.features.resource.dtos.allocation.DailyAllocationDTO;
 import com.pucpr.portplace.features.resource.services.AllocationService;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -88,6 +93,14 @@ public class AllocationController {
     ) {
         AllocationReadDTO allocation = allocationService.getById(allocationId);
         return ResponseEntity.ok(allocation);
+    }
+
+    @GetMapping("/analytics")
+    public List<DailyAllocationDTO> getAllocationsByDays(
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate) {
+
+        return allocationService.getAllocationsByDateRange(startDate, endDate);
     }
 
     @GetMapping

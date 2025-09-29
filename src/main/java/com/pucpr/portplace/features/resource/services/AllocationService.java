@@ -1,16 +1,26 @@
 package com.pucpr.portplace.features.resource.services;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import com.pucpr.portplace.features.project.mappers.ProjectMapper;
 import com.pucpr.portplace.features.resource.dtos.allocation.AllocationCreateDTO;
+import com.pucpr.portplace.features.resource.dtos.allocation.AllocationInfoDTO;
 import com.pucpr.portplace.features.resource.dtos.allocation.AllocationReadDTO;
 import com.pucpr.portplace.features.resource.dtos.allocation.AllocationUpdateDTO;
+import com.pucpr.portplace.features.resource.dtos.allocation.DailyAllocationDTO;
 import com.pucpr.portplace.features.resource.entities.Allocation;
 import com.pucpr.portplace.features.resource.entities.AllocationRequest;
 import com.pucpr.portplace.features.resource.entities.Resource;
 import com.pucpr.portplace.features.resource.mappers.AllocationMapper;
+import com.pucpr.portplace.features.resource.mappers.ResourceMapper;
 import com.pucpr.portplace.features.resource.repositories.AllocationRepository;
 import com.pucpr.portplace.features.resource.services.internal.AllocationRequestEntityService;
 import com.pucpr.portplace.features.resource.services.internal.ResourceEntityService;
@@ -28,6 +38,8 @@ public class AllocationService {
     private ResourceEntityService resourceService;
     private AllocationRequestEntityService allocationRequestService;
     private AllocationValidationService validationService;
+    private ProjectMapper projectMapper;
+    private ResourceMapper resourceMapper;
 
     //CREATE
     @Transactional
@@ -136,6 +148,34 @@ public class AllocationService {
 
         return allocations.map(mapper::toReadDTO);
 
+    }
+
+    public List<DailyAllocationDTO> getAllocationsByDateRange(LocalDate start, LocalDate end) {
+        
+        List<Allocation> allocations = allocationRepository.findByDateRange(start, end);
+
+        Map<LocalDate, List<AllocationInfoDTO>> map = new HashMap<>();
+
+        for (Allocation a : allocations) {
+            LocalDate current = a.getStartDate();
+            while (!current.isAfter(a.getEndDate())) {
+                if (!current.isBefore(start) && !current.isAfter(end)) {
+                    map.computeIfAbsent(current, k -> new ArrayList<>())
+                        .add(new AllocationInfoDTO(
+                                projectMapper.toReadDTO(a.getAllocationRequest().getProject()),
+                                resourceMapper.toReadDTO(a.getResource()),
+                                a.getDailyHours()
+                        ));
+                }
+                current = current.plusDays(1);
+            }
+        }
+
+        // Transformar em lista ordenada
+        return map.entrySet().stream()
+                .sorted(Map.Entry.comparingByKey())
+                .map(e -> new DailyAllocationDTO(e.getKey(), e.getValue()))
+                .toList();
     }
 
 }

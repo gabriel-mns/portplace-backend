@@ -4,6 +4,10 @@
 GET {{host}}/allocations
 Accept: application/json
 
+### GET TODAS ALOCAÇÕES DE RECURSOS
+GET {{host}}/allocations/analytics?startDate=2026-01-01&endDate=2028-01-07
+Accept: application/json
+
 ### GET ALOCAÇÃO DE RECURSO
 GET {{host}}/allocations/2
 Accept: application/json
@@ -17,21 +21,21 @@ POST {{host}}/allocations
 Content-Type: application/json
 
 {
-    "startDate": "01/10/2025",
-    "endDate": "31/10/2025",
-    "dailyHours": 6,
+    "startDate": "01/01/2026",
+    "endDate": "01/01/2026",
+    "dailyHours": 2,
     "resourceId": 2,
-    "allocationRequestId": 2
+    "allocationRequestId": 4
 }
 
 ### EDITAR ALOCAÇÃO DE RECURSO
-PUT {{host}}/allocations/8
+PUT {{host}}/allocations/3
 Content-Type: application/json
 
 {
-    "startDate": "31/12/2024",
-    "endDate": "03/04/2027",
-    "dailyHours": 24,
+    "startDate": "01/01/2026",
+    "endDate": "07/01/2026",
+    "dailyHours": 7,
     "resourceId": 1
 }
 

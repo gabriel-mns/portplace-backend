@@ -17,12 +17,12 @@ POST {{host}}/allocation-requests
 Content-Type: application/json
 
 {
-    "startDate": "01/10/2025",
-    "endDate": "31/10/2025",
-    "dailyHours": 12,
+    "startDate": "01/01/2026",
+    "endDate": "01/01/2026",
+    "dailyHours": 2,
     "priority": "HIGH",
-    "positionId": 2,
-    "projectId": 1
+    "positionId": 1,
+    "projectId": 2
 }
 
 ### EDITAR SOLICITAÇÃO DE RECURSO
