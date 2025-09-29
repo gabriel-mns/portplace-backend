@@ -1,14 +1,18 @@
 package com.pucpr.portplace.features.resource.services;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-
+import com.pucpr.portplace.features.resource.dtos.position.PositionReadDTO;
 import com.pucpr.portplace.features.resource.dtos.resource.ResourceCreateDTO;
 import com.pucpr.portplace.features.resource.dtos.resource.ResourceReadDTO;
 import com.pucpr.portplace.features.resource.dtos.resource.ResourceUpdateDTO;
+import com.pucpr.portplace.features.resource.dtos.resource.ResourceWithAvailableHoursProjection;
 import com.pucpr.portplace.features.resource.entities.Position;
 import com.pucpr.portplace.features.resource.entities.Resource;
 import com.pucpr.portplace.features.resource.enums.ResourceStatusEnum;
@@ -31,6 +35,7 @@ public class ResourceService {
     private ResourceMapper mapper;
     private ResourceValidationService validationService;
     private PositionEntityService positionEntityService;
+    private PositionService positionService;
 
     //CREATE
     public ResourceReadDTO create(
@@ -103,6 +108,7 @@ public class ResourceService {
         return mapper.toReadDTO(entity);
 
     }
+    
     public Page<ResourceReadDTO> getAll(
         List<ResourceStatusEnum> status,
         String searchQuery,
@@ -119,6 +125,75 @@ public class ResourceService {
 
         return resources.map(mapper::toReadDTO);
 
+    }
+
+    public Page<ResourceReadDTO> getAllWithAvailableHours(
+            List<ResourceStatusEnum> status,
+            String searchQuery,
+            boolean includeDisabled,
+            LocalDate startDate,
+            LocalDate endDate,
+            int page,
+            int size,
+            String sortBy,
+            String sortDir
+    ) {
+        List<String> statusList = (status != null && !status.isEmpty())
+        ? status.stream().map(Enum::name).toList()
+        : null;
+        
+        Sort.Direction direction = sortDir.equalsIgnoreCase("desc") ? Sort.Direction.DESC : Sort.Direction.ASC;
+        Pageable pageable = PageRequest.of(page, size, Sort.by(direction, sortBy));
+
+        Page<ResourceWithAvailableHoursProjection> resources;
+
+        if(sortBy.equals("availableHours")){
+            
+            resources = sortDir.equalsIgnoreCase("desc") ?
+                repository.findByFiltersWithAvailableHoursOrderedByItDesc(
+                    statusList,
+                    searchQuery,
+                    includeDisabled,
+                    startDate,
+                    endDate,
+                    Pageable.ofSize(size).withPage(page)
+                )
+                :
+                repository.findByFiltersWithAvailableHoursOrderedByItAsc(
+                    statusList,
+                    searchQuery,
+                    includeDisabled,
+                    startDate,
+                    endDate,
+                    Pageable.ofSize(size).withPage(page)
+                );
+
+        } else {
+            resources = repository.findByFiltersWithAvailableHours(
+                statusList,
+                searchQuery,
+                includeDisabled,
+                startDate,
+                endDate,
+                pageable
+            );
+        }
+
+
+        return resources.map(r -> {
+            ResourceReadDTO dto = new ResourceReadDTO();
+            dto.setId(r.getId());
+            dto.setName(r.getName());
+            dto.setDescription(r.getDescription());
+            dto.setDailyHours(r.getDailyHours());
+            dto.setStatus(r.getStatus());
+            dto.setAvailableHours(r.getAvailableHours());
+
+            PositionReadDTO positionDto = positionService.getPositionById(r.getPositionId());
+            dto.setPosition(positionDto);
+
+            return dto;
+        });
     }
 
     public List<ResourceReadDTO> getAllEntities(

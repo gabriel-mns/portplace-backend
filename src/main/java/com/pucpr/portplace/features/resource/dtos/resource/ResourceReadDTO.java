@@ -23,7 +23,7 @@ public class ResourceReadDTO {
     
     //Calculated Fields
     // private int relatedProjectsCount;
-    // private int avaliableHours;
+    private int availableHours;
     
     //Relationships
     private PositionReadDTO position;

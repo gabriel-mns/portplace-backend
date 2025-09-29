@@ -5,7 +5,7 @@ GET {{host}}/allocations
 Accept: application/json
 
 ### GET TODAS ALOCAÇÕES DE RECURSOS
-GET {{host}}/allocations/analytics?startDate=2026-01-01&endDate=2028-01-07
+GET {{host}}/allocations/analytics?startDate=2026-01-01&endDate=2026-01-07
 Accept: application/json
 
 ### GET ALOCAÇÃO DE RECURSO
