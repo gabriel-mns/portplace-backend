@@ -85,8 +85,17 @@ public interface ResourceRepository extends JpaRepository<Resource, Long> {
             ) AS related_projects_count
         FROM resources r
         WHERE (:includeDisabled = true OR r.disabled = false)
-        AND (LOWER(r.name) LIKE LOWER(CONCAT('%', :searchQuery, '%')))
-        AND (:status IS NULL OR r.status IN (:status))
+            AND (LOWER(r.name) LIKE LOWER(CONCAT('%', :searchQuery, '%')))
+            AND (:status IS NULL OR r.status IN (:status))
+            AND (:resourceId IS NULL OR r.id = :resourceId)
+            AND (:projectId IS NULL OR r.id IN (
+                SELECT a.resource_id
+                FROM allocations a
+                    JOIN allocation_requests ar ON a.allocation_request_id = ar.id
+                WHERE ar.project_id = :projectId
+                    AND a.start_date <= :endDate
+                    AND a.end_date >= :startDate
+            ))
         ORDER BY available_hours ASC
     """,
     countQuery = """
@@ -99,6 +108,8 @@ public interface ResourceRepository extends JpaRepository<Resource, Long> {
     nativeQuery = true)
     Page<ResourceWithAvailableHoursProjection> findByFiltersWithAvailableHoursOrderedByItAsc(
         @Param("status") List<String> status,
+        @Param("resourceId") Long resourceId,
+        @Param("projectId") Long projectId,
         @Param("searchQuery") String searchQuery,
         @Param("includeDisabled") boolean includeDisabled,
         @Param("startDate") LocalDate startDate,
@@ -145,8 +156,17 @@ public interface ResourceRepository extends JpaRepository<Resource, Long> {
             ) AS related_projects_count
         FROM resources r
         WHERE (:includeDisabled = true OR r.disabled = false)
-        AND (LOWER(r.name) LIKE LOWER(CONCAT('%', :searchQuery, '%')))
-        AND (:status IS NULL OR r.status IN (:status))
+            AND (LOWER(r.name) LIKE LOWER(CONCAT('%', :searchQuery, '%')))
+            AND (:status IS NULL OR r.status IN (:status))
+            AND (:resourceId IS NULL OR r.id = :resourceId)
+            AND (:projectId IS NULL OR r.id IN (
+                SELECT a.resource_id
+                FROM allocations a
+                    JOIN allocation_requests ar ON a.allocation_request_id = ar.id
+                WHERE ar.project_id = :projectId
+                    AND a.start_date <= :endDate
+                    AND a.end_date >= :startDate
+            ))
         ORDER BY available_hours DESC
     """,
     countQuery = """
@@ -159,6 +179,8 @@ public interface ResourceRepository extends JpaRepository<Resource, Long> {
     nativeQuery = true)
     Page<ResourceWithAvailableHoursProjection> findByFiltersWithAvailableHoursOrderedByItDesc(
         @Param("status") List<String> status,
+        @Param("resourceId") Long resourceId,
+        @Param("projectId") Long projectId,
         @Param("searchQuery") String searchQuery,
         @Param("includeDisabled") boolean includeDisabled,
         @Param("startDate") LocalDate startDate,
@@ -205,8 +227,17 @@ public interface ResourceRepository extends JpaRepository<Resource, Long> {
             ) AS related_projects_count
         FROM resources r
         WHERE (:includeDisabled = true OR r.disabled = false)
-        AND (LOWER(r.name) LIKE LOWER(CONCAT('%', :searchQuery, '%')))
-        AND (:status IS NULL OR r.status IN (:status))
+            AND (LOWER(r.name) LIKE LOWER(CONCAT('%', :searchQuery, '%')))
+            AND (:status IS NULL OR r.status IN (:status))
+            AND (:resourceId IS NULL OR r.id = :resourceId)
+            AND (:projectId IS NULL OR r.id IN (
+                SELECT a.resource_id
+                FROM allocations a
+                    JOIN allocation_requests ar ON a.allocation_request_id = ar.id
+                WHERE ar.project_id = :projectId
+                    AND a.start_date <= :endDate
+                    AND a.end_date >= :startDate
+            ))
     """,
     countQuery = """
         SELECT COUNT(*) 
@@ -218,6 +249,8 @@ public interface ResourceRepository extends JpaRepository<Resource, Long> {
     nativeQuery = true)
     Page<ResourceWithAvailableHoursProjection> findByFiltersWithAvailableHours(
         @Param("status") List<String> status,
+        @Param("resourceId") Long resourceId,
+        @Param("projectId") Long projectId,
         @Param("searchQuery") String searchQuery,
         @Param("includeDisabled") boolean includeDisabled,
         @Param("startDate") LocalDate startDate,

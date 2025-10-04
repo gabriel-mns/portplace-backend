@@ -129,6 +129,8 @@ public class ResourceService {
 
     public Page<ResourceReadDTO> getAllWithAvailableHours(
             List<ResourceStatusEnum> status,
+            Long resourceId,
+            Long projectId,
             String searchQuery,
             boolean includeDisabled,
             LocalDate startDate,
@@ -161,6 +163,8 @@ public class ResourceService {
             resources = sortDir.equalsIgnoreCase("desc") ?
                 repository.findByFiltersWithAvailableHoursOrderedByItDesc(
                     statusList,
+                    resourceId,
+                    projectId,
                     searchQuery,
                     includeDisabled,
                     startDate,
@@ -170,6 +174,8 @@ public class ResourceService {
                 :
                 repository.findByFiltersWithAvailableHoursOrderedByItAsc(
                     statusList,
+                    resourceId,
+                    projectId,
                     searchQuery,
                     includeDisabled,
                     startDate,
@@ -180,6 +186,8 @@ public class ResourceService {
         } else {
             resources = repository.findByFiltersWithAvailableHours(
                 statusList,
+                resourceId,
+                projectId,
                 searchQuery,
                 includeDisabled,
                 startDate,
