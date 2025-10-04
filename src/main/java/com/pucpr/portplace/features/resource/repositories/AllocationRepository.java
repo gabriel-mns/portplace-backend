@@ -32,10 +32,14 @@ public interface AllocationRepository extends JpaRepository<Allocation, Long> {
             JOIN FETCH a.resource r
         WHERE a.startDate <= :endDate
             AND a.endDate >= :startDate
+            AND (:resourceId IS NULL OR r.id = :resourceId)
+            AND (:projectId IS NULL OR p.id = :projectId)
     """)
-    List<Allocation> findByDateRange(
+    List<Allocation> findByFiltersUnpaged(
         @Param("startDate") LocalDate startDate,
-        @Param("endDate") LocalDate endDate
+        @Param("endDate") LocalDate endDate,
+        @Param("resourceId") Long resourceId,
+        @Param("projectId") Long projectId
     );
 
 }

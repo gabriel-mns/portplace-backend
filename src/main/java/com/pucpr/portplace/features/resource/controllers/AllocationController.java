@@ -97,10 +97,18 @@ public class AllocationController {
 
     @GetMapping("/analytics")
     public List<DailyAllocationDTO> getAllocationsByDays(
-            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
-            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate) {
+        @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
+        @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate,
+        @RequestParam(required = false) Long resourceId,
+        @RequestParam(required = false) Long projectId
+    ) {
 
-        return allocationService.getAllocationsByDateRange(startDate, endDate);
+        return allocationService.getAllocationsByDateRange(
+            startDate, 
+            endDate, 
+            resourceId, 
+            projectId
+        );
     }
 
     @GetMapping

@@ -151,9 +151,19 @@ public class AllocationService {
 
     }
 
-    public List<DailyAllocationDTO> getAllocationsByDateRange(LocalDate start, LocalDate end) {
+    public List<DailyAllocationDTO> getAllocationsByDateRange(
+        LocalDate start, 
+        LocalDate end,
+        Long resourceId,
+        Long projectId
+    ) {
         
-        List<Allocation> allocations = allocationRepository.findByDateRange(start, end);
+        List<Allocation> allocations = allocationRepository.findByFiltersUnpaged(
+            start, 
+            end,
+            resourceId,
+            projectId
+        );
 
         Map<LocalDate, List<AllocationInfoDTO>> map = new HashMap<>();
 
