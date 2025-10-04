@@ -1,7 +1,7 @@
 @host = http://localhost:8080/api/v1
 
 ### GET TODOS RECURSOS
-GET {{host}}/resources?startDate=2026-01-01&endDate=2026-01-01
+GET {{host}}/resources?startDate=2026-01-01&endDate=2026-01-07
 Accept: application/json
 
 ### GET TODOS RECURSOS NAO PAGINADOS
@@ -9,7 +9,7 @@ GET {{host}}/resources/unpaged
 Accept: application/json
 
 ### GET RECURSOS ESPECÍFICO
-GET {{host}}/resources/3
+GET {{host}}/resources/1
 Accept: application/json
 
 ### GET TODOS OS CARGOS

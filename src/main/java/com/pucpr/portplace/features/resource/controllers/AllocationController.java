@@ -112,9 +112,11 @@ public class AllocationController {
     }
 
     @GetMapping
-    public ResponseEntity<Iterable<AllocationReadDTO>> findAll(
+    public ResponseEntity<Page<AllocationReadDTO>> findAll(
         @RequestParam(defaultValue = "") String searchQuery,
         @RequestParam(defaultValue = "false") boolean includeDisabled,
+        @RequestParam(required = false) Long resourceId,
+        @RequestParam(required = false) Long projectId,
         @RequestParam(defaultValue = "0") int page,
         @RequestParam(defaultValue = "10") int size,
         @RequestParam(defaultValue = "id") String sortBy,
@@ -128,6 +130,8 @@ public class AllocationController {
         Page<AllocationReadDTO> allocations = allocationService.getAll(
             searchQuery,
             includeDisabled,
+            resourceId,
+            projectId,
             pageable
         );
 

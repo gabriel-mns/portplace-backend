@@ -138,12 +138,16 @@ public class AllocationService {
     public Page<AllocationReadDTO> getAll(
         String searchQuery,
         boolean includeDisabled,
+        Long resourceId,
+        Long projectId,
         Pageable pageable
     ) {
 
         Page<Allocation> allocations = allocationRepository.findByFilters(
             searchQuery,
             includeDisabled,
+            resourceId,
+            projectId,
             pageable
         );
 

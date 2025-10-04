@@ -139,9 +139,6 @@ public class ResourceService {
             String sortDir
     ) {
         List<String> statusList;
-        // List<String> statusList = (status != null && !status.isEmpty())
-        // ? status.stream().map(Enum::name).toList()
-        // : null;
 
         boolean thereAreStatuses = status != null && !status.isEmpty();
 

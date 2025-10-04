@@ -14,13 +14,17 @@ import com.pucpr.portplace.features.resource.entities.Allocation;
 public interface AllocationRepository extends JpaRepository<Allocation, Long> {
     
     @Query("""
-        SELECT ar FROM Allocation ar
-        WHERE LOWER(ar.resource.name) LIKE LOWER(CONCAT('%', :searchQuery, '%'))
-            AND (:includeDisabled = TRUE OR ar.disabled = false)
+        SELECT al FROM Allocation al
+        WHERE LOWER(al.resource.name) LIKE LOWER(CONCAT('%', :searchQuery, '%'))
+            AND (:includeDisabled = TRUE OR al.disabled = false)
+            AND (:resourceId IS NULL OR al.resource.id = :resourceId)
+            AND (:projectId IS NULL OR al.allocationRequest.project.id = :projectId)
     """)
     Page<Allocation> findByFilters(
         String searchQuery,
         boolean includeDisabled,
+        Long resourceId,
+        Long projectId,
         Pageable pageable
     );
 
