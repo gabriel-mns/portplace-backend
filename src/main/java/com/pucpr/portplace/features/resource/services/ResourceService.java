@@ -138,9 +138,21 @@ public class ResourceService {
             String sortBy,
             String sortDir
     ) {
-        List<String> statusList = (status != null && !status.isEmpty())
-        ? status.stream().map(Enum::name).toList()
-        : null;
+        List<String> statusList;
+        // List<String> statusList = (status != null && !status.isEmpty())
+        // ? status.stream().map(Enum::name).toList()
+        // : null;
+
+        boolean thereAreStatuses = status != null && !status.isEmpty();
+
+        if(thereAreStatuses){
+            // Consider only the provided Statuses
+            statusList = status.stream().map(Enum::name).toList();
+        } else {
+            // Consider all Statuses
+            statusList = List.of(ResourceStatusEnum.values()).stream().map(Enum::name).toList();
+        }
+
         
         Sort.Direction direction = sortDir.equalsIgnoreCase("desc") ? Sort.Direction.DESC : Sort.Direction.ASC;
         Pageable pageable = PageRequest.of(page, size, Sort.by(direction, sortBy));
