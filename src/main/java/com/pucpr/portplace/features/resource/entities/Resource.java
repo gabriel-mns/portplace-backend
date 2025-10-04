@@ -2,6 +2,8 @@ package com.pucpr.portplace.features.resource.entities;
 
 import java.util.List;
 
+import org.hibernate.annotations.Formula;
+
 import com.pucpr.portplace.core.entities.AuditableEntity;
 import com.pucpr.portplace.features.resource.enums.ResourceStatusEnum;
 
@@ -37,7 +39,15 @@ public class Resource extends AuditableEntity{
     private ResourceStatusEnum status;
 
     //calculated fields
-    
+    @Formula("""
+        (
+            SELECT COUNT(DISTINCT pr.id)
+            FROM projects pr
+            JOIN allocation_requests ar ON ar.project_id = pr.id
+            JOIN allocations al ON al.allocation_request_id = ar.id
+            WHERE al.resource_id = id
+        )
+    """)
     private int relatedProjectsCount;
 
     //Realtionships
