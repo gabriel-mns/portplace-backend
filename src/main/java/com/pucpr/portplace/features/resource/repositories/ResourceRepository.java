@@ -96,6 +96,7 @@ public interface ResourceRepository extends JpaRepository<Resource, Long> {
                     AND a.start_date <= :endDate
                     AND a.end_date >= :startDate
             ))
+            AND (:positionId IS NULL OR r.position_id = :positionId)
         ORDER BY available_hours ASC
     """,
     countQuery = """
@@ -108,6 +109,7 @@ public interface ResourceRepository extends JpaRepository<Resource, Long> {
     nativeQuery = true)
     Page<ResourceWithAvailableHoursProjection> findByFiltersWithAvailableHoursOrderedByItAsc(
         @Param("status") List<String> status,
+        @Param("positionId") Long positionId,
         @Param("resourceId") Long resourceId,
         @Param("projectId") Long projectId,
         @Param("searchQuery") String searchQuery,
@@ -167,6 +169,7 @@ public interface ResourceRepository extends JpaRepository<Resource, Long> {
                     AND a.start_date <= :endDate
                     AND a.end_date >= :startDate
             ))
+            AND (:positionId IS NULL OR r.position_id = :positionId)
         ORDER BY available_hours DESC
     """,
     countQuery = """
@@ -179,6 +182,7 @@ public interface ResourceRepository extends JpaRepository<Resource, Long> {
     nativeQuery = true)
     Page<ResourceWithAvailableHoursProjection> findByFiltersWithAvailableHoursOrderedByItDesc(
         @Param("status") List<String> status,
+        @Param("positionId") Long positionId,
         @Param("resourceId") Long resourceId,
         @Param("projectId") Long projectId,
         @Param("searchQuery") String searchQuery,
@@ -238,6 +242,7 @@ public interface ResourceRepository extends JpaRepository<Resource, Long> {
                     AND a.start_date <= :endDate
                     AND a.end_date >= :startDate
             ))
+            AND (:positionId IS NULL OR r.position_id = :positionId)
     """,
     countQuery = """
         SELECT COUNT(*) 
@@ -249,6 +254,7 @@ public interface ResourceRepository extends JpaRepository<Resource, Long> {
     nativeQuery = true)
     Page<ResourceWithAvailableHoursProjection> findByFiltersWithAvailableHours(
         @Param("status") List<String> status,
+        @Param("positionId") Long positionId,
         @Param("resourceId") Long resourceId,
         @Param("projectId") Long projectId,
         @Param("searchQuery") String searchQuery,
