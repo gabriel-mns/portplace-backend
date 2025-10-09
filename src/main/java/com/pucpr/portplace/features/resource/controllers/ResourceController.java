@@ -128,6 +128,7 @@ public class ResourceController {
     @GetMapping
     public ResponseEntity<Page<ResourceReadDTO>> getAll(
         @RequestParam(defaultValue = "") String searchQuery,
+        @RequestParam(required = false) Long positionId,
         @RequestParam(required = false) Long resourceId,
         @RequestParam(required = false) Long projectId,
         @RequestParam(required = false) List<ResourceStatusEnum> status,
@@ -144,6 +145,7 @@ public class ResourceController {
 
         resources = resourceService.getAllWithAvailableHours(
             status,
+            positionId,
             resourceId,
             projectId,
             searchQuery,
