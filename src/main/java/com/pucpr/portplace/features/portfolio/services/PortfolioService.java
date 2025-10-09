@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.pucpr.portplace.features.portfolio.dtos.portfolio.PortfolioAnalyticsReadDTO;
@@ -130,7 +129,7 @@ public class PortfolioService {
 
     }
 
-    public ResponseEntity<PortfolioAnalyticsReadDTO> getAnalytics(
+    public PortfolioAnalyticsReadDTO getAnalytics(
         Long portfolioId, 
         List<ProjectStatusEnum> projectStatus
     ) {
@@ -152,7 +151,7 @@ public class PortfolioService {
         analyticsDTO.setProjects(projectsDTOs);
         analyticsDTO.setRisks(risksDTOs);
 
-        return ResponseEntity.ok(analyticsDTO);
+        return analyticsDTO;
 
 
     }
