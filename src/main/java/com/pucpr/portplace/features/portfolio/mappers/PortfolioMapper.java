@@ -17,7 +17,7 @@ import com.pucpr.portplace.features.user.mappers.UserMapper;
 
 @Mapper(
     componentModel = "spring",
-    uses = {ProjectMapper.class, UserMapper.class, PortfolioCategoryMapper.class, StrategyMapper.class},
+    uses = {ProjectMapper.class, UserMapper.class, PortfolioCategoryMapper.class, StrategyMapper.class, RiskMapper.class},
     unmappedTargetPolicy = org.mapstruct.ReportingPolicy.IGNORE,
     unmappedSourcePolicy = org.mapstruct.ReportingPolicy.IGNORE
 )
