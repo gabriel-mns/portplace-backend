@@ -167,7 +167,7 @@ public class PortfolioController {
 
         try {
             response.setContentType("application/octet-stream");
-            response.setHeader("Content-Disposition", "attachment; filename=exportDataToExcelTemplate.xlsx");
+            response.setHeader("Content-Disposition", "attachment; filename=portfolio_" + portfolioId + ".xlsx");
             reportService.exportDataToExcelTemplate(portfolioId, response.getOutputStream());
             response.flushBuffer();
         } catch (IOException e) {
