@@ -37,7 +37,9 @@ public class ReportService {
         try(InputStream inputStream = this.getClass().getResourceAsStream(TEMPLATE_PATH)) {
             Context context = new Context();
             context.toMap().putAll(contextMap);
-            JxlsHelper.getInstance().processTemplate(inputStream, outputStream, context);
+            JxlsHelper.getInstance()
+                .setEvaluateFormulas(true)
+                .processTemplate(inputStream, outputStream, context);
         } catch(NullPointerException e) {
             throw new TemplateNotFoundException(TEMPLATE_PATH);
         }
