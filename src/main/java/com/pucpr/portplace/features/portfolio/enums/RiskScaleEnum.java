@@ -16,5 +16,21 @@ public enum RiskScaleEnum {
     public int getValue() {
         return value;
     }
+
+    public String getDisplayName() {
+        switch (this) {
+            case LOW:
+                return "Baixo";
+            case MEDIUM:
+                return "Médio";
+            case HIGH:
+                return "Alto";
+            case VERY_HIGH:
+                return "Muito Alto";
+            default:
+                return this.name();
+        }
+    }
+
     
 }

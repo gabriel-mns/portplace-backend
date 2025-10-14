@@ -1,5 +1,6 @@
 package com.pucpr.portplace.features.portfolio.controllers;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.net.URI;
 import java.util.List;
@@ -8,6 +9,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -176,6 +179,17 @@ public class PortfolioController {
 
         return ResponseEntity.ok().build();
         
+    }
+    
+    @GetMapping("/{portfolioId}/analytics/pdf")
+    public ResponseEntity<byte[]> exportPortfolioPdf(@PathVariable Long portfolioId) {
+        byte[] pdfBytes = reportService.exportDataToPdfTemplate(portfolioId);
+
+        return ResponseEntity.ok()
+                .contentType(MediaType.APPLICATION_PDF)
+                .header(HttpHeaders.CONTENT_DISPOSITION,
+                        "attachment; filename=portfolio_" + portfolioId + ".pdf")
+                .body(pdfBytes);
     }
 
 }
