@@ -25,11 +25,11 @@ POST {{host}}/allocations
 Content-Type: application/json
 
 {
-    "startDate": "01/01/2026",
-    "endDate": "01/01/2026",
-    "dailyHours": 2,
-    "resourceId": 2,
-    "allocationRequestId": 4
+    "startDate": "2026-01-01",
+    "endDate": "2027-01-01",
+    "dailyHours": 6,
+    "resourceId": 1,
+    "allocationRequestId": 1
 }
 
 ### EDITAR ALOCAÇÃO DE RECURSO

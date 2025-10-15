@@ -11,14 +11,18 @@ import com.pucpr.portplace.features.resource.entities.AllocationRequest;
 import com.pucpr.portplace.features.resource.enums.AllocationRequestStatusEnum;
 
 public interface AllocationRequestRepository extends JpaRepository<AllocationRequest, Long> {
-    
+
     @Query("""
         SELECT ar FROM AllocationRequest ar
-        WHERE (:status IS NULL OR ar.status IN :status) 
-            AND LOWER(ar.position.name) LIKE LOWER(CONCAT('%', :searchQuery, '%'))
-            AND (:includeDisabled = TRUE OR ar.disabled = false)
+        LEFT JOIN ar.allocation a
+        LEFT JOIN a.resource r
+        WHERE (:status IS NULL OR ar.status IN :status)
+        AND LOWER(ar.position.name) LIKE LOWER(CONCAT('%', :searchQuery, '%'))
+        AND (:resourceId IS NULL OR r.id = :resourceId)
+        AND (:includeDisabled = TRUE OR ar.disabled = false)
     """)
     Page<AllocationRequest> findByFilters(
+        Long resourceId,
         List<AllocationRequestStatusEnum> status,
         String searchQuery,
         boolean includeDisabled,

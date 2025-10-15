@@ -100,15 +100,16 @@ public class AllocationRequestService {
         return mapper.toReadDTO(entity);
     
     }
-    
-    public Page<AllocationRequestReadDTO> findAll(
-        List<AllocationRequestStatusEnum> status,
-        String searchQuery,
-        boolean includeDisabled,
-        Pageable pageable
-    ) {
 
+    public Page<AllocationRequestReadDTO> findAll(
+        Long resourceId, 
+        List<AllocationRequestStatusEnum> status,
+        String searchQuery, 
+        boolean includeDisabled, 
+        Pageable pageable) {
+        
         Page<AllocationRequest> page = repository.findByFilters(
+            resourceId,
             status,
             searchQuery,
             includeDisabled,
@@ -116,7 +117,7 @@ public class AllocationRequestService {
         );
 
         return page.map(mapper::toReadDTO);
-    
+
     }
 
 

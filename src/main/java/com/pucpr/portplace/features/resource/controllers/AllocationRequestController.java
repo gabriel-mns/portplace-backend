@@ -105,6 +105,7 @@ public class AllocationRequestController {
     public ResponseEntity<Page<AllocationRequestReadDTO>> getAll(
         @RequestParam(defaultValue = "") String searchQuery,
         @RequestParam(required = false) List<AllocationRequestStatusEnum> status,
+        @RequestParam(required = false) Long resourceId,
         @RequestParam(defaultValue = "false") boolean includeDisabled,
         @RequestParam(defaultValue = "0") int page,
         @RequestParam(defaultValue = "10") int size,
@@ -116,11 +117,12 @@ public class AllocationRequestController {
         Pageable pageable = PageRequest.of(page, size, Sort.by(direction, sortBy));
 
         Page<AllocationRequestReadDTO> allocationRequests = service.findAll(
-            status,
-            searchQuery,
-            includeDisabled,
-            pageable
-        );
+                resourceId,
+                status,
+                searchQuery,
+                includeDisabled,
+                pageable
+            );
 
         return ResponseEntity.ok().body(allocationRequests);
 
