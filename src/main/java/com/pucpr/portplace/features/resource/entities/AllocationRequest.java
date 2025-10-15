@@ -8,6 +8,8 @@ import com.pucpr.portplace.features.resource.enums.AllocationRequestStatusEnum;
 import com.pucpr.portplace.features.resource.enums.PriorityEnum;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -35,6 +37,7 @@ public class AllocationRequest extends AuditableEntity{
     private LocalDate endDate;
     private int dailyHours;
     private PriorityEnum priority;
+    @Enumerated(EnumType.STRING)
     private AllocationRequestStatusEnum status;
 
     //Relationships
