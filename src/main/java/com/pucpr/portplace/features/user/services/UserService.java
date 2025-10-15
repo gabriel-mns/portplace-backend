@@ -133,6 +133,18 @@ public class UserService {
     }
 
     // DELETE
+    public ResponseEntity<Void> disableUser(@NotNull Long id) {
+        
+        if(!userRepository.existsById(id)) throw new UserNotFoundException(id);
+
+        User user = userRepository.findById(id).get();
+        user.setDisabled(true);
+        userRepository.save(user);
+
+        return ResponseEntity.noContent().build();
+
+    }
+
     public ResponseEntity<Void> deleteUser(@NotNull Long id) {
         
         if(!userRepository.existsById(id)) throw new UserNotFoundException(id);
