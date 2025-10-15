@@ -2,7 +2,6 @@ package com.pucpr.portplace.features.resource.dtos.allocation;
 
 import java.time.LocalDate;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.pucpr.portplace.core.validation.constraints.dateRange.ValidDateRange;
 
 import jakarta.validation.constraints.Max;
@@ -21,10 +20,8 @@ import lombok.Setter;
 public class AllocationCreateDTO {
     
     @NotNull
-    @JsonFormat(pattern = "dd/MM/yyyy")
     private LocalDate startDate;
     @NotNull
-    @JsonFormat(pattern = "dd/MM/yyyy")
     private LocalDate endDate;
     @Min(0)
     @Max(24)
