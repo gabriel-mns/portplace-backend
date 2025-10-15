@@ -19,6 +19,7 @@ import lombok.AllArgsConstructor;
 public class UserEntityService {
 
     private UserRepository userRepository;
+    private UserMapper mapper;
 
     public User getUserByIdEntity(@NotNull Long id) {
         
@@ -45,7 +46,7 @@ public class UserEntityService {
         
         Page<User> owners = userRepository.findByPortfolioIdAndFilters(portfolioId, searchQuery, includeDisabled, pageable);
         
-        return owners.map(UserGetResponseDTO::map);
+        return owners.map(mapper::toGetResponseDTO);
 
     }
 

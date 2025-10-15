@@ -106,9 +106,7 @@ public class UserService {
         
         Optional<User> user = userRepository.findById(id);
         
-        if(!user.isPresent()) throw new UserNotFoundException(id);
-        
-        return UserGetResponseDTO.map(user.get());
+        return mapper.toGetResponseDTO(user.get());
 
     }
 
