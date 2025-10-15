@@ -1,11 +1,11 @@
 @host = http://localhost:8080/api/v1
 
 ### GET TODAS SOLICITAÇÕES DE RECURSOS
-GET {{host}}/allocation-requests
+GET {{host}}/allocation-requests?resourceId=1
 Accept: application/json
 
 ### GET SOLICITAÇÃO DE RECURSO ESPECÍFICO
-GET {{host}}/allocation-requests/3
+GET {{host}}/allocation-requests/5
 Accept: application/json
 
 ### GET TODOS AS POSIÇÕES
@@ -17,12 +17,12 @@ POST {{host}}/allocation-requests
 Content-Type: application/json
 
 {
-    "startDate": "01/01/2026",
-    "endDate": "01/01/2026",
-    "dailyHours": 2,
+    "startDate": "2027-01-01",
+    "endDate": "2027-01-01",
+    "dailyHours": 8,
     "priority": "HIGH",
     "positionId": 1,
-    "projectId": 2
+    "projectId": 1
 }
 
 ### EDITAR SOLICITAÇÃO DE RECURSO
