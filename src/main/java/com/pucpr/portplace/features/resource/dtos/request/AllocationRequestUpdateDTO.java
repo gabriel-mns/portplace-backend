@@ -2,7 +2,6 @@ package com.pucpr.portplace.features.resource.dtos.request;
 
 import java.time.LocalDate;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.pucpr.portplace.core.validation.constraints.dateRange.ValidDateRange;
 import com.pucpr.portplace.core.validation.constraints.enumValues.ValidEnum;
 import com.pucpr.portplace.features.resource.enums.PriorityEnum;
@@ -19,9 +18,7 @@ import lombok.Setter;
 @ValidDateRange(startField = "startDate", endField = "endDate")
 public class AllocationRequestUpdateDTO {
     
-    @JsonFormat(pattern = "dd/MM/yyyy")
     private LocalDate startDate;
-    @JsonFormat(pattern = "dd/MM/yyyy")
     private LocalDate endDate;
     private int dailyHours;
     @ValidEnum(enumClass = PriorityEnum.class)
