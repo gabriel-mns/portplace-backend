@@ -20,6 +20,7 @@ import com.pucpr.portplace.features.resource.dtos.allocation.DailyAllocationDTO;
 import com.pucpr.portplace.features.resource.entities.Allocation;
 import com.pucpr.portplace.features.resource.entities.AllocationRequest;
 import com.pucpr.portplace.features.resource.entities.Resource;
+import com.pucpr.portplace.features.resource.enums.AllocationStatusEnum;
 import com.pucpr.portplace.features.resource.mappers.AllocationMapper;
 import com.pucpr.portplace.features.resource.mappers.ResourceMapper;
 import com.pucpr.portplace.features.resource.repositories.AllocationRepository;
@@ -136,6 +137,9 @@ public class AllocationService {
     }
 
     public Page<AllocationReadDTO> getAll(
+        LocalDate startDate,
+        LocalDate endDate,
+        List<AllocationStatusEnum> statuses,
         String searchQuery,
         boolean includeDisabled,
         Long resourceId,
@@ -144,6 +148,9 @@ public class AllocationService {
     ) {
 
         Page<Allocation> allocations = allocationRepository.findByFilters(
+            startDate,
+            endDate,
+            statuses,
             searchQuery,
             includeDisabled,
             resourceId,

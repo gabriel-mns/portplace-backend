@@ -27,12 +27,12 @@ Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiUE1PX0FETSIsIm5hbWUiOiJHYWJyaWVsIE1hcnRpbnMgTnVuZXMgZGEgU2lsdmEiLCJlbWFpbCI6ImdhYnJpZWxnbW5zMDcxMjA0QGdtYWlsLmNvbSIsInN1YiI6ImdhYnJpZWxnbW5zMDcxMjA0QGdtYWlsLmNvbSIsImlhdCI6MTc2MDUzMjM5MywiZXhwIjoxNzYwNTM1OTkzfQ.Dd6BPqIMKKO8Opd-Nuy0P7WhBkjQ0-sJp3XycnBMr-Q
 
 {
-    "startDate": "2027-01-03",
-    "endDate": "2027-01-04",
-    "dailyHours": 3,
-    "priority": "LOW",
-    "positionId": 1,
-    "projectId": 1
+    "startDate": "2025-01-01",
+    "endDate": "2025-01-01",
+    "dailyHours": 8,
+    "priority": "HIGH",
+    "positionId": 2,
+    "projectId": 2
 }
 
 ### EDITAR SOLICITAÇÃO DE RECURSO

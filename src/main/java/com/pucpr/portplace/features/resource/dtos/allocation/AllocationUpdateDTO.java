@@ -26,6 +26,8 @@ public class AllocationUpdateDTO {
     @Min(0)
     @Max(24)
     private int dailyHours;
+    @NotNull
+    private Boolean cancelled;
 
     @NotNull
     private Long resourceId;
