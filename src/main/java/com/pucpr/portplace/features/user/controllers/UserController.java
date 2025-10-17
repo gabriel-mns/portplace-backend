@@ -102,8 +102,15 @@ public class UserController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
+    public ResponseEntity<Void> disableUser(@PathVariable Long id) {
         
+        return authService.disableUser(id);
+
+    }
+
+    @DeleteMapping("/{id}/hard-delete")
+    public ResponseEntity<Void> hardDeleteUser(@PathVariable Long id) {
+
         return authService.deleteUser(id);
 
     }

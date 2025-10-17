@@ -1,6 +1,8 @@
 package com.pucpr.portplace.features.user.dtos;
 
-import com.pucpr.portplace.features.user.entities.User;
+import java.time.LocalDateTime;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.pucpr.portplace.features.user.enums.RoleEnum;
 import com.pucpr.portplace.features.user.enums.UserStatusEnum;
 
@@ -23,18 +25,13 @@ public class UserGetResponseDTO {
     private UserStatusEnum status;
     private RoleEnum role;
 
-    public static UserGetResponseDTO map(User user) {
-        
-        UserGetResponseDTO newUser = UserGetResponseDTO.builder()
-                                                        .id(user.getId())
-                                                        .name(user.getName())
-                                                        .email(user.getEmail())
-                                                        .status(user.getStatus())
-                                                        .role(user.getRole())
-                                                        .build();
-
-        return newUser;
-
-    }
+    // Auditing fields
+    @JsonFormat(pattern = "dd/MM/yyyy HH:mm:ss")
+    private LocalDateTime createdAt;
+    @JsonFormat(pattern = "dd/MM/yyyy HH:mm:ss")
+    private LocalDateTime lastModifiedAt;
+    private String createdBy;
+    private String lastModifiedBy;
+    private boolean disabled;
 
 }

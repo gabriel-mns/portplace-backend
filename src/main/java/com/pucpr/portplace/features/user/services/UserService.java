@@ -22,10 +22,10 @@ import com.pucpr.portplace.features.user.dtos.UserRegisterDTO;
 import com.pucpr.portplace.features.user.dtos.UserUpdateRequestDTO;
 import com.pucpr.portplace.features.user.entities.User;
 import com.pucpr.portplace.features.user.enums.UserStatusEnum;
-import com.pucpr.portplace.features.user.exceptions.UserAlreadyRegisteredException;
 import com.pucpr.portplace.features.user.exceptions.UserNotFoundException;
 import com.pucpr.portplace.features.user.mappers.UserMapper;
 import com.pucpr.portplace.features.user.repositories.UserRepository;
+import com.pucpr.portplace.features.user.services.validation.UserValidationService;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
@@ -39,14 +39,13 @@ public class UserService {
     private UserMapper mapper;
     private PasswordEncoder passwordEncoder;
     private AuthenticationManager authenticationManager;
+    private UserValidationService validationService;
     private JwtService jwtService;
 
     // CREATE
     public ResponseEntity<Void> register(@Valid UserRegisterDTO request){
 
-        boolean userExists = userRepository.existsByEmail(request.getEmail());
-
-        if(userExists) throw new UserAlreadyRegisteredException(request.getEmail());
+        validationService.validateBeforeRegister(request.getEmail());
         
         // Encrypt the password before saving
         String encryptedPassword = passwordEncoder.encode(request.getPassword());
@@ -65,6 +64,8 @@ public class UserService {
     }
 
     public AuthenticationResponseDTO login(AuthenticationRequestDTO authenticationRequestDTO) {
+
+        validationService.validateBeforeLogin(authenticationRequestDTO.getEmail());
 
         UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
             authenticationRequestDTO.getEmail(), authenticationRequestDTO.getPassword()
@@ -104,20 +105,20 @@ public class UserService {
     
     public UserGetResponseDTO getUserById(@NotNull Long id) {
         
+        validationService.validateBeforeGet(id);
+
         Optional<User> user = userRepository.findById(id);
         
-        if(!user.isPresent()) throw new UserNotFoundException(id);
-        
-        return UserGetResponseDTO.map(user.get());
+        return mapper.toGetResponseDTO(user.get());
 
     }
 
     // UPDATE
     public ResponseEntity<Void> updateUser(@Valid UserUpdateRequestDTO updatedUser, Long userId) {
 
-        Optional<User> userSearchResult = userRepository.findById(userId);
+        validationService.validateBeforeUpdate(userId);
 
-        if(userSearchResult.isEmpty()) throw new UserNotFoundException(userId);
+        Optional<User> userSearchResult = userRepository.findById(userId);
 
         // Encrypt the password before saving
         String encryptedPassword = passwordEncoder.encode(updatedUser.getPassword());
@@ -133,6 +134,18 @@ public class UserService {
     }
 
     // DELETE
+    public ResponseEntity<Void> disableUser(@NotNull Long id) {
+        
+        validationService.validateBeforeDisable(id);
+
+        User user = userRepository.findById(id).get();
+        user.setDisabled(true);
+        userRepository.save(user);
+
+        return ResponseEntity.noContent().build();
+
+    }
+
     public ResponseEntity<Void> deleteUser(@NotNull Long id) {
         
         if(!userRepository.existsById(id)) throw new UserNotFoundException(id);

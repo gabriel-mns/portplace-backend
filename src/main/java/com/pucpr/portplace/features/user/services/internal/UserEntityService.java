@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.pucpr.portplace.features.user.dtos.UserGetResponseDTO;
 import com.pucpr.portplace.features.user.entities.User;
 import com.pucpr.portplace.features.user.exceptions.UserNotFoundException;
+import com.pucpr.portplace.features.user.mappers.UserMapper;
 import com.pucpr.portplace.features.user.repositories.UserRepository;
 
 import jakarta.validation.constraints.NotNull;
@@ -19,12 +20,21 @@ import lombok.AllArgsConstructor;
 public class UserEntityService {
 
     private UserRepository userRepository;
+    private UserMapper mapper;
 
     public User getUserByIdEntity(@NotNull Long id) {
         
         Optional<User> user = userRepository.findById(id);
         
         if(!user.isPresent()) throw new UserNotFoundException(id);
+        
+        return user.get();
+
+    }
+
+    public User getUserByEmailEntity(@NotNull String email) {
+        
+        Optional<User> user = userRepository.findByEmail(email);
         
         return user.get();
 
@@ -45,7 +55,7 @@ public class UserEntityService {
         
         Page<User> owners = userRepository.findByPortfolioIdAndFilters(portfolioId, searchQuery, includeDisabled, pageable);
         
-        return owners.map(UserGetResponseDTO::map);
+        return owners.map(mapper::toGetResponseDTO);
 
     }
 

@@ -1,5 +1,14 @@
 @host = http://localhost:8080/api/v1
 
+### LOGIN
+POST {{host}}/users/authenticate
+Content-Type: application/json
+
+{
+  "email": "gabrielgmns071204@gmail.com",
+  "password": "12345"
+}
+
 ### GET TODAS SOLICITAÇÕES DE RECURSOS
 GET {{host}}/allocation-requests?resourceId=1
 Accept: application/json
@@ -15,6 +24,7 @@ Accept: application/json
 ### NOVA SOLICITAÇÃO DE RECURSO
 POST {{host}}/allocation-requests
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiUE1PX0FETSIsIm5hbWUiOiJHYWJyaWVsIE1hcnRpbnMgTnVuZXMgZGEgU2lsdmEiLCJlbWFpbCI6ImdhYnJpZWxnbW5zMDcxMjA0QGdtYWlsLmNvbSIsInN1YiI6ImdhYnJpZWxnbW5zMDcxMjA0QGdtYWlsLmNvbSIsImlhdCI6MTc2MDUzMjM5MywiZXhwIjoxNzYwNTM1OTkzfQ.Dd6BPqIMKKO8Opd-Nuy0P7WhBkjQ0-sJp3XycnBMr-Q
 
 {
     "startDate": "2025-01-01",
@@ -26,12 +36,12 @@ Content-Type: application/json
 }
 
 ### EDITAR SOLICITAÇÃO DE RECURSO
-PUT {{host}}/allocation-requests/1
+PUT {{host}}/allocation-requests/4
 Content-Type: application/json
 
 {
-    "startDate": "31/12/2024",
-    "endDate": "03/04/2027",
+    "startDate": "2024-12-31",
+    "endDate": "2027-04-04",
     "dailyHours": 2,
     "priority": "MEDIUM",
     "positionId": 1

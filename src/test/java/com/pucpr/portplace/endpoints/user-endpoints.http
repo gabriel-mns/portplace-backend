@@ -5,8 +5,8 @@ POST {{host}}/users/register
 Content-Type: application/json
 
 {
-  "name": "Felipe Silva",
-  "email": "felipesilva@gmail.com",
+  "name": "Carlos",
+  "email": "carlos@example.com",
   "password": "12345",
   "role": "PROJECT_MANAGER"
 }
@@ -16,13 +16,13 @@ POST {{host}}/users/authenticate
 Content-Type: application/json
 
 {
-  "email": "gabrielgmns071204@gmail.com",
-  "password": "123s45"
+  "email": "carlos@example.com",
+  "password": "12345"
 }
 
 
 ### BUSCA DE USUÁRIOS
-GET  {{host}}/users?page=0&size=1
+GET  {{host}}/users?includeDisabled=true
 Host: localhost:8080
 
 ### BUSCA DE USUÁRIO POR ID
@@ -31,14 +31,17 @@ Host: localhost:8080
 
 
 ### Alterar dados do usuário
-PUT {{host}}/users/1
+PUT {{host}}/users/3
 Content-Type: application/json
 
 {
-  "name": "Gabriel Martins Nunes da Silva",
+  "name": "Carlos",
   "password": "12345",
   "status": "INACTIVE"
 }
 
 ### DELETAR USUÁRIO
-DELETE {{host}}/users/510
+DELETE {{host}}/users/2
+
+### DELETAR USUÁRIO
+DELETE {{host}}/users/2/hard-delete
