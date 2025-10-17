@@ -4,6 +4,7 @@ import java.time.LocalDate;
 
 import com.pucpr.portplace.core.validation.constraints.dateRange.ValidDateRange;
 import com.pucpr.portplace.core.validation.constraints.enumValues.ValidEnum;
+import com.pucpr.portplace.features.resource.enums.AllocationRequestStatusEnum;
 import com.pucpr.portplace.features.resource.enums.PriorityEnum;
 
 import lombok.AllArgsConstructor;
@@ -23,6 +24,8 @@ public class AllocationRequestUpdateDTO {
     private int dailyHours;
     @ValidEnum(enumClass = PriorityEnum.class)
     private String priority;
+    @ValidEnum(enumClass = AllocationRequestStatusEnum.class)  
+    private String status;
 
     //Relationships
     private Long positionId;

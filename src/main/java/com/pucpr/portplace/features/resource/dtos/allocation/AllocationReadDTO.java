@@ -5,6 +5,8 @@ import java.time.LocalDateTime;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.pucpr.portplace.features.resource.dtos.resource.ResourceReadDTO;
+import com.pucpr.portplace.features.resource.enums.AllocationStatusEnum;
+import com.pucpr.portplace.features.resource.enums.PriorityEnum;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -23,10 +25,17 @@ public class AllocationReadDTO {
     @JsonFormat(pattern = "dd/MM/yyyy")
     private LocalDate endDate;
     private int dailyHours;
+    private AllocationStatusEnum status;
 
     //Relationships
-    private Long allocationRequestId;
     private ResourceReadDTO resource;
+    private Long allocationRequestId;
+        // Fields from Allocation Request
+        private String requestedBy;
+        private String projectName;
+        private PriorityEnum priority;
+
+
 
     //Auditable Fields
     private String createdBy;

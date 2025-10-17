@@ -10,21 +10,28 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import com.pucpr.portplace.features.resource.entities.Allocation;
+import com.pucpr.portplace.features.resource.enums.AllocationStatusEnum;
 
 public interface AllocationRepository extends JpaRepository<Allocation, Long> {
     
     @Query("""
         SELECT al FROM Allocation al
-        WHERE LOWER(al.resource.name) LIKE LOWER(CONCAT('%', :searchQuery, '%'))
+        WHERE (al.endDate >= :startDate)
+            AND (al.startDate <= :endDate)
+            AND (:statuses IS NULL OR al.status IN :statuses)
+            AND LOWER(al.resource.name) LIKE LOWER(CONCAT('%', :searchQuery, '%'))
             AND (:includeDisabled = TRUE OR al.disabled = false)
             AND (:resourceId IS NULL OR al.resource.id = :resourceId)
             AND (:projectId IS NULL OR al.allocationRequest.project.id = :projectId)
     """)
     Page<Allocation> findByFilters(
-        String searchQuery,
-        boolean includeDisabled,
-        Long resourceId,
-        Long projectId,
+        @Param("startDate") LocalDate startDate,
+        @Param("endDate") LocalDate endDate,
+        @Param("statuses") List<AllocationStatusEnum> statuses,
+        @Param("searchQuery") String searchQuery,
+        @Param("includeDisabled") boolean includeDisabled,
+        @Param("resourceId") Long resourceId,
+        @Param("projectId") Long projectId,
         Pageable pageable
     );
 
