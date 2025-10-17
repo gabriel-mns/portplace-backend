@@ -6,4 +6,19 @@ public enum PortfolioHealthEnum {
     YELLOW,
     GREEN
 
+    ;
+
+    public String getDisplayName() {
+        switch (this) {
+            case RED:
+                return "Vermelho";
+            case YELLOW:
+                return "Amarelo";
+            case GREEN:
+                return "Verde";
+            default:
+                return this.name();
+        }
+    }
+
 }

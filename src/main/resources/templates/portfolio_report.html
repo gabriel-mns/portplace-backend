@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title th:text="'Portfólio ' + ${portfolio.name}">Portfólio</title>
+  <link rel="stylesheet" href="./portfolio_report.css"/>
+</head>
+
+<body>
+  <!-- Cabeçalho -->
+  <div class="strategy-header border">
+    <div class="header-top">
+      <h1 th:text="${portfolio.name}">Nome do Portfólio</h1>
+      <span class="status-badge"
+        th:text="${portfolio.status.getDisplayName()}"
+        th:classappend="${portfolio.status}">
+      </span>
+
+    </div>
+
+    <p class="strategy-description" th:text="${portfolio.description}">
+      Descrição breve do portfólio.
+    </p>
+    <p class="strategy-description">
+      Responsáveis:
+      <span th:each="owner, iterStat : ${portfolio.owners}">
+        <span class="info-value" th:text="${owner.name}">Gabriel Martins</span>
+        <span th:if="${!iterStat.last}">, </span>
+      </span>
+    </p>
+
+    
+
+    <div class="action-header">
+      <div class="last-update">
+        Última alteração realizada em <span th:text="${portfolio.lastModifiedAt}">11/10/2025 14:00</span>.
+      </div>
+    </div>
+  </div>
+
+  <!-- Conteúdo -->
+  <div class="tabs-container">
+    <div class="tab-content">
+      <div id="resumo" class="tab-panel active">
+        <h2>Resumo do Portfólio</h2>
+
+        <!-- Métricas -->
+        <div class="card-list">
+          <div class="card">
+            <img src="../static/porco_vetor.svg" class="icon" alt="Orçamento"/>
+            <div class="card-content">
+              <p class="main-card-content" th:text="'R$ ' + ${#numbers.formatDecimal(portfolio.budget, 0, 'POINT', 2, 'COMMA')}">R$ 10.000,00</p>
+              <span>Orçamento</span>
+            </div>
+          </div>
+
+          <div class="card">
+            <img src="../static/calendario_vetor.svg" class="icon" alt="Status Progresso"/>
+            <div class="card-content">
+              <p class="main-card-content" th:text="${portfolio.scheduleHealth.getDisplayName()}">Atrasado</p>
+              <span>Status Progresso</span>
+            </div>
+          </div>
+
+          <div class="card">
+            <img src="../static/paid_vetor.svg" class="icon" alt="Status Custo"/>
+            <div class="card-content">
+              <p class="main-card-content" th:text="${portfolio.budgetHealth.getDisplayName()}">Dentro do planejado</p>
+              <span>Status Custo</span>
+            </div>
+          </div>
+        </div>
+      
+        <!-- Tabelas -->
+        <h3>Projetos</h3>
+        <table class="styled-table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Nome</th>
+              <!-- <th>Categoria</th> -->
+              <th>Orçamento</th>
+              <th>EV (R$)</th>
+              <th>PV (R$)</th>
+              <th>Início Planejado</th>
+              <th>Fim Planejado</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr th:each="project : ${portfolio.projects}">
+              <td th:text="${project.id}">1</td>
+              <td th:text="${project.name}">Sistema A</td>
+              <!-- <td th:text="${project.portfolioCategory.name}">Infraestrutura</td> -->
+                <td th:text="'R$ ' + ${#numbers.formatDecimal(project.budgetAtCompletion, 0, 'POINT', 2, 'COMMA')}">R$ 5.000</td>
+                <td th:text="'R$ ' + ${#numbers.formatDecimal(project.earnedValue, 0, 'POINT', 2, 'COMMA')}">R$ 2.000</td>
+                <td th:text="'R$ ' + ${#numbers.formatDecimal(project.plannedValue, 0, 'POINT', 2, 'COMMA')}">R$ 3.000</td>
+              <td th:text="${#dates.format(project.startDate, 'dd/MM/yyyy')}"></td>
+              <td th:text="${#dates.format(project.endDate, 'dd/MM/yyyy')}"></td>
+              <td th:text="${project.status.getDisplayName()}">Em andamento</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h3>Riscos</h3>
+        <table class="styled-table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Nome</th>
+              <th>Probabilidade</th>
+              <th>Impacto</th>
+              <th>Severidade</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr th:each="risk : ${portfolio.risks}">
+              <td th:text="${risk.id}">1</td>
+              <td th:text="${risk.name}">Indisponibilidade de servidor</td>
+              <td th:text="${risk.probability.getDisplayName()}">Alta</td>
+              <td th:text="${risk.impact.getDisplayName()}">Alto</td>
+              <td th:text="${risk.severity}">15</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h3>Responsáveis</h3>
+        <table class="styled-table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Nome</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr th:each="owner : ${portfolio.owners}">
+              <td th:text="${owner.id}">1</td>
+              <td th:text="${owner.name}">Gabriel Martins</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h3>Categorias</h3>
+        <table class="styled-table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Nome</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr th:each="category : ${portfolio.categories}">
+              <td th:text="${category.id}">1</td>
+              <td th:text="${category.name}">Inovação</td>
+            </tr>
+          </tbody>
+        </table>
+
+      </div>
+    </div>
+  </div>
+</body>
+</html>

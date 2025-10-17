@@ -1,7 +1,7 @@
 @host = http://localhost:8080/api/v1
 
 ### GET TODAS SOLICITAÇÕES DE RECURSOS
-GET {{host}}/allocation-requests
+GET {{host}}/allocation-requests?resourceId=1
 Accept: application/json
 
 ### GET SOLICITAÇÃO DE RECURSO ESPECÍFICO

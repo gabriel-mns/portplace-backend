@@ -4,6 +4,8 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.pucpr.portplace.features.portfolio.dtos.portfolioCategory.PortfolioCategoryReadDTO;
+import com.pucpr.portplace.features.portfolio.dtos.risk.RiskReadDTO;
 import com.pucpr.portplace.features.portfolio.enums.PortfolioHealthEnum;
 import com.pucpr.portplace.features.portfolio.enums.PortfolioStatusEnum;
 import com.pucpr.portplace.features.project.dtos.ProjectReadDTO;
@@ -31,8 +33,10 @@ public class PortfolioReadDTO {
 
     // Relationships
     private List<ProjectReadDTO> projects;
-    private StrategyReadDTO strategy;
     private List<UserGetResponseDTO> owners;
+    private List<PortfolioCategoryReadDTO> categories;
+    private List<RiskReadDTO> risks;
+    private StrategyReadDTO strategy;
     private String activeScenarioName;
     private boolean canBeDeleted;
     
