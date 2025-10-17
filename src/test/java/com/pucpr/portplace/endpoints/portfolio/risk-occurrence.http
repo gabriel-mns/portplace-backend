@@ -5,7 +5,7 @@ GET {{host}}/portfolios/1/risks
 Accept: application/json
 
 ### GET OCORRENCIAS DE UM RISCO
-GET {{host}}/portfolios/1/risks/1/occurrences?includeDisabled=true
+GET {{host}}/portfolios/1/risks/1/occurrences
 Accept: application/json
 
 ### NOVA OCORRENCIA DE UM RISCO
@@ -15,8 +15,12 @@ Content-Type: application/json
 
 {
     "description": "Ocorrência de risco 1",
-    "dateOfOccurrence": "21/09/2025 14:30",
-    "solvedAt": "22/09/2025 14:30"
+    "dateOfOccurrence": "2025-09-22T14:30:00Z",
+    "solvedAt": "2025-09-22T14:30:00Z",
+    "followedPreventionPlan": true,
+    "preventionActions": "Ações de prevenção tomadas",
+    "followedContingencyPlan": true,
+    "contingencyActions": "Ações de contingência tomadas"
 }
 
 ### ATUALIZAR OCORRENCIA DE UM RISCO
@@ -26,8 +30,12 @@ Content-Type: application/json
 
 {
     "description": "Ocorrência de risco 1 - Atualizada",
-    "dateOfOccurrence": "21/09/2025 14:30",
-    "solvedAt": "21/09/2025 14:30"
+    "dateOfOccurrence": "2025-09-21T14:30:00Z",
+    "solvedAt": null,
+    "followedPreventionPlan": false,
+    "preventionActions": "Nenhuma ação de prevenção tomada",
+    "followedContingencyPlan": false,
+    "contingencyActions": "Nenhuma ação de contingência tomada"
 }
 
 ### DESABILITAR OCORRENCIA DE UM RISCO

@@ -24,6 +24,10 @@ public class RiskOccurenceCreateDTO {
     @NotNull
     private LocalDateTime dateOfOccurrence;
     private LocalDateTime solvedAt;
+    private Boolean followedPreventionPlan;
+    private String preventionActions;
+    private Boolean followedContingencyPlan;
+    private String contingencyActions;
 
     //Relationships
     private Long riskId;

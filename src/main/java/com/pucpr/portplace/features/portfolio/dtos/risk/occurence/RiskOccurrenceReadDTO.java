@@ -24,6 +24,10 @@ public class RiskOccurrenceReadDTO {
     @JsonFormat(pattern = "dd/MM/yyyy HH:mm")
     private LocalDateTime solvedAt;
     private int daysToSolve;
+    private boolean followedPreventionPlan;
+    private String preventionActions;
+    private boolean followedContingencyPlan;
+    private String contingencyActions;
 
     //Relationships
     // private RiskReadDTO risk;

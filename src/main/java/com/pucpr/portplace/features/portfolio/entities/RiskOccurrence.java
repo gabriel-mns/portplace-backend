@@ -37,6 +37,10 @@ public class RiskOccurrence extends AuditableEntity{
     @Enumerated(EnumType.STRING)
     private RiskOccurrenceStatusEnum status;
     private LocalDateTime solvedAt;
+    private boolean followedPreventionPlan;
+    private String preventionActions;
+    private boolean followedContingencyPlan;
+    private String contingencyActions;
 
     // Calculated Fields
     @Formula("""
