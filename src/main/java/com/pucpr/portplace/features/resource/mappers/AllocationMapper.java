@@ -20,6 +20,9 @@ public interface AllocationMapper {
     Allocation toEntity(AllocationCreateDTO dto);
     
     @Mapping(source = "allocationRequest.id", target = "allocationRequestId")
+    @Mapping(source = "allocationRequest.createdBy", target = "requestedBy")
+    @Mapping(source = "allocationRequest.project.name", target = "projectName")
+    @Mapping(source = "allocationRequest.priority", target = "priority")
     AllocationReadDTO toReadDTO(Allocation entity);
 
     @Mapping(target = "resource.id", ignore = true)

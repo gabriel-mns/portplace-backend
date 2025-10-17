@@ -25,8 +25,14 @@ public class AllocationReadDTO {
     private int dailyHours;
 
     //Relationships
-    private Long allocationRequestId;
     private ResourceReadDTO resource;
+    private Long allocationRequestId;
+        // Fields from Allocation Request
+        private String requestedBy;
+        private String projectName;
+        private PriorityEnum priority;
+
+
 
     //Auditable Fields
     private String createdBy;
