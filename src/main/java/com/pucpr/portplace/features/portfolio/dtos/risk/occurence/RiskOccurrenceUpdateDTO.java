@@ -22,5 +22,9 @@ public class RiskOccurrenceUpdateDTO {
     private String description;
     private LocalDateTime dateOfOccurrence;
     private LocalDateTime solvedAt;
+    private boolean followedPreventionPlan;
+    private String preventionActions;
+    private boolean followedContingencyPlan;
+    private String contingencyActions;
 
 }
