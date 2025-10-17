@@ -17,6 +17,7 @@ import com.pucpr.portplace.features.resource.entities.Allocation;
 )
 public interface AllocationMapper {
     
+    @Mapping(target = "cancelled", constant = "false")
     Allocation toEntity(AllocationCreateDTO dto);
     
     @Mapping(source = "allocationRequest.id", target = "allocationRequestId")
