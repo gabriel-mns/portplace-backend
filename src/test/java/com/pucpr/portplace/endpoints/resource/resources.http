@@ -21,10 +21,10 @@ POST {{host}}/resources
 Content-Type: application/json
 
 {
-    "name": "Joana Ferreira",
+    "name": "Marcelo Ferreira",
     "description": "Descrição do novo recurso",
-    "dailyHours": 8,
-    "positionId": 1
+    "dailyHours": 6,
+    "positionId": 2
 }
 
 ### EDITAR RECURSO

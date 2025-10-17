@@ -25,6 +25,7 @@ import com.pucpr.portplace.features.resource.dtos.allocation.AllocationCreateDTO
 import com.pucpr.portplace.features.resource.dtos.allocation.AllocationReadDTO;
 import com.pucpr.portplace.features.resource.dtos.allocation.AllocationUpdateDTO;
 import com.pucpr.portplace.features.resource.dtos.allocation.DailyAllocationDTO;
+import com.pucpr.portplace.features.resource.enums.AllocationStatusEnum;
 import com.pucpr.portplace.features.resource.services.AllocationService;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -113,6 +114,9 @@ public class AllocationController {
 
     @GetMapping
     public ResponseEntity<Page<AllocationReadDTO>> findAll(
+        @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
+        @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate,
+        @RequestParam(required = false) List<AllocationStatusEnum> statuses,
         @RequestParam(defaultValue = "") String searchQuery,
         @RequestParam(defaultValue = "false") boolean includeDisabled,
         @RequestParam(required = false) Long resourceId,
@@ -128,6 +132,9 @@ public class AllocationController {
         Pageable pageable = PageRequest.of(page, size, Sort.by(direction, sortBy));
 
         Page<AllocationReadDTO> allocations = allocationService.getAll(
+            startDate,
+            endDate,
+            statuses,
             searchQuery,
             includeDisabled,
             resourceId,
