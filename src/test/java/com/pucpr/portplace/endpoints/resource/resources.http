@@ -1,0 +1,48 @@
+@host = http://localhost:8080/api/v1
+
+### GET TODOS RECURSOS
+GET {{host}}/resources?startDate=2026-01-01&endDate=2026-01-07&sortBy=availableHours&sortDir=asc
+Accept: application/json
+
+### GET TODOS RECURSOS NAO PAGINADOS
+GET {{host}}/resources/unpaged
+Accept: application/json
+
+### GET RECURSOS ESPECÍFICO
+GET {{host}}/resources/1
+Accept: application/json
+
+### GET TODOS OS CARGOS
+GET {{host}}/positions
+Accept: application/json
+
+### NOVO RECURSO
+POST {{host}}/resources
+Content-Type: application/json
+
+{
+    "name": "Marcelo Ferreira",
+    "description": "Descrição do novo recurso",
+    "dailyHours": 6,
+    "positionId": 2
+}
+
+### EDITAR RECURSO
+PUT {{host}}/resources/3
+Content-Type: application/json
+
+{
+    "name": "Joana Ferreira",
+    "description": "Descrição do recurso editado",
+    "dailyHours": 8,
+    "positionId": 2,
+    "status": "INACTIVE"
+}
+
+### DESABILITAR RECURSO
+DELETE {{host}}/resources/2
+Content-Type: application/json
+
+### DELETAR RECURSO
+DELETE {{host}}/resources/1/hard-delete
+Content-Type: application/json

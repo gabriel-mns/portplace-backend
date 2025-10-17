@@ -130,4 +130,16 @@ public class ProjectController {
 
     }
 
+    @GetMapping("/unpaged")
+    public ResponseEntity<List<ProjectReadDTO>> getAllProjectsUnpaged(
+        @RequestParam(required = false) Long portfolioId,
+        @RequestParam(required = false) List<ProjectStatusEnum> status
+    ) {
+
+        List<ProjectReadDTO> projects = projectService.getAllProjectsUnpaged(portfolioId, status);
+
+        return ResponseEntity.ok(projects);
+
+    }
+
 }

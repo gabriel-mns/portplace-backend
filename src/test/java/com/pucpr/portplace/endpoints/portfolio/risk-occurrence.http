@@ -14,20 +14,20 @@ Accept: application/json
 Content-Type: application/json
 
 {
-    "description": "Ocorrência de risco 4",
+    "description": "Ocorrência de risco 1",
     "dateOfOccurrence": "21/09/2025 14:30",
-    "solvedAt": "20/09/2025 14:30"
+    "solvedAt": "22/09/2025 14:30"
 }
 
 ### ATUALIZAR OCORRENCIA DE UM RISCO
-PUT {{host}}/portfolios/1/risks/1/occurrences/2
+PUT {{host}}/portfolios/1/risks/1/occurrences/1
 Accept: application/json
 Content-Type: application/json
 
 {
-    "description": "Ocorrência de risco 2 - Atualizada",
+    "description": "Ocorrência de risco 1 - Atualizada",
     "dateOfOccurrence": "21/09/2025 14:30",
-    "solvedAt": "21/09/2025 14:29"
+    "solvedAt": "21/09/2025 14:30"
 }
 
 ### DESABILITAR OCORRENCIA DE UM RISCO

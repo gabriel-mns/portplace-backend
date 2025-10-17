@@ -8,6 +8,7 @@ import com.pucpr.portplace.core.entities.AuditableEntity;
 import com.pucpr.portplace.features.portfolio.entities.Portfolio;
 import com.pucpr.portplace.features.portfolio.entities.PortfolioCategory;
 import com.pucpr.portplace.features.project.enums.ProjectStatusEnum;
+import com.pucpr.portplace.features.resource.entities.AllocationRequest;
 import com.pucpr.portplace.features.strategy.entities.ScenarioRanking;
 import com.pucpr.portplace.features.user.entities.User;
 
@@ -67,6 +68,8 @@ public class Project extends AuditableEntity{
     @ManyToOne(optional = true)
     @JoinColumn(name = "portfolio_category_id")
     private PortfolioCategory portfolioCategory;
+    @OneToMany(mappedBy = "project")
+    private List<AllocationRequest> allocationRequests;
 
     /*
      *

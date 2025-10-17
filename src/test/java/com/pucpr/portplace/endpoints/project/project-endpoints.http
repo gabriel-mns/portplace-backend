@@ -5,8 +5,8 @@ POST {{host}}/projects
 Content-Type: application/json
 
 {
-  "name": "Projeto 4",
-  "description": "Projeto 4",
+  "name": "Projeto 2",
+  "description": "Projeto 2",
   "status": "IN_ANALYSIS",
 
   "earnedValue": 10.0,

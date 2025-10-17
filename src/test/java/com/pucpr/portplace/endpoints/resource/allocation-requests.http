@@ -1,0 +1,46 @@
+@host = http://localhost:8080/api/v1
+
+### GET TODAS SOLICITAÇÕES DE RECURSOS
+GET {{host}}/allocation-requests
+Accept: application/json
+
+### GET SOLICITAÇÃO DE RECURSO ESPECÍFICO
+GET {{host}}/allocation-requests/5
+Accept: application/json
+
+### GET TODOS AS POSIÇÕES
+GET {{host}}/positions
+Accept: application/json
+
+### NOVA SOLICITAÇÃO DE RECURSO
+POST {{host}}/allocation-requests
+Content-Type: application/json
+
+{
+    "startDate": "2025-01-01",
+    "endDate": "2025-01-01",
+    "dailyHours": 8,
+    "priority": "HIGH",
+    "positionId": 2,
+    "projectId": 2
+}
+
+### EDITAR SOLICITAÇÃO DE RECURSO
+PUT {{host}}/allocation-requests/1
+Content-Type: application/json
+
+{
+    "startDate": "31/12/2024",
+    "endDate": "03/04/2027",
+    "dailyHours": 2,
+    "priority": "MEDIUM",
+    "positionId": 1
+}
+
+### DESABILITAR RECURSO
+DELETE {{host}}/allocation-requests/2
+Content-Type: application/json
+
+### DELETAR RECURSO
+DELETE {{host}}/allocation-requests/1/hard-delete
+Content-Type: application/json

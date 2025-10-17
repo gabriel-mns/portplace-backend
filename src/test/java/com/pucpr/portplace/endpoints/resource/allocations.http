@@ -1,0 +1,49 @@
+@host = http://localhost:8080/api/v1
+
+### GET TODAS ALOCAÇÕES DE RECURSOS
+GET {{host}}/allocations?startDate=2026-01-01&endDate=2028-01-01
+Accept: application/json
+
+### GET TODAS ALOCAÇÕES DE RECURSOS
+GET {{host}}/allocations/analytics?startDate=2026-01-01&endDate=2026-01-07&projectId=2&resourceId=1
+Accept: application/json
+
+### GET TODAS ALOCAÇÕES DE RECURSOS
+GET {{host}}/allocations/analytics?startDate=2026-01-01&endDate=2026-01-02&resourceId=1
+Accept: application/json
+
+### GET ALOCAÇÃO DE RECURSO
+GET {{host}}/allocations/1
+Accept: application/json
+
+### GET TODOS AS SOLICITAÇÕES DE RECURSOS
+GET {{host}}/allocation-requests
+Accept: application/json
+
+### NOVA ALOCAÇÃO DE RECURSO
+POST {{host}}/allocations
+Content-Type: application/json
+
+{
+    "startDate": "2025-01-01",
+    "endDate": "2025-01-01",
+    "dailyHours": 12,
+    "resourceId": 2,
+    "allocationRequestId": 2
+}
+
+### EDITAR ALOCAÇÃO DE RECURSO
+PUT {{host}}/allocations/1
+Content-Type: application/json
+
+{
+    "startDate": "2027-01-01",
+    "endDate": "2027-01-07",
+    "dailyHours": 8,
+    "resourceId": 1,
+    "cancelled": true
+}
+
+### DELETAR ALOCAÇÃO DE RECURSO
+DELETE {{host}}/allocations/1
+Content-Type: application/json
