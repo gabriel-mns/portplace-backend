@@ -5,8 +5,8 @@ POST {{host}}/users/register
 Content-Type: application/json
 
 {
-  "name": "Carlos",
-  "email": "carlos@example.com",
+  "name": "Joao Silva",
+  "email": "joao@example.com",
   "password": "12345",
   "role": "PROJECT_MANAGER"
 }
@@ -16,7 +16,7 @@ POST {{host}}/users/authenticate
 Content-Type: application/json
 
 {
-  "email": "carlos@example.com",
+  "email": "joao@example.com",
   "password": "12345"
 }
 
@@ -31,13 +31,13 @@ Host: localhost:8080
 
 
 ### Alterar dados do usuário
-PUT {{host}}/users/3
+PUT {{host}}/users/2
 Content-Type: application/json
 
 {
-  "name": "Carlos",
+  "name": "Joao Silva",
   "password": "12345",
-  "status": "INACTIVE"
+  "status": "ACTIVE"
 }
 
 ### DELETAR USUÁRIO

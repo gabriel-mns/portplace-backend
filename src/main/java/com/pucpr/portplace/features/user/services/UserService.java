@@ -116,17 +116,22 @@ public class UserService {
     // UPDATE
     public ResponseEntity<Void> updateUser(@Valid UserUpdateRequestDTO updatedUser, Long userId) {
 
-        validationService.validateBeforeUpdate(userId);
+        validationService.validateBeforeUpdate(updatedUser, userId);
 
         Optional<User> userSearchResult = userRepository.findById(userId);
 
-        // Encrypt the password before saving
-        String encryptedPassword = passwordEncoder.encode(updatedUser.getPassword());
-
         User user = userSearchResult.get();
         user.setName(updatedUser.getName());
-        user.setPassword(encryptedPassword);
         user.setStatus(updatedUser.getStatus() != null ? UserStatusEnum.valueOf(updatedUser.getStatus()) : user.getStatus());
+        
+        if(updatedUser.getPassword() != null) {
+            
+            // Encrypt the password before saving
+            String encryptedPassword = passwordEncoder.encode(updatedUser.getPassword());
+            user.setPassword(encryptedPassword);
+            
+        }
+        
         userRepository.save(user);
 
         return ResponseEntity.noContent().build();

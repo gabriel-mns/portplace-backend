@@ -3,15 +3,18 @@ package com.pucpr.portplace.features.user.services.validation;
 import org.springframework.stereotype.Service;
 
 import com.pucpr.portplace.core.validation.specs.EntityIsEnabledSpecification;
+import com.pucpr.portplace.features.user.dtos.UserUpdateRequestDTO;
 import com.pucpr.portplace.features.user.entities.User;
 import com.pucpr.portplace.features.user.exceptions.DisabledUserException;
 import com.pucpr.portplace.features.user.exceptions.InactiveUserException;
+import com.pucpr.portplace.features.user.exceptions.InvalidPasswordException;
 import com.pucpr.portplace.features.user.exceptions.UserAlreadyRegisteredException;
 import com.pucpr.portplace.features.user.exceptions.UserNotFoundException;
 import com.pucpr.portplace.features.user.services.internal.UserEntityService;
 import com.pucpr.portplace.features.user.specs.UserExistsSpecification;
 import com.pucpr.portplace.features.user.specs.UserExistsWithEmailSpecification;
 import com.pucpr.portplace.features.user.specs.UserIsActiveSpecification;
+import com.pucpr.portplace.features.user.specs.ValidPasswordSpecification;
 
 import lombok.AllArgsConstructor;
 
@@ -24,6 +27,7 @@ public class UserValidationService {
     private EntityIsEnabledSpecification entityEnabledSpecification;
     private UserExistsSpecification userExistsSpecification;
     private UserEntityService userEntityService;
+    private ValidPasswordSpecification validPasswordSpecification;
 
     public void validateBeforeGet(Long id) {
 
@@ -33,7 +37,11 @@ public class UserValidationService {
 
     }
 
-    public void validateBeforeUpdate(Long id) {
+    public void validateBeforeUpdate(UserUpdateRequestDTO dto, Long id) {
+
+        if(!validPasswordSpecification.isSatisfiedBy(dto.getPassword())) {
+            throw new InvalidPasswordException();
+        }
 
         validateBeforeGet(id);
 
