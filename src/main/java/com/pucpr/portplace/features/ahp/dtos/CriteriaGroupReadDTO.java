@@ -34,9 +34,10 @@ public class CriteriaGroupReadDTO {
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy HH:mm:ss")
     private LocalDateTime lastModifiedAt;
-    private Long lastModifiedBy;
+    private String lastModifiedBy;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy HH:mm:ss")
     private LocalDateTime createdAt;
+    private String createdBy;
     private boolean disabled;
 
 }
