@@ -16,6 +16,7 @@ public interface StrategicObjectiveRepository extends JpaRepository<StrategicObj
     Page<StrategicObjective> findByDisabledFalse(Pageable pageable);
     Page<StrategicObjective> findByDisabledFalseAndStrategyId(Long strategyId, Pageable pageable);
     Page<StrategicObjective> findByStrategyId(Long strategyId, Pageable pageable);
+
     // Unified search method using JPQL
     @Query("""
         SELECT so FROM StrategicObjective so
@@ -48,4 +49,16 @@ public interface StrategicObjectiveRepository extends JpaRepository<StrategicObj
     List<StrategicObjective> findObjectivesByProjectId(
         @Param("projectId") Long projectId
     );
+
+    @Query("""
+        SELECT DISTINCT o
+        FROM Portfolio f
+            JOIN f.activeScenario s
+            JOIN s.evaluationGroup eg
+            JOIN eg.criteriaGroup cg
+            JOIN cg.criteria c
+            JOIN c.strategicObjectives o
+        WHERE f.id = :portfolioId
+    """)
+    List<StrategicObjective> findObjectivesByPortfolioId(Long portfolioId);
 }

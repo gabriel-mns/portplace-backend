@@ -43,4 +43,11 @@ public class StrategicObjectiveEntityService {
         return objectives.stream().map(mapper::toReadDTO).toList();
     }
 
+    public List<StrategicObjectiveReadDTO> findObjectivesByPortfolioId(Long portfolioId) {
+
+        List<StrategicObjective> objectives = repository.findObjectivesByPortfolioId(portfolioId);
+
+        return objectives.stream().map(mapper::toReadDTO).toList();
+    }
+
 }

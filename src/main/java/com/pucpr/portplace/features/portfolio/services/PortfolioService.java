@@ -21,6 +21,8 @@ import com.pucpr.portplace.features.portfolio.services.validation.PortfolioValid
 import com.pucpr.portplace.features.project.dtos.ProjectReadDTO;
 import com.pucpr.portplace.features.project.enums.ProjectStatusEnum;
 import com.pucpr.portplace.features.project.services.ProjectService;
+import com.pucpr.portplace.features.strategy.dtos.StrategicObjectiveReadDTO;
+import com.pucpr.portplace.features.strategy.services.internal.StrategicObjectiveEntityService;
 
 import lombok.AllArgsConstructor;
 
@@ -34,6 +36,7 @@ public class PortfolioService {
 
     private ProjectService projectService;
     private RiskService riskService;
+    private StrategicObjectiveEntityService objectivesService;
 
     // CREATE
     public PortfolioReadDTO createPortfolio(
@@ -144,12 +147,17 @@ public class PortfolioService {
         List<RiskReadDTO> risksDTOs = riskService.getAllRisksUnpaged(
             portfolioId
         );
+
+        List<StrategicObjectiveReadDTO> objectivesDTOs = objectivesService.findObjectivesByPortfolioId(
+            portfolioId
+        );
             
         PortfolioAnalyticsReadDTO analyticsDTO = new PortfolioAnalyticsReadDTO();
 
         analyticsDTO.setPortfolio(getPortfolio(portfolioId));
         analyticsDTO.setProjects(projectsDTOs);
         analyticsDTO.setRisks(risksDTOs);
+        analyticsDTO.setStrategicObjectives(objectivesDTOs);
 
         return analyticsDTO;
 
