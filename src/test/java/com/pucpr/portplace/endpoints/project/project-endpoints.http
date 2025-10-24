@@ -5,19 +5,17 @@ POST {{host}}/projects
 Content-Type: application/json
 
 {
-  "name": "Projeto 1",
-  "description": "Projeto 1",
-  "status": "IN_ANALYSIS",
+  "name": "Projeto 5",
+  "description": "Projeto 5",
+  "payback": 124521.13,
 
-  "earnedValue": 10.0,
-  "plannedValue": 123456.78,
-  "currentPlannedValue": 10.0,
-  "actualCost": 10.00,
-  "budget": 150000.00,  
+  "earnedValue": 500000.0,
+  "plannedValue": 100.0,
+  "actualCost": 0.00,
+  "budgetAtCompletion": 1000000.00,  
 
   "startDate": "01/01/2023",
-  "endDate": "31/12/2023",
-  "payback": 124521.13
+  "endDate": "31/12/2023"
 }
 
 
@@ -49,11 +47,10 @@ Content-Type: application/json
 {
   "name": "Projeto 3 Alterado",
   "description": "Projeto 3 descrição alterada",
-  "status": "IN_PROGRESS",
   "payback": "150000.0",
   
   "budgetAtCompletion": "150000.0",
-  "earnedValue": "75000.0",
+  "earnedValue": "75.0",
   "plannedValue": "75000.0",
   "actualCost": "70000.0",
 

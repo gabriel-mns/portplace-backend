@@ -34,7 +34,6 @@ import com.pucpr.portplace.features.ahp.repositories.CriterionRepository;
 import com.pucpr.portplace.features.project.controllers.ProjectController;
 import com.pucpr.portplace.features.project.dtos.ProjectCreateDTO;
 import com.pucpr.portplace.features.project.entities.Project;
-import com.pucpr.portplace.features.project.enums.ProjectStatusEnum;
 import com.pucpr.portplace.features.project.repositories.ProjectRepository;
 import com.pucpr.portplace.features.strategy.entities.Strategy;
 import com.pucpr.portplace.features.strategy.repositories.StrategyRepository;
@@ -214,7 +213,6 @@ public class AHPRankingTest {
         projectCreateDTO.setStartDate(LocalDate.now());
         projectCreateDTO.setEndDate(LocalDate.now().plusDays(30));
         projectCreateDTO.setPayback(30);
-        projectCreateDTO.setStatus(ProjectStatusEnum.IN_PROGRESS.toString());
         projectController.createProject(projectCreateDTO);
 
 

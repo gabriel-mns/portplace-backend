@@ -2,11 +2,8 @@ package com.pucpr.portplace.features.project.dtos;
 
 import java.time.LocalDate;
 
-import com.pucpr.portplace.core.validation.constraints.enumValues.ValidEnum;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.pucpr.portplace.core.validation.constraints.dateRange.ValidDateRange;
-import com.pucpr.portplace.features.project.enums.ProjectStatusEnum;
-
 // import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
@@ -24,8 +21,8 @@ public class ProjectUpdateDTO {
     @NotBlank
     private String name;
     private String description;
-    @ValidEnum(enumClass = ProjectStatusEnum.class)
-    private String status;
+    // @ValidEnum(enumClass = ProjectStatusEnum.class)
+    // private String status;
 
     private double earnedValue;
     private double plannedValue;

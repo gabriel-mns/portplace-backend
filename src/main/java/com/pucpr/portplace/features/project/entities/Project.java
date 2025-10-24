@@ -153,6 +153,40 @@ public class Project extends AuditableEntity{
             .orElse(null);
     }
 
+    public void setEarnedValue(double earnedValue) {
+        this.earnedValue = earnedValue;
+        recalculateStatus();
+    }
+
+    public void setBudgetAtCompletion(double budgetAtCompletion) {
+        this.budgetAtCompletion = budgetAtCompletion;
+        recalculateStatus();
+    }
+
+    public void setStatus(ProjectStatusEnum status) {
+        this.status = status;
+        recalculateStatus();
+    }
+    
+    private void recalculateStatus(){
+
+        ProjectStatusEnum currentStatus = this.status;
+        ProjectStatusEnum newStatus = currentStatus;
+
+        if(this.cancellationReason != null && !this.cancellationReason.isEmpty()){
+            newStatus = ProjectStatusEnum.CANCELLED;
+        } 
+        else if(this.status == ProjectStatusEnum.IN_ANALYSIS){
+            newStatus = currentStatus;
+        }
+        else if(this.earnedValue >= this.budgetAtCompletion){
+            newStatus = ProjectStatusEnum.COMPLETED;
+        } 
+
+        this.status = newStatus;
+
+    }
+
     /*
      * 
      * WARNING: These methods were removed because they are not needed right now, but they can be useful in the future
