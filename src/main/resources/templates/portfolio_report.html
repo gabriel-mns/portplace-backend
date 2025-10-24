@@ -23,18 +23,22 @@
       Descrição breve do portfólio.
     </p>
     <p class="strategy-description">
-      Responsáveis:
-      <span th:each="owner, iterStat : ${portfolio.owners}">
-        <span class="info-value" th:text="${owner.name}">Gabriel Martins</span>
-        <span th:if="${!iterStat.last}">, </span>
+      <span th:if="${portfolio.owners != null and !portfolio.owners.isEmpty()}">
+        Responsáveis:
+        <span th:each="owner, iterStat : ${portfolio.owners}">
+          <span class="info-value" th:text="${owner.name}">Gabriel Martins</span>
+          <span th:if="${!iterStat.last}">, </span>
+        </span>
+      </span>
+      <span th:unless="${portfolio.owners != null and !portfolio.owners.isEmpty()}">
+        Sem responsáveis
       </span>
     </p>
-
     
 
     <div class="action-header">
       <div class="last-update">
-        Última alteração realizada em <span th:text="${portfolio.lastModifiedAt}">11/10/2025 14:00</span>.
+        Última alteração realizada em <span th:text="${#temporals.format(portfolio.lastModifiedAt, 'dd/MM/yyyy HH:mm:ss')}">11/10/2025 14:00</span>.
       </div>
     </div>
   </div>
