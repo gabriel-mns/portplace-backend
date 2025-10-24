@@ -96,8 +96,8 @@
                 <td th:text="'R$ ' + ${#numbers.formatDecimal(project.budgetAtCompletion, 0, 'POINT', 2, 'COMMA')}">R$ 5.000</td>
                 <td th:text="'R$ ' + ${#numbers.formatDecimal(project.earnedValue, 0, 'POINT', 2, 'COMMA')}">R$ 2.000</td>
                 <td th:text="'R$ ' + ${#numbers.formatDecimal(project.plannedValue, 0, 'POINT', 2, 'COMMA')}">R$ 3.000</td>
-              <td th:text="${#dates.format(project.startDate, 'dd/MM/yyyy')}"></td>
-              <td th:text="${#dates.format(project.endDate, 'dd/MM/yyyy')}"></td>
+              <td th:text="${#temporals.format(project.startDate, 'dd/MM/yyyy')}"></td>
+              <td th:text="${#temporals.format(project.endDate, 'dd/MM/yyyy')}"></td>
               <td th:text="${project.status.getDisplayName()}">Em andamento</td>
             </tr>
           </tbody>
