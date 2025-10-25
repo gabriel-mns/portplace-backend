@@ -19,7 +19,8 @@ public interface AllocationRepository extends JpaRepository<Allocation, Long> {
         WHERE (al.endDate >= :startDate)
             AND (al.startDate <= :endDate)
             AND (:statuses IS NULL OR al.status IN :statuses)
-            AND LOWER(al.resource.name) LIKE LOWER(CONCAT('%', :searchQuery, '%'))
+            AND (LOWER(al.resource.name) LIKE LOWER(CONCAT('%', :searchQuery, '%'))) OR
+                (LOWER(al.allocationRequest.project.name) LIKE LOWER(CONCAT('%', :searchQuery, '%')))
             AND (:includeDisabled = TRUE OR al.disabled = false)
             AND (:resourceId IS NULL OR al.resource.id = :resourceId)
             AND (:projectId IS NULL OR al.allocationRequest.project.id = :projectId)
