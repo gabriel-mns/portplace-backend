@@ -1,6 +1,5 @@
 package com.pucpr.portplace.features.portfolio.controllers;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.net.URI;
 import java.util.List;
@@ -86,6 +85,17 @@ public class PortfolioController {
     ) {
 
         PortfolioReadDTO p = portfolioService.cancelPortfolio(portfolioId, portfolio);
+
+        return ResponseEntity.ok(p);
+
+    }
+
+    @PatchMapping("/{portfolioId}/complete")
+    public ResponseEntity<PortfolioReadDTO> completePortfolio(
+        @PathVariable long portfolioId
+    ) {
+
+        PortfolioReadDTO p = portfolioService.completePortfolio(portfolioId);
 
         return ResponseEntity.ok(p);
 

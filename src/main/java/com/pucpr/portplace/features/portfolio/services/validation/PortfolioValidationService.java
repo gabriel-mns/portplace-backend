@@ -36,4 +36,10 @@ public class PortfolioValidationService {
         
     }
 
+    public void validateBeforeComplete(Long portfolioId) {
+        
+        validateBeforeGet(portfolioId);
+        
+    }
+
 }

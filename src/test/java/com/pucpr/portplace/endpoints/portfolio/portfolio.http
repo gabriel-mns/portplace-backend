@@ -18,8 +18,8 @@ Accept: application/json
 Content-Type: application/json
 
 {
-  "name": "Portfólio 1",
-  "description": "Descrição do Portfólio 1"
+  "name": "Portfólio 2",
+  "description": "Descrição do Portfólio 2"
 }
 
 ### EDITAR PORTFÓLIO
@@ -32,6 +32,10 @@ Content-Type: application/json
   "description": "Descrição do Portfólio 1 Editado",
   "communicationStorageDescription": "tetetetesasasdasd"
 }
+
+### COMPLETAR PORTFÓLIO
+PATCH {{host}}/portfolios/2/complete
+Accept: application/json
 
 ### CANCELAR PORTFÓLIO
 PATCH {{host}}/portfolios/2/cancel

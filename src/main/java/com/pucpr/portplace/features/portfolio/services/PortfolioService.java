@@ -84,6 +84,22 @@ public class PortfolioService {
 
     }
 
+    public PortfolioReadDTO completePortfolio(
+        Long portfolioId
+    ){
+
+        validationService.validateBeforeComplete(portfolioId);
+
+        Portfolio existingPortfolio = repository.findById(portfolioId).get();
+
+        existingPortfolio.setStatus(PortfolioStatusEnum.COMPLETED);
+
+        existingPortfolio = repository.save(existingPortfolio);
+
+        return mapper.toReadDTO(existingPortfolio);
+
+    }
+
     // DELETE
     public void disablePortfolio(
         Long id
