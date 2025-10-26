@@ -46,6 +46,7 @@ public class Project extends AuditableEntity{
     @Enumerated(EnumType.STRING)
     private ProjectStatusEnum status;
     private double payback;
+    private double roi;
     private String cancellationReason;
     
     //#region EVMS fields
@@ -119,11 +120,6 @@ public class Project extends AuditableEntity{
         // updateCalculatedValues();
         if (this.budgetAtCompletion == 0) return 0;
         return (this.earnedValue / this.budgetAtCompletion) * 100;
-    }
-
-    public double getRoi() {
-        if (this.budgetAtCompletion == 0) return 0;
-        return ((this.earnedValue - this.budgetAtCompletion) / this.budgetAtCompletion) * 100;
     }
 
     public String getPortfolioName() {

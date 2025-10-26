@@ -23,12 +23,13 @@ public class ProjectUpdateDTO {
     private String description;
     // @ValidEnum(enumClass = ProjectStatusEnum.class)
     // private String status;
-
+    
     private double earnedValue;
     private double plannedValue;
     private double actualCost;
     private double budgetAtCompletion;
     private double payback;
+    private double roi;
     
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
     private LocalDate startDate;

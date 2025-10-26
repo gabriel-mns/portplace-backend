@@ -5,9 +5,10 @@ POST {{host}}/projects
 Content-Type: application/json
 
 {
-  "name": "Projeto 5",
-  "description": "Projeto 5",
+  "name": "Projeto 1",
+  "description": "Projeto 1",
   "payback": 124521.13,
+  "roi": {{$randomInt 0 12}},
 
   "earnedValue": 500000.0,
   "plannedValue": 100.0,
@@ -31,23 +32,24 @@ Host: localhost:8080
 
 
 ### CANCELAR PROJETO
-PATCH {{host}}/projects/4/cancel
+PATCH {{host}}/projects/5/cancel
 Accept: application/json
 Content-Type: application/json
 
 {
-  "cancelationReason": "Mudança de escopo"
+  "cancellationReason": "Mudança de escopo"
 }
 
 ### ALTERAR PROJETO
-PUT {{host}}/projects/3
+PUT {{host}}/projects/1
 Accept: application/json
 Content-Type: application/json
 
 {
-  "name": "Projeto 3 Alterado",
-  "description": "Projeto 3 descrição alterada",
+  "name": "Projeto 1 Alterado",
+  "description": "Projeto 1 descrição alterada",
   "payback": "150000.0",
+  "roi": "10.5",
   
   "budgetAtCompletion": "150000.0",
   "earnedValue": "75.0",

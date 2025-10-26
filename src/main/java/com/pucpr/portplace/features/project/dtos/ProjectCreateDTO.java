@@ -24,6 +24,7 @@ public class ProjectCreateDTO {
     // @ValidEnum(enumClass = ProjectStatusEnum.class)
     // private String status;
     private double payback;
+    private double roi;
     
     // EVMS Fields
     private double earnedValue;
