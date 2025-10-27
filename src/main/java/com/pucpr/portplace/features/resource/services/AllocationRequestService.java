@@ -15,7 +15,6 @@ import com.pucpr.portplace.features.resource.enums.AllocationRequestStatusEnum;
 import com.pucpr.portplace.features.resource.mappers.AllocationRequestMapper;
 import com.pucpr.portplace.features.resource.repositories.AllocationRequestRepository;
 import com.pucpr.portplace.features.resource.services.internal.AllocationEntityService;
-import com.pucpr.portplace.features.resource.services.internal.AllocationRequestEntityService;
 import com.pucpr.portplace.features.resource.services.internal.PositionEntityService;
 import com.pucpr.portplace.features.resource.services.validation.AllocationRequestValidationService;
 
@@ -27,7 +26,6 @@ public class AllocationRequestService {
 
     private final PositionEntityService positionEntityService;
     private final AllocationEntityService allocationService;
-    private final AllocationRequestEntityService allocationRequestEntityService;
     private final AllocationRequestRepository repository;
     private final AllocationRequestMapper mapper;
     private final AllocationRequestValidationService validationService;

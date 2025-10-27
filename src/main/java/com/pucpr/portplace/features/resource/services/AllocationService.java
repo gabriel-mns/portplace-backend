@@ -24,7 +24,6 @@ import com.pucpr.portplace.features.resource.enums.AllocationStatusEnum;
 import com.pucpr.portplace.features.resource.mappers.AllocationMapper;
 import com.pucpr.portplace.features.resource.mappers.ResourceMapper;
 import com.pucpr.portplace.features.resource.repositories.AllocationRepository;
-import com.pucpr.portplace.features.resource.services.internal.AllocationEntityService;
 import com.pucpr.portplace.features.resource.services.internal.AllocationRequestEntityService;
 import com.pucpr.portplace.features.resource.services.internal.ResourceEntityService;
 import com.pucpr.portplace.features.resource.services.validation.AllocationValidationService;
@@ -40,7 +39,6 @@ public class AllocationService {
     private AllocationMapper mapper;
     private ResourceEntityService resourceService;
     private AllocationRequestEntityService allocationRequestService;
-    private AllocationEntityService allocationEntityService;
     private AllocationValidationService validationService;
     private ProjectMapper projectMapper;
     private ResourceMapper resourceMapper;
