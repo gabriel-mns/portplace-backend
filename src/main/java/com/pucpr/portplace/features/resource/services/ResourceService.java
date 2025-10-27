@@ -18,9 +18,11 @@ import com.pucpr.portplace.features.resource.entities.Resource;
 import com.pucpr.portplace.features.resource.enums.ResourceStatusEnum;
 import com.pucpr.portplace.features.resource.mappers.ResourceMapper;
 import com.pucpr.portplace.features.resource.repositories.ResourceRepository;
+import com.pucpr.portplace.features.resource.services.internal.AllocationEntityService;
 import com.pucpr.portplace.features.resource.services.internal.PositionEntityService;
 import com.pucpr.portplace.features.resource.services.validation.ResourceValidationService;
 
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -36,6 +38,7 @@ public class ResourceService {
     private ResourceValidationService validationService;
     private PositionEntityService positionEntityService;
     private PositionService positionService;
+    private AllocationEntityService allocationService;
 
     //CREATE
     public ResourceReadDTO create(
@@ -85,6 +88,8 @@ public class ResourceService {
         entity.setDisabled(true);
 
         repository.save(entity);
+
+        cancelAllocationsOfResource(resourceId);
 
     }
 
@@ -241,6 +246,27 @@ public class ResourceService {
             includeDisabled
         ).stream().map(mapper::toReadDTO).toList();
 
+    }
+
+    @Transactional
+    public ResourceReadDTO inactivate(Long resourceId) {
+        
+        validationService.validateBeforeGet(resourceId);
+
+        // Inactive resource
+        Resource entity = repository.findById(resourceId).get();
+        entity.setStatus(ResourceStatusEnum.INACTIVE);
+        entity = repository.save(entity);
+
+        // Cancel all allocations of the resource
+        cancelAllocationsOfResource(resourceId);
+
+        return mapper.toReadDTO(entity);
+
+    }
+
+    private void cancelAllocationsOfResource(Long resourceId) {
+        allocationService.cancelAllocationsByResourceId(resourceId);
     }
 
 }

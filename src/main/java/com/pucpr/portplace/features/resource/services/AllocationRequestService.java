@@ -14,6 +14,8 @@ import com.pucpr.portplace.features.resource.entities.Position;
 import com.pucpr.portplace.features.resource.enums.AllocationRequestStatusEnum;
 import com.pucpr.portplace.features.resource.mappers.AllocationRequestMapper;
 import com.pucpr.portplace.features.resource.repositories.AllocationRequestRepository;
+import com.pucpr.portplace.features.resource.services.internal.AllocationEntityService;
+import com.pucpr.portplace.features.resource.services.internal.AllocationRequestEntityService;
 import com.pucpr.portplace.features.resource.services.internal.PositionEntityService;
 import com.pucpr.portplace.features.resource.services.validation.AllocationRequestValidationService;
 
@@ -24,6 +26,8 @@ import lombok.AllArgsConstructor;
 public class AllocationRequestService {
 
     private final PositionEntityService positionEntityService;
+    private final AllocationEntityService allocationService;
+    private final AllocationRequestEntityService allocationRequestEntityService;
     private final AllocationRequestRepository repository;
     private final AllocationRequestMapper mapper;
     private final AllocationRequestValidationService validationService;
@@ -120,5 +124,24 @@ public class AllocationRequestService {
 
     }
 
+    public void cancel(Long requestId) {
+        
+        validationService.validateBeforeGet(requestId);
+
+        repository.cancelRequest(requestId);
+        allocationService.cancelAllocationByRequestId(requestId);
+        // // Update request
+        // AllocationRequest allocationRequest = repository.findById(requestId).get();
+        // allocationRequest.setStatus(AllocationRequestStatusEnum.CANCELLED);
+
+        // // Update allocation if exists
+        // boolean wasAllocated = allocationRequest.getAllocation() != null;
+        // if(wasAllocated) allocationRequest.getAllocation().setCancelled(true);
+
+        // allocationRequest = repository.save(allocationRequest);
+
+        // return mapper.toReadDTO(allocationRequest);
+
+    }
 
 }

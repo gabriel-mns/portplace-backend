@@ -6,11 +6,14 @@ import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import com.pucpr.portplace.features.resource.entities.Allocation;
 import com.pucpr.portplace.features.resource.enums.AllocationStatusEnum;
+
+import jakarta.transaction.Transactional;
 
 public interface AllocationRepository extends JpaRepository<Allocation, Long> {
     
@@ -19,8 +22,11 @@ public interface AllocationRepository extends JpaRepository<Allocation, Long> {
         WHERE (al.endDate >= :startDate)
             AND (al.startDate <= :endDate)
             AND (:statuses IS NULL OR al.status IN :statuses)
-            AND (LOWER(al.resource.name) LIKE LOWER(CONCAT('%', :searchQuery, '%'))) OR
+            AND (
+                (LOWER(al.resource.name) LIKE LOWER(CONCAT('%', :searchQuery, '%'))) 
+                OR
                 (LOWER(al.allocationRequest.project.name) LIKE LOWER(CONCAT('%', :searchQuery, '%')))
+            )
             AND (:includeDisabled = TRUE OR al.disabled = false)
             AND (:resourceId IS NULL OR al.resource.id = :resourceId)
             AND (:projectId IS NULL OR al.allocationRequest.project.id = :projectId)
@@ -44,6 +50,8 @@ public interface AllocationRepository extends JpaRepository<Allocation, Long> {
             JOIN FETCH a.resource r
         WHERE a.startDate <= :endDate
             AND a.endDate >= :startDate
+            AND r.status = 'ACTIVE'
+            AND a.cancelled = false
             AND (:resourceId IS NULL OR r.id = :resourceId)
             AND (:projectId IS NULL OR p.id = :projectId)
     """)
@@ -53,5 +61,34 @@ public interface AllocationRepository extends JpaRepository<Allocation, Long> {
         @Param("resourceId") Long resourceId,
         @Param("projectId") Long projectId
     );
+
+    @Modifying
+    @Transactional
+    @Query("""
+        UPDATE Allocation a
+        SET a.cancelled = true
+        WHERE a.resource.id = :resourceId
+        AND a.endDate >= CURRENT_DATE
+        AND a.cancelled = false
+    """)
+    void cancelAllocationsByResourceId(Long resourceId);
+
+    @Modifying
+    @Transactional
+    @Query("""
+        UPDATE Allocation a
+        SET a.cancelled = true
+        WHERE a.allocationRequest.id = :allocationRequestId
+    """)
+    void cancelAllocationByRequest(Long allocationRequestId);
+
+    @Modifying
+    @Transactional
+    @Query("""
+        UPDATE Allocation a
+        SET a.cancelled = true
+        WHERE a.id = :allocationId
+    """)
+    void cancelAllocation(Long allocationId);
 
 }

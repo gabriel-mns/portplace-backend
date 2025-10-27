@@ -11,9 +11,23 @@ import lombok.AllArgsConstructor;
 public class AllocationEntityService {
     
     private final AllocationRepository allocationRepository;
+    private final AllocationRequestEntityService requestService;
 
     public boolean existsById(Long allocationId) {
         return allocationRepository.existsById(allocationId);
+    }
+
+    public void cancelAllocationsByResourceId(
+        Long resourceId
+    ) {
+        allocationRepository.cancelAllocationsByResourceId(resourceId);
+        requestService.cancelRequestByResourceId(resourceId);
+    }
+
+    public void cancelAllocationByRequestId(
+        Long allocationRequestId
+    ) {
+        allocationRepository.cancelAllocationByRequest(allocationRequestId);
     }
 
 }

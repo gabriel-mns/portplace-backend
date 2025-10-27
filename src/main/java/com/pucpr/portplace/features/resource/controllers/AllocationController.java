@@ -12,6 +12,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -69,6 +70,15 @@ public class AllocationController {
         return ResponseEntity.ok(allocation);
 
     }
+
+    @PatchMapping("/{allocationId}/cancel")
+    public ResponseEntity<AllocationReadDTO> cancel(
+        @PathVariable Long allocationId
+    ) {
+        allocationService.cancel(allocationId);
+        return ResponseEntity.ok().build();
+    }
+
 
     //DELETE
     @DeleteMapping("/{allocationId}")

@@ -5,7 +5,7 @@ GET {{host}}/resources?startDate=2026-01-01&endDate=2026-01-07&positionId=1
 Accept: application/json
 
 ### GET TODOS RECURSOS NAO PAGINADOS
-GET {{host}}/resources/unpaged
+GET {{host}}/resources/unpaged?status=ACTIVE
 Accept: application/json
 
 ### GET RECURSOS ESPECÍFICO
@@ -24,8 +24,11 @@ Content-Type: application/json
     "name": "Marcelo Ferreira",
     "description": "Descrição do novo recurso",
     "dailyHours": 6,
-    "positionId": 2
+    "positionId": 1
 }
+
+### DESATIVAR RECURSO
+PATCH  {{host}}/resources/1/inactivate
 
 ### EDITAR RECURSO
 PUT {{host}}/resources/3

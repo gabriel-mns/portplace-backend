@@ -5,10 +5,13 @@ import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
 import com.pucpr.portplace.features.resource.entities.AllocationRequest;
 import com.pucpr.portplace.features.resource.enums.AllocationRequestStatusEnum;
+
+import jakarta.transaction.Transactional;
 
 public interface AllocationRequestRepository extends JpaRepository<AllocationRequest, Long> {
 
@@ -28,5 +31,34 @@ public interface AllocationRequestRepository extends JpaRepository<AllocationReq
         boolean includeDisabled,
         Pageable pageable
     );
+
+    @Modifying
+    @Transactional
+    @Query("""
+        UPDATE AllocationRequest ar
+            SET ar.status = 'CANCELLED'
+        WHERE ar.allocation.resource.id = :resourceId
+        AND ar.allocation.endDate >= CURRENT_DATE
+        AND ar.status = 'ALLOCATED'
+    """)
+    void cancelRequestByResourceId(Long resourceId);
+
+    @Modifying
+    @Transactional
+    @Query("""
+        UPDATE AllocationRequest ar
+            SET ar.status = 'CANCELLED'
+        WHERE ar.id = :allocationRequestId
+    """)
+    void cancelRequest(Long allocationRequestId);
+
+    @Modifying
+    @Transactional
+    @Query("""
+        UPDATE AllocationRequest ar
+            SET ar.status = 'CANCELLED'
+        WHERE ar.allocation.id = :allocationId
+    """)
+    void cancelRequestByAllocationId(Long allocationId);
 
 }
