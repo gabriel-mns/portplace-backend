@@ -144,7 +144,7 @@ public class ProjectService {
     }
 
     public ProjectReadDTO cancelProject(
-        long projectID, 
+        long projectID,
         ProjectCancelationPatchDTO cancelationReasonDTO
     ) {
 
@@ -152,8 +152,8 @@ public class ProjectService {
 
         Project project = projectRepository.findById(projectID).get();
 
-        project.setStatus(ProjectStatusEnum.CANCELLED);
         project.setCancellationReason(cancelationReasonDTO.getCancellationReason());
+        project.setStatus(ProjectStatusEnum.CANCELLED);
 
         projectRepository.save(project);
         
