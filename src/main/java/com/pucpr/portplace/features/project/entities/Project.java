@@ -169,15 +169,22 @@ public class Project extends AuditableEntity{
         ProjectStatusEnum currentStatus = this.status;
         ProjectStatusEnum newStatus = currentStatus;
 
-        if(this.cancellationReason != null && !this.cancellationReason.isEmpty()){
+        boolean isCancelled = this.cancellationReason != null && !this.cancellationReason.isEmpty();
+        boolean isInAnalysis = this.status == ProjectStatusEnum.IN_ANALYSIS;
+        boolean isCompleted = this.earnedValue >= this.budgetAtCompletion;
+        boolean hasPortfolio = this.portfolio != null;
+
+        if(isCancelled){
             newStatus = ProjectStatusEnum.CANCELLED;
-        } 
-        else if(this.status == ProjectStatusEnum.IN_ANALYSIS){
+        } else if(isInAnalysis){
             newStatus = currentStatus;
-        }
-        else if(this.earnedValue >= this.budgetAtCompletion){
+        } else if(isCompleted){
             newStatus = ProjectStatusEnum.COMPLETED;
-        } 
+        } else if (hasPortfolio) {
+            newStatus = ProjectStatusEnum.IN_PROGRESS;
+        } else {
+            newStatus = ProjectStatusEnum.IN_ANALYSIS;
+        }
 
         this.status = newStatus;
 
